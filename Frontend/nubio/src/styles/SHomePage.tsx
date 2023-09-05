@@ -8,7 +8,7 @@ export const HomePageWrapper = styled.div``;
 export const SafeButtonWrapper = styled.div`
     background-color: #F25260;
     width: 10rem;
-    height: 15rem;
+    height: 14.5rem;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -16,6 +16,8 @@ export const SafeButtonWrapper = styled.div`
     button{
         border: none;
         background-color: transparent;
-        font-size: 30px;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
     }
 `;

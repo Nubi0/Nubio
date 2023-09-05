@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import routes from './router';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import routes from "./router";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
                 key={e.path}
                 path={e.path}
                 element={<e.Component></e.Component>}
-              />  
+              />
             );
           })}
         </Routes>

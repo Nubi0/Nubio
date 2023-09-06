@@ -1,5 +1,6 @@
 import HomePage from "../pages/HomePage"
 import LoginPage from '../pages/LoginPage'
+import EnjoyHomePage from "../pages/EnjoyHomePage";
 
 const routes = [
     {
@@ -9,6 +10,10 @@ const routes = [
     {
         path: '/login',
         Component: LoginPage,
+    },
+    {
+        path: '/enjoy',
+        Component: EnjoyHomePage,
     }
 ]
 

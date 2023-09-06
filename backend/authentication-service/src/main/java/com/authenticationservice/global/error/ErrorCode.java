@@ -10,7 +10,8 @@ public enum ErrorCode {
     INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST, "M-001", "이메일 형식이 잘못됐습니다."),
     INVALID_OAUTHTYPE(HttpStatus.BAD_REQUEST, "M-002", "로그인 타입이 잘못됐습니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, "M-003", "회원 역할 타입이 잘못됐습니다."),
-    INVALID_GENDER(HttpStatus.BAD_REQUEST, "M-004", "성별 타입이 잘못됐습니다.")
+    INVALID_GENDER(HttpStatus.BAD_REQUEST, "M-004", "성별 타입이 잘못됐습니다."),
+    INVALID_BIRTH_FORMAT(HttpStatus.BAD_REQUEST, "M-005", "생년월일 형식이 잘못됐습니다.")
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 // 로그인 페이지
 export const LoginPageWrapper = styled.div`
-    margin: 2rem;
+    margin: 4rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
+    color: rgba(0, 0, 0, 0.46);
     img{
-        width: 20rem;
-        height: 20rem;
+        margin-top: 20%;
     }
 `;
 
@@ -16,10 +17,10 @@ export const LoginForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 2rem;
     width: 100%;
+    margin-top: 3rem;
     input{
-        width: 15.5rem;
+        width: 19rem;
         height: 2rem;
         border: none;
         border-radius: 0.5rem;
@@ -28,7 +29,7 @@ export const LoginForm = styled.form`
         padding: 0.5rem;
     }
     #login{
-        width: 16rem;
+        width: 20rem;
         height: 2rem;
         border: none;
         margin-top: 1rem;
@@ -38,6 +39,6 @@ export const LoginForm = styled.form`
     #text{
         border: none;
         background-color: transparent;
-        color: rgba(0, 0, 0, 0.46);
+        color: #D9D9D9;
     }
 `;

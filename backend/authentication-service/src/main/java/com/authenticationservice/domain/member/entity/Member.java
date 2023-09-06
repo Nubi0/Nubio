@@ -7,6 +7,8 @@ import com.authenticationservice.domain.member.constant.Role;
 import com.authenticationservice.domain.member.type.*;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Member extends BaseTimeEntity {
 
@@ -43,4 +45,13 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Birth birth;
+
+    @Column(name = "refreshtoken")
+    private String refreshToken;
+
+    @Column(name = "refreshtoken_expiration_time")
+    private LocalDateTime refreshTokenExpirationTime;
+
+    @Embedded
+    private Active active;
 }

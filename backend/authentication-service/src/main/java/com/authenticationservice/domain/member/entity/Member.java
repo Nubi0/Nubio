@@ -2,10 +2,7 @@ package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
 import com.authenticationservice.domain.member.constant.OAuthType;
-import com.authenticationservice.domain.member.type.Email;
-import com.authenticationservice.domain.member.type.Identification;
-import com.authenticationservice.domain.member.type.Nickname;
-import com.authenticationservice.domain.member.type.Password;
+import com.authenticationservice.domain.member.type.*;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -32,4 +29,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "oauth_type", nullable = false)
     private OAuthType oAuthType;
+
+    @Embedded
+    private ProfileUrl profileUrl;
 }

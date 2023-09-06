@@ -7,8 +7,6 @@ import com.authenticationservice.domain.member.constant.Role;
 import com.authenticationservice.domain.member.type.*;
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 public class Member extends BaseTimeEntity {
 
@@ -42,4 +40,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
+
+    @Embedded
+    private Birth birth;
 }

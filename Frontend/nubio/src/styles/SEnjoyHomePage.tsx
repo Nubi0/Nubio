@@ -14,4 +14,7 @@ export const AllButtonWrapper = styled.div`
 
 export const AllButtonImg = styled.img``;
 
+export const BannerWrapper = styled.div``;
+
+export const BannerImg = styled.img``;
 

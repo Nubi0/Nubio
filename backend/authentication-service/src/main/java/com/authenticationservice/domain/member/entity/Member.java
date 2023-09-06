@@ -3,6 +3,7 @@ package com.authenticationservice.domain.member.entity;
 import com.authenticationservice.domain.common.BaseTimeEntity;
 import com.authenticationservice.domain.member.type.Email;
 import com.authenticationservice.domain.member.type.Identification;
+import com.authenticationservice.domain.member.type.Nickname;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -19,6 +20,9 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Email email;
+
+    @Embedded
+    private Nickname nickname;
 
 
 }

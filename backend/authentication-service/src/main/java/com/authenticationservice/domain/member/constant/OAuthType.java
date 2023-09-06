@@ -33,7 +33,7 @@ public enum OAuthType {
 
     private static void validate(String oautType) {
         if(!OAuthType.isOAuthType(oautType.toUpperCase())) {
-            throw new InvalidOAuthTypeException(ErrorCode.Invalid_OAuthType);
+            throw new InvalidOAuthTypeException(ErrorCode.INVALID_OAUTHTYPE);
         }
     }
 }

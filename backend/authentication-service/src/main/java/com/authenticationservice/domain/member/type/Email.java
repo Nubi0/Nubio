@@ -29,7 +29,7 @@ public class Email {
 
     private static void validate(final String email) {
         if (!PATTERN.matcher(email).matches()) {
-            throw new InvalidEmailFormatException(ErrorCode.Invalid_Email_Format);
+            throw new InvalidEmailFormatException(ErrorCode.INVALID_EMAIL_FORMAT);
         }
     }
 

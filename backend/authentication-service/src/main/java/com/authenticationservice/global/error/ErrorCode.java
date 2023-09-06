@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 회원
-    Invalid_Email_Format(HttpStatus.BAD_REQUEST, "M-001", "이메일 형식이 잘못됐습니다.")
+    Invalid_Email_Format(HttpStatus.BAD_REQUEST, "M-001", "이메일 형식이 잘못됐습니다."),
+    Invalid_OAuthType(HttpStatus.BAD_REQUEST, "M-002", "로그인 타입이 잘못됐습니다.")
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

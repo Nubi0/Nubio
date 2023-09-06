@@ -2,6 +2,7 @@ package com.authenticationservice.domain.member.type;
 
 import com.authenticationservice.domain.member.exception.InvalidEmailFormatException;
 import com.authenticationservice.global.error.ErrorCode;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
@@ -12,6 +13,7 @@ public class Email {
 
     private static final Pattern PATTERN = Pattern.compile("^[a-z]{1}[a-z0-9_\\.]+@[a-z\\.]+\\.[a-zA-Z]+$");
 
+    @Column(name = "email", nullable = false)
     private String value;
 
     protected Email() {}

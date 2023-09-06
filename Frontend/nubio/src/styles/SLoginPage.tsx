@@ -15,16 +15,29 @@ export const LoginPageWrapper = styled.div`
 export const LoginForm = styled.form`
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: 2rem;
+    width: 100%;
     input{
         width: 15.5rem;
         height: 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: #D9D9D9;
+        padding: 0.5rem;
     }
-    button{
+    #login{
+        width: 16rem;
+        height: 2rem;
+        border: none;
+        margin-top: 1rem;
+        background-color: #D9D9D9;
+        border-radius: 0.5rem;
     }
     #text{
         border: none;
         background-color: transparent;
-        color: rgba(0, 0, 0, 0.46)
+        color: rgba(0, 0, 0, 0.46);
     }
 `;

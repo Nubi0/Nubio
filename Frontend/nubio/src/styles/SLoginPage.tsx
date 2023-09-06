@@ -30,13 +30,16 @@ export const LoginForm = styled.form`
     }
     #login{
         width: 20rem;
-        height: 2rem;
+        height: 3rem;
         border: none;
         margin-top: 1rem;
         background-color: #D9D9D9;
         border-radius: 0.5rem;
+        color: rgba(0, 0, 0, 0.46);
+
     }
     #text{
+        margin-top: 0.5rem;
         border: none;
         background-color: transparent;
         color: #D9D9D9;

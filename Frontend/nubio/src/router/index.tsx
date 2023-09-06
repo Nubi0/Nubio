@@ -1,6 +1,7 @@
 import HomePage from "../pages/HomePage"
 import LoginPage from '../pages/LoginPage'
 import EnjoyHomePage from "../pages/EnjoyHomePage";
+import SignUpPage from "../pages/SignUpPage";
 
 const routes = [
     {
@@ -14,7 +15,11 @@ const routes = [
     {
         path: '/enjoy',
         Component: EnjoyHomePage,
-    }
+    },
+    {
+        path: "/signUp",
+        Component: SignUpPage,
+    },
 ]
 
 export default routes;

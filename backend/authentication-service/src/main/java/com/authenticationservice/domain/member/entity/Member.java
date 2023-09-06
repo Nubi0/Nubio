@@ -1,6 +1,7 @@
 package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
+import com.authenticationservice.domain.member.constant.OAuthType;
 import com.authenticationservice.domain.member.type.Email;
 import com.authenticationservice.domain.member.type.Identification;
 import com.authenticationservice.domain.member.type.Nickname;
@@ -27,4 +28,8 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Password password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_type", nullable = false)
+    private OAuthType oAuthType;
 }

@@ -4,14 +4,13 @@ import {
   WomanIcon,
   GenderWrapper,
   SubmitButton,
-  CheckUserWrapper,
 } from "../../../styles/SSignUpPage";
 import { useRef, MouseEvent, useState } from "react";
 
 const SignUpForm = () => {
   // 남자 아이콘
   const manUrl = process.env.REACT_APP_MAN_URL;
-  const [manCheck, setManCheck] = useState(false);
+  const [manCheck, setManCheck] = useState<boolean>(false);
   const manInputRef = useRef<HTMLInputElement | null>(null);
   const manId = manCheck ? "manCheck" : "manUncheck";
   const handleManIconClick = (event: MouseEvent<HTMLImageElement>) => {
@@ -24,7 +23,7 @@ const SignUpForm = () => {
 
   // 여자 아이콘
   const womanUrl = process.env.REACT_APP_WOMAN_URL;
-  const [womanCheck, setWomanCheck] = useState(false);
+  const [womanCheck, setWomanCheck] = useState<boolean>(false);
   const womanInputRef = useRef<HTMLInputElement | null>(null);
   const womanId = womanCheck ? "womanCheck" : "womanUncheck";
   const handleWomanIconClick = (event: MouseEvent<HTMLImageElement>) => {
@@ -59,10 +58,8 @@ const SignUpForm = () => {
         <WomanIcon src={womanUrl} onClick={handleWomanIconClick} id={womanId} />
         <input type="checkbox" id="woman" ref={womanInputRef} />
       </GenderWrapper>
+
       <SubmitButton>회 원 가 입</SubmitButton>
-      <CheckUserWrapper>
-        <a href="">이미 회원이신가요?</a>
-      </CheckUserWrapper>
     </Form>
   );
 };

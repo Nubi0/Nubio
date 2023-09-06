@@ -91,3 +91,28 @@ export const CheckUserWrapper = styled.div`
     color: gray;
   }
 `;
+
+// 모달
+export const PrefrenceModalWrapper = styled.div``;
+
+export const PrefrenceModalOverlay = styled.div`
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PrefrenceModalBox = styled.div`
+  display: block;
+  background: white;
+  width: 20%;
+  height: 50%;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 10%;
+  text-align: center;
+`;

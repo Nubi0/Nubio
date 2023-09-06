@@ -5,12 +5,32 @@ export const EnjoyHomePageWrapper = styled.div`
 `;
 
 export const AllButtonWrapper = styled.div`
-    button{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1.5rem;
+    & > button{
         border: none;
         color: #FFC542;
         background-color: transparent;
     }
 `;
+
+export const ContentWrapper = styled.div`
+    
+`;
+
+export const FitText = styled.span`
+    color: #F9373F;
+    font-size: 2rem;
+    font-weight: 800;
+    text-decoration: underline;
+`;
+
+export const Content = styled.span`
+    color: black;
+    font-size: 24px;
+    font-weight: bold;`
+;
 
 export const AllButtonImg = styled.img``;
 

@@ -1,6 +1,7 @@
 package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
+import com.authenticationservice.domain.member.constant.Gender;
 import com.authenticationservice.domain.member.constant.OAuthType;
 import com.authenticationservice.domain.member.constant.Role;
 import com.authenticationservice.domain.member.type.*;
@@ -37,4 +38,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
+    private Gender gender;
 }

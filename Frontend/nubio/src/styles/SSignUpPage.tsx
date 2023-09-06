@@ -8,35 +8,42 @@ export const Logo = styled.img`
   height: 8rem;
   margin: 3rem 0 1rem 0;
 `;
-export const SForm = styled.form`
+export const Form = styled.form`
   padding: 3rem;
   span {
-    display: block;
+    display: flex;
     margin-bottom: 1rem;
+    width: 20rem;
   }
-  input::placeholder {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  #text {
+  input {
     font-family: "Pretendard";
     font-weight: 500;
     type: text;
-    width: 15rem;
+    width: 18rem;
     height: 3rem;
     padding: 0 1rem 0 1rem;
     border-radius: 0.5rem;
   }
+  #check {
+    margin-left: 1rem;
+    width: 3rem;
+    border: none;
+    border-radius: 1rem;
+    font-weight: 600;
+  }
   #date {
     font-family: "Pretendard";
     font-weight: 600;
-    width: 15rem;
+    width: 18rem;
     height: 3rem;
     font-size: 1.2rem;
     color: gray;
     padding: 0 1rem 0 1rem;
     border-radius: 0.5rem;
+  }
+  input::placeholder {
+    font-size: 1rem;
+    font-weight: 600;
   }
 `;
 

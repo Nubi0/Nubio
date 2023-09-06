@@ -1,6 +1,6 @@
 import {
   ManIcon,
-  SForm,
+  Form,
   WomanIcon,
   GenderWrapper,
   SubmitButton,
@@ -35,18 +35,20 @@ const SignUpForm = () => {
     }
   };
   return (
-    <SForm>
+    <Form>
       <span>
-        <input type="text" id="text" placeholder="아이디(이메일 형식)" />
+        <input type="text" placeholder="아이디(이메일 형식)" />
+        <button id="check">중복확인</button>
+      </span>
+      <span id="nickname">
+        <input type="text" placeholder="닉네임" />
+        <button id="check">중복확인</button>
       </span>
       <span>
-        <input type="text" id="text" placeholder="닉네임" />
+        <input type="text" placeholder="비밀번호" />
       </span>
       <span>
-        <input type="text" id="text" placeholder="비밀번호" />
-      </span>
-      <span>
-        <input type="text" id="text" placeholder="비밀번호 확인" />
+        <input type="text" placeholder="비밀번호 확인" />
       </span>
       <span>
         <input type="date" id="date" />
@@ -61,7 +63,7 @@ const SignUpForm = () => {
       <CheckUserWrapper>
         <a href="">이미 회원이신가요?</a>
       </CheckUserWrapper>
-    </SForm>
+    </Form>
   );
 };
 

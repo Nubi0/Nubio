@@ -2,6 +2,7 @@ package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
 import com.authenticationservice.domain.member.constant.OAuthType;
+import com.authenticationservice.domain.member.constant.Role;
 import com.authenticationservice.domain.member.type.*;
 import jakarta.persistence.*;
 
@@ -32,4 +33,8 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private ProfileUrl profileUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 }

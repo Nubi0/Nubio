@@ -1,7 +1,9 @@
 import { AllButtonWrapper, AllButtonImg, ContentWrapper, FitText, Content } from "../../../styles/SEnjoyHomePage";
+import { useNavigate } from "react-router-dom";
 
 const AllButton = () => {
     const AllButtonUrl = process.env.REACT_APP_ALL_URL;
+    const navigate = useNavigate();
     return(
         <AllButtonWrapper>
             <ContentWrapper>
@@ -10,7 +12,7 @@ const AllButton = () => {
                 </FitText>
                 <Content>당신의 취향에 <br /> 맞는 코스에요.</Content>
             </ContentWrapper>
-            <button>
+            <button onClick={() => navigate('/enjoy/all')}>
                 <AllButtonImg src={AllButtonUrl} />
             </button>
         </AllButtonWrapper>

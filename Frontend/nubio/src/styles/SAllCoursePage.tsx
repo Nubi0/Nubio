@@ -117,3 +117,53 @@ export const EnjoyHeaderWrapper = styled.div`
     margin-left: 1rem;
   }
 `;
+
+export const ModalWrapper = styled.div`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  position: relative;
+  border-radius: 1rem;
+  margin: 0 1rem;
+`;
+
+export const ModalHeader = styled.div``;
+
+export const ModalBody = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+`;
+
+export const ModalFooter = styled.div`
+  text-align: end;
+  margin-top: 1rem;
+`;
+
+export const PurposeItemWrapper = styled.div<{ isSelected: boolean }>`
+  border: 0.5px solid ${(props) => (props.isSelected ? '#f9373f' : 'gray')};
+  border-radius: 1rem;
+  font-size: 0.5rem;
+  color: ${(props) => (props.isSelected ? '#f9373f' : 'gray')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  margin-right: 0.25rem;
+  margin-top: 0.5rem;
+`;

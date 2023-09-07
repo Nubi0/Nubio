@@ -1,4 +1,4 @@
-import { EatWrapper } from "../../../styles/SSignUpPage";
+import { EatWrapper, IconWrapper } from "../../../styles/SSignUpPage";
 
 type EatImages = { [key: string]: string };
 type EatListProps = {
@@ -19,15 +19,18 @@ const EatList: React.FC<EatListProps> = ({
 }) => {
   return (
     <EatWrapper>
-      {Object.entries(eatImages).map(([name, src]) => (
-        <img
-          key={name}
-          src={src}
-          alt={name}
-          id={selectedImages.includes(name) ? "check" : "unCheck"}
-          onClick={() => handleImageClick(name)}
-        />
-      ))}
+      <h1>먹거리</h1>
+      <IconWrapper>
+        {Object.entries(eatImages).map(([name, src]) => (
+          <img
+            key={name}
+            src={src}
+            alt={name}
+            id={selectedImages.includes(name) ? "check" : "unCheck"}
+            onClick={() => handleImageClick(name)}
+          />
+        ))}
+      </IconWrapper>
     </EatWrapper>
   );
 };

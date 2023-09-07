@@ -2,9 +2,6 @@ import { styled } from "styled-components";
 
 export const SignUpWrapper = styled.div`
   text-align: center;
-  // position: relative;
-  // width: 100%;
-  // height: 100%;
 `;
 export const Logo = styled.img`
   width: 20rem;
@@ -12,9 +9,7 @@ export const Logo = styled.img`
   margin: 3rem 0 1rem 0;
 `;
 export const Form = styled.form`
-  padding: 3rem;
   span {
-    display: flex;
     margin-bottom: 1rem;
     width: 20rem;
   }
@@ -26,13 +21,17 @@ export const Form = styled.form`
     height: 3rem;
     padding: 0 1rem 0 1rem;
     border-radius: 0.5rem;
+    margin: 0.5rem 0;
   }
   #check {
-    margin-left: 1rem;
-    width: 3rem;
+    width: 4.5rem;
     border: none;
     border-radius: 1rem;
     font-weight: 600;
+    position: absolute;
+    right: 3em;
+    margin: 1.5rem;
+    background-color: #ffc542;
   }
   #date {
     font-family: "Pretendard";
@@ -60,9 +59,11 @@ export const GenderWrapper = styled.div`
     display: none;
   }
   #manCheck {
+    border-radius:1rem;
     background-color: #2E9AFE;
   }
   #womanCheck {
+    border-radius:1rem;
     background-color: pink;
   }
   }
@@ -80,10 +81,11 @@ export const SubmitButton = styled.button`
   width: 10rem;
   height: 3rem;
   margin: 2rem;
+  border: none;
   border-radius: 1rem;
-  // background-color:yellow;
   font-size: 1.5rem;
   font-weight: 600;
+  background-color: #ffc542;
 `;
 
 export const CheckUserWrapper = styled.div`
@@ -99,6 +101,9 @@ export const CheckUserWrapper = styled.div`
 export const ModalWrapper = styled.div`
   img {
     width: 3rem;
+  }
+  h2 {
+    margin: 0;
   }
 `;
 
@@ -116,11 +121,12 @@ export const PrefrenceModalOverlay = styled.div`
 export const PrefrenceModalBox = styled.div`
   background: white;
   width: 80%;
-  height: 50%;
+  height: 70%;
   padding: 1rem;
   border-radius: 1rem;
   img {
-    width: 2.5rem;
+    width: 3rem;
+    height: 3rem;
     border: solid black 2px;
     border-radius: 2rem;
     padding: 0.2rem;
@@ -128,17 +134,31 @@ export const PrefrenceModalBox = styled.div`
   #check {
     background-color: #ffc542;
   }
+  button {
+    width: 4rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffc542;
+    margin: 1rem;
+  }
 `;
 
 export const EatWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
 `;
 export const DrinkWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
 `;
 export const PlayWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
+`;
+
+export const IconWrapper = styled.div`
+  width: 100%;
+  img {
+    margin: 0.2rem;
+  }
 `;

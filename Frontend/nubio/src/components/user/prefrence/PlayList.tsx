@@ -1,4 +1,4 @@
-import { PlayWrapper } from "../../../styles/SSignUpPage";
+import { PlayWrapper, IconWrapper } from "../../../styles/SSignUpPage";
 
 type PlayImages = { [key: string]: string };
 type PlayListProps = {
@@ -25,15 +25,18 @@ const PlayList: React.FC<PlayListProps> = ({
 
   return (
     <PlayWrapper>
-      {Object.entries(playImages).map(([name, src]) => (
-        <img
-          key={name}
-          src={src}
-          alt={name}
-          id={selectedImages.includes(name) ? "check" : "unCheck"}
-          onClick={() => handleImageClick(name)}
-        />
-      ))}
+      <h1>놀거리</h1>
+      <IconWrapper>
+        {Object.entries(playImages).map(([name, src]) => (
+          <img
+            key={name}
+            src={src}
+            alt={name}
+            id={selectedImages.includes(name) ? "check" : "unCheck"}
+            onClick={() => handleImageClick(name)}
+          />
+        ))}
+      </IconWrapper>
     </PlayWrapper>
   );
 };

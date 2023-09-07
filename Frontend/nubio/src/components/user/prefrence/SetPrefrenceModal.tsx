@@ -38,7 +38,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
           handleImageClick={handleImageClick}
           selectedImages={selectedImages}
         />
-        <button onClick={closeModal}>Close Modal</button>
+        <button onClick={closeModal}>닫기</button>
       </PrefrenceModalBox>
     </PrefrenceModalOverlay>
   );

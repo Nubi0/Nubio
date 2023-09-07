@@ -25,7 +25,7 @@ const SignUpPage = () => {
       <Logo src={logoUrl} />
       <ModalWrapper>
         <img src={modalUrl} onClick={openModal} />
-        취향 설정
+        <h2>취향 설정</h2>
       </ModalWrapper>
       <SignUpForm />
       <CheckUserWrapper>

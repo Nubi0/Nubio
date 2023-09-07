@@ -1,4 +1,4 @@
-import { DrinkWrapper } from "../../../styles/SSignUpPage";
+import { DrinkWrapper, IconWrapper } from "../../../styles/SSignUpPage";
 
 type DrinkImages = { [key: string]: string };
 type DrinkListProps = {
@@ -21,15 +21,18 @@ const DrinkList: React.FC<DrinkListProps> = ({
 }) => {
   return (
     <DrinkWrapper>
-      {Object.entries(drinkImages).map(([name, src]) => (
-        <img
-          key={name}
-          src={src}
-          alt={name}
-          id={selectedImages.includes(name) ? "check" : "unCheck"}
-          onClick={() => handleImageClick(name)}
-        />
-      ))}
+      <h1>마실거리</h1>
+      <IconWrapper>
+        {Object.entries(drinkImages).map(([name, src]) => (
+          <img
+            key={name}
+            src={src}
+            alt={name}
+            id={selectedImages.includes(name) ? "check" : "unCheck"}
+            onClick={() => handleImageClick(name)}
+          />
+        ))}
+      </IconWrapper>
     </DrinkWrapper>
   );
 };

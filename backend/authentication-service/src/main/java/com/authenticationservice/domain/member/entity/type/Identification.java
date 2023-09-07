@@ -4,22 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Embeddable
 public class Identification {
 
-    @Column(name = "identification", nullable = false)
+    @Column(name = "identification", nullable = false, updatable = false)
     private String value;
 
-    protected Identification(){}
-
-    private Identification(final String value) {
-        this.value = value;
+    public Identification() {
+        this.value = UUID.randomUUID().toString();;
     }
 
-    public static Identification from(final String value) {
-        return new Identification(value);
-    }
 
     public String getValue() {
         return value;

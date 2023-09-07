@@ -33,4 +33,11 @@ public class ReportServiceImpl implements ReportService {
         em.flush();
         return newReport;
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Report report = reportRepository.findById(id).get();
+        report.updateActive();
+    }
 }

@@ -9,3 +9,10 @@ interface CourseItem {
 interface CourseProps {
     value: CourseItem
 }
+
+interface PlaceItem {
+    place_id: number
+    kakao_id: number
+    place_name: string
+    img_url: string
+}

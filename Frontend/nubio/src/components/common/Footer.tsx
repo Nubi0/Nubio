@@ -3,9 +3,9 @@ import { FooterWrapper } from "../../styles/SFooter";
 
 const Footer = () => {
     const { pathname } = useLocation();
-    const homeImg = process.env.REACT_APP_HOME_URL;
-    const enjoyImg = process.env.REACT_APP_ENJOY_URL;
-    const safeImg = process.env.REACT_APP_SAFE_URL;
+    const enjoyImg = process.env.PUBLIC_URL + '/assets/enjoy.svg';
+    const safeImg = process.env.PUBLIC_URL + '/assets/safe.svg';
+    const homeImg = process.env.PUBLIC_URL + '/assets/home.svg';
     return(
         <FooterWrapper>
             <img src={pathname === '/enjoy' ? enjoyImg : safeImg} alt="" />

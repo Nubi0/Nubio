@@ -1,10 +1,10 @@
 package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
-import com.authenticationservice.domain.member.constant.Gender;
-import com.authenticationservice.domain.member.constant.OAuthType;
-import com.authenticationservice.domain.member.constant.Role;
-import com.authenticationservice.domain.member.type.*;
+import com.authenticationservice.domain.member.entity.constant.Gender;
+import com.authenticationservice.domain.member.entity.constant.OAuthType;
+import com.authenticationservice.domain.member.entity.constant.Role;
+import com.authenticationservice.domain.member.entity.type.*;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

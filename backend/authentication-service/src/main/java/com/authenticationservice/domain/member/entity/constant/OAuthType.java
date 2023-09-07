@@ -1,4 +1,4 @@
-package com.authenticationservice.domain.member.constant;
+package com.authenticationservice.domain.member.entity.constant;
 
 import com.authenticationservice.domain.member.exception.InvalidOAuthTypeException;
 import com.authenticationservice.global.error.ErrorCode;

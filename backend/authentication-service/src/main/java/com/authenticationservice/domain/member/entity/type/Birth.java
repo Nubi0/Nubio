@@ -1,18 +1,14 @@
-package com.authenticationservice.domain.member.type;
+package com.authenticationservice.domain.member.entity.type;
 
 import com.authenticationservice.domain.member.exception.InvalidBirthFormatException;
-import com.authenticationservice.domain.member.exception.InvalidEmailFormatException;
 import com.authenticationservice.global.error.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.regex.Pattern;
 
 @Embeddable

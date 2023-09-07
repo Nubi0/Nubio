@@ -1,7 +1,6 @@
-package com.authenticationservice.domain.member.constant;
+package com.authenticationservice.domain.member.entity.constant;
 
 import com.authenticationservice.domain.member.exception.InvalidGenderException;
-import com.authenticationservice.domain.member.exception.InvalidRoleException;
 import com.authenticationservice.global.error.ErrorCode;
 
 import java.util.Arrays;

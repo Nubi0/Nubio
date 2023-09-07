@@ -12,7 +12,12 @@ public enum ErrorCode {
     INVALID_ROLE(HttpStatus.BAD_REQUEST, "M-003", "회원 역할 타입이 잘못됐습니다."),
     INVALID_GENDER(HttpStatus.BAD_REQUEST, "M-004", "성별 타입이 잘못됐습니다."),
     INVALID_BIRTH_FORMAT(HttpStatus.BAD_REQUEST, "M-005", "생년월일 형식이 잘못됐습니다."),
-    DUPLICATE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "M-006", "중복된 회원가입 입니다.")
+    DUPLICATE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "M-006", "중복된 회원가입 입니다."),
+
+    // 인증
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A-001", "토큰이 만료되었습니다."),
+    NOT_VALID_TOKEN(HttpStatus.UNAUTHORIZED, "A-002", "해당 토큰은 유효한 토큰이 아닙니다."),
+
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

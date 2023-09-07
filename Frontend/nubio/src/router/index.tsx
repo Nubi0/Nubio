@@ -3,7 +3,7 @@ import LoginPage from "../pages/LoginPage";
 import EnjoyHomePage from "../pages/EnjoyHomePage";
 import SignUpPage from "../pages/SignUpPage";
 import AllCoursePage from "../pages/AllCoursePage";
-
+import profilePage from "../pages/ProfilePage";
 const routes = [
   {
     path: "/",
@@ -24,6 +24,10 @@ const routes = [
   {
     path: "/enjoy/all",
     Component: AllCoursePage,
+  },
+  {
+    path: "/profile",
+    Component: profilePage,
   },
 ];
 

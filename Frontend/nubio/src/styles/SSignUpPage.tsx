@@ -97,8 +97,8 @@ export const PrefrenceModalWrapper = styled.div``;
 
 export const PrefrenceModalOverlay = styled.div`
   z-index: 9999;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
   display: flex;

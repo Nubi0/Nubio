@@ -6,4 +6,6 @@ public interface SafeBellService {
 
     SafeBell register(SafeBell safeBell);
 
+    void delete(SafeBell safeBell);
+
 }

@@ -33,11 +33,10 @@ public class SafeBell {
     private Active active = Active.from(true);
 
     @Builder
-    public SafeBell(Long id, Position position, Address address, Active active) {
+    public SafeBell(Long id, Position position, Address address) {
         this.id = id;
         this.position = position;
         this.address = address;
-        this.active = active;
     }
 
 }

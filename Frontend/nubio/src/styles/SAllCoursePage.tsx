@@ -104,3 +104,13 @@ export const PlaceListWrapper = styled.div`
     display: flex;
     margin-top: 0.5rem;
 `;
+
+export const EnjoyHeaderWrapper = styled.div`
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    div{
+        margin-left: 1rem;
+    }
+`;

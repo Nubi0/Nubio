@@ -5,4 +5,6 @@ import com.safeservice.domain.report.entity.ReportFile;
 
 public interface ReportFileService {
     ReportFile saveAccuseFile(String fileName, String url, Report report);
+
+    void delete(Long id);
 }

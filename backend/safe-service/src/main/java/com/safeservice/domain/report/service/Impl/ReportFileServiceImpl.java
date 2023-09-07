@@ -29,4 +29,11 @@ public class ReportFileServiceImpl implements ReportFileService {
                 .build();
         return reportFileRepository.save(accuseFile);
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        ReportFile reportFile = reportFileRepository.findById(id).get();
+        reportFile.updateActive();
+    }
 }

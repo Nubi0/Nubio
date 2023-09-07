@@ -29,7 +29,7 @@ public class ReportFile {
     private FileUrl fileUrl;
 
     @Embedded
-    private Active active;
+    private Active active = Active.from(true);;
 
     @Builder
     public ReportFile(Report report, FileName fileName, FileUrl fileUrl, Active active) {

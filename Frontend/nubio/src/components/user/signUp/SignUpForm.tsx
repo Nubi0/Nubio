@@ -9,7 +9,7 @@ import { useRef, MouseEvent, useState } from "react";
 
 const SignUpForm = () => {
   // 남자 아이콘
-  const manUrl = process.env.REACT_APP_MAN_URL;
+  const manUrl = process.env.PUBLIC_URL + "/assets/man.png";
   const [manCheck, setManCheck] = useState<boolean>(false);
   const manInputRef = useRef<HTMLInputElement | null>(null);
   const manId = manCheck ? "manCheck" : "manUncheck";
@@ -22,7 +22,7 @@ const SignUpForm = () => {
   };
 
   // 여자 아이콘
-  const womanUrl = process.env.REACT_APP_WOMAN_URL;
+  const womanUrl = process.env.PUBLIC_URL + "/assets/woman.png";
   const [womanCheck, setWomanCheck] = useState<boolean>(false);
   const womanInputRef = useRef<HTMLInputElement | null>(null);
   const womanId = womanCheck ? "womanCheck" : "womanUncheck";

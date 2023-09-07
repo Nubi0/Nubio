@@ -2,6 +2,9 @@ import { styled } from "styled-components";
 
 export const SignUpWrapper = styled.div`
   text-align: center;
+  // position: relative;
+  // width: 100%;
+  // height: 100%;
 `;
 export const Logo = styled.img`
   width: 20rem;
@@ -93,26 +96,49 @@ export const CheckUserWrapper = styled.div`
 `;
 
 // 모달
-export const PrefrenceModalWrapper = styled.div``;
+export const ModalWrapper = styled.div`
+  img {
+    width: 3rem;
+  }
+`;
 
 export const PrefrenceModalOverlay = styled.div`
   z-index: 9999;
   width: 100%;
   height: 100%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
 `;
 
 export const PrefrenceModalBox = styled.div`
-  display: block;
   background: white;
-  width: 20%;
+  width: 80%;
   height: 50%;
   padding: 1rem;
   border-radius: 1rem;
-  margin-bottom: 10%;
-  text-align: center;
+  img {
+    width: 2.5rem;
+    border: solid black 2px;
+    border-radius: 2rem;
+    padding: 0.2rem;
+  }
+  #check {
+    background-color: #ffc542;
+  }
+`;
+
+export const EatWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+export const DrinkWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+export const PlayWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;

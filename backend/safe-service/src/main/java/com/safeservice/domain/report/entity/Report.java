@@ -31,7 +31,7 @@ public class Report extends BaseTimeEntity {
     private Content content;
 
     @Embedded
-    private Active active;
+    private Active active = Active.from(true);;
 
     @Builder
     public Report(ReportType reportType, Title title, Content content, Active active) {

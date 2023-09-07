@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class KakaoAuthRequestDto {
+public class KakaoAuthReqDto {
 
     String code;
     String redirectUrl;

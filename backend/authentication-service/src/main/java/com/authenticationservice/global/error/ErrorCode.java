@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_GENDER(HttpStatus.BAD_REQUEST, "M-004", "성별 타입이 잘못됐습니다."),
     INVALID_BIRTH_FORMAT(HttpStatus.BAD_REQUEST, "M-005", "생년월일 형식이 잘못됐습니다."),
     DUPLICATE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "M-006", "중복된 회원가입 입니다."),
+    MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "M-007", "해당 회원은 존재하지 않습니다."),
 
     // 인증
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A-001", "토큰이 만료되었습니다."),

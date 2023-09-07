@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Embeddable
 public class Email {
 
-    private static final Pattern PATTERN = Pattern.compile("^[a-z]{1}[a-z0-9_\\.]+@[a-z\\.]+\\.[a-zA-Z]+$");
+    private static final Pattern PATTERN = Pattern.compile("\\w+@\\w+\\.\\w+(\\.\\w+)?");
 
     @Column(name = "email", nullable = false)
     private String value;

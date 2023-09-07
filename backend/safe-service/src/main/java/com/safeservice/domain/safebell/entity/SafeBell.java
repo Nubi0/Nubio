@@ -8,10 +8,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name ="safe_bell")
+@SQLDelete(sql="UPDATE safe_bell SET active = false WHERE id = ?")
+@Where(clause = "active = true")
 public class SafeBell {
 
     @Id

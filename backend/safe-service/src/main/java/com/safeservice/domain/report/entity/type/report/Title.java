@@ -1,5 +1,7 @@
 package com.safeservice.domain.report.entity.type.report;
 
+import com.safeservice.domain.report.exception.InvalidTitleLengthException;
+import com.safeservice.global.error.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -19,6 +21,13 @@ public class Title {
     }
 
     public static Title from(final String value) {
+        validate(value);
         return new Title(value);
+    }
+
+    private static void validate(final String value) {
+        if (value.length() > 200) {
+            throw new InvalidTitleLengthException(ErrorCode.INVALID_REPORT_TITLE_LENGTH);
+        }
     }
 }

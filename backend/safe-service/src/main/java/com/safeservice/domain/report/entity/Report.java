@@ -40,4 +40,14 @@ public class Report extends BaseTimeEntity {
         this.content = content;
         this.active = active;
     }
+
+    public void updateActive() {
+        this.active = Active.from(false);
+    }
+
+    public void update(Report report) {
+        this.reportType = report.getReportType();
+        this.title = Title.from(report.getTitle().getValue());
+        this.content = Content.from(report.getContent().getValue());
+    }
 }

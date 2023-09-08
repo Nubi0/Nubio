@@ -13,7 +13,7 @@ public class Identification {
     private String value;
 
     public Identification() {
-        this.value = UUID.randomUUID().toString();;
+        this.value = UUID.randomUUID().toString();
     }
 
 

@@ -19,6 +19,11 @@ spring:
     console:
       enabled: true
 
+  security:
+    user:
+      name: securityUserName
+      password: securityUserPassword
+
 logging:
   level:
     org:

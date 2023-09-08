@@ -131,4 +131,54 @@ class SafeBellImplTest {
         assertThat(resultList).isEmpty();
     }
 
+    @DisplayName("거리이내의 안전벨 목록 출력")
+    @Test
+    void findWithinDistance() {
+        // given
+        SafeBell beforeSafeBell1 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9052383, 37.5157702))
+                .address(Address.from("영등포역"))
+                .build());
+        SafeBell beforeSafeBell2 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.8890174, 37.5088141))
+                .address(Address.from("신도림역"))
+                .build());
+        SafeBell beforeSafeBell3 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9221228, 37.5215737))
+                .address(Address.from("여의도역"))
+                .build());
+
+        // when
+        List<SafeBell> withinList = safeBellService.findWithinDistance(126.9019532, 37.5170112, 2000);
+
+        // then
+        assertThat(withinList).hasSize(3)
+                .extracting("id", "position.longitude", "position.latitude")
+                .containsExactlyInAnyOrder(
+                        tuple(beforeSafeBell1.getId(), beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude()),
+                        tuple(beforeSafeBell2.getId(), beforeSafeBell2.getPosition().getLongitude(), beforeSafeBell2.getPosition().getLatitude()),
+                        tuple(beforeSafeBell3.getId(), beforeSafeBell3.getPosition().getLongitude(), beforeSafeBell3.getPosition().getLatitude())
+                );
+    }
+
+    @DisplayName("거리이내의 안전벨 없을때")
+    @Test
+    void findWithinNotDistance() {
+        // given
+        SafeBell beforeSafeBell4 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.8927728, 37.4925085))
+                .address(Address.from("대림역"))
+                .build());
+        SafeBell beforeSafeBell5 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9347011, 37.5551399))
+                .address(Address.from("신촌역"))
+                .build());
+
+        // when
+        List<SafeBell> withinList = safeBellService.findWithinDistance(126.9019532, 37.5170112, 2000);
+
+        // then
+        assertThat(withinList).hasSize(0);
+    }
+
 }

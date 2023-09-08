@@ -37,10 +37,11 @@ public class OauthLoginService {
         Optional<Member> optionalMember = memberService.findByEmail(Email.from(userInfo.getEmail()));
         Member oauthMember;
         if(optionalMember.isEmpty()) { // 신규 회원 가입
+            log.info("kakao 신규 유저 회원가입");
             oauthMember = userInfo.toMemberEntity(oauthType, Role.ROLE_USER);
-
             oauthMember = memberService.register(oauthMember);
         } else { // 기존 회원일 경우
+            log.info("kakao 기존 유저 로그인");
             oauthMember = optionalMember.get();
         }
         // 토큰 생성

@@ -22,15 +22,16 @@ export const ContentWrapper = styled.div`
 export const FitText = styled.span`
     color: #F9373F;
     font-size: 2rem;
-    font-weight: 800;
+    font-family: 'NanumSquareExtraBold';
     text-decoration: underline;
 `;
 
 export const Content = styled.span`
     color: black;
     font-size: 24px;
-    font-weight: bold;`
-;
+    font-weight: bold;
+    font-family: 'NanumSquareExtraBold';
+`;
 
 export const AllButtonImg = styled.img``;
 

@@ -5,6 +5,8 @@ import com.authenticationservice.domain.member.entity.constant.Gender;
 import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
+import com.authenticationservice.global.jwt.dto.JwtDto;
+import com.authenticationservice.global.util.DateTimeUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -79,5 +81,10 @@ public class Member extends BaseTimeEntity {
         this.refreshToken = refreshToken;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
         this.active = active;
+    }
+
+    public void updateRefreshToken(JwtDto jwtTokenDto) {
+        this.refreshToken = jwtTokenDto.getRefreshToken();
+        this.refreshTokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpireTime());
     }
 }

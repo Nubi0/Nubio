@@ -523,3 +523,6 @@ gradle-app.setting
 
 ### env
 application-lcoal.yml
+application-oauth.yml
+application-auth.yml
+

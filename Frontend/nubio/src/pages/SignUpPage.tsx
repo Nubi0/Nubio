@@ -7,11 +7,13 @@ import {
   CheckUserWrapper,
   ModalWrapper,
 } from "../styles/SSignUpPage";
+import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
   // 이미지
   const logoUrl = process.env.PUBLIC_URL + "/assets/nubio.png";
   const modalUrl = process.env.PUBLIC_URL + "/assets/refrence.png";
+  // 취향 설정 모달
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -22,9 +24,12 @@ const SignUpPage = () => {
   return (
     <SignUpWrapper>
       {isModalOpen ? <SetPrefrenceModal closeModal={closeModal} /> : null}
-      <Logo src={logoUrl} />
+      <Link to="/">
+        <Logo src={logoUrl} />
+      </Link>
       <ModalWrapper>
         <img src={modalUrl} onClick={openModal} />
+
         <h2>취향 설정</h2>
       </ModalWrapper>
       <SignUpForm />

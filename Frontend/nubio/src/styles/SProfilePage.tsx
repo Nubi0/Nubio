@@ -7,18 +7,25 @@ export const ProfileWrapper = styled.div`
 export const MyInfoWrapper = styled.div`
   width: 100%;
   height: 40%;
-  text-align: center;
-  background: red;
+  background-color: white;
   img {
     width: 4rem;
+    height: 4rem;
+    display: block;
   }
 `;
 
 export const SettingWrapper = styled.div`
+  width: 100%;
+
   div {
-    padding: 0.5rem;
-    margin: 1rem;
-    background: gray;
+    padding: 0.1rem 0;
+    // margin: 1rem 0;
+    width: 100%;
+    background-color: white;
+  }
+  hr {
+    margin: 0;
   }
 `;
 

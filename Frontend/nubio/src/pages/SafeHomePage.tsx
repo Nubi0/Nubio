@@ -1,11 +1,25 @@
 import { useEffect } from "react";
-import { MapWrapper } from "../styles/SSafeHomePage";
+import {
+  MapWrapper,
+  SafeHomeWrapper,
+  SafeGuideIcon,
+  LogoIcon,
+} from "../styles/SSafeHomePage";
+import SearchBar from "../components/common/SearchBar";
+import Footer from "../components/common/Footer";
+
 declare global {
   interface Window {
     kakao: any;
   }
 }
 const SafeHomePage = () => {
+  // 이미지
+  const safeGuide = process.env.PUBLIC_URL + "/assets/safeGuide.png";
+  const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
+
+  const showSafeGuide = () => {};
+  // 카카오 맵
   useEffect(() => {
     let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
     let options = {
@@ -13,10 +27,18 @@ const SafeHomePage = () => {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
-
     let map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
   }, []);
-  return <MapWrapper id="map"></MapWrapper>;
+
+  return (
+    <SafeHomeWrapper>
+      <MapWrapper id="map" />
+      <LogoIcon src={logo} />
+      <SafeGuideIcon src={safeGuide} alt="가이드북" onClick={showSafeGuide} />
+      <SearchBar />
+      <Footer />
+    </SafeHomeWrapper>
+  );
 };
 
 export default SafeHomePage;

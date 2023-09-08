@@ -124,6 +124,7 @@ export const PrefrenceModalBox = styled.div`
   height: 70%;
   padding: 1rem;
   border-radius: 1rem;
+  text-align: center;
   img {
     width: 3rem;
     height: 3rem;

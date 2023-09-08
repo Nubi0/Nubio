@@ -1,6 +1,7 @@
 package com.safeservice.domain.safebell.service.impl;
 
 import com.safeservice.domain.safebell.entity.SafeBell;
+import com.safeservice.domain.safebell.exception.InvalidAddressFormatException;
 import com.safeservice.domain.safebell.repository.SafeBellRepository;
 import com.safeservice.domain.safebell.service.SafeBellService;
 import com.safeservice.domain.safebell.type.Address;
@@ -9,6 +10,8 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -34,14 +37,13 @@ class SafeBellImplTest {
     private SafeBell beforeSafeBell;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         SafeBell safeBell = SafeBell.builder()
                 .position(Position.of(127.0495556, 37.514575))
                 .address(Address.from("서울시 강남구"))
                 .build();
         beforeSafeBell = safeBellRepository.save(safeBell);
     }
-
 
 
     @DisplayName("새로운 안전벨 등록 성공한다.")
@@ -62,9 +64,44 @@ class SafeBellImplTest {
 
     }
 
+    @DisplayName("주소 길이 제한 예외발생")
+    @ParameterizedTest
+    @ValueSource(ints = {256, 260, 700})
+    void failAddressNameTest1(int length) {
+        // given
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            sb.append("a");
+        }
+
+        // when, then
+        assertThatThrownBy(() -> {
+            Address.from(sb.toString());
+        }).isInstanceOf(InvalidAddressFormatException.class);
+    }
+
+    @DisplayName("주소 길이 제한이내 정상 작동")
+    @ParameterizedTest
+    @ValueSource(ints = {51, 60, 255})
+    void successAddressNameTest(int length) {
+        // given
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            sb.append("a");
+        }
+
+        // when, then
+        assertThatCode(() -> {
+            Address.from(sb.toString());
+        }).doesNotThrowAnyException();
+
+    }
+
+
     @DisplayName("논리적 삭제 성공한다.")
     @Test
     void delete() {
+
         // given
         assertThat(beforeSafeBell.getId()).isNotNull();
         assertThat(beforeSafeBell.getActive().isValue()).isTrue();

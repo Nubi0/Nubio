@@ -24,12 +24,12 @@ public class JwtManager {
     private final String refreshTokenExpirationTime;
     private final String tokenSecret;
 
-    public JwtDto createJwtDto(Long memberId, Role role) {
+    public JwtDto createJwtDto(String identification, Role role) {
         Date accessTokenExpireTime = createAccessTokenExpireTime();
         Date refreshTokenExpireTime = createRefreshTokenExpireTime();
 
-        String accessToken = createAccessToken(memberId, role, accessTokenExpireTime);
-        String refreshToken = createRefreshToken(memberId, refreshTokenExpireTime);
+        String accessToken = createAccessToken(identification, role, accessTokenExpireTime);
+        String refreshToken = createRefreshToken(identification, refreshTokenExpireTime);
         return JwtDto.builder()
                 .grantType(GrantType.BEARER.getType())
                 .accessToken(accessToken)
@@ -47,12 +47,12 @@ public class JwtManager {
         return new Date(System.currentTimeMillis() + Long.parseLong(refreshTokenExpirationTime));
     }
 
-    public String createAccessToken(Long memberId, Role role,  Date expirationTime) {
+    public String createAccessToken(String identification, Role role,  Date expirationTime) {
         String accessToken = Jwts.builder()
                 .setSubject(TokenType.ACCESS.name())    // 토큰 제목
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
-                .claim("memberId", memberId)      // 회원 아이디
+                .claim("identification", identification)      // 회원 아이디
                 .claim("role", role)              // 유저 role
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
@@ -60,12 +60,12 @@ public class JwtManager {
         return accessToken;
     }
 
-    public String createRefreshToken(Long memberId, Date expirationTime) {
+    public String createRefreshToken(String identification, Date expirationTime) {
         String refreshToken = Jwts.builder()
                 .setSubject(TokenType.REFRESH.name())   // 토큰 제목
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
-                .claim("memberId", memberId)      // 회원 아이디
+                .claim("identification", identification)      // 회원 아이디
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
                 .compact();

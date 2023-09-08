@@ -1,4 +1,4 @@
-import { PurposeItemWrapper } from '../../../../styles/SAllCoursePage';
+import { PurposeItemWrapper } from '../../../styles/SAllCoursePage';
 
 type PurposeProps = {
   purpose: string;

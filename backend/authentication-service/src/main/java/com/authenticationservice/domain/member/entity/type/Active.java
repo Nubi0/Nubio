@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Active {
 
     @Column(name = "active")
-    private boolean value;
+    private boolean value = true;
 
     private Active(final boolean value) {
         this.value = value;

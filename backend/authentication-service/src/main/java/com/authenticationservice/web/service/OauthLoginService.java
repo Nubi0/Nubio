@@ -10,7 +10,7 @@ import com.authenticationservice.external.oauth.service.SocialLoginApiService;
 import com.authenticationservice.external.oauth.service.SocialLoginApiServiceFactory;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
-import com.authenticationservice.web.dto.OauthLoginDto;
+import com.authenticationservice.web.dto.OauthLoginResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class OauthLoginService {
     private final JwtManager jwtManager;
 
     @Transactional
-    public OauthLoginDto.Res oauthLogin(String accessToken, OAuthType oauthType) {
+    public OauthLoginResDto oauthLogin(String accessToken, OAuthType oauthType) {
         SocialLoginApiService socialLoginApiService = SocialLoginApiServiceFactory.getSocialLoginApiService(oauthType);
         OAuthAttributes userInfo = socialLoginApiService.getUserInfo(accessToken);
         log.info("userInfo : {}",  userInfo);
@@ -47,7 +47,7 @@ public class OauthLoginService {
         jwtTokenDto = jwtManager.createJwtDto(oauthMember.getId(), oauthMember.getRole());
         oauthMember.updateRefreshToken(jwtTokenDto);
 
-        return OauthLoginDto.Res.of(jwtTokenDto, oauthMember.getRole());
+        return OauthLoginResDto.of(jwtTokenDto, oauthMember.getRole());
     }
 
 }

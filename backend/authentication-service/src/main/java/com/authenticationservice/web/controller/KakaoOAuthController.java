@@ -5,7 +5,7 @@ import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.web.client.KakaoTokenClient;
 import com.authenticationservice.web.dto.KakaoAuthReqDto;
 import com.authenticationservice.web.dto.KakaoTokenDto;
-import com.authenticationservice.web.dto.OauthLoginDto;
+import com.authenticationservice.web.dto.OauthLoginResDto;
 import com.authenticationservice.web.service.OauthLoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class KakaoOAuthController {
     private String grantType;
 
     @PostMapping("/kakao/callback")
-    public ApiResponse<OauthLoginDto.Res> loginCallback(@RequestBody KakaoAuthReqDto request) {
+    public ApiResponse<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8"; // 공식 문서
         KakaoTokenDto.Req kakaoTokenRequestDto = KakaoTokenDto.Req.builder()
                 .client_id(clientId)
@@ -45,9 +45,12 @@ public class KakaoOAuthController {
                 .redirect_uri(request.getRedirectUrl())
                 .build();
 
+        log.info("kakao 인증 서버에서 token 요청 시작");
         KakaoTokenDto.Res kakaoToken = kakaoTokenClient.requestKakaoToken(contentType, kakaoTokenRequestDto);
+        log.info("kakao 인증 서버에서 token 응답 완료");
 
-        OauthLoginDto.Res jwt = oauthLoginService.oauthLogin(kakaoToken.getAccess_token(), OAuthType.KAKAO);
+        log.info("kakao 유저 정보 서버에 access-token 보내서 유저 정보 요청 시작");
+        OauthLoginResDto jwt = oauthLoginService.oauthLogin(kakaoToken.getAccess_token(), OAuthType.KAKAO);
         return ApiResponse.ok(jwt);
     }
 }

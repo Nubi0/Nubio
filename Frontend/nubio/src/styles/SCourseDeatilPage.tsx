@@ -31,6 +31,7 @@ export const DetailHr = styled.hr`
 export const ItemWrapper = styled.div`
     display: flex;
     overflow-x: scroll;
+    padding: 2rem 2.5rem 0 2.5rem;
 `;
 
 export const CourseDetailItemWrapper = styled.div`
@@ -40,7 +41,7 @@ export const CourseDetailItemWrapper = styled.div`
     width: 12.5rem;
     height: 14.25rem;
     border-radius: 1rem 1rem 0 0;
-    margin-left: 2.5rem;
+    margin: 0 1rem;
 `;
 
 export const PlaceImg = styled.img`
@@ -70,6 +71,8 @@ export const Right = styled.div`
 
 export const CategoryName = styled.div`
     font-size: 0.5rem;
+    color: lightgray;
+    font-weight: light;
 `;
 
 export const PlaceName = styled.div`
@@ -108,4 +111,18 @@ export const ButtonDivider = styled.hr`
     width: 0.25rem;
     background-color: white;
     margin: 0 1rem;
+`;
+
+export const DetailButton = styled.div`
+    width: 100%;
+    margin-top: 0.7rem;
+    display: flex;
+    justify-content: center;
+    button{
+        width: 80%;
+        border: 1px solid #f9373f;
+        background-color: transparent;
+        border-radius: 2rem;
+        color: #f9373f;
+    }
 `;

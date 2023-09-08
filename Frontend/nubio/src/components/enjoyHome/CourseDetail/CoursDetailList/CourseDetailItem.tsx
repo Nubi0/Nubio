@@ -1,4 +1,4 @@
-import { CourseDetailItemWrapper, PlaceImg, InfoWrapper, Left, Right, PlaceName, Address, CategoryName} from "../../../../styles/SCourseDeatilPage";
+import { CourseDetailItemWrapper, PlaceImg, InfoWrapper, Left, Right, PlaceName, Address, CategoryName, DetailButton } from "../../../../styles/SCourseDeatilPage";
 
 type placeProps = {
     place: {
@@ -35,7 +35,11 @@ const CourseDetailItem = ({place}: placeProps) => {
                     </Address>
                 </Right>
             </InfoWrapper>
-            <button>길 찾기</button>
+            <DetailButton>
+                <button>
+                상세 보기
+                </button>
+            </DetailButton>
         </CourseDetailItemWrapper>
     );
 }

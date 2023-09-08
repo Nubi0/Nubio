@@ -24,8 +24,10 @@ public class KakaoLoginApiServiceImpl implements SocialLoginApiService {
     @Override
     public OAuthAttributes getUserInfo(String accessToken) { // kakao에서 받은 accessToken
         // kakao로 kakao-accessToken 보내서 유저 정보를 받음
+        log.info("Kakao 유저 정보 서버로 Kakao access-token을 보내 유저 정보 요청 시작");
         KakaoUserInfoResDto kakaoUserInfoResponseDto = kakaoUserInfoClient.getKakaoUserInfo(CONTENT_TYPE,
                 GrantType.BEARER.getType() + " " + accessToken, true);
+        log.info("Kakao 유저 정보 서버에서 유저 정보 응답");
         // 필요한 유저 정보 뽑아냄
         KakaoUserInfoResDto.KakaoAccount kakaoAccount = kakaoUserInfoResponseDto.getKakaoAccount();
         String email = kakaoAccount.getEmail();

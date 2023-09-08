@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import {
-  MapWrapper,
-  SafeHomeWrapper,
-  SafeGuideIcon,
-  LogoIcon,
-} from "../styles/SSafeHomePage";
+import { MapWrapper, SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
+
 import SearchBar from "../components/common/SearchBar";
 import Footer from "../components/common/Footer";
+import SafeGuideModal from "./../components/safeHome/SafeGuideModal";
 
 declare global {
   interface Window {
@@ -15,10 +12,8 @@ declare global {
 }
 const SafeHomePage = () => {
   // 이미지
-  const safeGuide = process.env.PUBLIC_URL + "/assets/safeGuide.png";
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
 
-  const showSafeGuide = () => {};
   // 카카오 맵
   useEffect(() => {
     let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
@@ -32,9 +27,9 @@ const SafeHomePage = () => {
 
   return (
     <SafeHomeWrapper>
+      <SafeGuideModal />
       <MapWrapper id="map" />
       <LogoIcon src={logo} />
-      <SafeGuideIcon src={safeGuide} alt="가이드북" onClick={showSafeGuide} />
       <SearchBar />
       <Footer />
     </SafeHomeWrapper>

@@ -6,20 +6,20 @@ export const SearchBarWrapper = styled.div`
   left: 30px;
   input {
     width: 20rem;
-    height: 2rem;
+    height: 2.5rem;
     border: 0.1rem solid black;
     border-radius: 1rem;
     padding: 0 0 0 2rem;
   }
   input::placeholder {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
   img {
     position: absolute;
-    top: 9px;
+    top: 0.8rem;
     left: 10px;
-    width: 18px;
-    height: 18px;
+    width: 1rem;
+    height: 1rem;
   }
 `;

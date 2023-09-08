@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalFooter,
 } from '../../../../styles/SAllCoursePage';
-import PurposeItem from './PurposeItem';
+import PurposeItem from '../../common/PurposeItem';
 
 type SetAllCourseFilterModalProps = {
   handleModal: () => void;

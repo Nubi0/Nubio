@@ -1,6 +1,8 @@
 import { RecommendWrapper } from "../../../styles/SRecommendPage";
 import RecommendLocation from "./RecommendLocation";
 import RecommendCourse from "./RecommendCourseOrder/RecommendCourseOrder";
+import RecommendPurpose from "./RecommendPurpose";
+import RecommendButton from "./RecommendButton";
 
 const Recommend = () => {
     return(
@@ -8,6 +10,8 @@ const Recommend = () => {
             <RecommendLocation />
             <RecommendCourse />
             <hr />
+            <RecommendPurpose />
+            <RecommendButton />
         </RecommendWrapper>
     );
 };

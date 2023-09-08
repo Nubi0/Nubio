@@ -4,7 +4,10 @@ export const RecommendPageWrapper = styled.div`
     margin: 0 1rem;
 `;
 
-export const RecommendWrapper = styled.div``;
+export const RecommendWrapper = styled.div`
+    padding-bottom: 5.5rem;
+    position: relative;
+`;
 
 export const RecommendLoactionWrapper = styled.div``;
 
@@ -82,4 +85,30 @@ export const CourseItemAddButtonWrapper = styled.div`
     font-size: 1.5rem;
     padding: 0.25rem;
     margin-top: 1.5rem;
+`;
+
+export const RecommendPurposeWrapper = styled.div`
+
+`;
+
+export const PurposeWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const Purposes = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+export const RecommendButtonWrapper = styled.div`
+    background-color: #FFC542;
+    position: absolute;
+    bottom: 0;
+    button{
+        color: white;
+        border: none;
+        text-align: center;
+        background-color: transparent;
+    }
 `;

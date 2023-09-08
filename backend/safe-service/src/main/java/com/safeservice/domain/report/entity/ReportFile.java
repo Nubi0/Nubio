@@ -1,5 +1,6 @@
 package com.safeservice.domain.report.entity;
 
+import com.safeservice.domain.common.BaseTimeEntity;
 import com.safeservice.domain.report.entity.type.report.Content;
 import com.safeservice.domain.report.entity.type.report.Title;
 import com.safeservice.domain.report.entity.type.reportfile.Active;
@@ -17,12 +18,11 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE report_file SET active = false WHERE id = ?")
-@Where(clause = "active = false")
-public class ReportFile {
+@Where(clause = "active = true")
+public class ReportFile extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "report_file_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

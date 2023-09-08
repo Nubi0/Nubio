@@ -18,11 +18,11 @@ public class Content {
     @Column(name = "content", nullable = false)
     private String value;
 
-    private Content(String value) {
+    private Content(final String value) {
         this.value = value;
     }
 
-    public static Content from(String value) {
+    public static Content from(final String value) {
         return new Content(value);
     }
 

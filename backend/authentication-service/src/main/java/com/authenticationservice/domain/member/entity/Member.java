@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -45,7 +46,8 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role = Role.ROLE_USER;
+    @ColumnDefault("USER")
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
@@ -61,7 +63,7 @@ public class Member extends BaseTimeEntity {
     private LocalDateTime refreshTokenExpirationTime;
 
     @Embedded
-    private Active active = Active.from(true);
+    private Active active;
 
     @Builder
     public Member(Long id, Identification identification, Email email, Nickname nickname,

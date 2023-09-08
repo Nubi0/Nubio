@@ -16,3 +16,7 @@ interface PlaceItem {
     place_name: string
     img_url: string
 }
+
+interface PageName {
+    pageName: string
+}

@@ -21,11 +21,8 @@ public class ReportController {
     @PostMapping("/report")
     public ApiResponse<String> createReport(@Identification IdentificationDto identificationDto,
                                             @RequestPart("file") List<MultipartFile> files,
-                                            @RequestPart("title") String title,
-                                            @RequestPart("content") String content,
-                                            @RequestPart("reportType") String reportType) {
-        reportInfoService.createReport(ReportRequestDto.of(
-                title,content,reportType), files, identificationDto.getIdentification());
+                                            @RequestPart("report") ReportRequestDto reportRequestDto) {
+        reportInfoService.createReport(reportRequestDto, files, identificationDto.getIdentification());
         return ApiResponse.ok("생성 완료");
     }
 }

@@ -14,7 +14,9 @@ public enum ErrorCode {
 
     // File
     EMPTY_FILE(HttpStatus.BAD_REQUEST, "F-001", "빈 파일은 제출할 수 없습니다."),
-    FILE_AMOUNTS_LIMIT(HttpStatus.BAD_REQUEST, "F-002", "제출할 수 있는 파일 수를 초과했습니다.");
+    FILE_AMOUNTS_LIMIT(HttpStatus.BAD_REQUEST, "F-002", "제출할 수 있는 파일 수를 초과했습니다."),
+    FILE_SIZE_LIMIT(HttpStatus.BAD_REQUEST, "F-003", "제출할 수 있는 파일 사이즈를 초과했습니다."),
+    ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
         this.httpStatus = httpStatus;

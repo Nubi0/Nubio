@@ -73,7 +73,7 @@ public class ReportInfoService {
                 ReportFileDto fileUploadResponseDto = new ReportFileDto(url);
                 responseDtos.add(fileUploadResponseDto);
 
-                reportFileService.saveAccuseFile(file.getOriginalFilename(), url, report);
+                reportFileService.saveAccuseFile(file.getOriginalFilename(), url, objectMetadata.getContentLength(), report);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

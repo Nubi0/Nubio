@@ -1,5 +1,6 @@
 package com.safeservice.domain.safebell.service.impl;
 
+import com.safeservice.domain.safebell.dto.response.NearestSafeBellDto;
 import com.safeservice.domain.safebell.entity.SafeBell;
 import com.safeservice.domain.safebell.exception.InvalidAddressFormatException;
 import com.safeservice.domain.safebell.repository.SafeBellRepository;
@@ -179,6 +180,32 @@ class SafeBellImplTest {
 
         // then
         assertThat(withinList).hasSize(0);
+    }
+
+    @DisplayName("주변 가장 가까운 안전벨 찾기")
+    @Test
+    void findNearestSafeBell() {
+        // given
+        SafeBell beforeSafeBell1 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9052383, 37.5157702))
+                .address(Address.from("영등포역"))
+                .build());
+        SafeBell beforeSafeBell2 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.8890174, 37.5088141))
+                .address(Address.from("신도림역"))
+                .build());
+        SafeBell beforeSafeBell3 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9221228, 37.5215737))
+                .address(Address.from("여의도역"))
+                .build());
+
+        // when
+        NearestSafeBellDto nearestSafeBell = safeBellService.findNearestSafeBell(beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude());
+
+        // then
+        assertThat(nearestSafeBell.getAddress()).isEqualTo(beforeSafeBell1.getAddress().getValue());
+        assertThat(nearestSafeBell.getLongitude()).isEqualTo(beforeSafeBell1.getPosition().getLongitude());
+        assertThat(nearestSafeBell.getLatitude()).isEqualTo(beforeSafeBell1.getPosition().getLatitude());
     }
 
 }

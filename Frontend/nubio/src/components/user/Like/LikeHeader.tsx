@@ -1,24 +1,14 @@
-import { useState } from 'react';
 import { LikeHeaderWrapper, Place, Course } from '../../../styles/SLikePage';
 
-const LikeHeader = () => {
-  const [active, setActive] = useState({
-    place: false,
-    course: false,
-  });
-  const handleButton = (category: string) => {
-    if (category === 'place') {
-      setActive({
-        place: true,
-        course: false,
-      });
-    } else if (category === 'course') {
-      setActive({
-        place: false,
-        course: true,
-      });
-    }
-  };
+type likeProps = {
+  active: {
+    place: boolean;
+    course: boolean;
+  },
+  handleButton: (category: string) => void;
+}
+
+const LikeHeader = ({active, handleButton}: likeProps) => {
   return (
     <LikeHeaderWrapper>
       <Place

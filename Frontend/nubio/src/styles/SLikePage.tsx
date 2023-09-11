@@ -82,3 +82,5 @@ export const PlaceReviewWrapper = styled.div`
 export const Score = styled.div``;
 
 export const ReviewCount = styled.div``;
+
+export const CourseListWrapper = styled.div``;

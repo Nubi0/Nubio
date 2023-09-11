@@ -3,7 +3,7 @@ import { MapWrapper, SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
 
 import SearchBar from "../components/common/SearchBar";
 import Footer from "../components/common/Footer";
-import SafeGuideModal from "./../components/safeHome/SafeGuideModal";
+import SafeGuideModal from "../components/safeHome/safeGuide/SafeGuideModal";
 
 declare global {
   interface Window {

@@ -19,6 +19,7 @@ export const LogoIcon = styled.img`
   height: 2rem;
 `;
 
+// 대피 설명서
 export const SafeGuideIcon = styled.img`
   position: absolute;
   top: 750px;
@@ -28,7 +29,7 @@ export const SafeGuideIcon = styled.img`
 `;
 
 export const SafeGuideModalOverlay = styled.div`
-  z-index: 9999;
+  z-index: 9998;
   width: 100%;
   height: 100%;
   display: flex;
@@ -46,9 +47,9 @@ export const SafeGuideModalBox = styled.div`
   border-radius: 1rem;
   text-align: center;
   button {
-    width: 4rem;
-    height: 2rem;
-    font-size: 1rem;
+    width: 20rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     border: none;
     border-radius: 1rem;
@@ -57,11 +58,21 @@ export const SafeGuideModalBox = styled.div`
   }
 `;
 
+// 대피경로
 export const DisasterWrapper = styled.div`
   width: 100%;
   height: 90%;
-  span {
-    // display: flex;
+  div {
+    text-align: center;
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
+  }
+  p {
+    margin: 0;
+    width: 3rem;
+    font-size: 1.2rem;
+    font-weight: 1000;
   }
 `;
 
@@ -72,4 +83,28 @@ export const DisasterIcon = styled.img`
   border-radius: 2rem;
   padding: 0.3rem;
   margin: 1rem;
+`;
+
+export const EvacuationRouteModalBox = styled.div`
+  // background: red;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  p {
+    width: 100%;
+  }
+  button {
+    width: 20rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffc542;
+    margin: 1rem;
+  }
 `;

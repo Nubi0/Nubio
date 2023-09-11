@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @NamedNativeQuery(
         name = "findNearestSafeBell",
         query = "SELECT longitude, latitude, address, ST_Distance_Sphere(POINT(:lng, :lat), POINT(longitude, latitude)) as distance " +
-                "FROM safe_bell order by distance limit 1;",
+                "FROM safe_bell where active = true order by distance limit 1;",
         resultSetMapping = "NearestSafeBellDtoMapping"
 )
 @SqlResultSetMapping(

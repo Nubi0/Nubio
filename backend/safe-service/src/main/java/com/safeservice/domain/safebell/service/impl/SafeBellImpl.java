@@ -45,6 +45,5 @@ public class SafeBellImpl implements SafeBellService {
     public NearestSafeBellDto findNearestSafeBell(double longitude, double latitude) {
         return safeBellRepository.findNearestSafeBell(longitude, latitude)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOTHING_SAFE_BELL));
-
     }
 }

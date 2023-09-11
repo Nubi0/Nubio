@@ -7,6 +7,7 @@ import com.safeservice.domain.safebell.repository.SafeBellRepository;
 import com.safeservice.domain.safebell.service.SafeBellService;
 import com.safeservice.domain.safebell.type.Address;
 import com.safeservice.domain.safebell.type.Position;
+import com.safeservice.global.error.exception.BusinessException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -206,6 +207,20 @@ class SafeBellImplTest {
         assertThat(nearestSafeBell.getAddress()).isEqualTo(beforeSafeBell1.getAddress().getValue());
         assertThat(nearestSafeBell.getLongitude()).isEqualTo(beforeSafeBell1.getPosition().getLongitude());
         assertThat(nearestSafeBell.getLatitude()).isEqualTo(beforeSafeBell1.getPosition().getLatitude());
+    }
+
+    @DisplayName("주변 가장 가까운 안전벨 찾기 실패")
+    @Test
+    void failFindNearestSafeBell() {
+        // given
+        // when
+        safeBellRepository.deleteAll();
+
+        // then
+        assertThatThrownBy(() -> {
+            safeBellService.findNearestSafeBell(126.9052383, 37.5157702);
+        }).isInstanceOf(BusinessException.class);
+
     }
 
 }

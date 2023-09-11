@@ -31,6 +31,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	// spring test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// spring validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// h2 db
 	runtimeOnly 'com.h2database:h2'
 	// mysql db

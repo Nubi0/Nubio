@@ -4,6 +4,7 @@ import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.ReportFile;
 import com.safeservice.domain.report.entity.type.reportfile.Active;
 import com.safeservice.domain.report.entity.type.reportfile.FileName;
+import com.safeservice.domain.report.entity.type.reportfile.FileSize;
 import com.safeservice.domain.report.entity.type.reportfile.FileUrl;
 import com.safeservice.domain.report.repository.ReportFileRepository;
 import com.safeservice.domain.report.service.ReportFileService;
@@ -20,10 +21,11 @@ public class ReportFileServiceImpl implements ReportFileService {
 
     @Override
     @Transactional
-    public ReportFile saveAccuseFile(String fileName, String url, Report report) {
+    public ReportFile saveAccuseFile(String fileName, String fileUrl, Long fileSize, Report report) {
         ReportFile accuseFile = ReportFile.builder()
                 .fileName(FileName.from(fileName))
-                .fileUrl(FileUrl.from(url))
+                .fileUrl(FileUrl.from(fileUrl))
+                .fileSize(FileSize.from(fileSize))
                 .report(report)
                 .active(Active.from(true))
                 .build();

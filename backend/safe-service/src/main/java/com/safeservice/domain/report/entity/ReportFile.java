@@ -5,6 +5,7 @@ import com.safeservice.domain.report.entity.type.report.Content;
 import com.safeservice.domain.report.entity.type.report.Title;
 import com.safeservice.domain.report.entity.type.reportfile.Active;
 import com.safeservice.domain.report.entity.type.reportfile.FileName;
+import com.safeservice.domain.report.entity.type.reportfile.FileSize;
 import com.safeservice.domain.report.entity.type.reportfile.FileUrl;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,13 +37,17 @@ public class ReportFile extends BaseTimeEntity {
     private FileUrl fileUrl;
 
     @Embedded
-    private Active active = Active.from(true);;
+    private FileSize fileSize;
+
+    @Embedded
+    private Active active = Active.from(true);
 
     @Builder
-    public ReportFile(Report report, FileName fileName, FileUrl fileUrl, Active active) {
+    public ReportFile(Report report, FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
         this.report = report;
         this.fileName = fileName;
         this.fileUrl = fileUrl;
+        this.fileSize = fileSize;
         this.active = active;
     }
 

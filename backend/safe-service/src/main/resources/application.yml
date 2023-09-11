@@ -3,4 +3,3 @@ spring:
     active: dev
     include:
       - s3
-      - local

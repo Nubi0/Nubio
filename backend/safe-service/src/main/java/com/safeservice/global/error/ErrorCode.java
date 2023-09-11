@@ -19,6 +19,7 @@ public enum ErrorCode {
     INVALID_REPORT_TYPE(HttpStatus.BAD_REQUEST, "R-001", "제보 타입이 잘못됐습니다."),
     INVALID_REPORT_TITLE_LENGTH(HttpStatus.BAD_REQUEST, "R-002", "제목 길이 제한을 초과하였습니다."),
     INVALID_REPORT_CONTENT_LENGTH(HttpStatus.BAD_REQUEST, "R-003", "내용 길이 제한을 초과하였습니다."),
+    MISMATCH_IDENTIFICATION(HttpStatus.BAD_REQUEST, "R-004", "작성자와 수정자가 동일하지 않습니다."),
 
 
     // File

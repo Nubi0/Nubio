@@ -21,15 +21,17 @@ public class ReportFileServiceImpl implements ReportFileService {
 
     @Override
     @Transactional
-    public ReportFile saveAccuseFile(String fileName, String fileUrl, Long fileSize, Report report) {
+    public ReportFile saveAccuseFile(String fileName, String url, Long fileSize, Report report) {
         ReportFile accuseFile = ReportFile.builder()
                 .fileName(FileName.from(fileName))
-                .fileUrl(FileUrl.from(fileUrl))
-                .fileSize(FileSize.from(fileSize))
+                .fileUrl(FileUrl.from(url))
                 .report(report)
+                .fileSize(FileSize.from(fileSize))
                 .active(Active.from(true))
                 .build();
-        return reportFileRepository.save(accuseFile);
+        ReportFile savedReportFile = reportFileRepository.save(accuseFile);
+        report.addReportFile(savedReportFile);
+        return savedReportFile;
     }
 
     @Override

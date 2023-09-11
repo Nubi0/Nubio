@@ -18,6 +18,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "report_file")
 @SQLDelete(sql = "UPDATE report_file SET active = false WHERE id = ?")
 @Where(clause = "active = true")
 public class ReportFile extends BaseTimeEntity {

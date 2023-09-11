@@ -14,9 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class GroupCodeTest {
 
-    @DisplayName("")
-    @Test
-    void from() {
+    @DisplayName("GroupCode가 맞으면 GroupCode 객체를 생성한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CD7"})
+    void from(String input) {
+        // when
+        GroupCode groupCode = GroupCode.from(input);
+        // then
+        assertThat(groupCode).isEqualTo(GroupCode.valueOf(input));
     }
 
     @DisplayName("GroupCode가 맞으면 통과한다.")

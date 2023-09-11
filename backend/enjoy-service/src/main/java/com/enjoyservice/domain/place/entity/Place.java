@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.place.entity;
 
 import com.enjoyservice.domain.place.entity.type.KakaoId;
+import com.enjoyservice.domain.place.entity.type.Name;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,4 +18,7 @@ public class Place {
 
     @Embedded
     private KakaoId kakaoId;
+
+    @Embedded
+    private Name name;
 }

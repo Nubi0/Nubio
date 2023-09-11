@@ -155,11 +155,11 @@ class SafeBellImplTest {
 
         // then
         assertThat(withinList).hasSize(3)
-                .extracting("id", "position.longitude", "position.latitude")
+                .extracting("id", "position.longitude", "position.latitude","address.value")
                 .containsExactlyInAnyOrder(
-                        tuple(beforeSafeBell1.getId(), beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude()),
-                        tuple(beforeSafeBell2.getId(), beforeSafeBell2.getPosition().getLongitude(), beforeSafeBell2.getPosition().getLatitude()),
-                        tuple(beforeSafeBell3.getId(), beforeSafeBell3.getPosition().getLongitude(), beforeSafeBell3.getPosition().getLatitude())
+                        tuple(beforeSafeBell1.getId(), beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude(),beforeSafeBell1.getAddress().getValue()),
+                        tuple(beforeSafeBell2.getId(), beforeSafeBell2.getPosition().getLongitude(), beforeSafeBell2.getPosition().getLatitude(),beforeSafeBell2.getAddress().getValue()),
+                        tuple(beforeSafeBell3.getId(), beforeSafeBell3.getPosition().getLongitude(), beforeSafeBell3.getPosition().getLatitude(),beforeSafeBell3.getAddress().getValue())
                 );
     }
 

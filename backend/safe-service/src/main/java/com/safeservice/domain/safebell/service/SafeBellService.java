@@ -1,5 +1,6 @@
 package com.safeservice.domain.safebell.service;
 
+import com.safeservice.domain.safebell.dto.response.NearestSafeBellDto;
 import com.safeservice.domain.safebell.entity.SafeBell;
 
 import java.util.List;
@@ -11,5 +12,7 @@ public interface SafeBellService {
     void delete(SafeBell safeBell);
 
     List<SafeBell> findWithinDistance(double longitude, double latitude, int distance);
+
+    NearestSafeBellDto findNearestSafeBell(double longitude, double latitude);
 
 }

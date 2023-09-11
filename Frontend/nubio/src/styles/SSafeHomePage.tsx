@@ -8,7 +8,7 @@ export const SafeHomeWrapper = styled.div`
 export const MapWrapper = styled.div`
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
 `;
 
 export const LogoIcon = styled.img`
@@ -26,6 +26,7 @@ export const SafeGuideIcon = styled.img`
   left: 350px;
   width: 4rem;
   height: 4rem;
+  z-index: 1;
 `;
 
 export const SafeGuideModalOverlay = styled.div`

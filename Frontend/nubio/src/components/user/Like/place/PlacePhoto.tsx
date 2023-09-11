@@ -1,4 +1,4 @@
-import { PlacePhotoWrapper } from "../../../styles/SSearchBar";
+import { PlacePhotoWrapper } from '../../../../styles/SLikePage';
 
 type photoProps = {
   url: string;

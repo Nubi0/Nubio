@@ -4,6 +4,7 @@ export const SearchBarWrapper = styled.div`
   position: absolute;
   top: 60px;
   left: 30px;
+  z-index: 2;
   input {
     width: 20rem;
     height: 2.5rem;
@@ -14,8 +15,7 @@ export const SearchBarWrapper = styled.div`
   input::placeholder {
     font-size: 1rem;
   }
-
-  img {
+  .readingGlasses {
     position: absolute;
     top: 0.8rem;
     left: 10px;
@@ -27,7 +27,18 @@ export const SearchBarWrapper = styled.div`
 // 검색결과
 export const SearchResultWrapper = styled.div`
   width: 100%;
-  background: red;
+  height: 350px;
+  background: white;
+  margin-top: 1rem;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  overflow: scroll;
+`;
+export const SearchItemWrapper = styled.div`
+  padding: 0.5rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const PlaceInfoWrapper = styled.div``;
@@ -59,7 +70,7 @@ export const PlacePhotoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   img {
-    width: 4.75rem;
+    width: 5rem;
     height: 3.5rem;
     margin: 0 0.5rem;
   }
@@ -72,3 +83,12 @@ export const PlaceReviewWrapper = styled.div`
 export const Score = styled.div``;
 
 export const ReviewCount = styled.div``;
+
+// 검색 결과 상세보기
+export const DetailItemWrapper = styled.div`
+  width: 100%;
+  height: 50%;
+  background: white;
+  position: absolute;
+  bottom: 1rem;
+`;

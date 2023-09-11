@@ -8,6 +8,7 @@ spring:
     url: jdbc:h2:tcp://localhost/~/nubio
     username: sa
     password:
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -31,4 +32,4 @@ spring:
 logging:
   level:
     org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
-    com.com.authenticationservice: trace
+    com.com.enjoyservice: trace

@@ -23,19 +23,13 @@ class GroupCodeTest {
     @ParameterizedTest
     @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CD7"})
     void isGroupCode(String input) {
-        // when
-        boolean result = GroupCode.isGroupCode(input);
-        // then
-        assertThat(result).isTrue();
+        assertTrue(GroupCode.isGroupCode(input));
     }
 
     @DisplayName("GroupCode가 아니면 false를 반환한다.")
     @ParameterizedTest
     @ValueSource(strings = {"AB2", "P6", "7", "QWER"})
     void isNotGroupCode(String input) {
-        // when
-        boolean result = GroupCode.isGroupCode(input);
-        // then
-        assertThat(result).isFalse();
+        assertFalse(GroupCode.isGroupCode(input));
     }
 }

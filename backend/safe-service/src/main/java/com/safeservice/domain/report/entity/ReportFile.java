@@ -18,6 +18,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "report_file")
 @SQLDelete(sql = "UPDATE report_file SET active = false WHERE id = ?")
 @Where(clause = "active = true")
 public class ReportFile extends BaseTimeEntity {
@@ -26,7 +27,7 @@ public class ReportFile extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "report_id")
     private Report report;
 

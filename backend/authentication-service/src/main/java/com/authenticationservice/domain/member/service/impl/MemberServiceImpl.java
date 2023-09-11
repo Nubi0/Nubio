@@ -1,7 +1,9 @@
 package com.authenticationservice.domain.member.service.impl;
 
 import com.authenticationservice.domain.member.entity.Member;
+import com.authenticationservice.domain.member.entity.type.Email;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
+import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
 import com.authenticationservice.global.error.ErrorCode;
@@ -30,5 +32,10 @@ public class MemberServiceImpl implements MemberService {
         if(optionalMember.isPresent()) {
             throw new DuplicateMemberException(ErrorCode.DUPLICATE_MEMBER_EXIST);
         }
+    }
+
+    @Override
+    public Optional<Member> findByEmail(Email email) {
+        return memberRepository.findByEmail(email);
     }
 }

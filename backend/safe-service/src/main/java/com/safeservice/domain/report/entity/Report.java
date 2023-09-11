@@ -16,13 +16,13 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "report")
 @SQLDelete(sql = "UPDATE report SET active = false WHERE id = ?")
-@Where(clause = "active = false")
+@Where(clause = "active = true")
 public class Report extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "report_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)

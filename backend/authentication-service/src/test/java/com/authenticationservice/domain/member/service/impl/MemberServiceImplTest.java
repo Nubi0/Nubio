@@ -7,6 +7,7 @@ import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
 import com.authenticationservice.domain.member.exception.InvalidEmailFormatException;
+import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
 import org.assertj.core.api.Assertions;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +48,7 @@ class MemberServiceImplTest {
                 .birth(Birth.from("2000-01-01"))
                 .build();
 
-        Member savedMember1 = memberRepository.save(beforeMember);
+        Member savedBeforeMember = memberRepository.save(beforeMember);
     }
 
     @AfterEach
@@ -111,4 +114,16 @@ class MemberServiceImplTest {
         assertThatThrownBy(() -> Email.from(invalidFormatEmail))
                 .isInstanceOf(InvalidEmailFormatException.class);
     }
+
+    @Test
+    @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
+    void findByEmail1() {
+        // given
+        Email email = beforeMember.getEmail();
+        // when
+        Optional<Member> opMember = memberService.findByEmail(email);
+        // then
+        assertThat(opMember.get()).isEqualTo(beforeMember);
+    }
+    
 }

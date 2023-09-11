@@ -34,10 +34,10 @@ public class ReportRequestDto {
     @NotEmpty(message = "제보 타입은 필수 값 입니다.")
     private String reportType;
 
-    @NotEmpty(message = "위도는 필수 값 입니다.")
+    @NotNull(message = "위도는 필수 값 입니다.")
     private double latitude;
 
-    @NotEmpty(message = "경도는 필수 값 입니다.")
+    @NotNull(message = "경도는 필수 값 입니다.")
     private double longitude;
 
 

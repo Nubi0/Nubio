@@ -24,6 +24,15 @@ class GroupCodeTest {
         assertThat(groupCode).isEqualTo(GroupCode.valueOf(input));
     }
 
+    @DisplayName("GroupCode가 아니면 예외를 발생시킨다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"AB2", "P6", "7", "QWER"})
+    void canNotFrom(String input) {
+        // when then
+        assertThatThrownBy(() -> GroupCode.from(input))
+                .isInstanceOf(InvalidGroupCodeException.class);
+    }
+
     @DisplayName("GroupCode가 맞으면 통과한다.")
     @ParameterizedTest
     @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CD7"})

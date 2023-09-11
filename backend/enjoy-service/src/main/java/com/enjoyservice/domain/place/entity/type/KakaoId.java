@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class KakaoId {
 
     @Column(name = "kakao_id")
-    private String value;
+    private Integer value;
 
-    private KakaoId(final String value) {
+    private KakaoId(final int value) {
         this.value = value;
     }
 
-    public static KakaoId from(final String value) {
+    public static KakaoId from(final int value) {
         return new KakaoId(value);
     }
 }

@@ -10,6 +10,7 @@ import MyCoursePage from '../pages/MyCoursePage';
 import PlaceDetailPage from '../pages/PlaceDetailPage';
 import RecommendPage from '../pages/RecommendPage';
 import SafeHomePage from '../pages/SafeHomePage';
+import CourseSelectPage from '../pages/CourseSelectPage';
 
 const routes = [
   {
@@ -60,6 +61,10 @@ const routes = [
     path: '/safe',
     Component: SafeHomePage,
   },
+  {
+    path: '/mycourse/select',
+    Component: CourseSelectPage,
+  }
 ];
 
 export default routes;

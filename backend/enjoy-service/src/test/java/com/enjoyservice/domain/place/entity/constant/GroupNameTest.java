@@ -17,4 +17,11 @@ class GroupNameTest {
         assertTrue(GroupName.isGroupName(input));
     }
 
+    @DisplayName("GroupName이 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"AB2", "P6", "7", "QWER"})
+    void isNotGroupCode(String input) {
+        assertFalse(GroupName.isGroupName(input));
+    }
+
 }

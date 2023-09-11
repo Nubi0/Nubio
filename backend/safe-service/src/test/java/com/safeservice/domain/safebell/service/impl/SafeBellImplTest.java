@@ -1,11 +1,13 @@
 package com.safeservice.domain.safebell.service.impl;
 
+import com.safeservice.domain.safebell.dto.response.NearestSafeBellDto;
 import com.safeservice.domain.safebell.entity.SafeBell;
 import com.safeservice.domain.safebell.exception.InvalidAddressFormatException;
 import com.safeservice.domain.safebell.repository.SafeBellRepository;
 import com.safeservice.domain.safebell.service.SafeBellService;
 import com.safeservice.domain.safebell.type.Address;
 import com.safeservice.domain.safebell.type.Position;
+import com.safeservice.global.error.exception.BusinessException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -153,11 +155,11 @@ class SafeBellImplTest {
 
         // then
         assertThat(withinList).hasSize(3)
-                .extracting("id", "position.longitude", "position.latitude")
+                .extracting("id", "position.longitude", "position.latitude","address.value")
                 .containsExactlyInAnyOrder(
-                        tuple(beforeSafeBell1.getId(), beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude()),
-                        tuple(beforeSafeBell2.getId(), beforeSafeBell2.getPosition().getLongitude(), beforeSafeBell2.getPosition().getLatitude()),
-                        tuple(beforeSafeBell3.getId(), beforeSafeBell3.getPosition().getLongitude(), beforeSafeBell3.getPosition().getLatitude())
+                        tuple(beforeSafeBell1.getId(), beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude(),beforeSafeBell1.getAddress().getValue()),
+                        tuple(beforeSafeBell2.getId(), beforeSafeBell2.getPosition().getLongitude(), beforeSafeBell2.getPosition().getLatitude(),beforeSafeBell2.getAddress().getValue()),
+                        tuple(beforeSafeBell3.getId(), beforeSafeBell3.getPosition().getLongitude(), beforeSafeBell3.getPosition().getLatitude(),beforeSafeBell3.getAddress().getValue())
                 );
     }
 
@@ -179,6 +181,46 @@ class SafeBellImplTest {
 
         // then
         assertThat(withinList).hasSize(0);
+    }
+
+    @DisplayName("주변 가장 가까운 안전벨 찾기")
+    @Test
+    void findNearestSafeBell() {
+        // given
+        SafeBell beforeSafeBell1 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9052383, 37.5157702))
+                .address(Address.from("영등포역"))
+                .build());
+        SafeBell beforeSafeBell2 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.8890174, 37.5088141))
+                .address(Address.from("신도림역"))
+                .build());
+        SafeBell beforeSafeBell3 = safeBellRepository.save(SafeBell.builder()
+                .position(Position.of(126.9221228, 37.5215737))
+                .address(Address.from("여의도역"))
+                .build());
+
+        // when
+        NearestSafeBellDto nearestSafeBell = safeBellService.findNearestSafeBell(beforeSafeBell1.getPosition().getLongitude(), beforeSafeBell1.getPosition().getLatitude());
+
+        // then
+        assertThat(nearestSafeBell.getAddress()).isEqualTo(beforeSafeBell1.getAddress().getValue());
+        assertThat(nearestSafeBell.getLongitude()).isEqualTo(beforeSafeBell1.getPosition().getLongitude());
+        assertThat(nearestSafeBell.getLatitude()).isEqualTo(beforeSafeBell1.getPosition().getLatitude());
+    }
+
+    @DisplayName("주변 가장 가까운 안전벨 찾기 실패")
+    @Test
+    void failFindNearestSafeBell() {
+        // given
+        // when
+        safeBellRepository.deleteAll();
+
+        // then
+        assertThatThrownBy(() -> {
+            safeBellService.findNearestSafeBell(126.9052383, 37.5157702);
+        }).isInstanceOf(BusinessException.class);
+
     }
 
 }

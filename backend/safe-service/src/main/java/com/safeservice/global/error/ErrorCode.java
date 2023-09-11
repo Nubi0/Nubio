@@ -11,7 +11,9 @@ public enum ErrorCode {
 
     // 안전벨
     INVALID_ADDRESS(HttpStatus.BAD_REQUEST, "SB-001", "주소 길이가 잘못되었습니다."),
-    
+    NOTHING_SAFE_BELL(HttpStatus.BAD_REQUEST, "SB-002", "주변에 안전벨이 없습니다."),
+
+
 
     // 제보
     INVALID_REPORT_TYPE(HttpStatus.BAD_REQUEST, "R-001", "제보 타입이 잘못됐습니다."),

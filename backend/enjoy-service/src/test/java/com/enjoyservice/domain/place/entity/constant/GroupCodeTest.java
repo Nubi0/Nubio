@@ -1,5 +1,6 @@
 package com.enjoyservice.domain.place.entity.constant;
 
+import com.enjoyservice.domain.place.exception.InvalidGroupCodeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,5 +27,15 @@ class GroupCodeTest {
         boolean result = GroupCode.isGroupCode(input);
         // then
         assertThat(result).isTrue();
+    }
+
+    @DisplayName("GroupCode가 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"AB2", "P6", "7", "QWER"})
+    void isNotGroupCode(String input) {
+        // when
+        boolean result = GroupCode.isGroupCode(input);
+        // then
+        assertThat(result).isFalse();
     }
 }

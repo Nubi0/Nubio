@@ -4,8 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.safeservice.api.report.dto.ReportFileDto;
-import com.safeservice.api.report.dto.ReportRequestDto;
+import com.safeservice.api.report.dto.*;
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.service.ReportFileService;
 import com.safeservice.domain.report.service.ReportService;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ReportInfoService {
 
     private final ReportService reportService;
@@ -38,11 +37,28 @@ public class ReportInfoService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Transactional
     public void createReport(ReportRequestDto reportRequestDto, List<MultipartFile> files, String identification) {
 
         Report report = ReportRequestDto.toEntity(reportRequestDto, identification);
         Report savedReport = reportService.save(report);
         uploadIPFiles("report", files, savedReport);
+    }
+
+    @Transactional
+    public void updateReport(ReportUpdateRequestDto reportUpdateRequestDto, List<MultipartFile> files, String identification) {
+        Report report = ReportUpdateRequestDto.toEntity(reportUpdateRequestDto);
+        Report savedReport = reportService.update(report,reportUpdateRequestDto.getReportId(),identification);
+        uploadIPFiles("report", files, savedReport);
+    }
+
+    public ReportResponseDto searchAll(String identificaion) {
+        List<Report> reports = reportService.searchReport();
+        List<ReportListDto> reportList = new ArrayList<>();
+        for (Report report : reports) {
+            reportList.add(ReportListDto.of(report, identificaion));
+        }
+        return ReportResponseDto.from(reportList);
     }
 
     public List<ReportFileDto> uploadIPFiles(String category,

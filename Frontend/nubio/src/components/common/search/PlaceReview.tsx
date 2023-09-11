@@ -1,5 +1,9 @@
-import { PlaceReviewWrapper, Score, ReviewCount } from '../../../../styles/SLikePage';
-import Stars from './Stars';
+import {
+  PlaceReviewWrapper,
+  Score,
+  ReviewCount,
+} from "../../../styles/SSearchBar";
+import Stars from "./Stars";
 
 type reviewProps = {
   score: number;

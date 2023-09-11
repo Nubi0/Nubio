@@ -4,7 +4,7 @@ import {
   PlaceAddress,
   PlaceHome,
   PlaceNumber,
-} from '../../../../styles/SLikePage';
+} from "../../../styles/SSearchBar";
 
 type infoProps = {
   addres_name: string;

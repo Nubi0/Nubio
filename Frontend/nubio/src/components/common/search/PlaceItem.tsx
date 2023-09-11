@@ -1,7 +1,7 @@
-import { PlaceItemWrapper } from "../../../../styles/SLikePage";
-import PlaceInfo from "../../../common/search/PlaceInfo";
-import PlacePhoto from "../../../common/search/PlacePhoto";
-import PlaceReview from "../../../common/search/PlaceReview";
+import { PlaceItemWrapper } from "../../../styles/SLikePage";
+import PlaceInfo from "./PlaceInfo";
+import PlacePhoto from "./PlacePhoto";
+import PlaceReview from "./PlaceReview";
 
 type placeProps = {
   place: {

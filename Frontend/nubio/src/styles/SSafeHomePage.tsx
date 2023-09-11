@@ -42,7 +42,7 @@ export const SafeGuideModalOverlay = styled.div`
 export const SafeGuideModalBox = styled.div`
   background: white;
   width: 80%;
-  height: 50%;
+  height: 60%;
   padding: 1rem;
   border-radius: 1rem;
   text-align: center;
@@ -62,10 +62,13 @@ export const SafeGuideModalBox = styled.div`
 export const DisasterWrapper = styled.div`
   width: 100%;
   height: 90%;
+  // background: red;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   div {
     text-align: center;
     display: flex;
-    // flex-direction: column;
+    flex-direction: column;
     align-items: center;
   }
   p {

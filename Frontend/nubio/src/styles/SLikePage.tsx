@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LikePageWrapper = styled.div``;
 
@@ -62,25 +62,5 @@ export const PlaceNumber = styled.div`
   margin-top: 0.25rem;
   font-size: 0.8rem;
 `;
-
-export const PlacePhotoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  img {
-    width: 4.75rem;
-    height: 3.5rem;
-    margin: 0 0.5rem;
-  }
-`;
-
-export const PlaceReviewWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 0.5rem;
-`;
-
-export const Score = styled.div``;
-
-export const ReviewCount = styled.div``;
 
 export const CourseListWrapper = styled.div``;

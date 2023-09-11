@@ -65,6 +65,8 @@ const Disaster: React.FC<EvacuationModalProps> = ({ openEvacuationModal }) => {
           onClick={() => openEvacuationModal(fire)}
         />
         <p>{fire.name}</p>
+      </div>
+      <div>
         <DisasterIcon src={hot.src} onClick={() => openEvacuationModal(hot)} />
         <p>{hot.name}</p>
       </div>
@@ -74,6 +76,8 @@ const Disaster: React.FC<EvacuationModalProps> = ({ openEvacuationModal }) => {
           onClick={() => openEvacuationModal(HeavyRain)}
         />
         <p>{HeavyRain.name}</p>
+      </div>
+      <div>
         <DisasterIcon
           src={snowFlood.src}
           onClick={() => openEvacuationModal(snowFlood)}
@@ -86,6 +90,8 @@ const Disaster: React.FC<EvacuationModalProps> = ({ openEvacuationModal }) => {
           onClick={() => openEvacuationModal(earthQuake)}
         />
         <p>{earthQuake.name}</p>
+      </div>
+      <div>
         <DisasterIcon
           src={terror.src}
           onClick={() => openEvacuationModal(terror)}

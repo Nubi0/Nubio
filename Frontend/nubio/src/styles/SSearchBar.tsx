@@ -23,3 +23,52 @@ export const SearchBarWrapper = styled.div`
     height: 1rem;
   }
 `;
+
+// 검색결과
+export const SearchResultWrapper = styled.div`
+  width: 100%;
+  background: red;
+`;
+
+export const PlaceInfoWrapper = styled.div``;
+export const PlaceName = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const PlaceAddress = styled.div`
+  font-size: 0.5rem;
+  margin-top: 0.25rem;
+`;
+
+export const PlaceHome = styled.a`
+  text-decoration: none;
+  color: #f9373f;
+  border: 1px solid #f9373f;
+  font-size: 0.5rem;
+  padding: 0.25rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+`;
+
+export const PlaceNumber = styled.div`
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+`;
+
+export const PlacePhotoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  img {
+    width: 4.75rem;
+    height: 3.5rem;
+    margin: 0 0.5rem;
+  }
+`;
+export const PlaceReviewWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+`;
+export const Score = styled.div``;
+
+export const ReviewCount = styled.div``;

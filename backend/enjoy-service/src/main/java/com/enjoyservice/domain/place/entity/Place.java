@@ -1,10 +1,7 @@
 package com.enjoyservice.domain.place.entity;
 
 import com.enjoyservice.domain.common.BaseTimeEntity;
-import com.enjoyservice.domain.place.entity.type.Category;
-import com.enjoyservice.domain.place.entity.type.KakaoId;
-import com.enjoyservice.domain.place.entity.type.Name;
-import com.enjoyservice.domain.place.entity.type.Phone;
+import com.enjoyservice.domain.place.entity.type.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,4 +27,7 @@ public class Place extends BaseTimeEntity {
 
     @Embedded
     private Phone phone;
+
+    @Embedded
+    private Url url;
 }

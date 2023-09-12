@@ -14,7 +14,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        String modifiedBy = httpServletRequest.getHeader("Identification");
+        String modifiedBy = httpServletRequest.getHeader("sub");
         // 수정 경로가 없으면 "unknown" 으로 설정
         if (!StringUtils.hasText(modifiedBy)) {
             modifiedBy = "unknown";

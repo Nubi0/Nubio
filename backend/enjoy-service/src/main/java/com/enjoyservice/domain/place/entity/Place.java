@@ -33,4 +33,7 @@ public class Place extends BaseTimeEntity {
 
     @Embedded
     private Address address;
+
+    @Embedded
+    private Position position;
 }

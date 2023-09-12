@@ -2,6 +2,7 @@ package com.enjoyservice.domain.placereview.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.placereview.entity.type.Content;
+import com.enjoyservice.domain.placereview.entity.type.Point;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,4 +20,7 @@ public class PlaceReview extends BaseEntity {
 
     @Embedded
     private Content content;
+
+    @Embedded
+    private Point point;
 }

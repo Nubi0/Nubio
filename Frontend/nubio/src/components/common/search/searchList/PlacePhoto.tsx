@@ -1,9 +1,5 @@
 import { PlacePhotoWrapper } from "../../../../styles/SSearchBar";
 
-type photoProps = {
-  url: string;
-};
-
 const PlacePhoto = ({ photo }: { photo: photoProps }) => {
   return (
     <PlacePhotoWrapper>

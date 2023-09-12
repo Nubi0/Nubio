@@ -76,29 +76,36 @@ const SearchList = () => {
   ];
 
   // 상세보기
-  const [isDetail, SetIsDetail] = useState(false);
-  const detailPlace = () => {
-    SetIsDetail(true);
+  const [selectedPlace, setSelectedPlace] = useState<placeProps | null>(null);
+  const [isDetail, setIsDetail] = useState(false);
+  const detailPlace = (place: placeProps | null) => {
+    setIsDetail(true);
+    setSelectedPlace(place);
+    console.log(selectedPlace);
   };
   const placeList = () => {
-    SetIsDetail(false);
+    setIsDetail(false);
+    setSelectedPlace(null);
   };
+
   return (
     <SearchResultWrapper>
       {place_list.map((place, index) => {
         return (
-          <>
-            {isDetail ? (
-              <>
-                <DetailItem key={index} place={place} placeList={placeList} />
-              </>
+          <div key={index}>
+            {isDetail && selectedPlace !== null ? (
+              <DetailItem place={selectedPlace?.place} placeList={placeList} />
             ) : (
               <>
-                <SearchItem key={index} place={place} />
-                <DetailButton onClick={detailPlace}>상세보기</DetailButton>
+                <SearchItem place={place} />
+                <DetailButton
+                  onClick={() => detailPlace(place ? { place } : null)}
+                >
+                  상세보기
+                </DetailButton>
               </>
             )}
-          </>
+          </div>
         );
       })}
     </SearchResultWrapper>

@@ -1,10 +1,9 @@
-import { PlaceReviewWrapper, Score, ReviewCount } from '../../../../styles/SLikePage';
-import Stars from './Stars';
-
-type reviewProps = {
-  score: number;
-  count: number;
-};
+import {
+  PlaceReviewWrapper,
+  Score,
+  ReviewCount,
+} from "../../../../styles/SLikePage";
+import Stars from "./Stars";
 
 const PlaceReview = ({ review }: { review: reviewProps }) => {
   const score = review.score.toFixed(1);

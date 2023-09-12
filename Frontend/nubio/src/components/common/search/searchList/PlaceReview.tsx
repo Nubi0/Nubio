@@ -5,11 +5,6 @@ import {
 } from "../../../../styles/SSearchBar";
 import Stars from "./Stars";
 
-type reviewProps = {
-  score: number;
-  count: number;
-};
-
 const PlaceReview = ({ review }: { review: reviewProps }) => {
   const score = review.score.toFixed(1);
   return (

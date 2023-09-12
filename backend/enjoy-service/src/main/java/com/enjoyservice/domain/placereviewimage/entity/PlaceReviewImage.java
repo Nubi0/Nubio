@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.placereviewimage.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
+import com.enjoyservice.domain.placereviewimage.entity.type.Name;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,6 @@ public class PlaceReviewImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+    @Embedded
+    private Name name;
 }

@@ -16,7 +16,8 @@ public enum ErrorCode {
     INVALID_PLACE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "SR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다."),
 
     // 코스
-    INVALID_REGION(HttpStatus.BAD_REQUEST, "C-001", "해당 지역은 존재하지 않습니다.")
+    INVALID_REGION(HttpStatus.BAD_REQUEST, "C-001", "해당 지역은 존재하지 않습니다."),
+    INVALID_SEQUENCE_NUMBER_RANGE(HttpStatus.BAD_REQUEST, "C-002", "코스에 속한 장소의 순서값의 범위는 0 이상 입니다.")
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

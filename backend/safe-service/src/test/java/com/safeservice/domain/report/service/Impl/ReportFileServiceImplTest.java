@@ -1,10 +1,12 @@
 package com.safeservice.domain.report.service.Impl;
 
+import com.safeservice.config.AwsS3MockConfig;
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.ReportFile;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
 import com.safeservice.domain.report.entity.type.report.Active;
 import com.safeservice.domain.report.entity.type.report.Content;
+import com.safeservice.domain.report.entity.type.report.Position;
 import com.safeservice.domain.report.entity.type.report.Title;
 import com.safeservice.domain.report.entity.type.reportfile.FileName;
 import com.safeservice.domain.report.entity.type.reportfile.FileSize;
@@ -14,6 +16,7 @@ import com.safeservice.domain.report.exception.InvalidTitleLengthException;
 import com.safeservice.domain.report.repository.ReportFileRepository;
 import com.safeservice.domain.report.repository.ReportRepository;
 import com.safeservice.domain.report.service.ReportFileService;
+import io.findify.s3mock.S3Mock;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +26,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -56,6 +60,8 @@ class ReportFileServiceImplTest {
                 .reportType(ReportType.TERROR)
                 .title(Title.from("first"))
                 .content(Content.from("first content"))
+                .position(Position.of(123.13,36.36))
+                .identification("kim")
                 .active(Active.from(true)).build();
         beforeReport = reportRepository.save(firstReport);
 
@@ -71,6 +77,7 @@ class ReportFileServiceImplTest {
     @AfterEach
     void after() {
         reportRepository.deleteAll();
+//        s3Mock.stop();
     }
 
     @DisplayName("파일 저장 성공 케이스")
@@ -85,9 +92,9 @@ class ReportFileServiceImplTest {
         ReportFile reportFile = reportFileService.saveAccuseFile(fileName, fileUrl, fileSize, beforeReport);
 
         // then
-        assertThat(reportFile.getFileName()).isEqualTo(fileName);
-        assertThat(reportFile.getFileUrl()).isEqualTo(fileUrl);
-        assertThat(reportFile.getFileSize()).isEqualTo(fileSize);
+        assertThat(reportFile.getFileName().getValue()).isEqualTo(fileName);
+        assertThat(reportFile.getFileUrl().getValue()).isEqualTo(fileUrl);
+        assertThat(reportFile.getFileSize().getValue()).isEqualTo(fileSize);
     }
 
     @DisplayName("파일 논리적 삭제 케이스")
@@ -109,7 +116,7 @@ class ReportFileServiceImplTest {
 
     @DisplayName("파일 용량 제한 초과 케이스")
     @ParameterizedTest
-    @ValueSource(ints = {1000001, 2000000, 3000000, 4000000})
+    @ValueSource(longs = {1000001L, 2000000L, 3000000L, 4000000L})
     void reportLengthFail(Long size) {
         // given
         String fileName = "test fail";
@@ -123,7 +130,7 @@ class ReportFileServiceImplTest {
 
     @DisplayName("파일 용량 제한 성공 케이스")
     @ParameterizedTest
-    @ValueSource(ints = {10, 1000, 10000, 1000000})
+    @ValueSource(longs = {10L, 1000L, 10000L, 1000000L})
     void reportLengthSuccess(Long size) {
         // given
         String fileName = "test success";

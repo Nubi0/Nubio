@@ -2,11 +2,13 @@ package com.safeservice.domain.report.entity.constant.report;
 
 import com.safeservice.domain.report.exception.InvalidReportTypeException;
 import com.safeservice.global.error.ErrorCode;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public enum ReportType {
 
     TERROR("terror"),

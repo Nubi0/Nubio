@@ -30,4 +30,7 @@ public class Place extends BaseTimeEntity {
 
     @Embedded
     private Url url;
+
+    @Embedded
+    private Address address;
 }

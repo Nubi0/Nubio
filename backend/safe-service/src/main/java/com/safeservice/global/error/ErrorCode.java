@@ -8,6 +8,9 @@ public enum ErrorCode {
 
     TEST_EXCEPTION(HttpStatus.UNAUTHORIZED, "TEST-000", "에러 테스트"),
 
+    // 파일
+    FILE_FORMAT(HttpStatus.BAD_REQUEST, "F-001", "파일 형식이 잘못되었습니다."),
+    INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, "F-002", "csv 파일 형식이 잘못되었습니다."),
 
     // 안전벨
     INVALID_ADDRESS(HttpStatus.BAD_REQUEST, "SB-001", "주소 길이가 잘못되었습니다."),

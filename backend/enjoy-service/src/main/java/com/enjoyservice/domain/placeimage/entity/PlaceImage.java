@@ -2,6 +2,7 @@ package com.enjoyservice.domain.placeimage.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.placeimage.entity.type.Name;
+import com.enjoyservice.domain.placeimage.entity.type.Url;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,7 @@ public class PlaceImage extends BaseEntity {
 
     @Embedded
     private Name name;
+
+    @Embedded
+    private Url url;
 }

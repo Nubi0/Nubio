@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class Active {
 
     @Column(name = "active", nullable = false)
-    private Boolean value;
+    private boolean value = false;
 
     private Active(final boolean value) {
         this.value = value;

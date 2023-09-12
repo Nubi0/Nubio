@@ -10,6 +10,6 @@ public interface SafetyBellService {
 
     void delete(SafetyBell safetyBell);
 
-    List<SafetyBell> findWithinDistance(double longitude, double latitude, int distance);
+    List<SafetyBell> findWithinDistance(double longitude, double latitude, double distance);
 
 }

@@ -3,9 +3,10 @@ package com.safeservice.domain.safetybell.service.impl;
 import com.safeservice.domain.safetybell.entity.SafetyBell;
 import com.safeservice.domain.safetybell.mongo.SafetyBellRepository;
 import com.safeservice.domain.safetybell.service.SafetyBellService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,6 @@ import java.util.List;
 public class SafetyBellServiceImpl implements SafetyBellService {
 
     private final SafetyBellRepository safetyBellRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     @Transactional
@@ -34,7 +32,7 @@ public class SafetyBellServiceImpl implements SafetyBellService {
     }
 
     @Override
-    public List<SafetyBell> findWithinDistance(double longitude, double latitude, int distance) {
-        return null;
+    public List<SafetyBell> findWithinDistance(double longitude, double latitude, double distance) {
+        return safetyBellRepository.findByLocationNear(new Point(longitude, latitude), new Distance(distance, Metrics.KILOMETERS));
     }
 }

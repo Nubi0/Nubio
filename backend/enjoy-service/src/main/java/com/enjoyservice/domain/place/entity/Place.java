@@ -4,6 +4,7 @@ import com.enjoyservice.domain.common.BaseTimeEntity;
 import com.enjoyservice.domain.place.entity.type.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,18 @@ public class Place extends BaseTimeEntity {
 
     @Embedded
     private Active active;
+
+    @Builder
+    public Place(Long id, KakaoId kakaoId, Name name, Category category, Phone phone,
+                 Url url, Address address, Position position, Active active) {
+        this.id = id;
+        this.kakaoId = kakaoId;
+        this.name = name;
+        this.category = category;
+        this.phone = phone;
+        this.url = url;
+        this.address = address;
+        this.position = position;
+        this.active = active;
+    }
 }

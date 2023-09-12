@@ -1,11 +1,11 @@
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: test
 
-  # 개발 데이터베이스 연결
+  # 테스트 데이터베이스 연결
   datasource:
-    url: jdbc:h2:tcp://localhost/~/nubio
+    url: jdbc:h2:mem:test?serverTimezone=Asia/Seoul;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -32,4 +32,4 @@ spring:
 logging:
   level:
     org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
-    com.com.enjoyservice: trace
+    com.enjoyservice: trace

@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "place_img")
+@Table(name = "place_review_img")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaceReviewImage extends BaseEntity {
 

@@ -12,4 +12,5 @@ public interface SafetyBellService {
 
     List<SafetyBell> findWithinDistance(double longitude, double latitude, double distance);
 
+    List<SafetyBell> saveAll(List<SafetyBell> safetyBellList);
 }

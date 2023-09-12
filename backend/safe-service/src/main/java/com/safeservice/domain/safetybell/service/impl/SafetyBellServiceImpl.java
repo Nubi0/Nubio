@@ -35,4 +35,9 @@ public class SafetyBellServiceImpl implements SafetyBellService {
     public List<SafetyBell> findWithinDistance(double longitude, double latitude, double distance) {
         return safetyBellRepository.findByLocationNear(new Point(longitude, latitude), new Distance(distance, Metrics.KILOMETERS));
     }
+
+    @Override
+    public List<SafetyBell> saveAll(List<SafetyBell> safetyBellList) {
+        return safetyBellRepository.saveAll(safetyBellList);
+    }
 }

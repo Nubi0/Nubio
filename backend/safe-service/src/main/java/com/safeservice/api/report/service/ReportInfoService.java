@@ -52,11 +52,11 @@ public class ReportInfoService {
         uploadIPFiles("report", files, savedReport);
     }
 
-    public ReportResponseDto searchAll(String identificaion) {
+    public ReportResponseDto searchAll(String identification) {
         List<Report> reports = reportService.searchReport();
         List<ReportListDto> reportList = new ArrayList<>();
         for (Report report : reports) {
-            reportList.add(ReportListDto.of(report, identificaion));
+            reportList.add(ReportListDto.of(report, identification));
         }
         return ReportResponseDto.from(reportList);
     }

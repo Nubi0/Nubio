@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.course.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
+import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.Title;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,4 +17,7 @@ public class Course extends BaseEntity {
 
     @Embedded
     private Title title;
+
+    @Embedded
+    private Content content;
 }

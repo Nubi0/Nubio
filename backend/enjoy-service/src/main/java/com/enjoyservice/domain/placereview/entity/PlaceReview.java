@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.placereview.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
+import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.placereview.entity.type.Active;
 import com.enjoyservice.domain.placereview.entity.type.Content;
 import com.enjoyservice.domain.placereview.entity.type.Point;
@@ -27,4 +28,11 @@ public class PlaceReview extends BaseEntity {
 
     @Embedded
     private Active active;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Place place;
+
+    @Column(name = "member_id", nullable = false)
+    private String memberId;
 }

@@ -5,6 +5,8 @@ import com.safeservice.api.report.dto.ReportRequestDto;
 import com.safeservice.api.report.dto.ReportUpdateRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
@@ -149,6 +151,140 @@ class ReportControllerTest extends ControllerTestSupport {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.errorCode").value("400 BAD_REQUEST"))
                 .andExpect(jsonPath("$.errorMessage").value("제보Id는 필수 값 입니다."));
+    }
+
+    @DisplayName("제보 생성 경도 범위 제한 실패 케이스")
+    @ParameterizedTest
+    @ValueSource(doubles = {-10,119,151,500,1000})
+    void failLongitudeCreateReport(double num) throws Exception{
+        // given
+        ReportRequestDto request = ReportRequestDto.builder()
+                .title("title")  // title valid fail
+                .content("content")
+                .reportType("terror")
+                .longitude(num)
+                .latitude(36.36).build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        MockMultipartFile report = new MockMultipartFile("report", "report", "application/json", requestJson.getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile multipartFile1 =
+                new MockMultipartFile("file", "test.txt",
+                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8) );
+        // when then
+        mockMvc.perform(multipart("/v1/safe/report")
+                        .file(multipartFile1)
+                        .file(report)
+                        .header("Identification", "kim")
+                )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errorCode").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.errorMessage").value("경도가 범위를 벗어났습니다."));
+    }
+
+    @DisplayName("제보 생성 경도 범위 제한 실패 케이스")
+    @ParameterizedTest
+    @ValueSource(doubles = {-10,19,46,100,1000})
+    void failLatitudeCreateReport(double num) throws Exception{
+        // given
+        ReportRequestDto request = ReportRequestDto.builder()
+                .title("title")  // title valid fail
+                .content("content")
+                .reportType("terror")
+                .longitude(123.13)
+                .latitude(num).build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        MockMultipartFile report = new MockMultipartFile("report", "report", "application/json", requestJson.getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile multipartFile1 =
+                new MockMultipartFile("file", "test.txt",
+                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8) );
+        // when then
+        mockMvc.perform(multipart("/v1/safe/report")
+                        .file(multipartFile1)
+                        .file(report)
+                        .header("Identification", "kim")
+                )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errorCode").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.errorMessage").value("위도가 범위를 벗어났습니다."));
+    }
+
+    @DisplayName("제보 수정 위도 범위 제한 실패 케이스")
+    @ParameterizedTest
+    @ValueSource(doubles = {-10,119,151,500,1000})
+    void failLongitudeUpdateReport(double num) throws Exception{
+        // given
+        ReportUpdateRequestDto request = ReportUpdateRequestDto.builder()
+                .reportId(1L) // reportID valid fail
+                .title("title")
+                .content("content")
+                .reportType("terror")
+                .longitude(num)
+                .latitude(36.36).build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        MockMultipartFile report = new MockMultipartFile("report", "report", "application/json", requestJson.getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile multipartFile1 =
+                new MockMultipartFile("file", "test.txt",
+                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8) );
+        // when then
+
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/v1/safe/report");
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("PUT");
+                return request;
+            }
+        });
+        mockMvc.perform(builder
+                        .file(multipartFile1)
+                        .file(report)
+                        .header("Identification", "kim"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errorCode").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.errorMessage").value("경도가 범위를 벗어났습니다."));
+    }
+
+    @DisplayName("제보 수정 위도 범위 제한 실패 케이스")
+    @ParameterizedTest
+    @ValueSource(doubles = {-10,19,46,100,1000})
+    void failLatitudeUpdateReport(double num) throws Exception{
+        // given
+        ReportUpdateRequestDto request = ReportUpdateRequestDto.builder()
+                .reportId(1L) // reportID valid fail
+                .title("title")
+                .content("content")
+                .reportType("terror")
+                .longitude(123.13)
+                .latitude(num).build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        MockMultipartFile report = new MockMultipartFile("report", "report", "application/json", requestJson.getBytes(StandardCharsets.UTF_8));
+
+        MockMultipartFile multipartFile1 =
+                new MockMultipartFile("file", "test.txt",
+                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8) );
+        // when then
+
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/v1/safe/report");
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("PUT");
+                return request;
+            }
+        });
+        mockMvc.perform(builder
+                        .file(multipartFile1)
+                        .file(report)
+                        .header("Identification", "kim"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errorCode").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.errorMessage").value("위도가 범위를 벗어났습니다."));
     }
 
     @DisplayName("제보 조회")

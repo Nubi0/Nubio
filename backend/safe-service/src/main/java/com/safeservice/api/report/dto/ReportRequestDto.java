@@ -6,6 +6,7 @@ import com.safeservice.domain.report.entity.type.report.Active;
 import com.safeservice.domain.report.entity.type.report.Content;
 import com.safeservice.domain.report.entity.type.report.Position;
 import com.safeservice.domain.report.entity.type.report.Title;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -34,10 +36,10 @@ public class ReportRequestDto {
     @NotEmpty(message = "제보 타입은 필수 값 입니다.")
     private String reportType;
 
-    @NotNull(message = "위도는 필수 값 입니다.")
+    @Range(min = 20, max = 45, message = "위도가 범위를 벗어났습니다.")
     private double latitude;
 
-    @NotNull(message = "경도는 필수 값 입니다.")
+    @Range(min = 120, max = 150, message = "경도가 범위를 벗어났습니다.")
     private double longitude;
 
 

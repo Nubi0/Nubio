@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 
 @Getter
@@ -35,10 +36,10 @@ public class ReportUpdateRequestDto {
     @NotEmpty(message = "제보 타입은 필수 값 입니다.")
     private String reportType;
 
-    @NotNull(message = "위도는 필수 값 입니다.")
+    @Range(min = 20, max = 45, message = "위도가 범위를 벗어났습니다.")
     private double latitude;
 
-    @NotNull(message = "경도는 필수 값 입니다.")
+    @Range(min = 120, max = 150, message = "경도가 범위를 벗어났습니다.")
     private double longitude;
 
 

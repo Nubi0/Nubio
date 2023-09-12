@@ -32,4 +32,7 @@ public class Course extends BaseEntity {
 
     @Embedded
     private Active active;
+
+    @Column(name = "member_id")
+    private String memberId;
 }

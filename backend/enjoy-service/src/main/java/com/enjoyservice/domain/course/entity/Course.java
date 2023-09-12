@@ -1,10 +1,8 @@
 package com.enjoyservice.domain.course.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.enjoyservice.domain.course.entity.type.Title;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -16,5 +14,6 @@ public class Course extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+    @Embedded
+    private Title title;
 }

@@ -13,7 +13,10 @@ public enum ErrorCode {
     INVALID_PHONE_NUMBER_FORMAT(HttpStatus.BAD_REQUEST, "S-004", "해당 PhoneNumber의 형식이 잘못되었습니다."),
 
     // 장소 리뷰
-    INVALID_PLACE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "SR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다.")
+    INVALID_PLACE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "SR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다."),
+
+    // 코스
+    INVALID_REGION(HttpStatus.BAD_REQUEST, "C-001", "해당 지역은 존재하지 않습니다.")
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

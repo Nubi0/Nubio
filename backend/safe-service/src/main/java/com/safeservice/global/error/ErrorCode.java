@@ -13,7 +13,9 @@ public enum ErrorCode {
     INVALID_ADDRESS(HttpStatus.BAD_REQUEST, "SB-001", "주소 길이가 잘못되었습니다."),
     NOTHING_SAFE_BELL(HttpStatus.BAD_REQUEST, "SB-002", "주변에 안전벨이 없습니다."),
 
-
+    // 재난문자
+    INVALID_EMER_TYPE(HttpStatus.BAD_REQUEST, "EM-001", "재난 타입이 잘못됐습니다."),
+    INVALID_EMER_STAGE(HttpStatus.BAD_REQUEST, "EM-002", "긴급단계 타입이 잘못됐습니다."),
 
     // 제보
     INVALID_REPORT_TYPE(HttpStatus.BAD_REQUEST, "R-001", "제보 타입이 잘못됐습니다."),

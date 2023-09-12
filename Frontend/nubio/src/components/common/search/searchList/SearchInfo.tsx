@@ -6,16 +6,7 @@ import {
   PlaceNumber,
 } from "../../../../styles/SSearchBar";
 
-type infoProps = {
-  addres_name: string;
-  phone: string;
-  place_name: string;
-  place_url: string;
-};
-
-const PlaceInfo = ({ info }: { info: infoProps }) => {
-  // 이름 클릭시 상세보기
-  const detailItem = () => {};
+const SearchInfo = ({ info }: infoProps) => {
   return (
     <PlaceInfoWrapper>
       <PlaceName>{info.place_name}</PlaceName>
@@ -26,4 +17,4 @@ const PlaceInfo = ({ info }: { info: infoProps }) => {
   );
 };
 
-export default PlaceInfo;
+export default SearchInfo;

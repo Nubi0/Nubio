@@ -1,9 +1,9 @@
-import { DetailItemWrapper } from "../../../../styles/SSearchBar";
+import { BackButton, DetailItemWrapper } from "../../../../styles/SSearchBar";
 import PlacePhoto from "../searchList/PlacePhoto";
 import PlaceReview from "../searchList/PlaceReview";
-import PlaceInfo from "../searchList/SearchInfo";
+import SearchInfo from "../searchList/SearchInfo";
 
-const DetailItem = ({ place }: placeProps) => {
+const DetailItem = ({ place, placeList }: placeProps & placeListProps) => {
   const info = {
     addres_name: place.address_name,
     phone: place.phone,
@@ -19,11 +19,12 @@ const DetailItem = ({ place }: placeProps) => {
   };
   return (
     <DetailItemWrapper>
-      <PlaceInfo info={info} />
+      <SearchInfo info={info} />
       <div>
         <PlacePhoto photo={photo} />
         <PlaceReview review={review} />
       </div>
+      <BackButton onClick={placeList}>뒤로가기</BackButton>
     </DetailItemWrapper>
   );
 };

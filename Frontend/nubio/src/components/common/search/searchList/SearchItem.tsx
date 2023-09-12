@@ -1,5 +1,5 @@
 import { SearchItemWrapper } from "../../../../styles/SSearchBar";
-import PlaceInfo from "./SearchInfo";
+import SearchInfo from "./SearchInfo";
 import PlacePhoto from "./PlacePhoto";
 import PlaceReview from "./PlaceReview";
 
@@ -20,7 +20,7 @@ const SearchItem = ({ place }: placeProps) => {
 
   return (
     <SearchItemWrapper>
-      <PlaceInfo info={info} />
+      <SearchInfo info={info} />
       <div>
         <PlacePhoto photo={photo} />
         <PlaceReview review={review} />

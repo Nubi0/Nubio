@@ -13,3 +13,16 @@ type placeProps = {
     y: string;
   };
 };
+
+interface placeListProps {
+  placeList: () => void;
+}
+
+type infoProps = {
+  info: {
+    addres_name: string;
+    phone: string;
+    place_name: string;
+    place_url: string;
+  };
+};

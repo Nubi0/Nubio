@@ -27,13 +27,15 @@ export const SearchBarWrapper = styled.div`
 // 검색결과
 export const SearchResultWrapper = styled.div`
   width: 100%;
-  height: 350px;
+  height: 400px;
   background: white;
   margin-top: 1rem;
   border: 0.1rem solid black;
   border-radius: 1rem;
   overflow: scroll;
 `;
+export const BackButton = styled.button``;
+
 export const SearchItemWrapper = styled.div`
   padding: 0.5rem;
   margin-top: 1rem;
@@ -48,10 +50,24 @@ export const PlaceName = styled.div`
 
 export const PlaceAddress = styled.div`
   font-size: 0.5rem;
-  margin-top: 0.25rem;
+  margin: 0.25rem;
 `;
-
+export const PlaceNumber = styled.div`
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+`;
 export const PlaceHome = styled.a`
+  text-decoration: none;
+  color: #f9373f;
+  border: 1px solid #f9373f;
+  font-size: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+`;
+export const DetailButton = styled.button`
+  position: relative;
+  top: -3.15rem;
+  left: 4rem;
   text-decoration: none;
   color: #f9373f;
   border: 1px solid #f9373f;
@@ -59,13 +75,8 @@ export const PlaceHome = styled.a`
   padding: 0.25rem;
   margin-top: 1rem;
   border-radius: 0.5rem;
+  background: transparent;
 `;
-
-export const PlaceNumber = styled.div`
-  margin-top: 0.25rem;
-  font-size: 0.8rem;
-`;
-
 export const PlacePhotoWrapper = styled.div`
   display: flex;
   justify-content: space-between;

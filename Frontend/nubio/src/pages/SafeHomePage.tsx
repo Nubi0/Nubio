@@ -31,7 +31,6 @@ const SafeHomePage = () => {
       <MapWrapper id="map" />
       <LogoIcon src={logo} />
       <SearchBar />
-      {/* <DetailItem /> */}
       <Footer />
     </SafeHomeWrapper>
   );

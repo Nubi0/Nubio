@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { SearchResultWrapper } from "../../../../styles/SSearchBar";
+import {
+  SearchResultWrapper,
+  DetailButton,
+} from "../../../../styles/SSearchBar";
 import DetailItem from "../detailSearch/DetailItem";
 import SearchItem from "./SearchItem";
 
@@ -71,18 +74,30 @@ const SearchList = () => {
       y: "37.26390632559984",
     },
   ];
-  // 장소 상세보기
-  const [isDetail, setIsDetail] = useState(false);
+
+  // 상세보기
+  const [isDetail, SetIsDetail] = useState(false);
   const detailPlace = () => {
-    setIsDetail(true);
+    SetIsDetail(true);
+  };
+  const placeList = () => {
+    SetIsDetail(false);
   };
   return (
     <SearchResultWrapper>
       {place_list.map((place, index) => {
         return (
           <>
-            <SearchItem key={index} place={place} />
-            <DetailItem key={index} onClick={detailPlace} place={place} />
+            {isDetail ? (
+              <>
+                <DetailItem key={index} place={place} placeList={placeList} />
+              </>
+            ) : (
+              <>
+                <SearchItem key={index} place={place} />
+                <DetailButton onClick={detailPlace}>상세보기</DetailButton>
+              </>
+            )}
           </>
         );
       })}

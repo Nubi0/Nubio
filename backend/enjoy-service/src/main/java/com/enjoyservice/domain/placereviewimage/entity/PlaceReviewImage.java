@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.placereviewimage.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
+import com.enjoyservice.domain.placereview.entity.PlaceReview;
 import com.enjoyservice.domain.placereviewimage.entity.type.Name;
 import com.enjoyservice.domain.placereviewimage.entity.type.Url;
 import jakarta.persistence.*;
@@ -21,4 +22,8 @@ public class PlaceReviewImage extends BaseEntity {
 
     @Embedded
     private Url url;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_review_id")
+    private PlaceReview placeReview;
 }

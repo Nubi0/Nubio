@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.tag.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
+import com.enjoyservice.domain.tag.entity.type.Active;
 import com.enjoyservice.domain.tag.entity.type.Name;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,5 +17,8 @@ public class Tag extends BaseEntity {
 
     @Embedded
     private Name name;
+
+    @Embedded
+    private Active active;
 
 }

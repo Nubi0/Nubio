@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report,Long> {
 
-    @Query("select r from Report r join fetch r.reportFiles")
+    @Query("select r from Report r left join fetch r.reportFiles")
     List<Report> searchAll();
 }

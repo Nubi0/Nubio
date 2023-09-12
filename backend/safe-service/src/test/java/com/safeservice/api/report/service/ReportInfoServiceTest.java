@@ -55,6 +55,11 @@ class ReportInfoServiceTest {
         beforeReport = reportRepository.save(firstReport);
     }
 
+    @AfterEach
+    void after() {
+        reportRepository.deleteAll();
+    }
+
 
     @Test
     @DisplayName("제보 생성 케이스")
@@ -118,7 +123,6 @@ class ReportInfoServiceTest {
                 .isInstanceOf(MisMatchIdentification.class);
     }
 
-    @Test
     @ParameterizedTest
     @ValueSource(ints = {2,4,6})
     @Transactional
@@ -144,10 +148,19 @@ class ReportInfoServiceTest {
         // when
         ReportResponseDto reportResponseDto = reportInfoService.searchAll(identification);
         // then
-        assertThat(reportResponseDto.getReportList().size()).isEqualTo(length);
+        assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
     }
 
     @Test
     void uploadIPFiles() {
+        List<MultipartFile> files = new ArrayList<>();
+        MockMultipartFile file =
+                new MockMultipartFile("file", "test.txt",
+                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8));
+        files.add(file);
+
+        // when then
+        assertThatCode(() -> reportInfoService.uploadIPFiles("report",files,beforeReport))
+                .doesNotThrowAnyException();
     }
 }

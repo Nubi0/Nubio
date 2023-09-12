@@ -1,6 +1,5 @@
 package com.safeservice.domain.report.service.Impl;
 
-import com.safeservice.config.AwsS3MockConfig;
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.ReportFile;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
@@ -12,11 +11,9 @@ import com.safeservice.domain.report.entity.type.reportfile.FileName;
 import com.safeservice.domain.report.entity.type.reportfile.FileSize;
 import com.safeservice.domain.report.entity.type.reportfile.FileUrl;
 import com.safeservice.domain.report.exception.InvalidFileSizeException;
-import com.safeservice.domain.report.exception.InvalidTitleLengthException;
 import com.safeservice.domain.report.repository.ReportFileRepository;
 import com.safeservice.domain.report.repository.ReportRepository;
 import com.safeservice.domain.report.service.ReportFileService;
-import io.findify.s3mock.S3Mock;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

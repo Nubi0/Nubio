@@ -1,14 +1,10 @@
 package com.safeservice.domain.report.service.Impl;
-
 import com.safeservice.domain.report.entity.Report;
-import com.safeservice.domain.report.entity.ReportFile;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
 import com.safeservice.domain.report.entity.type.report.Active;
 import com.safeservice.domain.report.entity.type.report.Content;
 import com.safeservice.domain.report.entity.type.report.Position;
 import com.safeservice.domain.report.entity.type.report.Title;
-import com.safeservice.domain.report.entity.type.reportfile.FileName;
-import com.safeservice.domain.report.entity.type.reportfile.FileUrl;
 import com.safeservice.domain.report.exception.InvalidTitleLengthException;
 import com.safeservice.domain.report.exception.MisMatchIdentification;
 import com.safeservice.domain.report.repository.ReportFileRepository;
@@ -24,7 +20,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

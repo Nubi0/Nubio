@@ -2,7 +2,7 @@ import {
   PlaceReviewWrapper,
   Score,
   ReviewCount,
-} from "../../../../styles/SLikePage";
+} from "../../../../styles/SSearchBar";
 import Stars from "./Stars";
 
 const PlaceReview = ({ review }: { review: reviewProps }) => {

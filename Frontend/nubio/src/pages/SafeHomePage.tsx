@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { MapWrapper, SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
-
-import SearchBar from "../components/common/SearchBar";
+import SearchBar from "../components/common/search/SearchBar";
 import Footer from "../components/common/Footer";
 import SafeGuideModal from "../components/safeHome/safeGuide/SafeGuideModal";
+// import DetailItem from "../components/common/search/detailSearch/DetailItem";
 
 declare global {
   interface Window {

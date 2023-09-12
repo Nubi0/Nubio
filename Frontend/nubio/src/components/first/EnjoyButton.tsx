@@ -1,13 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import { EnjoyButtonWrapper } from "../../styles/SHomePage";
 
 const EnjoyButton = () => {
-    return(
-        <EnjoyButtonWrapper>
-            <button>
-                흥미
-            </button>
-        </EnjoyButtonWrapper>
-    );
+  const navigate = useNavigate();
+  return (
+    <EnjoyButtonWrapper>
+      <button
+        onClick={() => {
+          navigate("/enjoy");
+        }}
+      >
+        흥미
+      </button>
+    </EnjoyButtonWrapper>
+  );
 };
 
 export default EnjoyButton;

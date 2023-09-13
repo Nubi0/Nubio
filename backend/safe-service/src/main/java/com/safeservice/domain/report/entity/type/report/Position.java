@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Position {
 
-    @Column(name = "address", nullable = false)
+    @Column(nullable = false)
     private double longitude;
+    @Column(nullable = false)
     private double latitude;
 
     private Position(final double longitude, final double latitude) {

@@ -54,7 +54,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<Report> searchReport() {
-        return reportRepository.searchAll();
+        return reportRepository.searchAllReport();
     }
 
 }

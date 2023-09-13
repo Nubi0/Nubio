@@ -6,8 +6,11 @@ import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,5 +23,10 @@ public class PlaceServiceImpl implements PlaceService {
     public Place findById(long id) {
         return placeRepository.findById(id)
                 .orElseThrow(() -> new PlaceNotFoundException(ErrorCode.PLACE_NOT_FOUND));
+    }
+
+    @Override
+    public List<Place> findOneByIdFetchImage(Long id) {
+        return placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
     }
 }

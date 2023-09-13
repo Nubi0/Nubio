@@ -5,6 +5,8 @@ import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.facility.mongo.SafetyFacilityRepository;
 import com.safeservice.domain.facility.service.SafetyFacilityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,10 @@ public class SafetyFacilityServiceImpl implements SafetyFacilityService {
     @Override
     public List<SafetyFacility> findFacilityNear(Point point, Distance distance, FacilityType facilityType) {
         return safetyFacilityRepository.findByLocationNearAndFacilityTypeIs(point, distance, facilityType);
+    }
+
+    @Override
+    public Page<SafetyFacility> findFacilityNearWithPaging(Point point, Distance distance, FacilityType facilityType, Pageable pageable) {
+        return safetyFacilityRepository.findByLocationNearAndFacilityTypeIs(point, distance, facilityType, pageable);
     }
 }

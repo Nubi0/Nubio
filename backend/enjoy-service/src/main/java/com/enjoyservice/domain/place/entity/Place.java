@@ -42,9 +42,8 @@ public class Place extends BaseTimeEntity {
     private Active active;
 
     @Builder
-    public Place(Long id, KakaoId kakaoId, Name name, Category category, Phone phone,
+    public Place(KakaoId kakaoId, Name name, Category category, Phone phone,
                  Url url, Address address, Position position, Active active) {
-        this.id = id;
         this.kakaoId = kakaoId;
         this.name = name;
         this.category = category;

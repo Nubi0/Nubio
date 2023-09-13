@@ -36,4 +36,9 @@ public class SafetyFacilityServiceImpl implements SafetyFacilityService {
     public Page<SafetyFacility> findFacilityNearWithPaging(Point point, Distance distance, FacilityType facilityType, Pageable pageable) {
         return safetyFacilityRepository.findByLocationNearAndFacilityTypeIs(point, distance, facilityType, pageable);
     }
+
+    @Override
+    public List<SafetyFacility> saveAll(List<SafetyFacility> safetyFacilityLsit) {
+        return safetyFacilityRepository.saveAll(safetyFacilityLsit);
+    }
 }

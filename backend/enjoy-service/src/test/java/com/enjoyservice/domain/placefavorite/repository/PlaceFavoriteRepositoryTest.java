@@ -60,7 +60,7 @@ class PlaceFavoriteRepositoryTest {
                 .build();
         PlaceFavorite savedPlaceFavorite = placeFavoriteRepository.saveAndFlush(placeFavorite);
         // when
-        boolean result = placeFavoriteRepository.existsByMemberId(memberId);
+        boolean result = placeFavoriteRepository.existsByMemberIdAndPlace(memberId, savedPlace);
         // then
         assertThat(result).isTrue();
     }
@@ -81,7 +81,7 @@ class PlaceFavoriteRepositoryTest {
                 .build();
         PlaceFavorite savedPlaceFavorite = placeFavoriteRepository.saveAndFlush(placeFavorite);
         // when
-        boolean result = placeFavoriteRepository.existsByMemberId(targetMemberId);
+        boolean result = placeFavoriteRepository.existsByMemberIdAndPlace(targetMemberId, savedPlace);
         // then
         assertThat(result).isFalse();
     }

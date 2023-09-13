@@ -13,7 +13,8 @@ public enum FacilityType {
 
     SAFETY_BELL("safety_bell"),
     POLICE("police"),
-    LAMP("lamp");
+    LAMP("lamp"),
+    CONVENIENCE_STORE("convenience_store");
 
     private final String description;
 

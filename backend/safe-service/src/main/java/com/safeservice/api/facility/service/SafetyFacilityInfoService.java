@@ -27,7 +27,7 @@ public class SafetyFacilityInfoService {
 
     private final SafetyFacilityService safetyFacilityService;
 
-    public void registerSafetyBell(MultipartFile file){
+    public void registerSafetyBell(MultipartFile file, FacilityType facilityType){
 
         if (!StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), ".csv")) {
             throw  new BusinessException(ErrorCode.INVALID_CSV_FORMAT);
@@ -47,7 +47,7 @@ public class SafetyFacilityInfoService {
                     .map(safeBellDto -> SafetyFacility.builder()
                             .address(safeBellDto.getAddress())
                             .location(new Point(safeBellDto.getLongitude(), safeBellDto.getLatitude()))
-                            .facilityType(FacilityType.SAFETY_BELL)
+                            .facilityType(facilityType)
                             .build())
                     .collect(Collectors.toList());
 

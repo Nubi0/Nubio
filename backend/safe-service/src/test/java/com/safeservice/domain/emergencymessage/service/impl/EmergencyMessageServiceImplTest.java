@@ -36,10 +36,6 @@ class EmergencyMessageServiceImplTest {
     @Autowired
     private EmergencyMessageRepository emergencyMessageRepository;
 
-    private EmergencyMessage beforeEM;
-    private EmergencyMessage firstEM;
-
-
     @AfterEach
     void after() {
         emergencyMessageRepository.deleteAll();

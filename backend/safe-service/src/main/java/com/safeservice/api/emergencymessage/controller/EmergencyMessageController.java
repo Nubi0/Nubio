@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class EmergencyMessageController {
 
     private final EmergencyMessageInfoService emergencyMessageInfoService;
-    private final KakaoMapClient kakaoMapClient;
-
-    @Value("${cloud.openfeign.client.config.feignName.appKey}")
-    private String appKey;
 
     @PostMapping("/emergency")
     public ApiResponse<String> createEmergencyMessage(@Identification IdentificationDto identificationDto,
@@ -32,9 +28,9 @@ public class EmergencyMessageController {
 
 
     @PostMapping("/check")
-    public ApiResponse<EMResponseDto> EmergencyMessage(@RequestBody EMAddressDto emAddressDto) {
-        EMResponseDto emergencyMessages = emergencyMessageInfoService.checkEM(kakaoMapClient.requestKakaoToken
-                (appKey, emAddressDto.getLongitude(), emAddressDto.getLatitude()));
+    public ApiResponse<EMResponseDto> EmergencyMessage(@Identification IdentificationDto identificationDto,
+                                                       @RequestBody EMAddressDto emAddressDto) {
+        EMResponseDto emergencyMessages = emergencyMessageInfoService.checkEM(emAddressDto);
         return ApiResponse.ok(emergencyMessages);
     }
 }

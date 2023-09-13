@@ -12,13 +12,18 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class EMResponseDto {
 
     @JsonProperty("emergency_messages")
     private List<EMInfoDto> emergencyMessages;
 
-    public static EMResponseDto from(List<EMInfoDto> emInfoDtos) {
+    @JsonProperty("emergency_message_flag")
+    private boolean emergencyMessageFlag;
+
+    public static EMResponseDto from(List<EMInfoDto> emInfoDtos, boolean emergencyMessageFlag) {
         return EMResponseDto.builder()
-                .emergencyMessages(new ArrayList<>(emInfoDtos)).build();
+                .emergencyMessages(new ArrayList<>(emInfoDtos))
+                .emergencyMessageFlag(emergencyMessageFlag).build();
     }
 }

@@ -6,10 +6,12 @@ import com.enjoyservice.domain.placeimage.entity.type.Name;
 import com.enjoyservice.domain.placeimage.entity.type.Url;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "place_img")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaceImage extends BaseEntity {
 

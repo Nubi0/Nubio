@@ -104,6 +104,6 @@ class PlaceRepositoryTest {
         // when
         List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
         // then
-        assertThat(result).hasSize(0);
+        assertThat(result).hasSize(1);
     }
 }

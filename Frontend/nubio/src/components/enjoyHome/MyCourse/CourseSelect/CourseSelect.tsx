@@ -4,6 +4,7 @@ import {
   CourseMaker,
   MapWrapper,
 } from '../../../../styles/SCourseSelectPage';
+import CoursePinList from './CourseList';
 
 declare global {
   interface Window {
@@ -13,10 +14,48 @@ declare global {
 
 const CourseSelect = () => {
   const [manager, setManager] = useState<any>(null);
+  const [map, setMap] = useState<any>(null);
+  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy1.jpg'
+  const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy2.jpg';
 
-  manager.addListener('drawend', () => {
-    calculateAndDisplayLineDistances();
-  });
+  var positions = [
+    {
+        title: '카카오', 
+        latlng: new kakao.maps.LatLng(33.450705, 126.570677),
+        img_url: dummy1
+    },
+    {
+        title: '생태연못', 
+        latlng: new kakao.maps.LatLng(33.450936, 126.569477),
+        img_url: dummyUrl,
+    },
+    {
+        title: '텃밭', 
+        latlng: new kakao.maps.LatLng(33.450879, 126.569940),
+        img_url: dummyUrl,
+    },
+    {
+        title: '근린공원',
+        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
+        img_url: dummyUrl
+    }
+];
+
+  // 커스텀 마커 생성
+  
+  for (var i = 0; i < positions.length; i ++) {
+  
+    const customOverlay = new window.kakao.maps.CustomOverlay({
+      content: `
+        <div>
+          <img class="custom-marker" src="${positions[i].img_url}" alt="Custom Marker" />
+        </div>
+      `,
+      position: positions[i].latlng,
+    });
+  
+    customOverlay.setMap(map);
+  }
 
   const selectOverlay = (type: any) => {
     // 그리기 중이면 그리기를 취소합니다
@@ -30,9 +69,9 @@ const CourseSelect = () => {
 
   // 그려진 선의 데이터를 받아오는 함수
   const getDrawnLines = () => {
-    const drawnData = manager.getData();
-    const drawnPolylines = drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
-    return drawnPolylines;
+      const drawnData = manager.getData();
+      const drawnPolylines = drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
+      return drawnPolylines;
   };
 
   // 거리계산 공식
@@ -101,7 +140,7 @@ const CourseSelect = () => {
       };
 
       const drawingMap = new window.kakao.maps.Map(drawingMapContainer, drawingoption);
-
+      setMap(drawingMap);
       const options = {
         map: drawingMap,
         drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
@@ -117,10 +156,15 @@ const CourseSelect = () => {
           strokeColor: '#39f',
           hintStrokeStyle: 'dash',
           hintStrokeOpacity: 0.5,
+          zIndex: 1000,
         },
       };
       // Drawing Manager 초기화 및 사용 코드 추가
       const managerInstance = new window.kakao.maps.drawing.DrawingManager(options);
+      managerInstance.addListener('drawend', () => {
+        calculateAndDisplayLineDistances();
+      });
+      console.log(managerInstance);
       setManager(managerInstance);
     } else {
       console.error('Kakao Maps Drawing Library is not available.');
@@ -133,6 +177,7 @@ const CourseSelect = () => {
       <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
         코스 그리기
       </CourseMaker>
+      <CoursePinList positions={positions} />
     </CourseSelectWrapper>
   );
 };

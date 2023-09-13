@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const CourseSelectPageWrapper = styled.div`
   position: relative;
+  height: 100%;
 `;
 
 export const CourseSelectWrapper = styled.div`
-  height: calc(904px - 5.4rem);
+  height: 100%;
   .custom-marker {
     width: 3rem;
     height: 3rem;
@@ -26,11 +27,17 @@ export const MapWrapper = styled.div`
 
 export const CourseMaker = styled.button`
   position: absolute;
-  top: 0.25rem;
+  top: 1rem;
   right: 1rem;
   border: none;
   background-color: transparent;
   font-size: 1rem;
+`;
+
+export const ModalOpen = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 50%;
 `;
 
 export const CoursePinWrapper = styled.div`
@@ -48,4 +55,58 @@ display: flex;
   position: absolute;
   top: 7rem;
   left: 2rem;
+`;
+
+export const CourseSelectModalWrapper = styled.div`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+`;
+export const Modal = styled.div`
+  background-color: white;
+  width: 90%;
+  border-radius: 0.5rem;
+`;
+
+export const ModalTitle = styled.div`
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  input{
+    margin-top: 0.8rem;
+    border: none;
+    width: 100%;
+    font-size: 2rem;
+  }
+  padding: 0.5rem;
+`;
+
+export const ModalBody = styled.div`
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+`;
+
+export const ItemWrapper = styled.div`
+  display: flex;
+`;
+
+export const ModalFooter = styled.div`
+  border-top: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  button{
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  hr{
+  }
 `;

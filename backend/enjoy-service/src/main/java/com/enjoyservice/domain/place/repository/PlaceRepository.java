@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    @Query("select p, pi from Place p inner join fetch PlaceImage pi on p = pi.place where p.id = :id")
+    @Query("select p, pi from Place p left join fetch PlaceImage pi on p = pi.place where p.id = :id")
     List<Place> findOneByIdFetchImage(@Param("id") Long id, Pageable pageable);
 }

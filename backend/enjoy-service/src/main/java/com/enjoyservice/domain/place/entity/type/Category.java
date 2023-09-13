@@ -4,9 +4,11 @@ import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 

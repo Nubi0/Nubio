@@ -71,4 +71,36 @@ class PlaceLikeRepositoryTest {
         // then
         assertThat(result).isEqualTo(targetCount);
     }
+
+    @DisplayName("Place로 해당 Place의 PlaceLike 모두 조회하기")
+    @Test
+    void PlaceLikeRepositoryTest() {
+        // given
+        // 장소 1개 만들기
+        Place place = generatePlace(0, GroupCode.CS2, GroupName.편의점);
+        Place savedPlace = placeRepository.saveAndFlush(place);
+
+        // 좋아요 처리
+        int targetCount = 5; // 저장할 좋아요 개수
+        for(int memberIndex = 0; memberIndex < targetCount; memberIndex++) {
+            String memberId = "UUID" + memberIndex; // memberId 생성
+            PlaceLike placeLike = PlaceLike.builder()
+                    .memberId(memberId)
+                    .place(savedPlace)
+                    .build();
+            placeLikeRepository.saveAndFlush(placeLike);
+        }
+        // when
+        List<PlaceLike> results = placeLikeRepository.findAllByPlace(savedPlace);
+        // then
+        assertThat(results).hasSize(targetCount)
+                .extracting("memberId", "place")
+                .containsExactlyInAnyOrder(
+                        tuple("UUID" + 0, savedPlace),
+                        tuple("UUID" + 1, savedPlace),
+                        tuple("UUID" + 2, savedPlace),
+                        tuple("UUID" + 3, savedPlace),
+                        tuple("UUID" + 4, savedPlace)
+                );
+    }
 }

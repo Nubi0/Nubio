@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface EmergencyMessageRepository extends JpaRepository<EmergencyMessage, Long> {
 
-    @Query("SELECT em FROM EmergencyMessage em WHERE em.occurredTime.value >= :fifteenMinutesAgo ORDER BY em.occurredTime.value DESC")
-    List<EmergencyMessage> findLatestEmergencyMessage(@Param("fifteenMinutesAgo") LocalDateTime fifteenMinutesAgo);
+    @Query("SELECT em FROM EmergencyMessage em WHERE em.occurredTime.value >= :fifteenMinutesAgo " +
+            "and em.address.city like :city% ORDER BY em.occurredTime.value DESC")
+    List<EmergencyMessage> findLatestEmergencyMessage(@Param("fifteenMinutesAgo") LocalDateTime fifteenMinutesAgo,
+                                                      @Param("city") String city);
 }

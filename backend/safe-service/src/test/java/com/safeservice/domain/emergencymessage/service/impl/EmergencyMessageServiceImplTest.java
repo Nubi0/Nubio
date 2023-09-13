@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@Transactional
 class EmergencyMessageServiceImplTest {
 
     @Autowired
@@ -47,7 +48,6 @@ class EmergencyMessageServiceImplTest {
 
     @DisplayName("재난문자 저장 성공 케이스")
     @Test
-    @Transactional
     void save() {
         // given
         EmergencyMessage originEM = EmergencyMessage.builder()
@@ -97,7 +97,7 @@ class EmergencyMessageServiceImplTest {
         LocalDateTime checkTime = LocalDateTime.of(2023, 9, 13, 2, fifteenMinutesAgo, 30);
 
         // when
-        List<EmergencyMessage> emergencyMessages = emergencyMessageService.searchLatestEM(checkTime);
+        List<EmergencyMessage> emergencyMessages = emergencyMessageService.searchLatestEM(checkTime, "대구시");
 
         // then
         assertThat(emergencyMessages.size()).isEqualTo(length);
@@ -105,7 +105,6 @@ class EmergencyMessageServiceImplTest {
 
     @DisplayName("재난문자 타입 오류 실패 케이스")
     @Test
-    @Transactional
     void typeFailSave() {
         // given
         String wrongStr = "잘못된 입력";
@@ -117,7 +116,6 @@ class EmergencyMessageServiceImplTest {
 
     @DisplayName("재난문자 타입 오류 실패 케이스")
     @Test
-    @Transactional
     void stageFailSave() {
         // given
         String wrongStr = "잘못된 입력";

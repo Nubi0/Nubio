@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "emergency_message")
 public class EmergencyMessage {
 
     @Id

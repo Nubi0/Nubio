@@ -24,8 +24,8 @@ public class EmergencyMessageServiceImpl implements EmergencyMessageService {
     }
 
     @Override
-    public List<EmergencyMessage> searchLatestEM(LocalDateTime fifteenMinutesAgo) {
-        return emergencyMessageRepository.findLatestEmergencyMessage(fifteenMinutesAgo);
+    public List<EmergencyMessage> searchLatestEM(LocalDateTime fifteenMinutesAgo, String city) {
+        return emergencyMessageRepository.findLatestEmergencyMessage(fifteenMinutesAgo, city);
     }
 
 }

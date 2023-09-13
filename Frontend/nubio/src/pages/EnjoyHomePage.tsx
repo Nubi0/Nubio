@@ -4,6 +4,7 @@ import Banner from "../components/enjoyHome/Home/Banner";
 import CustomCourseList from "../components/enjoyHome/Home/customCourse/CustomCourseList";
 import Footer from "../components/common/Footer";
 import { EnjoyHomePageWrapper } from "../styles/SEnjoyHomePage";
+import CourseMakerIcon from "../components/enjoyHome/Home/CourseMakerIcon";
 
 const EnjoyHomePage = () => {
     return(
@@ -13,6 +14,7 @@ const EnjoyHomePage = () => {
         <AllButton />
         <CustomCourseList />
         <Footer />
+        <CourseMakerIcon />
       </EnjoyHomePageWrapper>  
     );
 }

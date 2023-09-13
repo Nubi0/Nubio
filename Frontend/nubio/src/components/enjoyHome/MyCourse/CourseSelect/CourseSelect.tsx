@@ -3,6 +3,7 @@ import {
   CourseSelectWrapper,
   CourseMaker,
   MapWrapper,
+  ModalOpen
 } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
 
@@ -12,7 +13,7 @@ declare global {
   }
 }
 
-const CourseSelect = () => {
+const CourseSelect = ({setModal}: any) => {
   const [manager, setManager] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
   const dummy1 = process.env.PUBLIC_URL + '/assets/dummy1.jpg'
@@ -177,6 +178,7 @@ const CourseSelect = () => {
       <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
         코스 그리기
       </CourseMaker>
+      <ModalOpen onClick={setModal}>모달 열기</ModalOpen>
       <CoursePinList positions={positions} />
     </CourseSelectWrapper>
   );

@@ -3,3 +3,4 @@ spring:
     active: dev
     include:
       - s3
+      - map

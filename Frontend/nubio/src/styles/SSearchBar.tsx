@@ -25,6 +25,9 @@ export const SearchBarWrapper = styled.div`
   }
 `;
 
+// 검색 폼
+export const SearchForm = styled.form``;
+
 // 검색결과
 export const SearchResultWrapper = styled.div`
   max-width: 100%;

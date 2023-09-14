@@ -1,23 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./router";
-
+import { Provider } from "react-redux";
+import { store } from "./redux/slice/KakaoMap";
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {routes.map((e) => {
-            return (
-              <Route
-                key={e.path}
-                path={e.path}
-                element={<e.Component></e.Component>}
-              />
-            );
-          })}
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            {routes.map((e) => {
+              return (
+                <Route
+                  key={e.path}
+                  path={e.path}
+                  element={<e.Component></e.Component>}
+                />
+              );
+            })}
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 

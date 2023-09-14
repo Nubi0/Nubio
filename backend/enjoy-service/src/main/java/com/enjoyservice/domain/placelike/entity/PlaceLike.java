@@ -14,7 +14,6 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "place_like")
 @SQLDelete(sql = "UPDATE place_like SET active = false WHERE id = ?")
-@Where(clause = "active = true")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaceLike extends BaseEntity {

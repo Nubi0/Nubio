@@ -2,6 +2,7 @@ package com.enjoyservice.domain.placelike.repository;
 
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
+import com.enjoyservice.domain.placelike.entity.type.Active;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +19,6 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
 
     void deleteByMemberIdAndPlace(String memberId, Place place);
 
-    Optional<PlaceLike> findByMemberIdAndPlace(String memberId, Place place);
+    Optional<PlaceLike> findByMemberIdAndPlaceAndActive(String memberId, Place place, Active active);
+
 }

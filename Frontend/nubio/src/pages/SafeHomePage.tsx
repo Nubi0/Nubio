@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { MapWrapper, SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
+import {  SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
 import SearchBar from "../components/common/search/SearchBar";
 import Footer from "../components/common/Footer";
 import SafeGuideModal from "../components/safeHome/safeGuide/SafeGuideModal";
@@ -28,7 +28,7 @@ const SafeHomePage = () => {
   return (
     <SafeHomeWrapper>
       <SafeGuideModal />
-      <MapWrapper id="map" />
+      {/* <MapWrapper id="map" /> */}
       <LogoIcon src={logo} />
       <SearchBar />
       <Footer />

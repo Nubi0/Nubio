@@ -14,4 +14,6 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
     int getCountByPlace(@Param("place") Place place);
 
     List<PlaceLike> findAllByPlace(Place place);
+
+    void deleteByMemberIdAndPlace(String memberId, Place place);
 }

@@ -2,11 +2,15 @@ package com.enjoyservice.domain.place.entity;
 
 import com.enjoyservice.domain.common.BaseTimeEntity;
 import com.enjoyservice.domain.place.entity.type.*;
+import com.enjoyservice.domain.placeimage.entity.PlaceImage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,10 +45,12 @@ public class Place extends BaseTimeEntity {
     @Embedded
     private Active active;
 
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlaceImage> images = new ArrayList<>();
+
     @Builder
-    public Place(Long id, KakaoId kakaoId, Name name, Category category, Phone phone,
+    public Place(KakaoId kakaoId, Name name, Category category, Phone phone,
                  Url url, Address address, Position position, Active active) {
-        this.id = id;
         this.kakaoId = kakaoId;
         this.name = name;
         this.category = category;
@@ -53,5 +59,10 @@ public class Place extends BaseTimeEntity {
         this.address = address;
         this.position = position;
         this.active = active;
+    }
+
+    public void addImage(PlaceImage placeImage) {
+        images.add(placeImage);
+        placeImage.updatePlace(this);
     }
 }

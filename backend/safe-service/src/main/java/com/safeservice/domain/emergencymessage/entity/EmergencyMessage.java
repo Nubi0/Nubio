@@ -1,6 +1,7 @@
 package com.safeservice.domain.emergencymessage.entity;
 
 
+import com.safeservice.domain.common.BaseTimeEntity;
 import com.safeservice.domain.emergencymessage.entity.constant.EmerStage;
 import com.safeservice.domain.emergencymessage.entity.constant.EmerType;
 import com.safeservice.domain.emergencymessage.entity.type.Address;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "emergency_message")
-public class EmergencyMessage {
+public class EmergencyMessage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

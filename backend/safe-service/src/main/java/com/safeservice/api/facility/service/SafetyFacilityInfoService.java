@@ -3,13 +3,20 @@ package com.safeservice.api.facility.service;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.safeservice.api.facility.dto.request.NearSafetyFacility;
 import com.safeservice.api.facility.dto.request.SafetyFacilityDto;
+import com.safeservice.api.facility.dto.response.NearSafetyPageResponseDto;
+import com.safeservice.api.facility.dto.response.NearSafetyResponseDto;
 import com.safeservice.domain.facility.constant.FacilityType;
 import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.facility.service.SafetyFacilityService;
 import com.safeservice.global.error.ErrorCode;
 import com.safeservice.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,10 +34,18 @@ public class SafetyFacilityInfoService {
 
     private final SafetyFacilityService safetyFacilityService;
 
-    public void registerSafetyBell(MultipartFile file, FacilityType facilityType){
+    public NearSafetyPageResponseDto findFacilityNearWithPaging(NearSafetyFacility nearSafetyFacility, FacilityType facilityType, Pageable pageable) {
+        Point point = new Point(nearSafetyFacility.getLongitude(), nearSafetyFacility.getLatitude());
+        Distance distance = new Distance(nearSafetyFacility.getDistance(), Metrics.KILOMETERS);
+        Page<SafetyFacility> facilityNearWithPaging = safetyFacilityService.findFacilityNearWithPaging(point, distance, facilityType, pageable);
+        return  NearSafetyPageResponseDto.from(facilityNearWithPaging);
+    }
+
+
+    public void registerSafetyBell(MultipartFile file, FacilityType facilityType) {
 
         if (!StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), ".csv")) {
-            throw  new BusinessException(ErrorCode.INVALID_CSV_FORMAT);
+            throw new BusinessException(ErrorCode.INVALID_CSV_FORMAT);
         }
 
         try {

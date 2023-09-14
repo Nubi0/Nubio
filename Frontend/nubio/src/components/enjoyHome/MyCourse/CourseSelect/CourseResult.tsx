@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { CourseResultWrapper, Title, Data } from "../../../../styles/SCourseSelectPage";
+import { CourseResultWrapper, Title, Data, ModalOpen } from "../../../../styles/SCourseSelectPage";
 
-const CourseResult = ({data}: {data: t_d_DataProps}) => {
+const CourseResult = ({data, setModal}: {data: t_d_DataProps, setModal: any}) => {
     const {time, type, dis} = data;
     const hours = new Date().getHours();
     const min = new Date().getMinutes();
@@ -41,6 +41,9 @@ const CourseResult = ({data}: {data: t_d_DataProps}) => {
                 <div>{calTime.hour} : {calTime.min} 도착</div>
                 <div>{dis}m</div>
             </Data>
+            <ModalOpen onClick={setModal}>
+                저장
+            </ModalOpen>
         </CourseResultWrapper>
     )
 }

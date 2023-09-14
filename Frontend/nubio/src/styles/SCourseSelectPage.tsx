@@ -36,8 +36,10 @@ export const CourseMaker = styled.button`
 
 export const ModalOpen = styled.button`
   position: absolute;
-  top: 1rem;
-  right: 50%;
+  bottom: 2.25rem;
+  right: 1rem;
+  border: none;
+  background-color: transparent;
 `;
 
 export const CoursePinWrapper = styled.div`

@@ -3,7 +3,6 @@ import {
   CourseSelectWrapper,
   CourseMaker,
   MapWrapper,
-  ModalOpen
 } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
@@ -15,8 +14,8 @@ declare global {
 }
 
 const CourseSelect = ({setModal}: any) => {
-  const [manager, setManager] = useState<any>(null);
   let drawnData: any = null;
+  const [manager, setManager] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
   const [timeData, setTimeData] = useState<t_d_DataProps | null>(null)
   const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg'
@@ -63,6 +62,7 @@ const CourseSelect = ({setModal}: any) => {
 
   const selectOverlay = (type: any) => {
     setTimeData(null);
+
     // 그리기 중이면 그리기를 취소합니다
     manager.cancel();
 
@@ -171,11 +171,8 @@ const CourseSelect = ({setModal}: any) => {
       <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
         코스 그리기
       </CourseMaker>
-      <ModalOpen onClick={setModal}>
-        모달 열기
-      </ModalOpen>
       <CoursePinList positions={positions} />
-      {timeData && <CourseResult data={timeData} />}
+      {timeData && <CourseResult data={timeData} setModal={setModal} />}
     </CourseSelectWrapper>
   );
 };

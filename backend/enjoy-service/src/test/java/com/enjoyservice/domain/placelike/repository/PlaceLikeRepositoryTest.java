@@ -131,7 +131,7 @@ class PlaceLikeRepositoryTest {
         assertThat(result.get().getActive().isValue()).isFalse();
     }
 
-    @DisplayName("PlaceLike 조회 시 active = true caluse가 sql에 추가된다.")
+    @DisplayName("PlaceLike 조회 시 active = true 인 entity만 조회")
     @Test
     void whereClause() {
         // given
@@ -147,7 +147,7 @@ class PlaceLikeRepositoryTest {
         em.flush();
         em.clear();
         // when
-        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlace(memberId, savedPlace);
+        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlaceAndActive(memberId, savedPlace, com.enjoyservice.domain.placelike.entity.type.Active.from(true));
         em.flush();
         // then
         assertThat(result).isNotEmpty();

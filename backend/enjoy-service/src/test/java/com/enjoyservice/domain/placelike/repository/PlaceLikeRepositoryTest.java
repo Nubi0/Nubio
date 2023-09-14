@@ -6,6 +6,7 @@ import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +28,10 @@ class PlaceLikeRepositoryTest {
 
     @Autowired
     private PlaceLikeRepository placeLikeRepository;
-
     @Autowired
     private PlaceRepository placeRepository;
+    @Autowired
+    private EntityManager em;
 
     private Place generatePlace(int index, GroupCode groupCode, GroupName groupName) {
         return Place.builder()
@@ -102,5 +105,29 @@ class PlaceLikeRepositoryTest {
                         tuple("UUID" + 3, savedPlace),
                         tuple("UUID" + 4, savedPlace)
                 );
+    }
+
+    @DisplayName("PlaceLike SoftDelete 확인")
+    @Test
+    void softDelete() {
+        // given
+        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place savedPlace = placeRepository.saveAndFlush(place);
+        String memberId = "memberId";
+        PlaceLike placeLike = PlaceLike.builder()
+                .place(savedPlace)
+                .memberId(memberId)
+                .build();
+
+        PlaceLike savedPlaceLike = placeLikeRepository.save(placeLike);
+        em.flush();
+        em.clear();
+        // when
+        placeLikeRepository.deleteByMemberIdAndPlace(memberId, savedPlace);
+        em.flush();
+        // then
+        Optional<PlaceLike> result = placeLikeRepository.findById(savedPlaceLike.getId());
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getActive().isValue()).isFalse();
     }
 }

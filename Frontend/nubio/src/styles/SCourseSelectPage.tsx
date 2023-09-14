@@ -36,8 +36,10 @@ export const CourseMaker = styled.button`
 
 export const ModalOpen = styled.button`
   position: absolute;
-  top: 1rem;
-  right: 50%;
+  bottom: 2.25rem;
+  right: 1rem;
+  border: none;
+  background-color: transparent;
 `;
 
 export const CoursePinWrapper = styled.div`
@@ -108,5 +110,27 @@ export const ModalFooter = styled.div`
     font-size: 1rem;
   }
   hr{
+  }
+`;
+
+export const CourseResultWrapper = styled.div`
+  border-radius: 1rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 2rem;
+  width: 8.3rem;
+  height: 8rem;
+  background-color: #FFC542;
+  padding: 1rem;
+`;
+
+export const Title = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const Data = styled.div`
+  margin-top: 0.5rem;
+  div{
+    margin-top: 0.5rem;
   }
 `;

@@ -3,9 +3,9 @@ import {
   CourseSelectWrapper,
   CourseMaker,
   MapWrapper,
-  ModalOpen
 } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
+import CourseResult from './CourseResult';
 
 declare global {
   interface Window {
@@ -14,30 +14,32 @@ declare global {
 }
 
 const CourseSelect = ({setModal}: any) => {
+  let drawnData: any = null;
   const [manager, setManager] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
-  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy1.jpg'
-  const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy2.jpg';
+  const [timeData, setTimeData] = useState<t_d_DataProps | null>(null)
+  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg'
+  const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg';
 
   var positions = [
     {
         title: '카카오', 
-        latlng: new kakao.maps.LatLng(33.450705, 126.570677),
+        latlng: new window.kakao.maps.LatLng(33.450705, 126.570677),
         img_url: dummy1
     },
     {
         title: '생태연못', 
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477),
+        latlng: new window.kakao.maps.LatLng(33.450936, 126.569477),
         img_url: dummyUrl,
     },
     {
         title: '텃밭', 
-        latlng: new kakao.maps.LatLng(33.450879, 126.569940),
+        latlng: new window.kakao.maps.LatLng(33.450879, 126.569940),
         img_url: dummyUrl,
     },
     {
         title: '근린공원',
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738),
+        latlng: new window.kakao.maps.LatLng(33.451393, 126.570738),
         img_url: dummyUrl
     }
 ];
@@ -59,6 +61,8 @@ const CourseSelect = ({setModal}: any) => {
   }
 
   const selectOverlay = (type: any) => {
+    setTimeData(null);
+
     // 그리기 중이면 그리기를 취소합니다
     manager.cancel();
 
@@ -70,7 +74,6 @@ const CourseSelect = ({setModal}: any) => {
 
   // 그려진 선의 데이터를 받아오는 함수
   const getDrawnLines = () => {
-      const drawnData = manager.getData();
       const drawnPolylines = drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
       return drawnPolylines;
   };
@@ -79,7 +82,6 @@ const CourseSelect = ({setModal}: any) => {
   const calculateLineDistance = (line: any) => {
     const path = line['points'];
     const R = 6371;
-    console.log(path);
     let totalDistance = 0;
     for (let i = 0; i < path.length - 1; i++) {
       const point1 = path[i];
@@ -107,7 +109,6 @@ const CourseSelect = ({setModal}: any) => {
   // 거리가 계산된 결과 출력 함수
   const calculateAndDisplayLineDistances = () => {
     const drawnLines = getDrawnLines();
-    console.log(drawnLines);
     if (drawnLines.length > 0) {
       const distances = drawnLines.map((line: any) => {
         const distance = calculateLineDistance(line);
@@ -115,17 +116,10 @@ const CourseSelect = ({setModal}: any) => {
       });
       console.log(distances[0]);
       const walkkTime = (distances / 67) | 0;
-      const bicycleTime = (distances / 227) | 0;
       if (walkkTime > 60) {
-        console.log(`도보 : ${walkkTime / 60}시간`);
+        setTimeData({time: walkkTime / 60, type: '시간', dis: distances[0]});
       } else {
-        console.log(`도보 : ${walkkTime % 60}분`);
-      }
-
-      if (bicycleTime > 60) {
-        console.log(`자전거 : ${bicycleTime / 60}시간`);
-      } else {
-        console.log(`자전거 : ${bicycleTime % 60}분`);
+        setTimeData({time: walkkTime % 60, type: '분', dis: distances[0]});
       }
     } else {
       console.log('라인이 그려지지 않았습니다.');
@@ -145,27 +139,26 @@ const CourseSelect = ({setModal}: any) => {
       const options = {
         map: drawingMap,
         drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
-        guideTooltip: ['draw', 'drag', 'edit'],
+        guideTooltip: ['draw', 'drag'],
         markerOptions: {
           draggable: true,
           removable: true,
         },
         polylineOptions: {
           draggable: true,
-          removable: true,
           editable: true,
-          strokeColor: '#39f',
-          hintStrokeStyle: 'dash',
-          hintStrokeOpacity: 0.5,
+          strokeColor: '#FFC542',
+          hintStrokeStyle: 'solid',
+          hintStrokeOpacity: 1,
           zIndex: 1000,
         },
       };
       // Drawing Manager 초기화 및 사용 코드 추가
       const managerInstance = new window.kakao.maps.drawing.DrawingManager(options);
       managerInstance.addListener('drawend', () => {
+        drawnData = managerInstance.getData();
         calculateAndDisplayLineDistances();
       });
-      console.log(managerInstance);
       setManager(managerInstance);
     } else {
       console.error('Kakao Maps Drawing Library is not available.');
@@ -178,8 +171,8 @@ const CourseSelect = ({setModal}: any) => {
       <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
         코스 그리기
       </CourseMaker>
-      <ModalOpen onClick={setModal}>모달 열기</ModalOpen>
       <CoursePinList positions={positions} />
+      {timeData && <CourseResult data={timeData} setModal={setModal} />}
     </CourseSelectWrapper>
   );
 };

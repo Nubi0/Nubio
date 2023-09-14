@@ -5,12 +5,13 @@ const SafeButton = () => {
   const navigate = useNavigate();
   return (
     <SafeButtonWrapper>
+      <img src={process.env.PUBLIC_URL + '/assets/safe.png'} alt="" />
       <button
         onClick={() => {
           navigate("/safe");
         }}
       >
-        안전
+        안전 모드
       </button>
     </SafeButtonWrapper>
   );

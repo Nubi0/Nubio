@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./router";
 import { Provider } from "react-redux";
-import { store } from "./redux/slice/KakaoMap";
+// import { store } from "./redux/slice/KakaoMap";
 function App() {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <div className="App">
         <BrowserRouter>
           <Routes>
@@ -20,7 +20,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-    </Provider>
+    // </Provider>
   );
 }
 

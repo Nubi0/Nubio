@@ -10,7 +10,6 @@ export const SignUpLogo = styled.img`
 `;
 export const LoginLogo = styled.img`
   width: 20rem;
-  height: 8rem;
   margin: 1rem 0 1rem 0;
 `;
 export const Form = styled.form`

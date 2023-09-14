@@ -6,6 +6,7 @@ import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.placeimage.entity.PlaceImage;
 import com.enjoyservice.domain.placeimage.repository.PlaceImageRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,6 +29,9 @@ class PlaceRepositoryTest {
 
     @Autowired
     private PlaceImageRepository placeImageRepository;
+
+    @Autowired
+    private EntityManager em;
 
     private Place generatePlace(int index, GroupCode groupCode, GroupName groupName) {
         return Place.builder()
@@ -54,10 +59,9 @@ class PlaceRepositoryTest {
         Place targetPlace = generatePlace(0, GroupCode.CD7, GroupName.카페);
         Place savedTargetPlace = placeRepository.saveAndFlush(targetPlace);
         Place placeFood = generatePlace(1, GroupCode.FD6, GroupName.음식점);
-        Place savedPlaceFood = placeRepository.saveAndFlush(placeFood);
+        placeRepository.saveAndFlush(placeFood);
 
         final int imageCount = 3;
-        List<PlaceImage> beforeImages = new ArrayList<>();
         for(int imageIndex = 0; imageIndex < imageCount; imageIndex++) {
             String name = "imageName" + imageIndex;
             String url = "imageUrl" + imageIndex;
@@ -68,13 +72,17 @@ class PlaceRepositoryTest {
                     .place(savedTargetPlace)
                     .build();
 
-            PlaceImage savedPlaceImage = placeImageRepository.saveAndFlush(placeImage);
-            beforeImages.add(savedPlaceImage);
+            placeImageRepository.save(placeImage);
         }
+        em.flush();
+        em.clear();
         // when
-        List<Place> result = placeRepository.findOneByIdFetchImage(targetPlace.getId(), PageRequest.of(0, 1));
+        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);
+        assertThat(place.getId()).isEqualTo(savedTargetPlace.getId());
+        assertThat(place.getImages().size()).isGreaterThan(1);
     }
 
     @DisplayName("Place 조회 시 Place와 연관된 PlaceImage 중 1개 즉시 로딩(이미지가 없을 때)")
@@ -101,9 +109,14 @@ class PlaceRepositoryTest {
             PlaceImage savedPlaceImage = placeImageRepository.saveAndFlush(placeImage);
             beforeImages.add(savedPlaceImage);
         }
+        em.flush();
+        em.clear();
         // when
         List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);
+        assertThat(place.getId()).isEqualTo(savedTargetPlace.getId());
+        assertThat(place.getImages().size()).isEqualTo(0);
     }
 }

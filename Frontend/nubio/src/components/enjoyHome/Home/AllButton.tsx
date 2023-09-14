@@ -2,7 +2,7 @@ import { AllButtonWrapper, AllButtonImg, ContentWrapper, FitText, Content } from
 import { useNavigate } from "react-router-dom";
 
 const AllButton = () => {
-    const AllButtonUrl = process.env.REACT_APP_ALL_URL;
+    const AllButtonUrl = process.env.PUBLIC_URL + '/assets/all.svg';
     const navigate = useNavigate();
     return(
         <AllButtonWrapper>

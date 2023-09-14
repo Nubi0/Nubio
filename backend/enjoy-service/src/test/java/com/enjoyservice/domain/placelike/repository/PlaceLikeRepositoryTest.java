@@ -130,4 +130,27 @@ class PlaceLikeRepositoryTest {
         assertThat(result).isNotEmpty();
         assertThat(result.get().getActive().isValue()).isFalse();
     }
+
+    @DisplayName("PlaceLike 조회 시 active = true caluse가 sql에 추가된다.")
+    @Test
+    void whereClause() {
+        // given
+        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place savedPlace = placeRepository.saveAndFlush(place);
+        String memberId = "memberId";
+        PlaceLike placeLike = PlaceLike.builder()
+                .place(savedPlace)
+                .memberId(memberId)
+                .build();
+
+        PlaceLike savedPlaceLike = placeLikeRepository.save(placeLike);
+        em.flush();
+        em.clear();
+        // when
+        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlace(memberId, savedPlace);
+        em.flush();
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getActive().isValue()).isTrue();
+    }
 }

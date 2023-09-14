@@ -110,3 +110,25 @@ export const ModalFooter = styled.div`
   hr{
   }
 `;
+
+export const CourseResultWrapper = styled.div`
+  border-radius: 1rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 2rem;
+  width: 8.3rem;
+  height: 8rem;
+  background-color: #FFC542;
+  padding: 1rem;
+`;
+
+export const Title = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const Data = styled.div`
+  margin-top: 0.5rem;
+  div{
+    margin-top: 0.5rem;
+  }
+`;

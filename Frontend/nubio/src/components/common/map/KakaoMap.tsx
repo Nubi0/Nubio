@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { propsType } from "../../../pages/SafeHomePage";
-import { MapWrapper, SearchResultWrapper } from "../../../styles/SKakaoMap";
+import {
+  MapWrapper,
+  SearchListWrapper,
+  SearchResultWrapper,
+} from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
 
 interface placeType {
@@ -9,6 +13,7 @@ interface placeType {
   address_name: string;
   phone: string;
   place_url: string;
+  length: number;
 }
 
 // head에 작성한 Kakao API 불러오기
@@ -51,13 +56,20 @@ const Map = (props: propsType) => {
       ps.keywordSearch(keyword, placesSearchCB);
     }
 
+    // 검색 결과가 없을 때는 search-result 요소를 숨기는 함수
+    function hideSearchResult() {
+      const searchResult = document.getElementById("search-result");
+      if (searchResult) {
+        searchResult.style.display = "none";
+      }
+    }
+
     // 장소검색이 완료됐을 때 호출되는 콜백함수
     function placesSearchCB(data: any, status: any, pagination: any) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출
         displayPlaces(data);
-
         // 페이지 번호를 표출
         displayPagination(pagination);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -65,10 +77,14 @@ const Map = (props: propsType) => {
           title: "검색 결과가 존재하지 않습니다.",
           text: "Nubio",
         });
-
+        hideSearchResult();
         return;
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert("검색 결과 중 오류가 발생했습니다.");
+        Swal.fire({
+          title: "검색 결과 중 오류가 발생했습니다.",
+          text: "Nubio",
+        });
+
         return;
       }
     }
@@ -85,7 +101,6 @@ const Map = (props: propsType) => {
 
       // 지도에 표시되고 있는 마커를 제거
       removeMarker();
-
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시
         let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -133,34 +148,33 @@ const Map = (props: propsType) => {
     // 검색결과 항목을 Element로 반환하는 함수
     function getListItem(index: number, places: placeType) {
       const el = document.createElement("li");
-      let itemStr = `
-          <div class="info">
-            <span class="marker marker_${index + 1}">
-              ${index + 1}
+      if (places.length !== 0) {
+        let itemStr = `
+        <div class="info">
+        <div class="name">
+            <h5 class="info-item place-name">${index + 1}. ${
+          places.place_name
+        }</h5>
+    </div>
+            ${
+              places.road_address_name
+                ? `<span class="address ">
+                  ${places.road_address_name}
+                    ${places.address_name}
+                    </span>`
+                : `<span class="address ">
+                    ${places.address_name}
+                </span>`
+            }
+            <span class="tel">
+              ${places.phone}
             </span>
-            <a href="${places.place_url}">
-              <h5 class="info-item place-name">${places.place_name}</h5>
-              ${
-                places.road_address_name
-                  ? `<span class="info-item road-address-name">
-                    ${places.road_address_name}
-                   </span>
-                   <span class="info-item address-name">
-                 	 ${places.address_name}
-               	   </span>`
-                  : `<span class="info-item address-name">
-             	     ${places.address_name}
-                  </span>`
-              }
-              <span class="info-item tel">
-                ${places.phone}
-              </span>
-            </a>
-          </div>
-          `;
-
-      el.innerHTML = itemStr;
-      el.className = "item";
+          </a>
+        </div>
+        `;
+        el.innerHTML = itemStr;
+        el.className = "item";
+      }
 
       return el;
     }
@@ -254,19 +268,18 @@ const Map = (props: propsType) => {
       }
     }
   }, [props.searchKeyword]);
-  console.log(props);
   return (
     <>
       <MapWrapper id="map" className="map" />
       {props.searchKeyword !== "" ? (
         <SearchResultWrapper id="search-result">
           <p className="result-text">
-            <span className="result-keyword">{props.searchKeyword}</span>
+            {props.searchKeyword}
             검색 결과
           </p>
-          <div className="scroll-wrapper">
+          <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list"></ul>
-          </div>
+          </SearchListWrapper>
           <div id="pagination"></div>
         </SearchResultWrapper>
       ) : null}

@@ -10,7 +10,7 @@ export const SearchResultWrapper = styled.div`
   top: 7rem;
   left: 1rem;
   width: 85%;
-  height: 200px;
+  height: 15rem;
   padding: 0.5rem;
   background: white;
   margin-top: 1rem;
@@ -19,5 +19,48 @@ export const SearchResultWrapper = styled.div`
   overflow-y: scroll;
   #places-list {
     list-style: none;
+  }
+  .result-text {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+  #pagination {
+    text-align: center;
+    a {
+      text-decoration: none;
+      color: black;
+      margin: 10px;
+    }
+  }
+`;
+
+export const SearchListWrapper = styled.div`
+  #places-list {
+    padding: 0;
+  }
+  .info {
+    // background: red;
+    margin: 1.5rem 0;
+    width: 100%;
+  }
+
+  a {
+    text-decoration-line: none;
+    color: black;
+  }
+  // 인덱스 이름
+  .name {
+    margin: 0;
+    h5 {
+      font-size: 1.3rem;
+      margin: 1rem 0;
+    }
+  }
+
+  // 주소
+  .address {
+  }
+  // 번호
+  .tel {
   }
 `;

@@ -4,9 +4,12 @@ import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.place.entity.Place;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaceLike extends BaseEntity {
 
@@ -20,4 +23,10 @@ public class PlaceLike extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    @Builder
+    public PlaceLike(String memberId, Place place) {
+        this.memberId = memberId;
+        this.place = place;
+    }
 }

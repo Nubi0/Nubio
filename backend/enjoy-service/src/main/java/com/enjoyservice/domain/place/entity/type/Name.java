@@ -3,9 +3,11 @@ package com.enjoyservice.domain.place.entity.type;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Name {
 
@@ -16,7 +18,7 @@ public class Name {
         this.value = value;
     }
 
-    public static Name from(final String value) {
-        return new Name(value);
+    public static com.enjoyservice.domain.place.entity.type.Name from(final String value) {
+        return new com.enjoyservice.domain.place.entity.type.Name(value);
     }
 }

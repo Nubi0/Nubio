@@ -526,4 +526,5 @@ application-lcoal.yml
 application-oauth.yml
 application-auth.yml
 application-s3.yml
-
+application-map.yml
+application-db.yml

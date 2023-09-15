@@ -2,9 +2,9 @@ import { CustomCourseItemWrapper, RepresentativeImg, BookMarkImg, TitleWrapper }
 
 const CustomCourseItem = ({ value }: CourseProps) => {
     const {title, favorite_flag, like_count, place_list} = value;
-    const bookMarkUrl = process.env.REACT_APP_BOOKMARK_URL;
-    const bookMarkFillUrl = process.env.REACT_APP_BOOKMARK_FILL_URL;
-    const likeUrl = process.env.REACT_APP_LIKE_URL;
+    const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';
+    const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/starFill.svg';
+    const likeUrl = process.env.PUBLIC_URL + '/assets/heart.png';
 
     return(
         <CustomCourseItemWrapper>

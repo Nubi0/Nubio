@@ -1,18 +1,58 @@
 import styled from "styled-components";
 
+
+export const ProfilePageWrapper = styled.div``;
+
 export const ProfileWrapper = styled.div`
-  width: 100%;
   height: 100%;
 `;
 export const MyInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   height: 40%;
   padding: 1rem;
   background-color: white;
-  img {
-    width: 4rem;
+  div{
+    display: flex;
+    width: 80%;
+  }
+  button{
+    border: none;
+    background-color: transparent;
+  }
+  input{
+    border: none;
+    font-size: 1.17rem;
+    color: gray;
+    width: 80%;
+    margin-left: 0.1rem;
+    :focus{
+      border: none;
+      color: black;
+    }
+  }
+  
+`;
+
+export const Title = styled.h3`
+  width: 5rem;
+`;
+
+export const Content = styled.h3`
+  color: gray;
+`;
+
+export const NickName = styled.div`
+  display: flex;
+
+`;
+
+export const MyImg = styled.img`
+  width: 4rem;
     height: 4rem;
     display: block;
-  }
 `;
 
 export const SettingWrapper = styled.div`

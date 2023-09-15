@@ -4,13 +4,14 @@ import { EnjoyButtonWrapper } from "../../styles/SHomePage";
 const EnjoyButton = () => {
   const navigate = useNavigate();
   return (
-    <EnjoyButtonWrapper>
-      <button
-        onClick={() => {
-          navigate("/enjoy");
-        }}
-      >
-        흥미
+    <EnjoyButtonWrapper 
+      onClick={() => {
+      navigate("/enjoy");
+      }}
+    >
+      <img src={process.env.PUBLIC_URL + '/assets/enjoy.png'} alt="" />
+      <button>
+        흥미 모드
       </button>
     </EnjoyButtonWrapper>
   );

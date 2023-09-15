@@ -61,6 +61,7 @@ public class ReportInfoService {
         return ReportResponseDto.from(reportList);
     }
 
+    @Transactional
     public List<ReportFileDto> uploadIPFiles(String category,
                                              List<MultipartFile> files,
                                              Report report) {

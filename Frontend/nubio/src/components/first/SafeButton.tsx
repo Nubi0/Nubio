@@ -4,13 +4,14 @@ import { SafeButtonWrapper } from "../../styles/SHomePage";
 const SafeButton = () => {
   const navigate = useNavigate();
   return (
-    <SafeButtonWrapper>
-      <button
-        onClick={() => {
-          navigate("/safe");
-        }}
-      >
-        안전
+    <SafeButtonWrapper  
+      onClick={() => {
+      navigate("/safe");
+      }}
+    >
+      <img src={process.env.PUBLIC_URL + '/assets/safe.png'} alt="" />
+      <button>
+        안전 모드
       </button>
     </SafeButtonWrapper>
   );

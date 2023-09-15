@@ -61,4 +61,11 @@ export const BookMarkImg = styled.img`
 
 export const TitleWrapper = styled.div`
     display: flex;
+    justify-content: space-between;
+`;
+
+export const CourseMakerIconWrapper = styled.div`
+    position: absolute;
+    bottom: 5.4rem;
+    right: 1rem;
 `;

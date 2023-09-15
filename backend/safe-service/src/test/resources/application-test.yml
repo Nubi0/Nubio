@@ -1,13 +1,9 @@
 spring:
   # 개발 데이터베이스 연결
-  #  datasource:
-  #    url: jdbc:mysql://localhost:3306/safe_db?useUnicode=true&serverTimezone=Asia/Seoul
-  #    driver-class-name: com.mysql.cj.jdbc.Driver
-  #    username: user
-  #    password:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/nubio
-    username: sa
+    url: jdbc:mysql://localhost:3306/safe_db?useUnicode=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: user
     password:
   jpa:
     hibernate:

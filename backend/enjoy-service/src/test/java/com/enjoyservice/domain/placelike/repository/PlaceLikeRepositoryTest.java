@@ -147,7 +147,7 @@ class PlaceLikeRepositoryTest {
         em.flush();
         em.clear();
         // when
-        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlaceAndActive(memberId, savedPlace, com.enjoyservice.domain.placelike.entity.type.Active.from(true));
+        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlace(memberId, savedPlace);
         em.flush();
         // then
         assertThat(result).isNotEmpty();

@@ -3,5 +3,5 @@ spring:
     active: test
     include:
       - s3
+      - map
       - db
-

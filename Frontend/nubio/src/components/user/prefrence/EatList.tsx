@@ -7,10 +7,10 @@ type EatListProps = {
 };
 
 const eatImages: EatImages = {
-  kFood: process.env.PUBLIC_URL + "/assets/eat/kFood.png",
-  wFood: process.env.PUBLIC_URL + "/assets/eat/wFood.png",
-  jFood: process.env.PUBLIC_URL + "/assets/eat/jFood.png",
-  cFood: process.env.PUBLIC_URL + "/assets/eat/cFood.png",
+  한식: process.env.PUBLIC_URL + "/assets/eat/kFood.png",
+  양식: process.env.PUBLIC_URL + "/assets/eat/wFood.png",
+  일식: process.env.PUBLIC_URL + "/assets/eat/jFood.png",
+  중식: process.env.PUBLIC_URL + "/assets/eat/cFood.png",
 };
 
 const EatList: React.FC<EatListProps> = ({
@@ -22,13 +22,16 @@ const EatList: React.FC<EatListProps> = ({
       <h1>먹거리</h1>
       <IconWrapper>
         {Object.entries(eatImages).map(([name, src]) => (
-          <img
-            key={name}
-            src={src}
-            alt={name}
-            id={selectedImages.includes(name) ? "check" : "unCheck"}
-            onClick={() => handleImageClick(name)}
-          />
+          <>
+            <img
+              key={name}
+              src={src}
+              alt={name}
+              id={selectedImages.includes(name) ? "check" : "unCheck"}
+              onClick={() => handleImageClick(name)}
+            />
+            {/* <h2>{name}</h2> */}
+          </>
         ))}
       </IconWrapper>
     </EatWrapper>

@@ -5,12 +5,13 @@ const EnjoyButton = () => {
   const navigate = useNavigate();
   return (
     <EnjoyButtonWrapper>
+      <img src={process.env.PUBLIC_URL + '/assets/enjoy.png'} alt="" />
       <button
         onClick={() => {
           navigate("/enjoy");
         }}
       >
-        흥미
+        흥미 모드
       </button>
     </EnjoyButtonWrapper>
   );

@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class ReportInfoServiceTest {
 
     @Autowired
@@ -123,9 +124,9 @@ class ReportInfoServiceTest {
                 .isInstanceOf(MisMatchIdentification.class);
     }
 
+    @DisplayName("제보 조회 성공 케이스")
     @ParameterizedTest
     @ValueSource(ints = {2,4,6})
-    @Transactional
     void searchAll(int length) {
         // given
         String title = "";
@@ -151,6 +152,7 @@ class ReportInfoServiceTest {
         assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
     }
 
+    @DisplayName("제보 조회 실패 케이스")
     @Test
     void uploadIPFiles() {
         List<MultipartFile> files = new ArrayList<>();

@@ -18,7 +18,7 @@ export const MyInfoWrapper = styled.div`
 
 export const SettingWrapper = styled.div`
   width: 100%;
-
+  height: 60%;
   div {
     padding: 0.1rem 0;
     // margin: 1rem 0;

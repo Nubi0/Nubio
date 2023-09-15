@@ -5,8 +5,10 @@ import StartButton from "../components/first/StartButton";
 import AppContent from "../components/first/AppContent";
 
 const HomePage = () => {
+  const logo = process.env.PUBLIC_URL + '/assets/nubio.png';
   return (
     <HomePageWrapper>
+      <img src={logo} />
       <ButtonWrapper>
         <SafeButton />
         <EnjoyButton />

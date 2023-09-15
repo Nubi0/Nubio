@@ -5,12 +5,6 @@ export const SafeHomeWrapper = styled.div`
   height: 932px;
 `;
 
-export const MapWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-`;
-
 export const LogoIcon = styled.img`
   position: absolute;
   top: 0px;

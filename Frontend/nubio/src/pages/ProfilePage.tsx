@@ -8,7 +8,7 @@ import {
   MyListWrapper,
   MyRefrenceWrapper,
 } from "../styles/SProfilePage";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import SetPrefrenceModal from "../components/user/prefrence/SetPrefrenceModal";
 import Footer from "../components/common/Footer";
 
@@ -24,13 +24,31 @@ const ProfilePage = () => {
     setIsModalOpen(false);
   };
   // 로그아웃 클릭 시
-  // const Swal = require("sweetalert2");
-
   const openLogOut = () => {
-    // Swal.fire("Hello, SweetAlert2!");
+    Swal.fire({
+      position: "center",
+      title: "로그아웃 하시겠습니까?",
+      text: "NUBIO",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니요",
+      color: "black",
+    });
   };
   // 회원 탈퇴 클릭시
-  const openDeleteUser = () => {};
+  const openDeleteUser = () => {
+    Swal.fire({
+      position: "center",
+      title: "회원탈퇴 하시겠습니까?",
+      text: "NUBIO",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니요",
+      color: "black",
+    });
+  };
   return (
     <ProfileWrapper>
       {isModalOpen ? <SetPrefrenceModal closeModal={closeModal} /> : null}

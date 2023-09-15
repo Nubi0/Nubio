@@ -8,6 +8,9 @@ public enum ErrorCode {
 
     TEST_EXCEPTION(HttpStatus.UNAUTHORIZED, "TEST-000", "에러 테스트"),
 
+    //안전시설
+    FACILITY_TYPE_NOT_EXIST(HttpStatus.BAD_REQUEST, "F-001", "해당 시설물의 Type은 없습니다."),
+
     // 파일
     FILE_FORMAT(HttpStatus.BAD_REQUEST, "F-001", "파일 형식이 잘못되었습니다."),
     INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, "F-002", "csv 파일 형식이 잘못되었습니다."),

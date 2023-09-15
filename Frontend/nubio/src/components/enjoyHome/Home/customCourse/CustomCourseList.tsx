@@ -12,7 +12,7 @@ const CustomCourseList = () => {
                     place_id: 12,
                     kakao_id: 123456,
                     place_name: '장소이름',
-                    img_url: process.env.REACT_APP_DUMMY1_URL
+                    img_url: process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg'
                 }
             ],
             course_tags: ['카페', '데이트', '단맛']
@@ -26,7 +26,7 @@ const CustomCourseList = () => {
                     place_id: 12,
                     kakao_id: 123456,
                     place_name: '장소이름',
-                    img_url: process.env.REACT_APP_DUMMY2_URL
+                    img_url: process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg'
                 }
             ],
             course_tags: ['카페', '데이트', '단맛']
@@ -40,7 +40,7 @@ const CustomCourseList = () => {
                     place_id: 12,
                     kakao_id: 123456,
                     place_name: '장소이름',
-                    img_url: process.env.REACT_APP_DUMMY3_URL
+                    img_url: process.env.PUBLIC_URL + '/assets/dummy/dummy3.jpg'
                 }
             ],
             course_tags: ['카페', '데이트', '단맛']

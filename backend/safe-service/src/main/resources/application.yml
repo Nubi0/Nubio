@@ -4,3 +4,5 @@ spring:
     include:
       - s3
       - map
+      - db
+

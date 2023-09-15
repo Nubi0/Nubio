@@ -5,12 +5,6 @@ export const SafeHomeWrapper = styled.div`
   height: 932px;
 `;
 
-export const MapWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-`;
-
 export const LogoIcon = styled.img`
   position: absolute;
   top: 0px;
@@ -26,6 +20,7 @@ export const SafeGuideIcon = styled.img`
   left: 350px;
   width: 4rem;
   height: 4rem;
+  z-index: 1;
 `;
 
 export const SafeGuideModalOverlay = styled.div`
@@ -42,7 +37,7 @@ export const SafeGuideModalOverlay = styled.div`
 export const SafeGuideModalBox = styled.div`
   background: white;
   width: 80%;
-  height: 50%;
+  height: 60%;
   padding: 1rem;
   border-radius: 1rem;
   text-align: center;
@@ -62,10 +57,13 @@ export const SafeGuideModalBox = styled.div`
 export const DisasterWrapper = styled.div`
   width: 100%;
   height: 90%;
+  // background: red;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   div {
     text-align: center;
     display: flex;
-    // flex-direction: column;
+    flex-direction: column;
     align-items: center;
   }
   p {

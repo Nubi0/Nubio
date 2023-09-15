@@ -10,10 +10,10 @@ const Banner = () => {
       };
     const bannersUrl = [
         {
-            url: process.env.REACT_APP_BANNER1_URL
+            url: process.env.PUBLIC_URL + '/assets/banner/banner1.png'
         },
         {
-            url: process.env.REACT_APP_BANNER2_URL,
+            url: process.env.PUBLIC_URL + '/assets/banner/banner2.png',
         }    
     ]
     return (

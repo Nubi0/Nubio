@@ -4,14 +4,19 @@ server:
     context-path: /
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB # 파일 하나의 최대 크기
+      max-request-size: 10MB # 한 번에 최대 업로드 가능 용량
+
   config:
     activate:
       on-profile: dev
   # 개발 데이터베이스 연결
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/nubio
-    username: sa
-    password:
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/nubio
+#    username: sa
+#    password:
   jpa:
     hibernate:
       ddl-auto: none

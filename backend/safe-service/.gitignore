@@ -39,3 +39,4 @@ out/
 ### env
 application-lcoal.yml
 /src/main/generated/
+application-db.yml

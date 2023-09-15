@@ -10,6 +10,9 @@ export const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: #41D992;
+    padding: 1rem;
+    border-radius: 1rem;
 `
 
 
@@ -17,17 +20,24 @@ export const ButtonWrapper = styled.div`
 export const SafeButtonWrapper = styled.div`
     background-color: #F25260;
     width: 10rem;
-    height: 14.5rem;
+    height: 12rem;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
+    box-shadow: 0.5rem 0.5rem 0.5rem 0;
     button{
         border: none;
         background-color: transparent;
         font-size: 2rem;
         font-weight: bold;
         color: white;
+    }
+        img{
+        width: 7rem;
+        height: 7rem;
+        padding: 1rem;
     }
 `;
 
@@ -35,11 +45,14 @@ export const SafeButtonWrapper = styled.div`
 export const EnjoyButtonWrapper = styled.div`
     background-color: #FFC542;
     width: 10rem;
-    height: 14.5rem;
+    height: 12rem;
     border-radius: 1rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0.5rem 0.5rem 0.5rem 0;
+
     button{
         border: none;
         background-color: transparent;
@@ -47,13 +60,18 @@ export const EnjoyButtonWrapper = styled.div`
         font-weight: bold;
         color: white;
     }
+    img{
+        width: 7rem;
+        height: 7rem;
+        padding: 1rem;
+    }
 `;
 
 // 첫 홈페이지 시작하기 버튼
 export const StartButtonWrapper = styled.div`
     background-color: #41D992;
     width: 100%;
-    height: 9.5rem;
+    height: 5rem;
     margin-top: 2rem;
     border-radius: 1rem;
     display: flex;
@@ -70,8 +88,22 @@ export const StartButtonWrapper = styled.div`
 
 // 앱 설명 부분
 export const AppContentWrapper = styled.div`
-    background-color: #41D992;
     flex: 1;
     border-radius: 1rem;
     margin-top: 2rem;
+`;
+
+export const Discuss = styled.div`
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+    div{
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    img{
+        width: 3rem;
+        height: 3rem;
+    }
 `;

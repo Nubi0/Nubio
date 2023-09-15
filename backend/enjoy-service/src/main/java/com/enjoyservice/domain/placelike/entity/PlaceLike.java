@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "place_like")
@@ -36,5 +35,9 @@ public class PlaceLike extends BaseEntity {
     public PlaceLike(String memberId, Place place) {
         this.memberId = memberId;
         this.place = place;
+    }
+
+    public boolean changeActiveValue() {
+        return this.getActive().changeValue();
     }
 }

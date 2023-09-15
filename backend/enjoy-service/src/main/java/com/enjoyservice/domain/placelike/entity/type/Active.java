@@ -21,4 +21,9 @@ public class Active {
     public static com.enjoyservice.domain.placelike.entity.type.Active from(final boolean value) {
         return new com.enjoyservice.domain.placelike.entity.type.Active(value);
     }
+
+    public boolean changeValue() {
+        this.value = !this.value;
+        return this.value;
+    }
 }

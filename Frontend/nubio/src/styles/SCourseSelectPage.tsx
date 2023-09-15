@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const CourseSelectPageWrapper = styled.div`
   position: relative;
-  height: 100%;
+  height: 932px;
+  width: 430px;
 `;
 
 export const CourseSelectWrapper = styled.div`

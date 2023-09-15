@@ -6,6 +6,9 @@ import {
 } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../types/RootState';
+import Map from '../../../common/map/Map';
 
 declare global {
   interface Window {
@@ -14,13 +17,13 @@ declare global {
 }
 
 const CourseSelect = ({setModal}: any) => {
+  const dispatch = useDispatch();
   let drawnData: any = null;
-  const [manager, setManager] = useState<any>(null);
-  const [map, setMap] = useState<any>(null);
+  // const [manager, setManager] = useState<any>(null);
   const [timeData, setTimeData] = useState<t_d_DataProps | null>(null)
   const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg'
   const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg';
-
+  const manager = useSelector((state: any) => state.enjoy.manager)
   var positions = [
     {
         title: '카카오', 
@@ -72,102 +75,9 @@ const CourseSelect = ({setModal}: any) => {
     manager.select(window.kakao.maps.drawing.OverlayType[type]);
   };
 
-  // 그려진 선의 데이터를 받아오는 함수
-  const getDrawnLines = () => {
-      const drawnPolylines = drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
-      return drawnPolylines;
-  };
-
-  // 거리계산 공식
-  const calculateLineDistance = (line: any) => {
-    const path = line['points'];
-    const R = 6371;
-    let totalDistance = 0;
-    for (let i = 0; i < path.length - 1; i++) {
-      const point1 = path[i];
-      const point2 = path[i + 1];
-      const dLat = deg2rad(point1['y'] - point2['y']);
-      const dLon = deg2rad(point1['x'] - point2['x']);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(point1['y'])) *
-          Math.cos(deg2rad(point2['y'])) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const distance = R * c * 1000;
-      totalDistance += distance;
-    }
-    return totalDistance;
-  };
-
-  // 도(degree)단위를 라디안(radian)단위로 바꾸는 함수
-  const deg2rad = (deg: any) => {
-    return deg * (Math.PI / 180);
-  };
-
-  // 거리가 계산된 결과 출력 함수
-  const calculateAndDisplayLineDistances = () => {
-    const drawnLines = getDrawnLines();
-    if (drawnLines.length > 0) {
-      const distances = drawnLines.map((line: any) => {
-        const distance = calculateLineDistance(line);
-        return distance.toFixed();
-      });
-      console.log(distances[0]);
-      const walkkTime = (distances / 67) | 0;
-      if (walkkTime > 60) {
-        setTimeData({time: walkkTime / 60, type: '시간', dis: distances[0]});
-      } else {
-        setTimeData({time: walkkTime % 60, type: '분', dis: distances[0]});
-      }
-    } else {
-      console.log('라인이 그려지지 않았습니다.');
-    }
-  };
-
-  useEffect(() => {
-    if (window.kakao && window.kakao.maps && window.kakao.maps.drawing) {
-      const drawingMapContainer = document.getElementById('drawingMap');
-      const drawingoption = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
-
-      const drawingMap = new window.kakao.maps.Map(drawingMapContainer, drawingoption);
-      setMap(drawingMap);
-      const options = {
-        map: drawingMap,
-        drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
-        guideTooltip: ['draw', 'drag'],
-        markerOptions: {
-          draggable: true,
-          removable: true,
-        },
-        polylineOptions: {
-          draggable: true,
-          editable: true,
-          strokeColor: '#FFC542',
-          hintStrokeStyle: 'solid',
-          hintStrokeOpacity: 1,
-          zIndex: 1000,
-        },
-      };
-      // Drawing Manager 초기화 및 사용 코드 추가
-      const managerInstance = new window.kakao.maps.drawing.DrawingManager(options);
-      managerInstance.addListener('drawend', () => {
-        drawnData = managerInstance.getData();
-        calculateAndDisplayLineDistances();
-      });
-      setManager(managerInstance);
-    } else {
-      console.error('Kakao Maps Drawing Library is not available.');
-    }
-  }, []);
-
   return (
     <CourseSelectWrapper>
-      <MapWrapper id="drawingMap" />
+      <Map />
       <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
         코스 그리기
       </CourseMaker>

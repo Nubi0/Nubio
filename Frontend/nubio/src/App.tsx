@@ -5,7 +5,7 @@ import { store } from "./redux/store";
 
 function App() {
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <div className="App">
         <BrowserRouter>
           <Routes>
@@ -21,7 +21,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-    // </Provider>
+    </Provider>
   );
 }
 

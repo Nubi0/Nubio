@@ -6,6 +6,8 @@ import {
   SearchResultWrapper,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { setMap } from "../../../redux/slice/EnjoySlice";
 
 interface placeType {
   place_name: string;
@@ -23,6 +25,8 @@ const KakaoMap = (props: propsType) => {
   // 마커를 담는 배열
   let markers: any[] = [];
 
+  const dispatch = useDispatch();
+
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     const mapContainer = document.getElementById("map");
@@ -33,6 +37,28 @@ const KakaoMap = (props: propsType) => {
 
     // 지도를 생성
     const map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // Drawing Manger Option 설정
+    const options = {
+      map: map,
+      drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
+      guideTooltip: ['draw', 'drag'],
+      markerOptions: {
+        draggable: true,
+        removable: true,
+      },
+      polylineOptions: {
+        draggable: true,
+        editable: true,
+        strokeColor: '#FFC542',
+        hintStrokeStyle: 'solid',
+        hintStrokeOpacity: 1,
+        zIndex: 1000,
+      },
+    };
+    // Drawing Manager 객체 생성
+    const managerInstance = new window.kakao.maps.drawing.DrawingManager(options);
+    dispatch(setMap(managerInstance));
 
     // 장소 검색 객체를 생성
     const ps = new kakao.maps.services.Places();

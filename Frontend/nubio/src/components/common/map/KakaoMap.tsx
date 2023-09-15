@@ -36,7 +36,6 @@ const KakaoMap = (props: propsType) => {
 
     // 장소 검색 객체를 생성
     const ps = new kakao.maps.services.Places();
-
     // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
@@ -91,6 +90,7 @@ const KakaoMap = (props: propsType) => {
 
     // 검색 결과 목록과 마커를 표출하는 함수
     function displayPlaces(places: string | any[]) {
+      console.log(places);
       const listEl = document.getElementById("places-list"),
         resultEl = document.getElementById("search-result"),
         fragment = document.createDocumentFragment(),
@@ -155,6 +155,7 @@ const KakaoMap = (props: propsType) => {
             <h5 class="info-item place-name">${index + 1}. ${
           places.place_name
         }</h5>
+        <a id="homePage" href=${places.place_url}>상세보기</a>
     </div>
             ${
               places.road_address_name

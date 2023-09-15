@@ -36,7 +36,7 @@ export const SearchResultWrapper = styled.div`
 
 export const SearchListWrapper = styled.div`
   #places-list {
-    padding: 0;
+    padding: 0 1rem;
   }
   .info {
     // background: red;
@@ -50,11 +50,25 @@ export const SearchListWrapper = styled.div`
   }
   // 인덱스 이름
   .name {
-    margin: 0;
+    margin: 1rem 0;
+    display: flex;
+
     h5 {
+      width: 100%;
       font-size: 1.3rem;
-      margin: 1rem 0;
+      margin: 0;
     }
+  }
+  #homePage {
+    width: 5rem;
+    height: 1rem;
+    text-decoration: none;
+    color: #f9373f;
+    border: 1px solid #f9373f;
+    font-size: 0.9rem;
+    padding: 0.25rem;
+    margin: 0 1rem;
+    border-radius: 0.5rem;
   }
 
   // 주소
@@ -62,5 +76,7 @@ export const SearchListWrapper = styled.div`
   }
   // 번호
   .tel {
+    display: block;
+    margin: 0.5rem 0;
   }
 `;

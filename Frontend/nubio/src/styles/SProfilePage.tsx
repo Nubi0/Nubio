@@ -5,7 +5,6 @@ export const ProfilePageWrapper = styled.div``;
 
 export const ProfileWrapper = styled.div`
   height: 100%;
-  padding: 1rem;
 `;
 export const MyInfoWrapper = styled.div`
   display: flex;
@@ -13,6 +12,7 @@ export const MyInfoWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 40%;
+  padding: 1rem;
   background-color: white;
   div{
     display: flex;
@@ -56,8 +56,8 @@ export const MyImg = styled.img`
 `;
 
 export const SettingWrapper = styled.div`
-  width: 100%;
   height: 60%;
+  padding: 1rem;
   div {
     padding: 0.1rem 0;
     // margin: 1rem 0;

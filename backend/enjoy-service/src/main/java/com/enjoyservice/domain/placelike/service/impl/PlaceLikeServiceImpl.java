@@ -23,6 +23,7 @@ public class PlaceLikeServiceImpl implements PlaceLikeService {
         return placeLikeRepository.findAllByPlace(place);
     }
 
+    @Transactional
     @Override
     public boolean changePlaceLikeState(String memberId, Place place) {
         Optional<PlaceLike> opPlaceLike = placeLikeRepository.findByMemberIdAndPlace(memberId, place);

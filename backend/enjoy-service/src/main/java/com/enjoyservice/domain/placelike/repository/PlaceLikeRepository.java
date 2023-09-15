@@ -19,6 +19,6 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
 
     void deleteByMemberIdAndPlace(String memberId, Place place);
 
-    Optional<PlaceLike> findByMemberIdAndPlaceAndActive(String memberId, Place place, Active active);
+    Optional<PlaceLike> findByMemberIdAndPlace(String memberId, Place place);
 
 }

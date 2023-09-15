@@ -19,7 +19,7 @@ interface placeType {
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
-const Map = (props: propsType) => {
+const KakaoMap = (props: propsType) => {
   // 마커를 담는 배열
   let markers: any[] = [];
 
@@ -287,4 +287,4 @@ const Map = (props: propsType) => {
   );
 };
 
-export default Map;
+export default KakaoMap;

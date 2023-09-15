@@ -7,7 +7,7 @@ import {
   CheckUserWrapper,
   ModalWrapper,
 } from "../styles/SSignUpPage";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -26,9 +26,7 @@ const SignUpPage = () => {
   return (
     <SignUpWrapper>
       {isModalOpen ? <SetPrefrenceModal closeModal={closeModal} /> : null}
-
       <SignUpLogo src={logoUrl} onClick={() => navigate("/")} />
-
       <ModalWrapper>
         <img src={modalUrl} onClick={openModal} />
         <h2>취향 설정</h2>

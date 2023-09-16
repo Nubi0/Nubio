@@ -1,7 +1,6 @@
 package com.enjoyservice.api.placelike.service.impl;
 
 import com.enjoyservice.api.placelike.dto.PlaceLikeRes;
-import com.enjoyservice.api.placelike.service.PlaceLikeApiService;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
@@ -9,7 +8,6 @@ import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
 import com.enjoyservice.domain.placelike.service.PlaceLikeService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,7 +71,7 @@ class PlaceLikeApiServiceImplUnitTest {
                 .thenReturn(place);
         when(placeLikeService.changePlaceLikeState(memberId, place))
                 .thenReturn(true);
-        when(placeLikeService.findAllByPlace(place))
+        when(placeLikeService.findAllByPlaceAndActiveIsTrue(place))
                 .thenReturn(placeLikes);
         // when
         PlaceLikeRes placeLikeRes = placeLikeApiServiceImpl.likePlace(memberId, placeId);
@@ -108,7 +106,7 @@ class PlaceLikeApiServiceImplUnitTest {
                 .thenReturn(place);
         when(placeLikeService.changePlaceLikeState(memberId, place))
                 .thenReturn(false);
-        when(placeLikeService.findAllByPlace(place))
+        when(placeLikeService.findAllByPlaceAndActiveIsTrue(place))
                 .thenReturn(placeLikes);
         // when
         PlaceLikeRes placeLikeRes = placeLikeApiServiceImpl.likePlace(memberId, placeId);
@@ -120,6 +118,37 @@ class PlaceLikeApiServiceImplUnitTest {
     @DisplayName("좋아요 취소 했던 장소를 다시 좋아요")
     @Test
     void likePlace2() {
+        // given
+        String memberId = "testMemberId";
+        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Long placeId = 1L;
+        List<PlaceLike> placeLikes = new ArrayList<>();
+        long placeLikeSize = 5;
+        for(int i = 0; i < placeLikeSize; i++) {
+            PlaceLike placeLike = PlaceLike.builder()
+                    .memberId("member")
+                    .place(place)
+                    .build();
+            placeLikes.add(placeLike);
+        }
+        PlaceLike placeLike = PlaceLike.builder()
+                .memberId(memberId)
+                .place(place)
+                .build();
+        placeLike.changeActiveValue();
+        placeLikes.add(placeLike);
 
+        // mocking
+        when(placeService.findById(placeId))
+                .thenReturn(place);
+        when(placeLikeService.changePlaceLikeState(memberId, place))
+                .thenReturn(true);
+        when(placeLikeService.findAllByPlaceAndActiveIsTrue(place))
+                .thenReturn(placeLikes);
+        // when
+        PlaceLikeRes placeLikeRes = placeLikeApiServiceImpl.likePlace(memberId, placeId);
+        // then
+        assertThat(placeLikeRes.getLikeCount()).isEqualTo(placeLikeSize + 1);
+        assertThat(placeLikeRes.isLikeFlag()).isTrue();
     }
 }

@@ -9,19 +9,16 @@ import com.enjoyservice.domain.placelike.entity.PlaceLike;
 import com.enjoyservice.domain.placelike.repository.PlaceLikeRepository;
 import com.enjoyservice.domain.placelike.service.PlaceLikeService;
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -74,7 +71,7 @@ class PlaceLikeServiceImplTest {
         }
 
         // when
-        List<PlaceLike> results = placeLikeService.findAllByPlace(savedPlace);
+        List<PlaceLike> results = placeLikeService.findAllByPlaceAndActiveIsTrue(savedPlace);
         // then
         assertThat(results).hasSize(targetCount)
                 .extracting("memberId", "place")

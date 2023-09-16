@@ -94,7 +94,7 @@ class PlaceLikeRepositoryTest {
             placeLikeRepository.saveAndFlush(placeLike);
         }
         // when
-        List<PlaceLike> results = placeLikeRepository.findAllByPlace(savedPlace);
+        List<PlaceLike> results = placeLikeRepository.findAllByPlaceAndActive(savedPlace, com.enjoyservice.domain.placelike.entity.type.Active.from(true));
         // then
         assertThat(results).hasSize(targetCount)
                 .extracting("memberId", "place")
@@ -147,7 +147,7 @@ class PlaceLikeRepositoryTest {
         em.flush();
         em.clear();
         // when
-        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlace(memberId, savedPlace);
+        Optional<PlaceLike> result = placeLikeRepository.findByMemberIdAndPlaceAndActive(memberId, savedPlace, com.enjoyservice.domain.placelike.entity.type.Active.from(true));
         em.flush();
         // then
         assertThat(result).isNotEmpty();

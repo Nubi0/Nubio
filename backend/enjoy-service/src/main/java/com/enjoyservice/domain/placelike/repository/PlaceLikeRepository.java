@@ -15,10 +15,11 @@ public interface PlaceLikeRepository extends JpaRepository<PlaceLike, Long> {
     @Query("select count(pl) from PlaceLike pl where pl.place = :place")
     int getCountByPlace(@Param("place") Place place);
 
-    List<PlaceLike> findAllByPlace(Place place);
+    List<PlaceLike> findAllByPlaceAndActive(Place place, Active active);
 
     void deleteByMemberIdAndPlace(String memberId, Place place);
 
-    Optional<PlaceLike> findByMemberIdAndPlace(String memberId, Place place);
+    Optional<PlaceLike> findByMemberIdAndPlaceAndActive(String memberId, Place place, Active active);
 
+    Optional<PlaceLike> findByMemberIdAndPlace(String memberId, Place place);
 }

@@ -2,6 +2,7 @@ package com.enjoyservice.domain.placelike.service.impl;
 
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
+import com.enjoyservice.domain.placelike.entity.type.Active;
 import com.enjoyservice.domain.placelike.repository.PlaceLikeRepository;
 import com.enjoyservice.domain.placelike.service.PlaceLikeService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class PlaceLikeServiceImpl implements PlaceLikeService {
     private final PlaceLikeRepository placeLikeRepository;
 
     @Override
-    public List<PlaceLike> findAllByPlace(Place place) {
-        return placeLikeRepository.findAllByPlace(place);
+    public List<PlaceLike> findAllByPlaceAndActiveIsTrue(Place place) {
+        return placeLikeRepository.findAllByPlaceAndActive(place, Active.from(true));
     }
 
     @Transactional

@@ -33,6 +33,8 @@ export const CourseMaker = styled.button`
   border: none;
   background-color: transparent;
   font-size: 1rem;
+  cursor: pointer;
+  z-index: 10000;
 `;
 
 export const ModalOpen = styled.button`
@@ -45,7 +47,7 @@ export const ModalOpen = styled.button`
 
 export const CoursePinWrapper = styled.div`
   margin-right: 0.5rem;
-  img{
+  img {
     width: 3rem;
     border: 1px solid black;
     height: 3rem;
@@ -54,7 +56,7 @@ export const CoursePinWrapper = styled.div`
 `;
 
 export const PinWrapper = styled.div`
-display: flex;
+  display: flex;
   position: absolute;
   top: 7rem;
   left: 2rem;
@@ -81,7 +83,7 @@ export const Modal = styled.div`
 export const ModalTitle = styled.div`
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
-  input{
+  input {
     margin-top: 0.8rem;
     border: none;
     width: 100%;
@@ -103,25 +105,25 @@ export const ModalFooter = styled.div`
   border-top: 1px solid black;
   display: flex;
   justify-content: space-between;
-  button{
+  button {
     background-color: transparent;
     border: none;
     width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
   }
-  hr{
+  hr {
   }
 `;
 
 export const CourseResultWrapper = styled.div`
   border-radius: 1rem;
   position: absolute;
-  bottom: 3rem;
+  bottom: 6rem;
   right: 2rem;
   width: 8.3rem;
   height: 8rem;
-  background-color: #FFC542;
+  background-color: #ffc542;
   padding: 1rem;
 `;
 
@@ -131,7 +133,7 @@ export const Title = styled.div`
 
 export const Data = styled.div`
   margin-top: 0.5rem;
-  div{
+  div {
     margin-top: 0.5rem;
   }
 `;

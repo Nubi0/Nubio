@@ -1,16 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const EnjoySlice = createSlice({
-    name: 'enjoyslice',
-    initialState: {
-        manager: null 
+  name: 'enjoyslice',
+  initialState: {
+    manager: null,
+    time: null,
+    positions: [],
+  },
+  reducers: {
+    setManager: (state, action) => {
+      state.manager = action.payload;
     },
-    reducers: {
-        setMap: (state, action) => {
-            state.manager = action.payload;
-        }
-    }
+    setTime: (state, action) => {
+      state.time = action.payload;
+    },
+    setPosition: (state, action) => {
+      state.positions = action.payload;
+    },
+  },
 });
 
-export const { setMap } = EnjoySlice.actions;
+export const { setManager, setTime, setPosition } = EnjoySlice.actions;
 export default EnjoySlice.reducer;

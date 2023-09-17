@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
-import {
-  CourseSelectWrapper,
-  CourseMaker,
-  MapWrapper,
-} from '../../../../styles/SCourseSelectPage';
+import { useEffect } from 'react';
+import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../types/RootState';
 import Map from '../../../common/map/Map';
+import { setPosition, setTime } from '../../../../redux/slice/EnjoySlice';
 
 declare global {
   interface Window {
@@ -16,55 +12,50 @@ declare global {
   }
 }
 
-const CourseSelect = ({setModal}: any) => {
+const CourseSelect = ({ setModal }: any) => {
+  const timeData = useSelector((state: any) => state.enjoy.time);
   const dispatch = useDispatch();
-  let drawnData: any = null;
-  // const [manager, setManager] = useState<any>(null);
-  const [timeData, setTimeData] = useState<t_d_DataProps | null>(null)
-  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg'
+  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg';
   const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg';
-  const manager = useSelector((state: any) => state.enjoy.manager)
+  const manager = window.kakaoManager;
+  console.log(manager);
   var positions = [
     {
-        title: '카카오', 
-        latlng: new window.kakao.maps.LatLng(33.450705, 126.570677),
-        img_url: dummy1
+      title: '카카오',
+      lat: 33.450705,
+      lng: 126.570677,
+      img_url: dummy1,
     },
     {
-        title: '생태연못', 
-        latlng: new window.kakao.maps.LatLng(33.450936, 126.569477),
-        img_url: dummyUrl,
+      title: '생태연못',
+      lat: 33.450936,
+      lng: 126.569477,
+      img_url: dummyUrl,
     },
     {
-        title: '텃밭', 
-        latlng: new window.kakao.maps.LatLng(33.450879, 126.569940),
-        img_url: dummyUrl,
+      title: '텃밭',
+      lat: 33.450879,
+      lng: 126.56994,
+      img_url: dummyUrl,
     },
     {
-        title: '근린공원',
-        latlng: new window.kakao.maps.LatLng(33.451393, 126.570738),
-        img_url: dummyUrl
-    }
-];
+      title: '근린공원',
+      lat: 33.451393,
+      lng: 126.570738,
+      img_url: dummyUrl,
+    },
+  ];
 
   // 커스텀 마커 생성
-  
-  for (var i = 0; i < positions.length; i ++) {
-  
-    const customOverlay = new window.kakao.maps.CustomOverlay({
-      content: `
-        <div>
-          <img class="custom-marker" src="${positions[i].img_url}" alt="Custom Marker" />
-        </div>
-      `,
-      position: positions[i].latlng,
-    });
-  
-    customOverlay.setMap(map);
-  }
 
-  const selectOverlay = (type: any) => {
-    setTimeData(null);
+  useEffect(() => {
+    dispatch(setPosition(positions));
+    dispatch(setTime(null));
+  }, []);
+
+  const selectOverlay = () => {
+    console.log('selectOverlay called with type:', 'POLYLINE');
+    dispatch(setTime(null));
 
     // 그리기 중이면 그리기를 취소합니다
     manager.cancel();
@@ -72,13 +63,13 @@ const CourseSelect = ({setModal}: any) => {
     manager.undo();
 
     // 클릭한 그리기 요소 타입을 선택합니다
-    manager.select(window.kakao.maps.drawing.OverlayType[type]);
+    manager.select(window.kakao.maps.drawing.OverlayType.POLYLINE);
   };
 
   return (
     <CourseSelectWrapper>
       <Map />
-      <CourseMaker onClick={() => selectOverlay('POLYLINE')} id="courseMaker">
+      <CourseMaker onClick={() => selectOverlay()} id="courseMaker">
         코스 그리기
       </CourseMaker>
       <CoursePinList positions={positions} />

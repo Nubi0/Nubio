@@ -26,6 +26,11 @@ public class AuthController {
         return ApiResponse.created(authService.signup(signupReqDto));
     }
 
+    @PostMapping("/login")
+    public ApiResponse<SignResDto> login(@RequestBody LoginReqDto loginReqDto) {
+        return ApiResponse.ok(authService.login(loginReqDto));
+    }
+
 
 
 }

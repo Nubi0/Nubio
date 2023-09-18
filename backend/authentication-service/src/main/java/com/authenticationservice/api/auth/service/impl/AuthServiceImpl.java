@@ -69,4 +69,15 @@ public class AuthServiceImpl implements AuthService {
         return new SignResDto().of(jwtDto, savedMember.getRole());
     }
 
+    @Override
+    public SignResDto login(LoginReqDto loginReqDto) {
+        Member member = memberInfoService.findByEmail(Email.from(loginReqDto.getEmail()));
+
+        if(passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword().getValue()))
+            throw new BusinessException(ErrorCode.INVALID_PASSWORD_CHECK);
+        JwtDto jwtDto = jwtManager.createJwtDto(String.valueOf(member.getIdentification().getValue()), member.getRole());
+
+        return new SignResDto().of(jwtDto, member.getRole());
+    }
+
 }

@@ -7,4 +7,6 @@ import com.authenticationservice.api.auth.dto.response.SignResDto;
 public interface AuthService {
     SignResDto signup(SignupReqDto signupReqDto);
 
+    SignResDto login(LoginReqDto loginReqDto);
+
 }

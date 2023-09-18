@@ -2,8 +2,6 @@ package com.enjoyservice.domain.courseplacesequence.entity.type;
 
 import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.courseplacesequence.entity.exception.InvalidSequenceNumberException;
-import com.enjoyservice.domain.placereview.entity.type.Point;
-import com.enjoyservice.domain.placereview.exception.InvalidPlaceReviewPointRange;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

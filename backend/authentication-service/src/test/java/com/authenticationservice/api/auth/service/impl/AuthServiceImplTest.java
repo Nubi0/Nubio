@@ -109,4 +109,21 @@ class AuthServiceImplTest {
         assertThat(jwtManager.getTokenClaims(result.getAccessToken()).get("identification")).isEqualTo(savedBeforeMember.getIdentification().getValue());
     }
 
+    @DisplayName("로그아웃에 성공한다.")
+    @Test
+    void logoutSuccessful()  {
+        // given
+        LoginReqDto request = LoginReqDto.builder()
+                .email("beforeMember@nubio.com")
+                .password("pass")
+                .build();
+        SignResDto result = authService.login(request);
+
+        MockHttpServletRequest testUser = new MockHttpServletRequest();
+        testUser.addHeader("Authorization", "bearer " + result.getAccessToken());
+        // then
+        String authorizationHeader = testUser.getHeader("Authorization");
+
+        authService.logout(authorizationHeader);
+    }
 }

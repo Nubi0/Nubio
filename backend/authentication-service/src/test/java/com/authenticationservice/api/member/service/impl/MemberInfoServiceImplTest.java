@@ -1,17 +1,29 @@
 package com.authenticationservice.api.member.service.impl;
 
-import com.authenticationservice.api.member.dto.request.SignupReqDto;
-import com.authenticationservice.api.member.dto.response.SignupResDto;
-import com.authenticationservice.api.member.exception.InvalidPasswordException;
+import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
+import com.authenticationservice.domain.member.entity.Member;
+import com.authenticationservice.domain.member.entity.constant.Gender;
+import com.authenticationservice.domain.member.entity.constant.OAuthType;
+import com.authenticationservice.domain.member.entity.constant.Role;
+import com.authenticationservice.domain.member.entity.type.*;
+import com.authenticationservice.domain.member.repository.MemberRepository;
+import com.authenticationservice.global.jwt.dto.JwtDto;
+import com.authenticationservice.global.jwt.service.JwtManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -19,45 +31,44 @@ class MemberInfoServiceImplTest {
 
     @Autowired
     private MemberInfoService memberInfoService;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtManager jwtManager;
 
+    private Member savedBeforeMember;
 
-    @DisplayName("Nubio 자체 회원가입에 성공한다.")
-    @Test
-    void signup_O() {
-        // given
-        SignupReqDto request = new SignupReqDto();
-        request.setPassword("password");
-        request.setPasswordCheck("password");
-        request.setEmail("Member123@nubio.com");
-        request.setNickname("nickname");
-        request.setGender("male");
-        request.setBirth("2000-01-01");
+    @BeforeEach
+    void setUp() {
+        memberRepository.findByEmail(Email.from("beforeMember@nubio.com"))
+                .ifPresent(member -> memberRepository.delete(member));
 
-        // when
-        SignupResDto result = memberInfoService.signup(request);
+        Member beforeMember = Member.builder()
+                .identification(Identification.createIdentification())
+                .email(Email.from("beforeMember@nubio.com"))
+                .nickname(Nickname.from("memberNickname"))
+                .password(Password.of("pass", passwordEncoder))
+                .oAuthType(OAuthType.NUBIO)
+                .role(Role.ROLE_USER)
+                .gender(Gender.from("male"))
+                .birth(Birth.from("2000-01-01"))
+                .build();
 
-        // then
-        assertNotNull(result);
+        savedBeforeMember = memberRepository.save(beforeMember);
     }
 
-
-    @DisplayName("password와 passwordCheck가 일치하지 않아 실패한다.")
+    @DisplayName("회원 정보 조회를 성공한다.")
     @Test
-    void passwordMismatch() {
+    void getMemberInfo() {
         // given
-        SignupReqDto request = new SignupReqDto();
-        request.setPassword("password");
-        request.setPasswordCheck("passwordCheck");
-        request.setEmail("Member123@nubio.com");
-        request.setNickname("nickname");
-        request.setGender("male");
-        request.setBirth("2000-01-01");
-
+        MemberResDto res = memberInfoService.getMemberInfo(savedBeforeMember.getEmail().getValue());
         // when then
-        assertThrows(InvalidPasswordException.class, () -> {
-            memberInfoService.signup(request);
-        });
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
+        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
     }
-
 
 }

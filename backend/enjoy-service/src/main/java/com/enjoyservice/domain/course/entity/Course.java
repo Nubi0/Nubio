@@ -6,6 +6,7 @@ import com.enjoyservice.domain.course.entity.type.Active;
 import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,6 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,6 +46,9 @@ public class Course extends BaseEntity {
 
     @Column(name = "member_id")
     private String memberId;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CourseTag> courseTags = new ArrayList<>();
 
     @Builder
     public Course(Title title, Content content, Region region, PublicFlag publicFlag, String memberId) {

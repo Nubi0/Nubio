@@ -17,9 +17,7 @@ export const SearchResultWrapper = styled.div`
   border: 0.1rem solid black;
   border-radius: 1rem;
   overflow-y: scroll;
-  #places-list {
-    list-style: none;
-  }
+
   .result-text {
     font-size: 1.3rem;
     margin: 0;
@@ -38,26 +36,23 @@ export const SearchListWrapper = styled.div`
   #places-list {
     padding: 0 1rem;
   }
-  .info {
-    // background: red;
-    margin: 1.5rem 0;
+`;
+
+// SearchItem
+
+export const SearchItemWrapper = styled.div`
+  margin: 1.5rem 0;
+  width: 100%;
+`;
+
+export const ItemNameWrapper = styled.div`
+  margin: 1rem 0;
+  display: flex;
+
+  h5 {
     width: 100%;
-  }
-
-  a {
-    text-decoration-line: none;
-    color: black;
-  }
-  // 인덱스 이름
-  .name {
-    margin: 1rem 0;
-    display: flex;
-
-    h5 {
-      width: 100%;
-      font-size: 1.3rem;
-      margin: 0;
-    }
+    font-size: 1.3rem;
+    margin: 0;
   }
   #homePage {
     width: 5rem;
@@ -70,16 +65,17 @@ export const SearchListWrapper = styled.div`
     margin: 0 1rem;
     border-radius: 0.5rem;
   }
+`;
 
-  // 주소
-  .address {
-  }
+export const ItemInfoWrapper = styled.div`
   // 번호
   .tel {
     display: block;
     margin: 0.5rem 0;
   }
-  .diretion button {
+`;
+export const DirectionButtonWrapper = styled.div`
+  button {
     width: 3rem;
     height: 1.5rem;
     background: none;
@@ -89,5 +85,21 @@ export const SearchListWrapper = styled.div`
     font-size: 0.9rem;
     padding: 0.25rem;
     border-radius: 0.5rem;
+  }
+`;
+
+// SetDirection
+
+export const SetDirectionWrapper = styled.div`
+  width: 100%;
+  height: 6rem;
+  // text-align: center;
+  input {
+    width: 85%;
+    height: 2rem;
+    margin: 0.1rem;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid black;
   }
 `;

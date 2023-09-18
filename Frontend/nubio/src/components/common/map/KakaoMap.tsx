@@ -9,16 +9,8 @@ import SearchItem from "./SearchItem";
 
 import { useDispatch } from "react-redux";
 import { setTime } from "../../../redux/slice/EnjoySlice";
-
-interface placeType {
-  place_name: string;
-  road_address_name: string;
-  address_name: string;
-  phone: string;
-  place_url: string;
-  length: number;
-}
-
+import { placeType } from "../../../types/kakaoMaps";
+import SetDirection from "./SetDirection";
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
@@ -228,40 +220,14 @@ const KakaoMap = (props: propsType) => {
         for (var i = 0; i < places.length; i++) {
           // 마커를 생성하고 지도에 표시
           let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i, undefined),
-            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
+            marker = addMarker(placePosition, i, undefined);
+          // itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
 
           searchItem.push({ i, place: places[i] });
 
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기 위해
           // LatLngBounds 객체에 좌표를 추가
           bounds.extend(placePosition);
-          // 마커와 검색결과 항목에 mouseover 했을때
-          // 해당 장소에 인포윈도우에 장소명을 표시
-          // mouseout 했을 때는 인포윈도우를 닫기
-
-          // 마커와 검색결과 항목에 mouseover 했을때
-          // 해당 장소에 인포윈도우에 장소명을 표시
-          // mouseout 했을 때는 인포윈도우를 닫기
-          (function (marker, title) {
-            kakao.maps.event.addListener(marker, "mouseover", function () {
-              displayInfowindow(marker, title);
-            });
-
-            kakao.maps.event.addListener(marker, "mouseout", function () {
-              infowindow.close();
-            });
-
-            itemEl.onmouseover = function () {
-              displayInfowindow(marker, title);
-            };
-
-            itemEl.onmouseout = function () {
-              infowindow.close();
-            };
-          })(marker, places[i].place_name);
-
-          fragment.appendChild(itemEl);
         }
 
         return searchItem;
@@ -275,45 +241,6 @@ const KakaoMap = (props: propsType) => {
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정
       map.setBounds(bounds);
-    }
-
-    // 검색결과 항목을 Element로 반환하는 함수
-    function getListItem(index: number, places: placeType) {
-      const el = document.createElement("li");
-      if (places.length !== 0) {
-        let itemStr = `
-        <div class="info">
-        <div class="name">
-            <h5 class="info-item place-name">${index + 1}. ${
-          places.place_name
-        }</h5>
-        <a id="homePage" href=${places.place_url}>상세보기</a>
-    </div>
-            ${
-              places.road_address_name
-                ? `<span class="address ">
-                  ${places.road_address_name}
-                    ${places.address_name}
-                    </span>`
-                : `<span class="address ">
-                    ${places.address_name}
-                </span>`
-            }
-            <span class="tel">
-              ${places.phone}
-            </span>
-            <span class="diretion">
-              <button>출발</button>
-              <button>도착</button>
-            </span>
-          </a>
-        </div>
-        `;
-        el.innerHTML = itemStr;
-        el.className = "item";
-      }
-
-      return el;
     }
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수
@@ -385,18 +312,6 @@ const KakaoMap = (props: propsType) => {
       paginationEl.appendChild(fragment);
     }
 
-    // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
-    // 인포윈도우에 장소명을 표시
-    function displayInfowindow(marker: any, title: string) {
-      const content =
-        '<div style="padding:5px;z-index:1;" class="marker-title">' +
-        title +
-        "</div>";
-
-      infowindow.setContent(content);
-      infowindow.open(map, marker);
-    }
-
     // 검색결과 목록의 자식 Element를 제거하는 함수
     function removeAllChildNods(el: HTMLElement) {
       while (el.hasChildNodes()) {
@@ -410,6 +325,7 @@ const KakaoMap = (props: propsType) => {
       <MapWrapper id="map" className="map" />
       {props.searchKeyword !== "" ? (
         <SearchResultWrapper id="search-result">
+          <SetDirection />
           <p className="result-text">
             {props.searchKeyword}
             검색 결과
@@ -417,11 +333,10 @@ const KakaoMap = (props: propsType) => {
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list">
               {searchItmes.map((item, index) => (
-                <SearchItem key={index} places={item.place} index={item.i} />
+                <SearchItem key={index} place={item.place} index={item.i} />
               ))}
             </ul>
           </SearchListWrapper>
-
           <div id="pagination"></div>
         </SearchResultWrapper>
       ) : null}

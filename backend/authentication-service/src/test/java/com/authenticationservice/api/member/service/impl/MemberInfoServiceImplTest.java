@@ -63,7 +63,8 @@ class MemberInfoServiceImplTest {
     @Test
     void getMemberInfo() {
         // given
-        MemberResDto res = memberInfoService.getMemberInfo(savedBeforeMember.getEmail().getValue());
+        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
+        MemberResDto res = memberInfoService.getMemberInfo(jwtDto.getAccessToken());
         // when then
         assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
         assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());

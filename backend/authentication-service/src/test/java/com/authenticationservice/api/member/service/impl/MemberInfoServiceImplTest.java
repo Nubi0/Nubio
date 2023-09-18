@@ -82,4 +82,16 @@ class MemberInfoServiceImplTest {
         assertThat(member).isEqualTo(savedBeforeMember);
     }
 
+    @DisplayName("존재하는 identification으로 member를 조회하면 성공한다.")
+    @Test
+    void findByIdentificationSuccessful() {
+        // given
+        Identification identification = savedBeforeMember.getIdentification();
+        // when
+        Member member = memberInfoService.findByIdentification(identification);
+        // then
+        assertThat(member).isEqualTo(savedBeforeMember);
+    }
+
+
 }

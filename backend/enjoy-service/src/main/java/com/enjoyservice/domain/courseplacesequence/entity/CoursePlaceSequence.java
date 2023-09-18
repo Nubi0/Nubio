@@ -37,4 +37,12 @@ public class CoursePlaceSequence extends BaseEntity {
         this.course = course;
         this.place = place;
     }
+
+    public static CoursePlaceSequence from(int sequenceNumber, Course course, Place place) {
+        return CoursePlaceSequence.builder()
+                .sequenceNumber(SequenceNumber.from(sequenceNumber))
+                .course(course)
+                .place(place)
+                .build();
+    }
 }

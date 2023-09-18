@@ -6,6 +6,7 @@ import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
 import com.enjoyservice.domain.place.entity.Place;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,11 @@ public class CoursePlaceSequence extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    @Builder
+    public CoursePlaceSequence(SequenceNumber sequenceNumber, Course course, Place place) {
+        this.sequenceNumber = sequenceNumber;
+        this.course = course;
+        this.place = place;
+    }
 }

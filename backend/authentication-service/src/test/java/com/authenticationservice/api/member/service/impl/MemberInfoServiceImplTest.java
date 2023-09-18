@@ -94,4 +94,16 @@ class MemberInfoServiceImplTest {
     }
 
 
+    @DisplayName("회원 정보 조회를 성공한다.")
+    @Test
+    void getMemberByIdentificationSuccessful() {
+        // given
+        MemberResDto res = memberInfoService.getMemberByIdentification(savedBeforeMember.getIdentification().getValue());
+        // when then
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
+        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.safeservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safeservice.api.emergencymessage.controller.EmergencyMessageController;
+import com.safeservice.api.emergencymessage.service.EmergencyMessageInfoService;
 import com.safeservice.api.report.controller.ReportController;
 import com.safeservice.api.report.service.ReportInfoService;
 import com.safeservice.domain.report.repository.ReportRepository;
@@ -11,7 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {
-        ReportController.class
+        ReportController.class,
+        EmergencyMessageController.class
 })
 public abstract class ControllerTestSupport {
 
@@ -23,5 +26,8 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected ReportInfoService reportInfoService;
+
+    @MockBean
+    protected EmergencyMessageInfoService emergencyMessageInfoService;
 
 }

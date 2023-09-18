@@ -38,12 +38,31 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         return new MemberResDto().of(member);
     }
 
-
+    @Override
+    public Member findByEmail(Email email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
+    }
 
     @Override
     public Member findByIdentification(Identification identification) {
         return memberRepository.findByIdentification(identification)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
     }
+
+    @Override
+    public void updateMemberInfo(String authorizedMember, MultipartFile profileImg, String nickname) {
+        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+        Member member = findByIdentification(identification);
+
+        if(!profileImg.isEmpty()) {
+            // TODO : 이미지 s3 저장
+//            String url = fileService.uploadFile(profileImg, null).getUrl();
+//            member.setProfileUrl(url);
+        }
+        if(!nickname.isEmpty()) member.setNickname(Nickname.from(nickname));
+        memberRepository.save(member);
+    }
+
 
 }

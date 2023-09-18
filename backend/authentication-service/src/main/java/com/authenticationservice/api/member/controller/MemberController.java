@@ -30,5 +30,13 @@ public class MemberController {
         return ApiResponse.ok(memberInfoService.getMemberByIdentification(identification));
     }
 
+    @PatchMapping("/me")
+    public ApiResponse<String> updateMe(@RequestPart(name = "profileUrl", required = false) MultipartFile profileImg,
+                                        @RequestPart(name = "nickname", required = false) String nickName) {
+        String authorizedMember = SecurityUtil.getAuthorizedMember();
+        memberInfoService.updateMemberInfo(authorizedMember, profileImg, nickName);
+        return ApiResponse.ok("Success");
+    }
+
 
 }

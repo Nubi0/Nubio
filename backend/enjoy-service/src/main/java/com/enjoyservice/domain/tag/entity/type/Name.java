@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Name {
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String value;
 
     private Name(final String value) {

@@ -1,47 +1,35 @@
-import { useState } from 'react';
-import { Content, MyImg, MyInfoWrapper, Title } from "../../styles/SProfilePage";
-import Swal from 'sweetalert2';
-
+import { useRef, useEffect } from 'react';
+import { Content, MyInfoWrapper, Title } from "../../styles/SProfilePage";
+import UserImg from './UserImg';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNewNickName, setIsInputDisabled, setIsChange } from '../../redux/slice/Profileslice';
 
 const UserInfo = () => {
-    const user = process.env.PUBLIC_URL + "/assets/user.png";
-    const [nickName, setNickName] = useState<string>('김민규');
-    const [newNickName, setNewNickName] = useState<string>(nickName);
-    const [isInputDisabled, setIsInputDisabled] = useState<boolean>(true);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const newNickName = useSelector((state: any) => state.profile.newNickName);
+    const isInputDisabled = useSelector((state: any) => state.profile.isInputDisabled);
+    const dispatch = useDispatch();
+
     const handleChange = (value: string) => {
-        setNewNickName(value);
+        dispatch(setNewNickName(value));
     }
+
     const enableInput = () => {
-        setIsInputDisabled(false);
-    }
-    const changeNickName = () => {
-        Swal.fire({
-            position: "center",
-            title: "닉네임을 변경하시겠습니까?",
-            text: "NUBIO",
-            showConfirmButton: true,
-            showCancelButton: true,
-            confirmButtonText: "예",
-            cancelButtonText: "아니요",
-            color: "black",
-        }).then((res) => {
-            if (res.isConfirmed) {
-                // "예"를 눌렀을 때만 새로운 닉네임으로 변경
-                setNickName(newNickName);
-                setIsInputDisabled(true);
-            } else {
-                // "아니요"를 눌렀을 때는 변경하지 않음
-                setIsInputDisabled(true);
-                setNewNickName(nickName);
-            }
-        })
-        setIsInputDisabled(true);
-
+        dispatch(setIsInputDisabled(false));
+        dispatch(setIsChange(true));
     }
 
-    return(
+
+    useEffect(() => {
+        // isInputDisabled 값이 변경될 때 포커스를 설정
+        if (!isInputDisabled && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isInputDisabled]);
+
+    return (
         <MyInfoWrapper>
-            <MyImg src={user} alt="" />
+            <UserImg setIsChange={setIsChange} />
             <div>
                 <Title>이메일</Title>
                 <Content>abc123@naver.com</Content>
@@ -52,9 +40,15 @@ const UserInfo = () => {
             </div>
             <div>
                 <Title>닉네임</Title>
-                <div style={{ justifyContent: 'space-between'}}>
-                    <input type="text" value={newNickName} onChange={(e) => (handleChange(e.target.value))} disabled={isInputDisabled} />
-                    <button onClick={isInputDisabled ? enableInput : changeNickName}>{isInputDisabled ? '수정' : '저장'}</button>
+                <div style={{ justifyContent: 'space-between' }}>
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={newNickName}
+                        onChange={(e) => (handleChange(e.target.value))}
+                        disabled={isInputDisabled}
+                    />
+                    <button onClick={isInputDisabled ? enableInput : () => {}}>{isInputDisabled ? '수정' : null}</button>
                 </div>
             </div>
         </MyInfoWrapper>

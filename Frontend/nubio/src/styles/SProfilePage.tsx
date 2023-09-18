@@ -1,7 +1,17 @@
 import styled from "styled-components";
 
 
-export const ProfilePageWrapper = styled.div``;
+export const ProfilePageWrapper = styled.div`
+  position: relative;
+`;
+
+export const SaveButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background-color: white;
+`;
 
 export const ProfileWrapper = styled.div`
   height: 100%;
@@ -11,7 +21,6 @@ export const MyInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   height: 40%;
   background-color: white;
   div{
@@ -49,10 +58,22 @@ export const NickName = styled.div`
 
 `;
 
+export const ProfileImg = styled.div`
+  justify-content: center;
+  position: relative;
+`;
+
 export const MyImg = styled.img`
   width: 4rem;
-    height: 4rem;
-    display: block;
+  height: 4rem;
+  display: block;
+  border-radius: 50%;
+`;
+
+export const ImgPlus = styled.img`
+  position: absolute;
+  bottom: -0.25rem;
+  right: 7.5rem;
 `;
 
 export const SettingWrapper = styled.div`

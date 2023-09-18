@@ -5,7 +5,7 @@ import UserInfo from "./UserInfo";
 const Profile = ({openModal}: any) => {
     return(
         <ProfileWrapper>
-            <UserInfo />
+            <UserInfo  />
             <Setting openModal={openModal} />
         </ProfileWrapper>
     );

@@ -71,4 +71,15 @@ class MemberInfoServiceImplTest {
         assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
     }
 
+    @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
+    @Test
+    void findByEmailSuccessful() {
+        // given
+        Email email = savedBeforeMember.getEmail();
+        // when
+        Member member = memberInfoService.findByEmail(email);
+        // then
+        assertThat(member).isEqualTo(savedBeforeMember);
+    }
+
 }

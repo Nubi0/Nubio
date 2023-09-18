@@ -31,6 +31,11 @@ public class AuthController {
         return ApiResponse.ok(authService.login(loginReqDto));
     }
 
-
+    @PostMapping("/logout")
+    public ApiResponse<String> logout(HttpServletRequest httpServletRequest) {
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        authService.logout(authorizationHeader);
+        return ApiResponse.ok("Success");
+    }
 
 }

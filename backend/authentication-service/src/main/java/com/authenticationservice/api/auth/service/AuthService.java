@@ -9,4 +9,5 @@ public interface AuthService {
 
     SignResDto login(LoginReqDto loginReqDto);
 
+    void logout(String authorizedMember);
 }

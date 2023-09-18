@@ -80,4 +80,17 @@ public class AuthServiceImpl implements AuthService {
         return new SignResDto().of(jwtDto, member.getRole());
     }
 
+    @Override
+    public void logout(String authorizationHeader) {
+        String accessToken = authorizationHeader.split(" ")[1];
+        Identification identification = Identification.from(jwtManager.getTokenClaims(accessToken).get("identification").toString());
+
+        Member member = memberInfoService.findByIdentification(identification);
+
+        member.setRefreshTokenExpirationTime(LocalDateTime.now());
+
+        // redis에 black-list 등록
+        Long tokenExpiration = jwtManager.getTokenExpiration(accessToken);
+        redisUtil.setBlackList(accessToken, "access-token", tokenExpiration);
+    }
 }

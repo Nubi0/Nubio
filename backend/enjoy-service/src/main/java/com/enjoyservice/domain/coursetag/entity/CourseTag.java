@@ -5,9 +5,11 @@ import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CourseTag extends BaseEntity {
 

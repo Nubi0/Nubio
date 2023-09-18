@@ -6,10 +6,12 @@ import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
 import com.enjoyservice.domain.place.entity.Place;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "course_place_sequence")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CoursePlaceSequence extends BaseEntity {
 

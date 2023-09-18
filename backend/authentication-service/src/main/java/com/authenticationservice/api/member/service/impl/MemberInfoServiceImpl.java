@@ -64,5 +64,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         memberRepository.save(member);
     }
 
+    @Override
+    public void deleteMember(String authorizedMember) {
+        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+        Member member = findByIdentification(identification);
 
+        member.withdraw();
+        memberRepository.save(member);
+    }
 }

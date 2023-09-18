@@ -13,5 +13,5 @@ public interface MemberInfoService {
     Member findByEmail(Email email);
     Member findByIdentification(Identification identification);
     void updateMemberInfo(String authorizedMember, MultipartFile profileImg, String nickName);
-
+    void deleteMember(String authorizedMember);
 }

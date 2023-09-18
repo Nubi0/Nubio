@@ -38,5 +38,10 @@ public class MemberController {
         return ApiResponse.ok("Success");
     }
 
-
+    @PatchMapping("/delete")
+    public ApiResponse<String> deleteMe() {
+        String authorizedMember = SecurityUtil.getAuthorizedMember();
+        memberInfoService.deleteMember(authorizedMember);
+        return ApiResponse.ok("Success");
+    }
 }

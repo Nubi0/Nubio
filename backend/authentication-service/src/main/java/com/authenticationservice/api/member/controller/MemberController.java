@@ -1,15 +1,13 @@
 package com.authenticationservice.api.member.controller;
 
 import com.authenticationservice.api.ApiResponse;
-import com.authenticationservice.api.member.dto.request.SignupReqDto;
-import com.authenticationservice.api.member.dto.response.SignupResDto;
+import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
+import com.authenticationservice.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -19,9 +17,12 @@ public class MemberController {
 
     final MemberInfoService memberInfoService;
 
-    @PostMapping("/signup")
-    public ApiResponse<SignupResDto> signup(@RequestBody SignupReqDto signupReqDto) {
-         return ApiResponse.created(memberInfoService.signup(signupReqDto));
+    @GetMapping("/me")
+    public ApiResponse<MemberResDto> info() {
+        String authorizedMember = SecurityUtil.getAuthorizedMember();
+
+        return ApiResponse.ok(memberInfoService.getMemberInfo(authorizedMember));
     }
+
 
 }

@@ -1,22 +1,20 @@
 package com.authenticationservice.api.member.service.impl;
 
-import com.authenticationservice.api.member.dto.request.SignupReqDto;
-import com.authenticationservice.api.member.dto.response.SignupResDto;
-import com.authenticationservice.api.member.exception.InvalidPasswordException;
+import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
-import com.authenticationservice.domain.member.entity.constant.Gender;
-import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
-import com.authenticationservice.domain.member.service.MemberService;
+import com.authenticationservice.domain.member.exception.MemberNotFoundException;
+import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.error.ErrorCode;
-import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 
 @Service("memberInfoService")
@@ -24,31 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberInfoServiceImpl implements MemberInfoService {
 
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final JwtManager jwtManager;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
-    public SignupResDto signup(SignupReqDto signupReqDto) {
-
-        if(!signupReqDto.getPassword().equals(signupReqDto.getPasswordCheck()))
-            throw new InvalidPasswordException(ErrorCode.INVALID_PASSWORD_CHECK);
-
-        Member member = Member.builder()
-                .identification(new Identification())
-                .email(Email.from(signupReqDto.getEmail()))
-                .nickname(Nickname.from(signupReqDto.getNickname()))
-                .password(Password.of(signupReqDto.getPassword(), passwordEncoder))
-                .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
-                .gender(Gender.from(signupReqDto.getGender()))
-                .birth(Birth.from(signupReqDto.getBirth()))
-                .build();
-
-        Member savedMember = memberService.register(member);
-        JwtDto jwtDto = jwtManager.createJwtDto(String.valueOf(savedMember.getIdentification()), savedMember.getRole());
-
-        return new SignupResDto().of(jwtDto, savedMember.getRole());
+    public MemberResDto getMemberInfo(String authorizedMember) {
+        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+        Member member = findByIdentification(identification);
+        return new MemberResDto().of(member);
     }
+
+
+
+    @Override
+    public Member findByIdentification(Identification identification) {
+        return memberRepository.findByIdentification(identification)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_EXISTS));
+    }
+
 }

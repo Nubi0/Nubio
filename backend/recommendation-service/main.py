@@ -18,7 +18,7 @@ async def root():
 @app.get("/get-all")
 def get_all():
     data = database.all()
-    train.recoCourse(data)
+    train.makeModel(data)
     return {"data" : data}
 
 # 입력한 정보와 비슷한 코스 응답

@@ -24,3 +24,8 @@
 
 ### env
 .env
+
+### file
+fasttext_model
+fasttext_model.wv.vectors_ngrams.npy
+produc_list.pkl

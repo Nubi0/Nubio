@@ -32,6 +32,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         return new MemberResDto().of(member);
     }
 
+    @Override
+    public MemberResDto getMemberByIdentification(String identification) {
+        Member member = findByIdentification(Identification.from(identification));
+        return new MemberResDto().of(member);
+    }
+
 
 
     @Override

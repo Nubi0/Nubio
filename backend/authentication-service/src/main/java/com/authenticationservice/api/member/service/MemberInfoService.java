@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberInfoService {
     MemberResDto getMemberInfo(String authorizedMember);
-
+    MemberResDto getMemberByIdentification(String identification);
+    Member findByEmail(Email email);
     Member findByIdentification(Identification identification);
 
 }

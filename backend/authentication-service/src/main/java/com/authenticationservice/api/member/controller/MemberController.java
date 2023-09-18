@@ -24,5 +24,11 @@ public class MemberController {
         return ApiResponse.ok(memberInfoService.getMemberInfo(authorizedMember));
     }
 
+    @GetMapping("/me/{identification}")
+    public ApiResponse<MemberResDto> info(@PathVariable(name = "identification") String identification) {
+
+        return ApiResponse.ok(memberInfoService.getMemberByIdentification(identification));
+    }
+
 
 }

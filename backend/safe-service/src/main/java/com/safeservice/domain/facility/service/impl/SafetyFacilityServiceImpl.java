@@ -38,7 +38,13 @@ public class SafetyFacilityServiceImpl implements SafetyFacilityService {
     }
 
     @Override
-    public List<SafetyFacility> saveAll(List<SafetyFacility> safetyFacilityLsit) {
-        return safetyFacilityRepository.saveAll(safetyFacilityLsit);
+    @Transactional
+    public List<SafetyFacility> saveAll(List<SafetyFacility> safetyFacilityList) {
+        return safetyFacilityRepository.saveAll(safetyFacilityList);
+    }
+
+    @Override
+    public List<SafetyFacility> findFacilityNear(Point point, Distance distance) {
+        return safetyFacilityRepository.findByLocationNear(point, distance);
     }
 }

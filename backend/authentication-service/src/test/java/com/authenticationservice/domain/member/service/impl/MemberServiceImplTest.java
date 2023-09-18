@@ -1,6 +1,5 @@
 package com.authenticationservice.domain.member.service.impl;
 
-import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.constant.Gender;
 import com.authenticationservice.domain.member.entity.constant.OAuthType;
@@ -39,7 +38,7 @@ class MemberServiceImplTest {
     @BeforeEach
     void before() {
         Member beforeMember = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember123@nubio.com"))
                 .nickname(Nickname.from("beforeMemberNickname"))
                 .password(Password.of("pass", passwordEncoder))
@@ -62,7 +61,7 @@ class MemberServiceImplTest {
     void register() {
         // given
         Member member = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from("member@nubio.com"))
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))
@@ -91,7 +90,7 @@ class MemberServiceImplTest {
         String beforeMemberEmail = savedBeforeMember.getEmail().getValue();
 
         Member member = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from(beforeMemberEmail))
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))

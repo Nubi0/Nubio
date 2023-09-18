@@ -32,7 +32,7 @@ class MemberRepositoryTest {
     @BeforeEach
     void setUp() {
         Member beforeMember = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember@nubio.com"))
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))

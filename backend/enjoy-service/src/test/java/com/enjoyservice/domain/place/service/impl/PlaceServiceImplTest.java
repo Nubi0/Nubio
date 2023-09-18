@@ -6,6 +6,7 @@ import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.place.service.PlaceService;
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,9 @@ class PlaceServiceImplTest {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private EntityManager em;
+
     private List<Place> savedBeforePlaces;
 
     @BeforeEach
@@ -53,6 +57,7 @@ class PlaceServiceImplTest {
         }
         // 9개 저장
         savedBeforePlaces = placeRepository.saveAllAndFlush(beforePlaces);
+        em.clear();
     }
 
     private Place generatePlace(int index, GroupCode groupCode, GroupName groupName) {
@@ -85,5 +90,51 @@ class PlaceServiceImplTest {
         // then
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(savedPlace.getId());
+    }
+
+    @DisplayName("id 목록(모두 존재)으로 모든 Place 조회")
+    @Test
+    void findAllByIds() {
+        // given
+        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(2).getId());
+        // when
+        List<Place> result = placeService.findAllById(ids);
+        // then
+        assertThat(result).hasSize(3)
+                .extracting("id", "name.value")
+                .containsExactlyInAnyOrder(
+                        tuple(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(0).getName().getValue()),
+                        tuple(savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(1).getName().getValue()),
+                        tuple(savedBeforePlaces.get(2).getId(), savedBeforePlaces.get(2).getName().getValue())
+                );
+    }
+
+    @DisplayName("id 목록(일부 존재 안함)으로 모든 Place 조회")
+    @Test
+    void findAllByIdsNotExist() {
+        // given
+        Long notExistId = 100L;
+        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), notExistId);
+        // when
+        List<Place> result = placeService.findAllById(ids);
+        // then
+        assertThat(result).hasSize(2)
+                .extracting("id", "name.value")
+                .containsExactlyInAnyOrder(
+                        tuple(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(0).getName().getValue()),
+                        tuple(savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(1).getName().getValue())
+                );
+    }
+
+    @DisplayName("id 목록(모두 존재 안함)으로 모든 Place 조회")
+    @Test
+    void findAllByIdsAllNotExist() {
+        // given
+        Long notExistId = 100L;
+        List<Long> notExistIds = List.of(100L, 101L, 102L);
+        // when
+        List<Place> result = placeService.findAllById(notExistIds);
+        // then
+        assertThat(result).hasSize(0);
     }
 }

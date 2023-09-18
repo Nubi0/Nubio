@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   MapWrapper,
   SearchListWrapper,
@@ -6,7 +6,7 @@ import {
 } from '../../../styles/SKakaoMap';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
-import { setManager, setTime } from '../../../redux/slice/EnjoySlice';
+import { setTime } from '../../../redux/slice/EnjoySlice';
 
 interface placeType {
   place_name: string;
@@ -29,7 +29,7 @@ declare global {
 const KakaoMap = (props: propsType) => {
   // 마커를 담는 배열
   let markers: any[] = [];
-  let drawnData: any = null;
+  let drawnData: any[] = [];
   const dispatch = useDispatch();
 
   const getDrawnLines = () => {
@@ -40,6 +40,7 @@ const KakaoMap = (props: propsType) => {
   // 거리가 계산된 결과 출력 함수
   const calculateAndDisplayLineDistances = () => {
     const drawnLines = getDrawnLines();
+    console.log(drawnLines);
     if (drawnLines.length > 0) {
       const distances = drawnLines.map((line: any) => {
         const distance = calculateLineDistance(line);
@@ -121,7 +122,6 @@ const KakaoMap = (props: propsType) => {
     managerInstance.addListener('drawend', () => {
       drawnData = managerInstance.getData();
       calculateAndDisplayLineDistances();
-      console.log('end');
     });
     window.kakaoManager = managerInstance;
 

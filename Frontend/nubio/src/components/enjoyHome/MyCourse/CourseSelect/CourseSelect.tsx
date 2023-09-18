@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSelectPage';
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
@@ -17,8 +17,9 @@ const CourseSelect = ({ setModal }: any) => {
   const dispatch = useDispatch();
   const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg';
   const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg';
-  const manager = window.kakaoManager;
-  console.log(manager);
+  const [manager, setManger] = useState<any>(null);
+
+
   var positions = [
     {
       title: '카카오',
@@ -51,6 +52,8 @@ const CourseSelect = ({ setModal }: any) => {
   useEffect(() => {
     dispatch(setPosition(positions));
     dispatch(setTime(null));
+    setManger(window.kakaoManager);
+
   }, []);
 
   const selectOverlay = () => {

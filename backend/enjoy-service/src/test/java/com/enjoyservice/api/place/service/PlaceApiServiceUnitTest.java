@@ -9,7 +9,6 @@ import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.domain.placefavorite.service.service.PlaceFavoriteService;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
 import com.enjoyservice.domain.placelike.service.PlaceLikeService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,13 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PlaceApiServiceTest {
+class PlaceApiServiceUnitTest {
 
     @InjectMocks
     private PlaceApiService placeApiService;
@@ -77,7 +75,7 @@ class PlaceApiServiceTest {
         //Mocking
         given(placeService.findOneByIdFetchImage(mockPlaceId))
                 .willReturn(places);
-        when(placeLikeService.findAllByPlace(any(Place.class)))
+        when(placeLikeService.findAllByPlaceAndActiveIsTrue(any(Place.class)))
                         .thenReturn(likes);
         given(placeFavoriteService.existsByMemberIdAndPlace(memberId, mockPlace))
                 .willReturn(true);

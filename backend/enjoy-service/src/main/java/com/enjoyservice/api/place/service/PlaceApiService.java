@@ -24,7 +24,7 @@ public class PlaceApiService {
 
     public PlaceInfoRes getPlaceInfo(String memberId, long placeId) {
         Place place = placeService.findOneByIdFetchImage(placeId).get(0);
-        List<PlaceLike> placeLikeResults = placeLikeService.findAllByPlace(place);
+        List<PlaceLike> placeLikeResults = placeLikeService.findAllByPlaceAndActiveIsTrue(place);
         int likeCount = placeLikeResults.size();
         boolean likeFlag = isMemberLikePlace(memberId, placeLikeResults);
         boolean favoriteFlag = placeFavoriteService.existsByMemberIdAndPlace(memberId, place);

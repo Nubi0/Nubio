@@ -1,11 +1,13 @@
-package com.enjoyservice.domain.placereview.entity.type;
+package com.enjoyservice.domain.placelike.entity.type;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Active {
 
@@ -16,7 +18,12 @@ public class Active {
         this.value = value;
     }
 
-    public static Active from(final boolean value) {
-        return new Active(value);
+    public static com.enjoyservice.domain.placelike.entity.type.Active from(final boolean value) {
+        return new com.enjoyservice.domain.placelike.entity.type.Active(value);
+    }
+
+    public boolean changeValue() {
+        this.value = !this.value;
+        return this.value;
     }
 }

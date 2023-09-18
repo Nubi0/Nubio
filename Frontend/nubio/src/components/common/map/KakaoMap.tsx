@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { propsType } from "../../../pages/SafeHomePage";
+import { useEffect, useState, useRef } from "react";
 import {
   MapWrapper,
   SearchListWrapper,
@@ -7,6 +6,9 @@ import {
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
 import SearchItem from "./SearchItem";
+
+import { useDispatch } from "react-redux";
+import { setTime } from "../../../redux/slice/EnjoySlice";
 
 interface placeType {
   place_name: string;
@@ -20,12 +22,83 @@ interface placeType {
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
+declare global {
+  interface Window {
+    kakaoManager: any; // 또는 DrawingManager 타입에 맞는 타입 지정
+  }
+}
+
 const KakaoMap = (props: propsType) => {
   // 마커를 담는 배열
   let markers: any[] = [];
   const [searchItmes, setSearchItmes] = useState<
     { i: number; place: placeType }[]
   >([]);
+  let drawnData: any[] = [];
+  const dispatch = useDispatch();
+
+  const getDrawnLines = () => {
+    const drawnPolylines =
+      drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
+    return drawnPolylines;
+  };
+
+  // 거리가 계산된 결과 출력 함수
+  const calculateAndDisplayLineDistances = () => {
+    const drawnLines = getDrawnLines();
+    console.log(drawnLines);
+    if (drawnLines.length > 0) {
+      const distances = drawnLines.map((line: any) => {
+        const distance = calculateLineDistance(line);
+        return distance.toFixed();
+      });
+      console.log(distances[0]);
+      const walkkTime = (distances / 67) | 0;
+      if (walkkTime > 60) {
+        dispatch(
+          setTime({
+            time: Math.ceil(walkkTime / 60),
+            type: "시간",
+            dis: distances[0],
+          })
+        );
+      } else {
+        dispatch(
+          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] })
+        );
+      }
+    } else {
+      console.log("라인이 그려지지 않았습니다.");
+    }
+  };
+
+  // 거리계산 공식
+  const calculateLineDistance = (line: any) => {
+    const path = line["points"];
+    const R = 6371;
+    let totalDistance = 0;
+    for (let i = 0; i < path.length - 1; i++) {
+      const point1 = path[i];
+      const point2 = path[i + 1];
+      const dLat = deg2rad(point1["y"] - point2["y"]);
+      const dLon = deg2rad(point1["x"] - point2["x"]);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(point1["y"])) *
+          Math.cos(deg2rad(point2["y"])) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c * 1000;
+      totalDistance += distance;
+    }
+    return totalDistance;
+  };
+
+  // 도(degree)단위를 라디안(radian)단위로 바꾸는 함수
+  const deg2rad = (deg: any) => {
+    return deg * (Math.PI / 180);
+  };
 
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
@@ -37,6 +110,51 @@ const KakaoMap = (props: propsType) => {
 
     // 지도를 생성
     const map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // Drawing Manger Option 설정
+    const options = {
+      map: map,
+      drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
+      guideTooltip: ["draw", "drag"],
+      markerOptions: {
+        draggable: true,
+        removable: true,
+      },
+      polylineOptions: {
+        draggable: true,
+        editable: true,
+        strokeColor: "#FFC542",
+        hintStrokeStyle: "solid",
+        hintStrokeOpacity: 1,
+        zIndex: 1000,
+      },
+    };
+    // Drawing Manager 객체 생성
+    const managerInstance = new window.kakao.maps.drawing.DrawingManager(
+      options
+    );
+    managerInstance.addListener("drawend", () => {
+      drawnData = managerInstance.getData();
+      calculateAndDisplayLineDistances();
+    });
+    window.kakaoManager = managerInstance;
+
+    // 커스텀 마커 표시
+    for (var i = 0; i < props.position.length; i++) {
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        content: `
+          <div>
+            <img class="custom-marker" src="${props.position[i].img_url}" alt="Custom Marker" />
+          </div>
+        `,
+        position: new window.kakao.maps.LatLng(
+          props.position[i].lat,
+          props.position[i].lng
+        ),
+      });
+
+      customOverlay.setMap(map);
+    }
 
     // 장소 검색 객체를 생성
     const ps = new kakao.maps.services.Places();
@@ -118,6 +236,9 @@ const KakaoMap = (props: propsType) => {
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기 위해
           // LatLngBounds 객체에 좌표를 추가
           bounds.extend(placePosition);
+          // 마커와 검색결과 항목에 mouseover 했을때
+          // 해당 장소에 인포윈도우에 장소명을 표시
+          // mouseout 했을 때는 인포윈도우를 닫기
 
           // 마커와 검색결과 항목에 mouseover 했을때
           // 해당 장소에 인포윈도우에 장소명을 표시
@@ -268,7 +389,7 @@ const KakaoMap = (props: propsType) => {
     // 인포윈도우에 장소명을 표시
     function displayInfowindow(marker: any, title: string) {
       const content =
-        '<div style="padding:5px;z-index:1; " class="marker-title">' +
+        '<div style="padding:5px;z-index:1;" class="marker-title">' +
         title +
         "</div>";
 

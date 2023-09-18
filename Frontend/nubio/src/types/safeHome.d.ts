@@ -4,3 +4,8 @@ interface DisasterIconInfo {
   name: string;
   content: string;
 }
+
+interface propsType {
+  searchKeyword: string;
+  position: Array;
+}

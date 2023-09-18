@@ -40,7 +40,7 @@ public class CourseCreateReq {
     private List<PlaceInfo> placeInfos;
 
     @Getter
-    static class TagInfo {
+    static public class TagInfo {
 
         @NotBlank(message = "태그는 비어있으면 안됩니다.")
         @Size(max = 10, message = "태그의 길이는 최대 10글자 입니다.")

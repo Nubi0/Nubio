@@ -1,6 +1,6 @@
 package com.enjoyservice.domain.courseplacesequence.entity.type;
 
-import com.enjoyservice.domain.courseplacesequence.entity.exception.InvalidSequenceNumberException;
+import com.enjoyservice.domain.courseplacesequence.exception.InvalidSequenceNumberException;
 import com.enjoyservice.global.error.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

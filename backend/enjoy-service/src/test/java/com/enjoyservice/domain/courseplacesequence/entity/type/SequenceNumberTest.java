@@ -1,9 +1,7 @@
 package com.enjoyservice.domain.courseplacesequence.entity.type;
 
-import com.enjoyservice.domain.course.entity.type.Title;
-import com.enjoyservice.domain.courseplacesequence.entity.exception.InvalidSequenceNumberException;
+import com.enjoyservice.domain.courseplacesequence.exception.InvalidSequenceNumberException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;

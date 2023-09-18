@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -56,7 +58,7 @@ class TagServiceImplTest {
         // when
         boolean result = tagService.isExistByName(Name.from(targetName));
         // then
-        Assertions.assertThat(result).isTrue();
+        assertThat(result).isTrue();
     }
 
     @DisplayName("없는 Tag는 true를 반환한다.")
@@ -67,6 +69,32 @@ class TagServiceImplTest {
         // when
         boolean result = tagService.isExistByName(Name.from(targetName));
         // then
-        Assertions.assertThat(result).isFalse();
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("존재하는 Tag를 Name으로 조회하기")
+    @Test
+    void findByName() {
+        // given
+        String name = "target";
+        Tag tag = Tag.from(name);
+        Tag savedTag = tagRepository.saveAndFlush(tag);
+        em.clear();
+        // when
+        Optional<Tag> opTag = tagService.findByName(Name.from(name));
+        // then
+        assertThat(opTag).isNotEmpty();
+        assertThat(opTag.get().getName().getValue()).isEqualTo(name);
+    }
+
+    @DisplayName("존재하지 않는 Tag를 Name으로 조회하기")
+    @Test
+    void notExistFindByName() {
+        // given
+        String name = "target";
+        // when
+        Optional<Tag> opTag = tagService.findByName(Name.from(name));
+        // then
+        assertThat(opTag).isEmpty();
     }
 }

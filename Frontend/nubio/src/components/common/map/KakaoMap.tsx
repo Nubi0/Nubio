@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { propsType } from "../../../pages/SafeHomePage";
 import {
   MapWrapper,
@@ -6,6 +6,7 @@ import {
   SearchResultWrapper,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
+import SearchItem from "./SearchItem";
 
 interface placeType {
   place_name: string;
@@ -22,6 +23,9 @@ const { kakao } = window as any;
 const KakaoMap = (props: propsType) => {
   // 마커를 담는 배열
   let markers: any[] = [];
+  const [searchItmes, setSearchItmes] = useState<
+    { i: number; place: placeType }[]
+  >([]);
 
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
@@ -47,7 +51,6 @@ const KakaoMap = (props: propsType) => {
       let keyword = props.searchKeyword;
 
       if (!keyword.replace(/^\s+|\s+$/g, "")) {
-        console.log("키워드를 입력해주세요!");
         return false;
       }
 
@@ -90,7 +93,6 @@ const KakaoMap = (props: propsType) => {
 
     // 검색 결과 목록과 마커를 표출하는 함수
     function displayPlaces(places: string | any[]) {
-      console.log(places);
       const listEl = document.getElementById("places-list"),
         resultEl = document.getElementById("search-result"),
         fragment = document.createDocumentFragment(),
@@ -101,39 +103,48 @@ const KakaoMap = (props: propsType) => {
 
       // 지도에 표시되고 있는 마커를 제거
       removeMarker();
-      for (var i = 0; i < places.length; i++) {
-        // 마커를 생성하고 지도에 표시
-        let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-          marker = addMarker(placePosition, i, undefined),
-          itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
 
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가
-        bounds.extend(placePosition);
+      // 새로운 상태를 계산하여 업데이트
+      setSearchItmes((prevSearchItems) => {
+        const searchItem = [...prevSearchItems];
+        for (var i = 0; i < places.length; i++) {
+          // 마커를 생성하고 지도에 표시
+          let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+            marker = addMarker(placePosition, i, undefined),
+            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
 
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시
-        // mouseout 했을 때는 인포윈도우를 닫기
-        (function (marker, title) {
-          kakao.maps.event.addListener(marker, "mouseover", function () {
-            displayInfowindow(marker, title);
-          });
+          searchItem.push({ i, place: places[i] });
 
-          kakao.maps.event.addListener(marker, "mouseout", function () {
-            infowindow.close();
-          });
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기 위해
+          // LatLngBounds 객체에 좌표를 추가
+          bounds.extend(placePosition);
 
-          itemEl.onmouseover = function () {
-            displayInfowindow(marker, title);
-          };
+          // 마커와 검색결과 항목에 mouseover 했을때
+          // 해당 장소에 인포윈도우에 장소명을 표시
+          // mouseout 했을 때는 인포윈도우를 닫기
+          (function (marker, title) {
+            kakao.maps.event.addListener(marker, "mouseover", function () {
+              displayInfowindow(marker, title);
+            });
 
-          itemEl.onmouseout = function () {
-            infowindow.close();
-          };
-        })(marker, places[i].place_name);
+            kakao.maps.event.addListener(marker, "mouseout", function () {
+              infowindow.close();
+            });
 
-        fragment.appendChild(itemEl);
-      }
+            itemEl.onmouseover = function () {
+              displayInfowindow(marker, title);
+            };
+
+            itemEl.onmouseout = function () {
+              infowindow.close();
+            };
+          })(marker, places[i].place_name);
+
+          fragment.appendChild(itemEl);
+        }
+
+        return searchItem;
+      });
 
       // 검색결과 항목들을 검색결과 목록 Element에 추가
       listEl && listEl.appendChild(fragment);
@@ -169,6 +180,10 @@ const KakaoMap = (props: propsType) => {
             }
             <span class="tel">
               ${places.phone}
+            </span>
+            <span class="diretion">
+              <button>출발</button>
+              <button>도착</button>
             </span>
           </a>
         </div>
@@ -213,7 +228,6 @@ const KakaoMap = (props: propsType) => {
       }
       markers = [];
     }
-
     // 검색결과 목록 하단에 페이지번호를 표시는 함수
     function displayPagination(pagination: {
       last: number;
@@ -254,7 +268,7 @@ const KakaoMap = (props: propsType) => {
     // 인포윈도우에 장소명을 표시
     function displayInfowindow(marker: any, title: string) {
       const content =
-        '<div style="padding:5px;z-index:1;" class="marker-title">' +
+        '<div style="padding:5px;z-index:1; " class="marker-title">' +
         title +
         "</div>";
 
@@ -269,6 +283,7 @@ const KakaoMap = (props: propsType) => {
       }
     }
   }, [props.searchKeyword]);
+  console.log(searchItmes);
   return (
     <>
       <MapWrapper id="map" className="map" />
@@ -279,8 +294,13 @@ const KakaoMap = (props: propsType) => {
             검색 결과
           </p>
           <SearchListWrapper className="scroll-wrapper">
-            <ul id="places-list"></ul>
+            <ul id="places-list">
+              {searchItmes.map((item, index) => (
+                <SearchItem key={index} places={item.place} index={item.i} />
+              ))}
+            </ul>
           </SearchListWrapper>
+
           <div id="pagination"></div>
         </SearchResultWrapper>
       ) : null}

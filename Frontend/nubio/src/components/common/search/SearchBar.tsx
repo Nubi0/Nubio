@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearchBar";
 import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { inputKeyword } from "../../../redux/slice/KakaoSlice";
 // import RootState from "../../../types/RootState";
 const SearchBar = () => {

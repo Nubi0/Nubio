@@ -8,7 +8,6 @@ const Map = () => {
 
   return (
     <>
-      {" "}
       <SearchBar />
       <KakaoMap searchKeyword={searchKeyword} />
     </>

@@ -79,4 +79,15 @@ export const SearchListWrapper = styled.div`
     display: block;
     margin: 0.5rem 0;
   }
+  .diretion button {
+    width: 3rem;
+    height: 1.5rem;
+    background: none;
+    text-decoration: none;
+    color: #f9373f;
+    border: 1px solid #f9373f;
+    font-size: 0.9rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+  }
 `;

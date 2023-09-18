@@ -29,6 +29,14 @@ public class Password {
         return new Password(passwordEncoder.encode(value));
     }
 
+
+    private void setValue(String value) {
+        this.value = value;
+    }
+
+    public void withdrawPassword() {
+        this.setValue("탈퇴한 회원입니다.");
+    }
     public String getValue() {
         return value;
     }

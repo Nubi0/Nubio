@@ -19,4 +19,16 @@ public class Active {
     public static Active from(final boolean value) {
         return new Active(value);
     }
+
+    private void setValue(boolean value) {
+        this.value = value;
+    }
+
+    public void withdrawActive() {
+        this.setValue(false);
+    }
+
+    public boolean getValue() {
+        return value;
+    }
 }

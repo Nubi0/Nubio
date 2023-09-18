@@ -39,6 +39,14 @@ public class Birth {
         return LocalDate.parse(value, DateTimeFormatter.ISO_DATE);
     }
 
+    private void setValue(LocalDate value) {
+        this.value = value;
+    }
+
+    public void withdrawBirth() {
+        this.setValue(LocalDate.of(1000,1,1));
+    }
+
     public LocalDate getValue() {
         return value;
     }

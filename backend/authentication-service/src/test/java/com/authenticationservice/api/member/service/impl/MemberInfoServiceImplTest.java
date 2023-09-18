@@ -106,4 +106,23 @@ class MemberInfoServiceImplTest {
         assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
     }
 
+    @DisplayName("회원 탈퇴를 성공한다.")
+    @Test
+    void withdrawSuccessful() {
+        // given
+        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
+        // when
+        memberInfoService.deleteMember(jwtDto.getAccessToken());
+        // then
+        Optional<Member> withdrewMember = memberRepository.findById(savedBeforeMember.getId());
+        assertThat(withdrewMember).isPresent();
+
+        Member member = withdrewMember.get();
+
+        assertThat(member.getEmail().getValue()).contains(savedBeforeMember.getEmail().getValue());
+        assertThat(member.getBirth().getValue()).isEqualTo(LocalDate.of(1000,1,1));
+        assertThat(member.getPassword().getValue()).isEqualTo("탈퇴한 회원입니다.");
+        if (member.getProfileUrl() != null) assertThat(member.getProfileUrl().getValue()).isEqualTo("탈퇴한 회원입니다.");
+        assertThat(member.getActive().getValue()).isEqualTo(false);
+    }
 }

@@ -17,7 +17,7 @@ pipeline {
         stage('Prepare, Build, and Test') {
             steps {
                 withCredentials([
-                    file(credentialsId: 'authentication-service-application-auth.yml', variable: 'AUTHFILE')
+                    file(credentialsId: 'authentication-service-application-auth.yml', variable: 'AUTHFILE'),
                     file(credentialsId: 'authentication-service-application-oauth.yml', variable: 'OAUTHFILE')
                 ]) {
                     script {

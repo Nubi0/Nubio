@@ -26,6 +26,6 @@
 .env
 
 ### file
-fasttext_model
-fasttext_model.wv.vectors_ngrams.npy
-produc_list.pkl
+course_list
+dataset
+w2v_model

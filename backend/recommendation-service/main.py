@@ -24,5 +24,5 @@ def get_all():
 # 입력한 정보와 비슷한 코스 응답
 @app.post("/get-list")
 async def process_words(request: InputData):
-    words = request.words
+    words = train.recoCourse(request)
     return {"result": words}

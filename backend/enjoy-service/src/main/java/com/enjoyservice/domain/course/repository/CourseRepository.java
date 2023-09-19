@@ -2,6 +2,7 @@ package com.enjoyservice.domain.course.repository;
 
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
+import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.tag.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -28,4 +29,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "join fetch Tag t on ct.tag = t " +
             "where c = :course")
     List<Tag> findTags(@Param("course") Course course);
+
+    @Query("select cl, c from Course c " +
+            "left join fetch CourseLike cl on c = cl.course " +
+            "where c = :course")
+    List<CourseLike> findCourseLikesByCourse(@Param("course") Course course);
 }

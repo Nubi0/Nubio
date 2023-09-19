@@ -4,6 +4,7 @@ import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
+import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.tag.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,5 +42,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Tag> findTags(Course course) {
         return courseRepository.findTags(course);
+    }
+
+    @Override
+    public List<CourseLike> findCourseLikesByCourse(Course course) {
+        return courseRepository.findCourseLikesByCourse(course);
     }
 }

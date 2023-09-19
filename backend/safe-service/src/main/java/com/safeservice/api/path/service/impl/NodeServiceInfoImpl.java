@@ -51,9 +51,6 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
                     .build();
 
             List<NodeDto> parse = csvToBean.parse();
-            Distance distance = new Distance(0.1, Metrics.KILOMETERS);
-
-
             List<Node> nodeList = parse.stream()
                     .map(nodeDto -> Node.builder()
                             .location(new Point(nodeDto.getLongitude(), nodeDto.getLatitude()))
@@ -89,7 +86,7 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
     public List<Node> findNodeNear(NearNode nearNode) {
         Point point = new Point(nearNode.getLongitude(), nearNode.getLatitude());
         Distance distance = new Distance(nearNode.getDistance(), Metrics.KILOMETERS);
-        List<Node> nodeList = nodeService.findNodeNear(point, distance);
+        List<Node> nodeList = nodeService.top3NodeNear(point, distance);
         return nodeList;
     }
 }

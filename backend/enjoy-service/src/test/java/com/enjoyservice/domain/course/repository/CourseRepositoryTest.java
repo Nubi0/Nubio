@@ -8,11 +8,15 @@ import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
 import com.enjoyservice.domain.courseplacesequence.repository.CoursePlaceSequenceRepository;
+import com.enjoyservice.domain.coursetag.entity.CourseTag;
+import com.enjoyservice.domain.coursetag.repository.CourseTagRepository;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
+import com.enjoyservice.domain.tag.entity.Tag;
+import com.enjoyservice.domain.tag.repository.TagRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +41,10 @@ class CourseRepositoryTest {
     private PlaceRepository placeRepository;
     @Autowired
     private CoursePlaceSequenceRepository coursePlaceSequenceRepository;
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private CourseTagRepository courseTagRepository;
     @Autowired
     private EntityManager em;
 
@@ -150,5 +158,43 @@ class CourseRepositoryTest {
         Long result = courseRepository.countAllByRegion(region);
         // then
         assertThat(result).isEqualTo(2);
+    }
+
+    @DisplayName("Course의 Tag 모두 조회")
+    @Test
+    void findTags() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for(int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        for(Tag tag : savedTags) {
+            CourseTag courseTag = CourseTag.builder()
+                    .course(course)
+                    .tag(tag)
+                    .build();
+            courseTags.add(courseTag);
+        }
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+        // when
+        List<Tag> result = courseRepository.findTags(course);
+        // then
+        assertThat(result).hasSize(tagCount)
+                .extracting("name.value")
+                .containsExactlyInAnyOrder(
+                        "tag1",
+                        "tag2",
+                        "tag3",
+                        "tag4",
+                        "tag5"
+                );
     }
 }

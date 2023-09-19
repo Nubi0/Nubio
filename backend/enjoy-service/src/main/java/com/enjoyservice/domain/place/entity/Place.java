@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.place.entity;
 
 import com.enjoyservice.domain.common.BaseTimeEntity;
+import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.placeimage.entity.PlaceImage;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class Place extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<PlaceImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CoursePlaceSequence> sequences = new ArrayList<>();
 
     @Builder
     public Place(KakaoId kakaoId, Name name, Category category, Phone phone,

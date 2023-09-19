@@ -140,4 +140,15 @@ class CourseRepositoryTest {
                         tuple("courseTitle2", "courseContent2", Region.DAEGU)
                 );
     }
+
+    @DisplayName("Region으로 Course 전체 개수 구하기")
+    @Test
+    void countAllByRegion() {
+        // given
+        Region region = Region.from("DAEGU");
+        // when
+        Long result = courseRepository.countAllByRegion(region);
+        // then
+        assertThat(result).isEqualTo(2);
+    }
 }

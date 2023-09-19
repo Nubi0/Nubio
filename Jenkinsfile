@@ -64,8 +64,8 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS'),
-                    string(credentialsId: 'aws-id', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'aws-secret', variable: 'AWS_SECRET_ACCESS_KEY')
+                    string(credentialsId: 'nubio', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'nubio', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
                     sh """
                         export AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID
@@ -75,5 +75,6 @@ pipeline {
                 }
             }
         }
+
     }
 }

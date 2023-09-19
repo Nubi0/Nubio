@@ -46,8 +46,8 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    @ColumnDefault("USER")
-    private Role role;
+    //@ColumnDefault("ROLE_USER")
+    private Role role = Role.ROLE_USER;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)

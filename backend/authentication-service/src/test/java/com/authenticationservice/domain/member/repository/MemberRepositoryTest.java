@@ -40,7 +40,7 @@ class MemberRepositoryTest {
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USERS)
+                .role(Role.ROLE_USER)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("2000-01-01"))
                 .build();

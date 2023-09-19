@@ -14,10 +14,11 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    @Query("select c, cps, p " +
+    @Query("select c, cps, p, pi " +
             "from Course c " +
             "left join fetch CoursePlaceSequence cps on c = cps.course " +
             "join fetch Place p on cps.place = p " +
+            "left join fetch PlaceImage pi on pi.place = p " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 

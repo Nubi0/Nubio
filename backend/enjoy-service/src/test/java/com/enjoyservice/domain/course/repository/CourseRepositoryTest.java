@@ -260,7 +260,7 @@ class CourseRepositoryTest {
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
         // when
-        List<Course> result = courseRepository.findTagsByCourseId(course.getId());
+        List<Course> result = courseRepository.findCourseAndTagsByCourseId(course.getId());
         // then
         assertThat(result.size()).isEqualTo(tagCount);
         assertThat(result.get(0).getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");

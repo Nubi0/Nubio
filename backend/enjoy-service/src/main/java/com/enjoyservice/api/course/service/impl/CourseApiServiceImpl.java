@@ -1,21 +1,28 @@
 package com.enjoyservice.api.course.service.impl;
 
 import com.enjoyservice.api.course.dto.CourseCreateReq;
+import com.enjoyservice.api.course.dto.CourseListRes;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.domain.course.entity.Course;
+import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.service.CourseService;
+import com.enjoyservice.domain.coursefavorite.service.CourseFavoriteService;
+import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.courseplacesequence.service.CoursePlaceSequenceService;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import com.enjoyservice.domain.coursetag.service.CourseTagService;
 import com.enjoyservice.domain.place.entity.Place;
+import com.enjoyservice.domain.place.entity.type.KakaoId;
 import com.enjoyservice.domain.place.service.PlaceService;
+import com.enjoyservice.domain.placelike.entity.PlaceLike;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.entity.type.Name;
 import com.enjoyservice.domain.tag.service.TagService;
 import com.enjoyservice.mapper.course.CourseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +40,7 @@ public class CourseApiServiceImpl implements CourseApiService {
     private final CoursePlaceSequenceService coursePlaceSequenceService;
     private final TagService tagService;
     private final CourseTagService courseTagService;
+    private final CourseFavoriteService courseFavoriteService;
 
 //    @Transactional
     @Override
@@ -56,6 +64,29 @@ public class CourseApiServiceImpl implements CourseApiService {
         // 태그 잇는지 확인
         linkCourseTag(request, course);
         log.info("Course에 Tag 연결(CourseApiServiceImpl)");
+    }
+
+    @Override
+    public CourseListRes getCourseList(String region, String memberId, Pageable pageable) {
+        // 코스 - 장소 가져오기
+        List<CourseListRes.CourseInfo> courseInfos = new ArrayList<>();
+        List<Course> courses = courseService.findAllByRegionFetchPlace(Region.from(region), pageable);
+        for(Course course : courses) {
+            // 코스 태그
+            List<Tag> tags = courseService.findTags(course);
+            // 코스 즐겨찾기
+            boolean favoriteFlag = courseFavoriteService.existsByCourseAndMemberId(course, memberId);
+            // 코스 좋아요 - 좋아요 수, 내가 좋아요 했는지
+            List<CourseLike> courseLikes = courseService.findCourseLikesByCourse(course);
+            int likeCount = courseLikes.size();
+            boolean likeFlag = isMemberLikeCourse(memberId, courseLikes);
+            CourseListRes.CourseInfo courseInfo = CourseMapper.convertToCourseInfo(course, tags, favoriteFlag, likeCount, likeFlag);
+            courseInfos.add(courseInfo);
+        }
+        // 페이징 meta
+        Long totalElements = courseService.countAllByRegion(Region.from(region));
+
+        return CourseMapper.courseToCourseListRes(courseInfos, totalElements, pageable);
     }
 
     private void linkCourseTag(CourseCreateReq request, Course course) {
@@ -98,6 +129,11 @@ public class CourseApiServiceImpl implements CourseApiService {
         return places.stream()
                 .map(place -> CoursePlaceSequence.from(placeSequence.get(place.getId()), course, place))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isMemberLikeCourse(String memberId, List<CourseLike> likes) {
+        return likes.stream()
+                .anyMatch(courseLike -> courseLike.getMemberId().equals(memberId));
     }
 
 }

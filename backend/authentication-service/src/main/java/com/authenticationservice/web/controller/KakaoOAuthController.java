@@ -7,6 +7,8 @@ import com.authenticationservice.web.dto.KakaoAuthReqDto;
 import com.authenticationservice.web.dto.KakaoTokenDto;
 import com.authenticationservice.web.dto.OauthLoginResDto;
 import com.authenticationservice.web.service.OauthLoginService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/oauth")
+@RequestMapping("/v1/oauth")
 @RequiredArgsConstructor
+@Tag(name = "1. OAUTH API", description = " 소셜 로그인 api")
 public class KakaoOAuthController {
 
     private final KakaoTokenClient kakaoTokenClient;
@@ -33,6 +36,7 @@ public class KakaoOAuthController {
     @Value("${oauth2.client.kakao.authorization_grant_type}")
     private String grantType;
 
+    @Operation(summary = "카카오 회원가입 및 로그인", description = "start/v1/oauth/kakao/callback\n\n" )
     @PostMapping("/kakao/callback")
     public ApiResponse<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8"; // 공식 문서

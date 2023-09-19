@@ -7,6 +7,8 @@ import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
+import com.enjoyservice.domain.courselike.entity.CourseLike;
+import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
 import com.enjoyservice.domain.courseplacesequence.repository.CoursePlaceSequenceRepository;
@@ -52,6 +54,9 @@ class CourseServiceImplTest {
     private TagRepository tagRepository;
     @Autowired
     private CourseTagRepository courseTagRepository;
+    @Autowired
+    private CourseLikeRepository courseLikeRepository;
+
     @Autowired
     private EntityManager em;
 
@@ -202,6 +207,39 @@ class CourseServiceImplTest {
                         "tag3",
                         "tag4",
                         "tag5"
+                );
+    }
+
+    @DisplayName("Course의 모든 CourseLike 조회")
+    @Test
+    void findCourseLikesByCourse() {
+        // given
+        String memberId1 = "memberId1";
+        String memberId2 = "memberId2";
+        String memberId3 = "memberId3";
+        List<String> memberIds = List.of(memberId1, memberId2, memberId3);
+
+        Course course = savedBeforeCourses.get(0);
+
+        List<CourseLike> courseLikes = new ArrayList<>();
+        for(String memberId : memberIds) {
+            CourseLike courseLike = CourseLike.builder()
+                    .course(course)
+                    .memberId(memberId)
+                    .build();
+            courseLikes.add(courseLike);
+        }
+        List<CourseLike> savedCourseLikes = courseLikeRepository.saveAllAndFlush(courseLikes);
+        em.clear();
+        // when
+        List<CourseLike> result = courseService.findCourseLikesByCourse(course);
+        // then
+        assertThat(result).hasSize(memberIds.size())
+                .extracting("course.title.value", "memberId")
+                .containsExactlyInAnyOrder(
+                        tuple("courseTitle1", memberId1),
+                        tuple("courseTitle1", memberId2),
+                        tuple("courseTitle1", memberId3)
                 );
     }
 }

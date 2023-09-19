@@ -53,17 +53,17 @@ public class CourseApiServiceImpl implements CourseApiService {
         // 코스에 속한 장소 순서 저장
         List<Long> placeIds = collectPlaceIds(request.getPlaceInfos());
         List<Place> places = placeService.findAllById(placeIds);
-        log.info("place 목록 조회(CourseApiServiceImpl)");
+        log.info("place 목록 조회 완료(CourseApiServiceImpl)");
 
         Map<Long, Integer> placeSequence = mappingSequence(request.getPlaceInfos());
         List<CoursePlaceSequence> coursePlaceSequences = collectCoursePlaceSequences(course, places, placeSequence);
         coursePlaceSequenceService.saveAll(coursePlaceSequences);
-        log.info("CoursePlaceSequence 목록 저장(CourseApiServiceImpl)");
+        log.info("CoursePlaceSequence 목록 저장 완료(CourseApiServiceImpl)");
 
         // 코스 태그 저장
         // 태그 잇는지 확인
         linkCourseTag(request, course);
-        log.info("Course에 Tag 연결(CourseApiServiceImpl)");
+        log.info("Course에 Tag 연결 완료(CourseApiServiceImpl)");
     }
 
     @Override
@@ -71,20 +71,25 @@ public class CourseApiServiceImpl implements CourseApiService {
         // 코스 - 장소 가져오기
         List<CourseListRes.CourseInfo> courseInfos = new ArrayList<>();
         List<Course> courses = courseService.findAllByRegionFetchPlace(Region.from(region), pageable);
+        log.info("Region으로 Course 조회할 때 fetch로 Place, PlaceImage 모두 조회 완료(CourseApiServiceImpl) : region = {}", region);
         for(Course course : courses) {
             // 코스 태그
             List<Tag> tags = courseService.findTags(course);
+            log.info("Course에 연관된 Tag 목록 조회 완료(CourseApiServiceImpl)");
             // 코스 즐겨찾기
             boolean favoriteFlag = courseFavoriteService.existsByCourseAndMemberId(course, memberId);
+            log.info("Course를 즐겨찾기 했는지 확인 완료(CourseApiServiceImpl)");
             // 코스 좋아요 - 좋아요 수, 내가 좋아요 했는지
             List<CourseLike> courseLikes = courseService.findCourseLikesByCourse(course);
             int likeCount = courseLikes.size();
             boolean likeFlag = isMemberLikeCourse(memberId, courseLikes);
+            log.info("Course를 좋아요 했는지 확인, 좋아요 수 조회 완료(CourseApiServiceImpl)");
             CourseListRes.CourseInfo courseInfo = CourseMapper.convertToCourseInfo(course, tags, favoriteFlag, likeCount, likeFlag);
             courseInfos.add(courseInfo);
         }
         // 페이징 meta
         Long totalElements = courseService.countAllByRegion(Region.from(region));
+        log.info("Course 전체 수 조회 완료(CourseApiServiceImpl)");
 
         return CourseMapper.courseToCourseListRes(courseInfos, totalElements, pageable);
     }

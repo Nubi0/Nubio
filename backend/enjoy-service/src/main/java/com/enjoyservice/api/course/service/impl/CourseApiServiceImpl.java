@@ -1,6 +1,7 @@
 package com.enjoyservice.api.course.service.impl;
 
 import com.enjoyservice.api.course.dto.CourseCreateReq;
+import com.enjoyservice.api.course.dto.CourseDetailRes;
 import com.enjoyservice.api.course.dto.CourseListRes;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.domain.course.entity.Course;
@@ -31,7 +32,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CourseApiServiceImpl implements CourseApiService {
 
@@ -66,6 +66,7 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("Course에 Tag 연결 완료(CourseApiServiceImpl)");
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CourseListRes getCourseList(String region, String memberId, Pageable pageable) {
         // 코스 - 장소 가져오기
@@ -92,6 +93,24 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("Course 전체 수 조회 완료(CourseApiServiceImpl)");
 
         return CourseMapper.courseToCourseListRes(courseInfos, totalElements, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public CourseDetailRes getCourseDetail(Long courseId, String memberId) {
+        List<Course> courses = courseService.findCourseAndTagsByCourseId(courseId);
+        Course course = courses.get(0);
+        List<Tag> tags = course.getCourseTags().stream()
+                .map(CourseTag::getTag)
+                .toList();
+        log.info("Course, tags 조회 완료(CourseApiServiceImpl)");
+        // 코스 좋아요 - 좋아요 수, 내가 좋아요 했는지
+        List<CourseLike> courseLikes = courseService.findCourseLikesByCourse(course);
+        int likeCount = courseLikes.size();
+        boolean likeFlag = isMemberLikeCourse(memberId, courseLikes);
+        log.info("Course를 좋아요 했는지 확인, 좋아요 수 조회 완료(CourseApiServiceImpl)");
+        
+
+        return null;
     }
 
     private void linkCourseTag(CourseCreateReq request, Course course) {

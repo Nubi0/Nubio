@@ -59,7 +59,7 @@ class ShelterServiceImplTest {
 
     }
 
-    @DisplayName("2KM 거리이내의 보호소 목록 출력")
+    @DisplayName("2KM 거리이내의 타입에 맞는 보호소 목록 출력")
     @Test
     void findShelterNear() {
         // given
@@ -99,10 +99,9 @@ class ShelterServiceImplTest {
 
     }
 
-    @DisplayName("2KM 거리이내의 보호소 목록 페이징 출력")
+    @DisplayName("2KM 거리이내의 타입에 맞는 보호소 목록 페이징 출력")
     @Test
     void findShelterNearWithPaging() {
-        // given
         // given
 
         double x = -63.616672;
@@ -144,6 +143,111 @@ class ShelterServiceImplTest {
         int pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
         Page<Shelter> shelterNearWithPaging = shelterService.findShelterNearWithPaging(new Point(-63.616672, -38.416097), new Distance(2, Metrics.KILOMETERS), ShelterType.SCHOOL, pageable);
+        List<Shelter> shelterNearWithPagingContent = shelterNearWithPaging.getContent();
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(shelterNearWithPaging.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(shelterNearWithPaging.getNumber()).isEqualTo(0);
+        // 총 몇 페이지
+        assertThat(shelterNearWithPaging.getTotalPages()).isEqualTo(totalShelterSize / pageSize);
+        // 총 몇 페이지
+        assertThat(shelterNearWithPaging.getTotalElements()).isEqualTo(totalShelterSize);
+        // 다음 페이지 존재 여부
+        assertThat(shelterNearWithPaging.hasNext()).isTrue();
+        // 시작 페이지(0) 여부
+        assertThat(shelterNearWithPaging.isFirst()).isTrue();
+
+        assertThat(shelterNearWithPagingContent).hasSize(pageSize);
+    }
+
+    @DisplayName("2KM 거리이내의 모든 보호소 목록 출력")
+    @Test
+    void findShelterNearAll() {
+        // given
+        Shelter shelter1 = shelterService.register(Shelter.builder()
+                .address("학교")
+                .phoneNumber("010-0000-0000")
+                .shelterType(ShelterType.SCHOOL)
+                .location(new Point(-63.616672, -38.416097))
+                .name("서울대학교")
+                .build());
+
+        Shelter shelter2 = shelterService.register(Shelter.builder()
+                .address("병원")
+                .shelterType(ShelterType.HOSPITAL)
+                .location(new Point(-63.616672, -38.416097))
+                .name("서울대학교 병원")
+                .build());
+
+        Shelter shelter3 = shelterService.register(Shelter.builder()
+                .address("소방서")
+                .phoneNumber("010-0000-0000")
+                .shelterType(ShelterType.FIRE_STATION)
+                .location(new Point(-63.616672, -38.416097))
+                .name("서울 소방서")
+                .build());
+
+        // when
+        List<Shelter> shelterNear = shelterService.findShelterNear(new Point(-63.616672, -38.416097), new Distance(2, Metrics.KILOMETERS));
+
+        // then
+        assertThat(shelterNear)
+                .hasSize(3)
+                .extracting("id", "address", "location.x", "location.y", "name", "phoneNumber")
+                .containsExactlyInAnyOrder(
+                        tuple(shelter1.getId(), shelter1.getAddress(), shelter1.getLocation().getX(), shelter1.getLocation().getY(), shelter1.getName(), shelter1.getPhoneNumber()),
+                        tuple(shelter2.getId(), shelter2.getAddress(), shelter2.getLocation().getX(), shelter2.getLocation().getY(), shelter2.getName(), shelter2.getPhoneNumber()),
+                        tuple(shelter3.getId(), shelter3.getAddress(), shelter3.getLocation().getX(), shelter3.getLocation().getY(), shelter3.getName(), shelter3.getPhoneNumber())
+                );
+
+    }
+
+    @DisplayName("2KM 거리이내의 모든 보호소 목록 페이징 출력")
+    @Test
+    void findShelterNearAllWithPaging() {
+        // given
+
+        double x = -63.616672;
+        double y = -38.416097;
+
+        int totalShelterSize = 20;
+
+        for (int i = 0; i < totalShelterSize; i++) {
+            shelterService.register(Shelter.builder()
+                    .address("주소"+i)
+                    .phoneNumber("010-0000-0000")
+                    .shelterType(ShelterType.SCHOOL)
+                    .location(new Point(x, y))
+                    .name("이름"+i)
+                    .build());
+            x += 0.0000001;
+            y += 0.0000001;
+        }
+
+
+        x = 126.8927728;
+        y = 37.4925085;
+
+
+        for (int i = 0; i < totalShelterSize; i++) {
+            shelterService.register(Shelter.builder()
+                    .address("주소"+i)
+                    .phoneNumber("010-0000-0000")
+                    .shelterType(ShelterType.SCHOOL)
+                    .location(new Point(x, y))
+                    .name("이름"+i)
+                    .build());
+            x += 0.0000001;
+            y += 0.0000001;
+        }
+
+        // when
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Shelter> shelterNearWithPaging = shelterService.findShelterNearWithPaging(new Point(-63.616672, -38.416097), new Distance(2, Metrics.KILOMETERS), pageable);
         List<Shelter> shelterNearWithPagingContent = shelterNearWithPaging.getContent();
 
         // then

@@ -6,6 +6,7 @@ import com.enjoyservice.domain.course.entity.type.Active;
 import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -46,6 +47,9 @@ public class Course extends BaseEntity {
 
     @Column(name = "member_id")
     private String memberId;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CourseTag> courseTags = new ArrayList<>();

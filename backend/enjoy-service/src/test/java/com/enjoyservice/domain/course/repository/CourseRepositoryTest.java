@@ -189,7 +189,7 @@ class CourseRepositoryTest {
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
         // when
-        List<Tag> result = courseRepository.findTags(course);
+        List<Tag> result = courseRepository.findTagsByCourse(course);
         // then
         assertThat(result).hasSize(tagCount)
                 .extracting("name.value")

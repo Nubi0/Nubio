@@ -29,7 +29,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "left join fetch CourseTag ct on c = ct.course " +
             "join fetch Tag t on ct.tag = t " +
             "where c = :course")
-    List<Tag> findTags(@Param("course") Course course);
+    List<Tag> findTagsByCourse(@Param("course") Course course);
 
     @Query("select cl, c from Course c " +
             "left join fetch CourseLike cl on c = cl.course " +

@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Tag> findTags(Course course) {
-        return courseRepository.findTags(course);
+        return courseRepository.findTagsByCourse(course);
     }
 
     @Override

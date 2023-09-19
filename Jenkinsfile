@@ -43,9 +43,9 @@ pipeline {
                 ]) {
                     dir('backend/authentication-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build -t authentication:latest .'
-                        sh 'docker tag authentication:latest kathyleesh/authentication:latest'
-                        sh 'docker push kathyleesh/authentication:latest'
+                        sh 'docker build -t authentication-service:latest .'
+                        sh 'docker tag authentication-service:latest kathyleesh/authentication-service:latest'
+                        sh 'docker push kathyleesh/authentication-service:latest'
                     }
                 }
             }

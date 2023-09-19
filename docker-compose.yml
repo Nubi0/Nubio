@@ -2,7 +2,7 @@ version: '3'
 
 services:
   authentication-service:
-    image: kathyleesh/authentication:latest
+    image: kathyleesh/authentication-service:latest
     ports:
       - "8080:8080"
     environment:

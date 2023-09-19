@@ -269,4 +269,24 @@ class CourseRepositoryTest {
         assertThat(result.get(0).getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
         assertThat(result.get(0).getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
     }
+
+    @DisplayName("Course에 속한 Place 목록 조회")
+    @Test
+    void findPlacesByCourse() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        Place place1 = savedBeforePlaces.get(0);
+        Place place2 = savedBeforePlaces.get(1);
+        Place place3 = savedBeforePlaces.get(2);
+        // when
+        List<Place> result = courseRepository.findPlacesByCourse(course);
+        // then
+        assertThat(result.size()).isEqualTo(3);
+        assertThat(result.get(0).getName().getValue()).isEqualTo(place1.getName().getValue());
+        assertThat(result.get(0).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(1);
+        assertThat(result.get(1).getName().getValue()).isEqualTo(place2.getName().getValue());
+        assertThat(result.get(1).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(2);
+        assertThat(result.get(2).getName().getValue()).isEqualTo(place3.getName().getValue());
+        assertThat(result.get(2).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(3);
+    }
 }

@@ -3,6 +3,7 @@ package com.enjoyservice.domain.course.repository;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
+import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -21,6 +22,13 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "left join fetch PlaceImage pi on pi.place = p " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
+
+    @Query("select p, cps " +
+            "from Course c " +
+            "left join fetch CoursePlaceSequence cps on c = cps.course " +
+            "join fetch Place p on cps.place = p " +
+            "where c = :course")
+    List<Place> findPlacesByCourse(@Param("course") Course course);
 
     Long countAllByRegion(Region region);
 

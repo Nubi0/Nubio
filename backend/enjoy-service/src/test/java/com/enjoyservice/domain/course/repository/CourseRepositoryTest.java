@@ -10,8 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,7 @@ class CourseRepositoryTest {
         List<Course> savedCourses = courseRepository.saveAllAndFlush(courses);
         em.clear();
         // when
-        List<Course> result = courseRepository.findAllByRegion(Region.from("DAEGU"));
+        List<Course> result = courseRepository.findAllByRegion(Region.from("DAEGU"), PageRequest.of(0, 5));
         // then
         assertThat(result).hasSize(courseSize)
                 .extracting("title.value", "content.value", "region")

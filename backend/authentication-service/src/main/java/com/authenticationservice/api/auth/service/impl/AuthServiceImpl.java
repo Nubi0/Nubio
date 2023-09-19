@@ -81,6 +81,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void logout(String authorizationHeader) {
         String accessToken = authorizationHeader.split(" ")[1];
         Identification identification = Identification.from(jwtManager.getTokenClaims(accessToken).get("identification").toString());

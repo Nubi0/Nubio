@@ -51,6 +51,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     @Override
+    @Transactional
     public void updateMemberInfo(String authorizedMember, MultipartFile profileImg, String nickname) {
         Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
         Member member = findByIdentification(identification);
@@ -65,6 +66,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     @Override
+    @Transactional
     public void deleteMember(String authorizedMember) {
         Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
         Member member = findByIdentification(identification);

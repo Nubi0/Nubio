@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import {
   MapWrapper,
   SearchListWrapper,
-  SearchResultWrapper,
+  SearchResultsWrapper,
   SetDirectionWrapper,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
@@ -371,7 +371,7 @@ const KakaoMap = (props: propsType) => {
     <>
       <MapWrapper id="map" className="map" />
       {props.searchKeyword !== "" ? (
-        <SearchResultWrapper id="search-result">
+        <SearchResultsWrapper id="search-result">
           {/* <SetDirection  /> */}
           <SetDirectionWrapper>
             <input type="text" placeholder="출발지" value={startName} />
@@ -383,14 +383,14 @@ const KakaoMap = (props: propsType) => {
             검색 결과
           </p>
           <SearchListWrapper className="scroll-wrapper">
-            <ul id="places-list">
+            {/* <ul id="places-list">
               {searchItmes.map((item, index) => (
                 <SearchItem key={index} place={item.place} index={item.i} />
               ))}
-            </ul>
+            </ul> */}
           </SearchListWrapper>
           <div id="pagination"></div>
-        </SearchResultWrapper>
+        </SearchResultsWrapper>
       ) : null}
     </>
   );

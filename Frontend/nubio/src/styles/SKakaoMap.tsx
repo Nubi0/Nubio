@@ -5,7 +5,7 @@ export const MapWrapper = styled.div`
   height: 90%;
   z-index: 0;
 `;
-export const SearchResultWrapper = styled.div`
+export const SearchResultsWrapper = styled.div`
   position: absolute;
   top: 7rem;
   left: 1rem;
@@ -41,7 +41,7 @@ export const SearchListWrapper = styled.div`
 // SearchItem
 
 export const SearchItemWrapper = styled.div`
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   width: 100%;
 `;
 

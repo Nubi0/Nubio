@@ -4,40 +4,32 @@ import {
   ItemNameWrapper,
   SearchItemWrapper,
 } from "../../../styles/SKakaoMap";
+interface SearchResult {
+  name: string;
+  // 다른 필요한 속성들을 여기에 추가할 수 있습니다.
+}
 
-import { placeType } from "../../../types/kakaoMaps";
-
-const SearchItem = ({ place, index }: { place: placeType; index: number }) => {
-  const onClickStart = () => {
-    localStorage.setItem("startPoint", `${place.x},${place.y}`);
-    localStorage.setItem("startName", `${place.place_name}`);
-  };
-  const onClickEnd = () => {
-    localStorage.setItem("endPoint", `${place.x},${place.y}`);
-    localStorage.setItem("endtName", `${place.place_name}`);
-  };
+const SearchItem = ({ place }: { place: SearchResult }) => {
+  // const onClickStart = () => {
+  //   localStorage.setItem("startPoint", `${place.x},${place.y}`);
+  //   localStorage.setItem("startName", `${place.place_name}`);
+  // };
+  // const onClickEnd = () => {
+  //   localStorage.setItem("endPoint", `${place.x},${place.y}`);
+  //   localStorage.setItem("endtName", `${place.place_name}`);
+  // };
 
   return (
     <SearchItemWrapper>
       <ItemNameWrapper>
-        <h5>
-          {index + 1}. {place.place_name}
-        </h5>
-        <a id="homePage" href={place.place_url}>
-          상세보기
-        </a>
+        {/* <a id="homePage" href={place.place_url}> */}
+        {/* 상세보기 */}
+        {/* </a> */}
       </ItemNameWrapper>
-      <ItemInfoWrapper>
-        {place.road_address_name ? (
-          <p className="address">{place.road_address_name}</p>
-        ) : (
-          <p className="address">{place.address_name}</p>
-        )}
-        <p className="tel">{place.phone}</p>
-      </ItemInfoWrapper>
+      <ItemInfoWrapper>{place.name}</ItemInfoWrapper>
       <DirectionButtonWrapper>
-        <button onClick={onClickStart}>출발</button>
-        <button onClick={onClickEnd}>도착</button>
+        {/* <button onClick={onClickStart}>출발</button> */}
+        {/* <button onClick={onClickEnd}>도착</button> */}
       </DirectionButtonWrapper>
     </SearchItemWrapper>
   );

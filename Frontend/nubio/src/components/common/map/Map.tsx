@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import RootState from "../../../types/RootState";
 import KakaoMap from "./KakaoMap";
-import SearchBar from "../search/SearchBar";
+import Search from "../search/Search";
 import TMap from "./TMap";
 
 const Map = () => {
@@ -9,8 +9,7 @@ const Map = () => {
   const position = useSelector((state: RootState) => state.enjoy.positions);
   return (
     <>
-      {/* <SearchBar /> */}
-      {/* <KakaoMap searchKeyword={searchKeyword} position={position} /> */}
+      <Search />
       <TMap />
     </>
   );

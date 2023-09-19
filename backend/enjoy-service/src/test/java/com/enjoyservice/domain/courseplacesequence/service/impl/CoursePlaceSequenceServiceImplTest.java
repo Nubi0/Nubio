@@ -1,12 +1,22 @@
-package com.enjoyservice.domain.place.service.impl;
+package com.enjoyservice.domain.courseplacesequence.service.impl;
 
+import com.enjoyservice.domain.course.entity.Course;
+import com.enjoyservice.domain.course.entity.constant.Region;
+import com.enjoyservice.domain.course.entity.type.Content;
+import com.enjoyservice.domain.course.entity.type.PublicFlag;
+import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.course.repository.CourseRepository;
+import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
+import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
+import com.enjoyservice.domain.courseplacesequence.repository.CoursePlaceSequenceRepository;
+import com.enjoyservice.domain.courseplacesequence.service.CoursePlaceSequenceService;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
-import com.enjoyservice.domain.place.service.PlaceService;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,15 +31,19 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @Transactional
-class PlaceServiceImplTest {
-
-    @Autowired
-    private PlaceService placeService;
+class CoursePlaceSequenceServiceImplTest {
 
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private CoursePlaceSequenceService coursePlaceSequenceService;
 
     @Autowired
     private EntityManager em;
@@ -79,62 +93,45 @@ class PlaceServiceImplTest {
                 .build();
     }
 
-    @DisplayName("장소 1개 조회에 성공한다.")
-    @Test
-    void findById() {
-        // given
-        Place place = generatePlace(9, GroupCode.CS2, GroupName.편의점);
-        Place savedPlace = placeRepository.saveAndFlush(place);
-        // when
-        Place result = placeService.findById(savedPlace.getId());
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo(savedPlace.getId());
+    private Course generateCourse(int index) {
+        return Course.builder()
+                .title(Title.from("courseTitle" + index))
+                .content(Content.from("courseContent" + index))
+                .region(Region.DAEGU)
+                .publicFlag(PublicFlag.from(true))
+                .memberId("memberId" + index)
+                .build();
     }
 
-    @DisplayName("id 목록(모두 존재)으로 모든 Place 조회")
+    @DisplayName("코스의 장소 순서 목록 저장")
     @Test
-    void findAllByIds() {
+    void saveAll() {
         // given
-        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(2).getId());
+        Course course = generateCourse(1);
+        Course savedCourse = courseRepository.saveAndFlush(course);
+        em.clear();
+        final int targetSize = 3;
+        List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
+        for(int sequence = 1; sequence <= targetSize; sequence++) {
+            CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
+                    .sequenceNumber(SequenceNumber.from(sequence))
+                    .place(savedBeforePlaces.get(sequence))
+                    .course(savedCourse)
+                    .build();
+            coursePlaceSequences.add(coursePlaceSequence);
+        }
         // when
-        List<Place> result = placeService.findAllById(ids);
+        List<CoursePlaceSequence> result = coursePlaceSequenceService.saveAll(coursePlaceSequences);
+        em.flush();
+        em.clear();
+        log.info("CoursePlaceSequence 저장");
         // then
-        assertThat(result).hasSize(3)
-                .extracting("id", "name.value")
+        assertThat(result).hasSize(targetSize)
+                .extracting("course", "place")
                 .containsExactlyInAnyOrder(
-                        tuple(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(0).getName().getValue()),
-                        tuple(savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(1).getName().getValue()),
-                        tuple(savedBeforePlaces.get(2).getId(), savedBeforePlaces.get(2).getName().getValue())
+                        tuple(savedCourse, savedBeforePlaces.get(1)),
+                        tuple(savedCourse, savedBeforePlaces.get(2)),
+                        tuple(savedCourse, savedBeforePlaces.get(3))
                 );
-    }
-
-    @DisplayName("id 목록(일부 존재 안함)으로 모든 Place 조회")
-    @Test
-    void findAllByIdsNotExist() {
-        // given
-        Long notExistId = 100L;
-        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), notExistId);
-        // when
-        List<Place> result = placeService.findAllById(ids);
-        // then
-        assertThat(result).hasSize(2)
-                .extracting("id", "name.value")
-                .containsExactlyInAnyOrder(
-                        tuple(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(0).getName().getValue()),
-                        tuple(savedBeforePlaces.get(1).getId(), savedBeforePlaces.get(1).getName().getValue())
-                );
-    }
-
-    @DisplayName("id 목록(모두 존재 안함)으로 모든 Place 조회")
-    @Test
-    void findAllByIdsAllNotExist() {
-        // given
-        Long notExistId = 100L;
-        List<Long> notExistIds = List.of(100L, 101L, 102L);
-        // when
-        List<Place> result = placeService.findAllById(notExistIds);
-        // then
-        assertThat(result).hasSize(0);
     }
 }

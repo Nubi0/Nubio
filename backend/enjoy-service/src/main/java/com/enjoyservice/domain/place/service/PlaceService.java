@@ -10,5 +10,7 @@ public interface PlaceService {
 
     Place findById(long id);
 
+    List<Place> findAllById(List<Long> ids);
+
     List<Place> findOneByIdFetchImage(Long id);
 }

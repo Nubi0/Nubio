@@ -12,6 +12,7 @@ import com.authenticationservice.global.jwt.service.JwtManager;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 
+@Slf4j
 @Service("memberInfoService")
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
     @Override
     public MemberResDto getMemberInfo(MemberInfoDto memberInfo) {
+        log.info("memberInfo = {}",memberInfo.getIdentification());
         Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
         return new MemberResDto().of(member);

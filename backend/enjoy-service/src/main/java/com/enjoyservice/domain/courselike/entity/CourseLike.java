@@ -5,10 +5,12 @@ import com.enjoyservice.domain.course.entity.Course;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "course_like")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CourseLike extends BaseEntity {
 

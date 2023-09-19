@@ -3,6 +3,8 @@ package com.authenticationservice.api.member.controller;
 import com.authenticationservice.api.ApiResponse;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import com.authenticationservice.global.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,10 +24,8 @@ public class MemberController {
 
     @Operation(summary = "프로필 조회", description = "auth/v1/member/me\n\n" )
     @GetMapping("/me")
-    public ApiResponse<MemberResDto> info() {
-        String authorizedMember = SecurityUtil.getAuthorizedMember();
-
-        return ApiResponse.ok(memberInfoService.getMemberInfo(authorizedMember));
+    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo) {
+        return ApiResponse.ok(memberInfoService.getMemberInfo(memberInfo));
     }
 
     @Operation(summary = "identification으로 조회", description = "start/v1/member/me/{identification}\n\n" )

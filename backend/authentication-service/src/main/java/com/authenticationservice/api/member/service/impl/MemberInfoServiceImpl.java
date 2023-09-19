@@ -9,6 +9,8 @@ import com.authenticationservice.domain.member.exception.MemberNotFoundException
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.error.ErrorCode;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     private final JwtManager jwtManager;
 
     @Override
-    public MemberResDto getMemberInfo(String authorizedMember) {
-        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+    public MemberResDto getMemberInfo(MemberInfoDto memberInfo) {
+        Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
         return new MemberResDto().of(member);
     }

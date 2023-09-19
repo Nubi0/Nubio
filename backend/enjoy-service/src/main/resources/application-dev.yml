@@ -18,6 +18,8 @@ spring:
       hibernate:
         format_sql: true # sql 예쁘게 출력
         default_batch_fetch_size: 500 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
+        use_sql_comments: true
+        generate_statistics: true
     open-in-view: false # 영속성 컨텍스트의 생존 범위를 트랜잭션 범위로 한정 (default 인 true 에서는 interceptor, controller, view 까지 살아있음)
 
   servlet:
@@ -31,5 +33,6 @@ spring:
 
 logging:
   level:
+    org.hibernate.sql: debug
     org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
-    com.com.enjoyservice: trace
+    com.enjoyservice: trace

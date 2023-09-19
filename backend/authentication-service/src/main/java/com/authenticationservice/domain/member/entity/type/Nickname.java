@@ -20,6 +20,12 @@ public class Nickname {
         return new Nickname(value);
     }
 
+
+    private void setValue(String value) {this.value = value;}
+    public void withdrawNickname() {
+        this.setValue("탈퇴한 회원입니다.");
+    }
+
     public String getValue() {
         return value;
     }

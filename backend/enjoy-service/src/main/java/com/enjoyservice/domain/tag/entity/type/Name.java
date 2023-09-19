@@ -4,13 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Name {
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String value;
 
     private Name(final String value) {

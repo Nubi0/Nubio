@@ -18,7 +18,7 @@ public class Name {
         this.value = value;
     }
 
-    public static com.enjoyservice.domain.place.entity.type.Name from(final String value) {
+    public static Name from(final String value) {
         return new com.enjoyservice.domain.place.entity.type.Name(value);
     }
 }

@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: test
+    include:
+      - s3
 
 server:
   port: 8081

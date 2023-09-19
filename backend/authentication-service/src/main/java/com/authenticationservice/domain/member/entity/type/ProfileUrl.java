@@ -20,6 +20,14 @@ public class ProfileUrl {
         return new ProfileUrl(value);
     }
 
+    private void setValue(String value) {
+        this.value = value;
+    }
+
+    public void withdrawProfileUrl() {
+        this.setValue("탈퇴한 회원입니다.");
+    }
+
     public String getValue() {
         return value;
     }

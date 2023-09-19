@@ -7,22 +7,20 @@ import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
 import com.authenticationservice.domain.member.exception.InvalidEmailFormatException;
-import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -32,23 +30,25 @@ class MemberServiceImplTest {
     private MemberRepository memberRepository;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    private Member beforeMember;
+    private Member savedBeforeMember;
 
     @BeforeEach
     void before() {
-        beforeMember = Member.builder()
-                .identification(new Identification())
+        Member beforeMember = Member.builder()
+                .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember123@nubio.com"))
                 .nickname(Nickname.from("beforeMemberNickname"))
-                .password(Password.of("pass"))
+                .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
                 .role(Role.ROLE_USER)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("2000-01-01"))
                 .build();
 
-        Member savedBeforeMember = memberRepository.save(beforeMember);
+        savedBeforeMember = memberRepository.save(beforeMember);
     }
 
     @AfterEach
@@ -61,10 +61,10 @@ class MemberServiceImplTest {
     void register() {
         // given
         Member member = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from("member@nubio.com"))
                 .nickname(Nickname.from("memberNickname"))
-                .password(Password.of("pass"))
+                .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
                 .role(Role.ROLE_USER)
                 .gender(Gender.from("male"))
@@ -87,13 +87,13 @@ class MemberServiceImplTest {
     @Test
     void duplicateEmail() {
         // given
-        String beforeMemberEmail = beforeMember.getEmail().getValue();
+        String beforeMemberEmail = savedBeforeMember.getEmail().getValue();
 
         Member member = Member.builder()
-                .identification(new Identification())
+                .identification(Identification.createIdentification())
                 .email(Email.from(beforeMemberEmail))
                 .nickname(Nickname.from("memberNickname"))
-                .password(Password.of("pass"))
+                .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
                 .role(Role.ROLE_USER)
                 .gender(Gender.from("male"))
@@ -119,11 +119,11 @@ class MemberServiceImplTest {
     @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
     void findByEmail1() {
         // given
-        Email email = beforeMember.getEmail();
+        Email email = savedBeforeMember.getEmail();
         // when
         Optional<Member> opMember = memberService.findByEmail(email);
         // then
-        assertThat(opMember.get()).isEqualTo(beforeMember);
+        assertThat(opMember.get()).isEqualTo(savedBeforeMember);
     }
     
 }

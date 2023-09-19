@@ -26,6 +26,11 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    public List<Place> findAllById(List<Long> ids) {
+        return placeRepository.findAllById(ids);
+    }
+
+    @Override
     public List<Place> findOneByIdFetchImage(Long id) {
         return placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
     }

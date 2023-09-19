@@ -8,6 +8,7 @@ import com.authenticationservice.api.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,12 @@ public class AuthController {
     final AuthService authService;
 
     @PostMapping("/signup")
-    public ApiResponse<SignResDto> signup(@RequestBody SignupReqDto signupReqDto) {
+    public ApiResponse<SignResDto> signup(@Valid @RequestBody SignupReqDto signupReqDto) {
         return ApiResponse.created(authService.signup(signupReqDto));
     }
 
     @PostMapping("/login")
-    public ApiResponse<SignResDto> login(@RequestBody LoginReqDto loginReqDto) {
+    public ApiResponse<SignResDto> login(@Valid @RequestBody LoginReqDto loginReqDto) {
         return ApiResponse.ok(authService.login(loginReqDto));
     }
 

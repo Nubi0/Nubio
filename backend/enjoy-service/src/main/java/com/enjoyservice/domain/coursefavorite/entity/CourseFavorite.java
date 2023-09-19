@@ -4,6 +4,7 @@ import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.course.entity.Course;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -21,4 +22,10 @@ public class CourseFavorite extends BaseEntity {
 
     @Column(name = "member_id")
     private String memberId;
+
+    @Builder
+    public CourseFavorite(Course course, String memberId) {
+        this.course = course;
+        this.memberId = memberId;
+    }
 }

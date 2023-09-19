@@ -11,6 +11,8 @@ import java.util.List;
 public enum Region {
 
     DAEGU("대구"),
+    SEOUL("서울"),
+    BUSAN("부산")
     ;
 
     private String description;

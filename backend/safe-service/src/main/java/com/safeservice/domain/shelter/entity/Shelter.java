@@ -26,7 +26,7 @@ public class Shelter {
     private String name;
 
     @Field(name = "phone_num")
-    private String phoneNum;
+    private String phoneNumber;
 
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
@@ -35,11 +35,11 @@ public class Shelter {
     private ShelterType shelterType;
 
     @Builder
-    public Shelter(String id, String address, String name, String phoneNum, Point location, ShelterType shelterType) {
+    public Shelter(String id, String address, String name, String phoneNumber, Point location, ShelterType shelterType) {
         this.id = id;
         this.address = address;
         this.name = name;
-        this.phoneNum = phoneNum;
+        this.phoneNumber = phoneNumber;
         this.location = location;
         this.shelterType = shelterType;
     }

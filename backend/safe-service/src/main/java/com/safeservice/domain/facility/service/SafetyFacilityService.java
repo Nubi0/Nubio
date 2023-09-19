@@ -17,5 +17,8 @@ public interface SafetyFacilityService {
 
     Page<SafetyFacility> findFacilityNearWithPaging(Point point, Distance distance, FacilityType facilityType, Pageable pageable);
 
-    List<SafetyFacility> saveAll(List<SafetyFacility> safetyFacilityLsit);
+    List<SafetyFacility> saveAll(List<SafetyFacility> safetyFacilityList);
+
+    List<SafetyFacility> findFacilityNear(Point point, Distance distance);
+
 }

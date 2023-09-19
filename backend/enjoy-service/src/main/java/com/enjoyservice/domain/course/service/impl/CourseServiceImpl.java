@@ -28,7 +28,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findAllByRegion(Region region, Pageable pageable) {
-        return courseRepository.findAllByRegion(region, pageable);
+    public List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable) {
+        return courseRepository.findAllByRegionFetchPlace(region, pageable);
     }
 }

@@ -12,3 +12,6 @@ export interface placeType {
   y: number;
   length: number;
 }
+export interface SetDirectionProps {
+  map: any;
+}

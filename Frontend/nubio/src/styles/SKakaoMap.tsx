@@ -102,4 +102,12 @@ export const SetDirectionWrapper = styled.div`
     border-radius: 0.5rem;
     border: 0.1rem solid black;
   }
+  button {
+    float: right;
+    width: 5rem;
+    height: 2rem;
+    margin: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid black;
+  }
 `;

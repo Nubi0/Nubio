@@ -2,6 +2,7 @@ package com.enjoyservice.domain.course.repository;
 
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
+import com.enjoyservice.domain.tag.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.domain.Pageable;
@@ -20,4 +21,11 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 
     Long countAllByRegion(Region region);
+
+    @Query("select t " +
+            "from Course c " +
+            "left join fetch CourseTag ct on c = ct.course " +
+            "join fetch Tag t on ct.tag = t " +
+            "where c = :course")
+    List<Tag> findTags(@Param("course") Course course);
 }

@@ -4,6 +4,7 @@ import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
+import com.enjoyservice.domain.tag.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Long countAllByRegion(Region region) {
         return courseRepository.countAllByRegion(region);
+    }
+
+    @Override
+    public List<Tag> findTags(Course course) {
+        return courseRepository.findTags(course);
     }
 }

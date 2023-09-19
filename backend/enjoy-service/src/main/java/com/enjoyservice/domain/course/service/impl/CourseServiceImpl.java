@@ -31,4 +31,9 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable) {
         return courseRepository.findAllByRegionFetchPlace(region, pageable);
     }
+
+    @Override
+    public Long countAllByRegion(Region region) {
+        return courseRepository.countAllByRegion(region);
+    }
 }

@@ -18,4 +18,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "join fetch Place p on cps.place = p " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
+
+    Long countAllByRegion(Region region);
 }

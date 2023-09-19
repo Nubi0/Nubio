@@ -11,4 +11,6 @@ public interface CourseService {
     Course save(Course course);
 
     List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable);
+
+    Long countAllByRegion(Region region);
 }

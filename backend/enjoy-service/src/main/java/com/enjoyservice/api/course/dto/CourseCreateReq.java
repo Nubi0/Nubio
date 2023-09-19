@@ -6,11 +6,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CourseCreateReq {
 
     @NotBlank(message = "코스 제목은 필수값입니다.")
@@ -40,6 +46,8 @@ public class CourseCreateReq {
     private List<PlaceInfo> placeInfos;
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     static public class TagInfo {
 
         @NotBlank(message = "태그는 비어있으면 안됩니다.")
@@ -48,6 +56,8 @@ public class CourseCreateReq {
     }
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     static public class PlaceInfo {
 
         @NotBlank(message = "장소 id는 필수값입니다.")

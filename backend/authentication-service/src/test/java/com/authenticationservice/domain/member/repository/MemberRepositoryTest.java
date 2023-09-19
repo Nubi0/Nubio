@@ -31,13 +31,16 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        memberRepository.findByEmail(Email.from("beforeMember@nubio.com"))
+                .ifPresent(member -> memberRepository.delete(member));
+
         Member beforeMember = Member.builder()
                 .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember@nubio.com"))
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_USERS)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("2000-01-01"))
                 .build();

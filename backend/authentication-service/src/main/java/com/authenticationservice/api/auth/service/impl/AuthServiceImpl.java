@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
                 .nickname(Nickname.from(signupReqDto.getNickname()))
                 .password(Password.of(signupReqDto.getPassword(), passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_USERS)
                 .gender(Gender.from(signupReqDto.getGender()))
                 .birth(Birth.from(signupReqDto.getBirth()))
                 .build();

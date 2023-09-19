@@ -43,7 +43,7 @@ class MemberServiceImplTest {
                 .nickname(Nickname.from("beforeMemberNickname"))
                 .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_USERS)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("2000-01-01"))
                 .build();
@@ -66,7 +66,7 @@ class MemberServiceImplTest {
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_USERS)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("1996-05-08"))
                 .build();
@@ -95,7 +95,7 @@ class MemberServiceImplTest {
                 .nickname(Nickname.from("memberNickname"))
                 .password(Password.of("pass", passwordEncoder))
                 .oAuthType(OAuthType.NUBIO)
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_USERS)
                 .gender(Gender.from("male"))
                 .birth(Birth.from("1996-05-08"))
                 .build();

@@ -36,4 +36,19 @@ public class ShelterServiceImpl implements ShelterService {
     public Page<Shelter> findShelterNearWithPaging(Point point, Distance distance, ShelterType shelterType, Pageable pageable) {
         return shelterRepository.findByLocationNearAndShelterTypeIs(point, distance, shelterType, pageable);
     }
+
+    @Override
+    public List<Shelter> saveAll(List<Shelter> shelterList) {
+        return shelterRepository.saveAll(shelterList);
+    }
+
+    @Override
+    public List<Shelter> findShelterNear(Point point, Distance distance) {
+        return shelterRepository.findByLocationNear(point, distance);
+    }
+
+    @Override
+    public Page<Shelter> findShelterNearWithPaging(Point point, Distance distance, Pageable pageable) {
+        return shelterRepository.findByLocationNear(point, distance, pageable);
+    }
 }

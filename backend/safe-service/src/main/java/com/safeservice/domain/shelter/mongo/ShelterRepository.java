@@ -19,5 +19,8 @@ public interface ShelterRepository extends MongoRepository<Shelter, String> {
     Page<Shelter> findByLocationNearAndShelterTypeIs(Point point, Distance distance, ShelterType shelterType, Pageable pageable);
 
 
+    List<Shelter> findByLocationNear(Point point, Distance distance);
+
+    Page<Shelter> findByLocationNear(Point point, Distance distance, Pageable pageable);
 
 }

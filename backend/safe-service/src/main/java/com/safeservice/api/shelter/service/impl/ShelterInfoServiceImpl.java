@@ -3,15 +3,20 @@ package com.safeservice.api.shelter.service.impl;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.safeservice.api.shelter.dto.request.NearShelter;
 import com.safeservice.api.shelter.dto.request.ShelterDto;
+import com.safeservice.api.shelter.dto.response.NearShelterPageResponseDto;
 import com.safeservice.api.shelter.service.ShelterInfoService;
-import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.shelter.constant.ShelterType;
 import com.safeservice.domain.shelter.entity.Shelter;
 import com.safeservice.domain.shelter.service.ShelterService;
 import com.safeservice.global.error.ErrorCode;
 import com.safeservice.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -63,4 +68,15 @@ public class ShelterInfoServiceImpl implements ShelterInfoService {
         }
 
     }
+
+    @Override
+    public NearShelterPageResponseDto findShelterNearWithPaging(NearShelter nearShelter, ShelterType shelterType, Pageable pageable) {
+
+        Point point = new Point(nearShelter.getLongitude(), nearShelter.getLatitude());
+        Distance distance = new Distance(nearShelter.getDistance(), Metrics.KILOMETERS);
+        Page<Shelter> shelterNearWithPaging = shelterService.findShelterNearWithPaging(point, distance, shelterType, pageable);
+
+        return NearShelterPageResponseDto.from(shelterNearWithPaging);
+    }
+
 }

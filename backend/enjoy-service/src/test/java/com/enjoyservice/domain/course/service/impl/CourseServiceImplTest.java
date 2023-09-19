@@ -242,4 +242,39 @@ class CourseServiceImplTest {
                         tuple("courseTitle1", memberId3)
                 );
     }
+
+    @DisplayName("CourseId로 연관된 Tag 모두 조회하기")
+    @Test
+    void findTagsByCourseId() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for(int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        for(Tag tag : savedTags) {
+            CourseTag courseTag = CourseTag.builder()
+                    .course(course)
+                    .tag(tag)
+                    .build();
+            courseTags.add(courseTag);
+        }
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+        // when
+        List<Course> result = courseService.findCourseAndTagsByCourseId(course.getId());
+        // then
+        assertThat(result.size()).isEqualTo(tagCount);
+        assertThat(result.get(0).getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
+        assertThat(result.get(0).getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
+        assertThat(result.get(0).getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
+        assertThat(result.get(0).getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
+        assertThat(result.get(0).getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
+    }
 }

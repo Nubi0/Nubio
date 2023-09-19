@@ -25,14 +25,14 @@ pipeline {
                         sh "cp \$OAUTHFILE backend/authentication-service/src/main/resources/application-oauth.yml"
                     }
                 }
-                sh 'chmod +x backend/authentication-service/gradlew'
+                // sh 'chmod +x backend/authentication-service/gradlew'
 
-                script {
-                    dir('backend/authentication-service') {
-                        docker.build('authentication-service')
-                        sh './gradlew clean build -x test'
-                    }
-                }
+                // script {
+                //     dir('backend/authentication-service') {
+                //         docker.build('authentication-service')
+                //         sh './gradlew clean build -x test'
+                //     }
+                // }
             }
         }
 

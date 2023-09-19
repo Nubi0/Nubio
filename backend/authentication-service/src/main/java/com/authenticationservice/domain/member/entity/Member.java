@@ -8,16 +8,17 @@ import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.util.DateTimeUtils;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@SQLDelete(sql = "UPDATE member SET active = false WHERE identification = ?")
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -45,7 +46,8 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role = Role.ROLE_USER;
+    @ColumnDefault("USER")
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
@@ -61,13 +63,12 @@ public class Member extends BaseTimeEntity {
     private LocalDateTime refreshTokenExpirationTime;
 
     @Embedded
-    private Active active = Active.from(true);
+    private Active active;
 
     @Builder
     public Member(Long id, Identification identification, Email email, Nickname nickname,
                   Password password, OAuthType oAuthType, ProfileUrl profileUrl, Role role,
-                  Gender gender, Birth birth, String refreshToken, LocalDateTime refreshTokenExpirationTime,
-                  Active active) {
+                  Gender gender, Birth birth, String refreshToken, LocalDateTime refreshTokenExpirationTime) {
         this.id = id;
         this.identification = identification;
         this.email = email;
@@ -80,11 +81,20 @@ public class Member extends BaseTimeEntity {
         this.birth = birth;
         this.refreshToken = refreshToken;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
-        this.active = active;
+        this.active = Active.from(true);
     }
 
     public void updateRefreshToken(JwtDto jwtTokenDto) {
         this.refreshToken = jwtTokenDto.getRefreshToken();
         this.refreshTokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpireTime());
+    }
+
+    public void withdraw() {
+        this.email.withdrawEmail();
+        this.birth.withdrawBirth();
+        this.nickname.withdrawNickname();
+        this.password.withdrawPassword();
+        if (this.profileUrl != null) this.profileUrl.withdrawProfileUrl();
+        this.active.withdrawActive();
     }
 }

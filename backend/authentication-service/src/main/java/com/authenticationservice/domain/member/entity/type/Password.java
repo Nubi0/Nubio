@@ -4,11 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
-
     @Column(name = "password")
     private String value;
 
@@ -24,11 +24,19 @@ public class Password {
      * @param value
      * @return
      */
-    public static Password of(final String value) {
+    public static Password of(final String value, final PasswordEncoder passwordEncoder) {
         // TODO: 암호화 한 결과 넣어야 됨 / 검증도 추가
-        return new Password(value);
+        return new Password(passwordEncoder.encode(value));
     }
 
+
+    private void setValue(String value) {
+        this.value = value;
+    }
+
+    public void withdrawPassword() {
+        this.setValue("탈퇴한 회원입니다.");
+    }
     public String getValue() {
         return value;
     }

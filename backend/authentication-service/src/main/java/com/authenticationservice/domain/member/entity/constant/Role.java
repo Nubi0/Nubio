@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 
 public enum Role {
 
-    ROLE_USER("user"),
-    ROLE_ADMIN("admin")
+    ROLE_USER("USER"),
+    ROLE_ADMIN("ADMIN"),
+    ROLE_WITHDRAW("WITHDRAW")
     ;
 
     private String description;

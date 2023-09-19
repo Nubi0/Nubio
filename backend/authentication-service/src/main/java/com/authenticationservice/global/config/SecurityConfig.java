@@ -29,8 +29,9 @@ public class SecurityConfig {
                                 .disable()
                 )
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/v1/member/login", "/v1/member/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+//                        .requestMatchers("/v1/member/login", "/v1/member/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .disable())

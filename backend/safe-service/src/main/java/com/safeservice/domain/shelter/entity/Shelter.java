@@ -31,7 +31,7 @@ public class Shelter {
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private Point location;
 
-    @Field(name = "shelter-type")
+    @Field(name = "shelter_type")
     private ShelterType shelterType;
 
     @Builder

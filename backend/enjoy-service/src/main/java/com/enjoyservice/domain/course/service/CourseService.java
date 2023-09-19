@@ -20,4 +20,6 @@ public interface CourseService {
     List<Tag> findTags(Course course);
 
     List<CourseLike> findCourseLikesByCourse(Course course);
+
+    List<Course> findCourseAndTagsByCourseId(Long courseId);
 }

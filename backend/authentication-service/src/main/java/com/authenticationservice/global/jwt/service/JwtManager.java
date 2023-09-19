@@ -23,6 +23,7 @@ public class JwtManager {
     private final String accessTokenExpirationTime;
     private final String refreshTokenExpirationTime;
     private final String tokenSecret;
+    private final String tokenIssuer;
 
     public JwtDto createJwtDto(String identification, Role role) {
         Date accessTokenExpireTime = createAccessTokenExpireTime();
@@ -50,6 +51,7 @@ public class JwtManager {
     public String createAccessToken(String identification, Role role,  Date expirationTime) {
         String accessToken = Jwts.builder()
                 .setSubject(TokenType.ACCESS.name())    // 토큰 제목
+                .setIssuer(tokenIssuer)                 // 토큰 발행자
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
                 .claim("identification", identification)      // 회원 아이디
@@ -63,6 +65,7 @@ public class JwtManager {
     public String createRefreshToken(String identification, Date expirationTime) {
         String refreshToken = Jwts.builder()
                 .setSubject(TokenType.REFRESH.name())   // 토큰 제목
+                .setIssuer(tokenIssuer)                 // 토큰 발행자
                 .setIssuedAt(new Date())                // 토큰 발급 시간
                 .setExpiration(expirationTime)          // 토큰 만료 시간
                 .claim("identification", identification)      // 회원 아이디

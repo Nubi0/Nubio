@@ -29,13 +29,13 @@ public class SecurityConfig {
                                 .disable()
                 )
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/v1/users/login", "/v1/users/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+                        .requestMatchers("/v1/member/login", "/v1/member/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .disable())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/v1/users/login")
+                        .logoutSuccessUrl("/v1/member/login")
                         .permitAll()
                 );
         return http.build();

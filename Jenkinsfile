@@ -64,12 +64,11 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS'),
-                    string(credentialsId: 'nubio', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'nubio', variable: 'AWS_SECRET_ACCESS_KEY')
+                    [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'nubio']
                 ]) {
                     sh """
-                        export AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID
-                        export AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY
+                        export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                        export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
                         docker-compose -f docker-compose.yml up -d
                     """
                 }

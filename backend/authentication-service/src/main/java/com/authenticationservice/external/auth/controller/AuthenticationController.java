@@ -1,6 +1,6 @@
 package com.authenticationservice.external.auth.controller;
 
-import com.authenticationservice.global.WebClientConfig;
+import com.authenticationservice.global.config.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;

@@ -10,6 +10,7 @@ import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,7 @@ class MemberInfoServiceImplTest {
     private EntityManager em;
 
     private Member savedBeforeMember;
+    private MemberInfoDto memberInfoDto;
 
     @BeforeEach
     void setUp() {
@@ -57,6 +59,11 @@ class MemberInfoServiceImplTest {
                 .build();
 
         savedBeforeMember = memberRepository.save(beforeMember);
+
+        memberInfoDto = MemberInfoDto.builder()
+                .identification(savedBeforeMember.getIdentification().getValue())
+                .role(savedBeforeMember.getRole().name())
+                .build();
     }
 
     @AfterEach
@@ -70,8 +77,7 @@ class MemberInfoServiceImplTest {
     @Test
     void getMemberInfo() {
         // given
-        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
-        MemberResDto res = memberInfoService.getMemberInfo(jwtDto.getAccessToken());
+        MemberResDto res = memberInfoService.getMemberInfo(memberInfoDto);
         // when then
         assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
         assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
@@ -117,10 +123,8 @@ class MemberInfoServiceImplTest {
     @DisplayName("회원 탈퇴를 성공한다.")
     @Test
     void withdrawSuccessful() {
-        // given
-        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
-        // when
-        memberInfoService.deleteMember(jwtDto.getAccessToken());
+        // given when
+        memberInfoService.deleteMember(memberInfoDto);
         // then
         Optional<Member> withdrewMember = memberRepository.findById(savedBeforeMember.getId());
         assertThat(withdrewMember).isPresent();

@@ -53,3 +53,7 @@ oauth2:
       client_secret: asdfsadf
       redirect_uri: http://localhost:3000/oauth/kakao
       authorization_grant_type: authorization_code
+
+nubio:
+  url: https://ooooo.com
+  auth: http://ec2-00-000-00-000.ap-northeast-2.compute.amazonaws.com:8080

@@ -24,6 +24,13 @@ public class AuthenticationController {
                                                @RequestHeader(value = "Authorization", required = false) String authHeader,
                                                @RequestHeader("X-Original-Request-URL") String originalRequestUrl){
         HttpHeaders headers = new HttpHeaders();
+
+        log.info("fulURL : {}", originalRequestUrl);
+
+        int index = originalRequestUrl.indexOf("/v1");
+        log.info("index : {}", index);
+        originalRequestUrl = originalRequestUrl.substring(index);
+
         headers.add("Location", originalRequestUrl);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

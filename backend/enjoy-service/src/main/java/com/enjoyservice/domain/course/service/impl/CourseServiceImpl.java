@@ -40,6 +40,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Course findById(Long courseId) {
+        return courseRepository.findById(courseId)
+                .orElseThrow(() -> new CourseNotFoundException(ErrorCode.COURSE_NOT_FOUND));
+    }
+
+    @Override
     public List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable) {
         return courseRepository.findAllByRegionFetchPlace(region, pageable);
     }

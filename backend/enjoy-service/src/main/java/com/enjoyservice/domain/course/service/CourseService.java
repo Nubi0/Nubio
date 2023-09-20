@@ -12,18 +12,12 @@ import java.util.List;
 public interface CourseService {
 
     Course save(Course course);
-
+    Course findById(Long courseId);
     List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable);
-
     Long countAllByRegion(Region region);
-
     List<Tag> findTags(Course course);
-
     List<CourseLike> findCourseLikesByCourse(Course course);
-
     List<Course> findCourseAndTagsByCourseId(Long courseId);
-
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
-
     boolean changeCourseLikeState(Long courseId, String memberId);
 }

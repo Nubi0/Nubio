@@ -3,6 +3,7 @@ package com.authenticationservice.external.auth.controller;
 import com.authenticationservice.global.config.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/jwt")
 @RequiredArgsConstructor
+@Tag(name = "5. KONG API", description = "KONG jwt 인증 api")
 public class AuthenticationController {
 
     private final JwtManager jwtManager;

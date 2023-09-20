@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/member")
 @RequiredArgsConstructor
-@Tag(name = "2. User API", description = "자체 Auth api")
+@Tag(name = "3. User API", description = "자체 Auth api")
 public class AuthController {
 
     final AuthService authService;

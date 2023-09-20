@@ -20,7 +20,7 @@ import java.util.Enumeration;
 @RestController
 @RequestMapping("/v1/member")
 @RequiredArgsConstructor
-@Tag(name = "3. Member API", description = "회원 api")
+@Tag(name = "4. Member API", description = "회원 api")
 public class MemberController {
 
     final MemberInfoService memberInfoService;

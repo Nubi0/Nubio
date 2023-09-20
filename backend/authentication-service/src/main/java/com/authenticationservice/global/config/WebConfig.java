@@ -1,17 +1,23 @@
 package com.authenticationservice.global.config;
 
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
+
+    private final MemberInfoArgumentResolver memberInfoArgumentResolver;
 
     //CORS 설정
     @Bean
@@ -24,5 +30,10 @@ public class WebConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(memberInfoArgumentResolver);
     }
 }

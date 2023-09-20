@@ -2,13 +2,14 @@ package com.authenticationservice.external.auth.controller;
 
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,12 +17,16 @@ public class AuthenticationController {
 
     private final JwtManager jwtManager;
 
-    @GetMapping("/jwt")
-    public ResponseEntity<?> handleRequest(
-            @RequestHeader(value = "Authorization", required = false) String authHeader,
-            @RequestHeader("X-Original-Request-URL") String originalRequestUrl
-    ) {
+    @RequestMapping("/jwt")
+    public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
+                                               @RequestHeader(value = "Authorization", required = false) String authHeader,
+                                                HttpServletRequest request){
         HttpHeaders headers = new HttpHeaders();
+        String fullURL = request.getRequestURL().toString();
+
+        int index = fullURL.indexOf("/v1");
+        String originalRequestUrl = fullURL.substring(index);
+
         headers.add("Location", originalRequestUrl);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -36,6 +41,7 @@ public class AuthenticationController {
             headers.add("X-Role", role);
         }
 
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        return new ResponseEntity<>(requestBody, headers, HttpStatus.FOUND);
+
     }
 }

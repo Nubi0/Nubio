@@ -189,7 +189,7 @@ class CourseRepositoryTest {
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
         // when
-        List<Tag> result = courseRepository.findTags(course);
+        List<Tag> result = courseRepository.findTagsByCourse(course);
         // then
         assertThat(result).hasSize(tagCount)
                 .extracting("name.value")
@@ -233,5 +233,60 @@ class CourseRepositoryTest {
                         tuple("courseTitle1", memberId2),
                         tuple("courseTitle1", memberId3)
                 );
+    }
+
+    @DisplayName("CourseId로 연관된 Tag 모두 조회하기")
+    @Test
+    void findTagsByCourseId() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for(int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        for(Tag tag : savedTags) {
+            CourseTag courseTag = CourseTag.builder()
+                    .course(course)
+                    .tag(tag)
+                    .build();
+            courseTags.add(courseTag);
+        }
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+        // when
+        List<Course> result = courseRepository.findCourseAndTagsByCourseId(course.getId());
+        // then
+        assertThat(result.size()).isEqualTo(tagCount);
+        assertThat(result.get(0).getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
+        assertThat(result.get(0).getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
+        assertThat(result.get(0).getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
+        assertThat(result.get(0).getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
+        assertThat(result.get(0).getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
+    }
+
+    @DisplayName("Course에 속한 Place 목록 조회")
+    @Test
+    void findPlacesByCourse() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        Place place1 = savedBeforePlaces.get(0);
+        Place place2 = savedBeforePlaces.get(1);
+        Place place3 = savedBeforePlaces.get(2);
+        // when
+        List<Place> result = courseRepository.findPlacesByCourse(course);
+        // then
+        assertThat(result.size()).isEqualTo(3);
+        assertThat(result.get(0).getName().getValue()).isEqualTo(place1.getName().getValue());
+        assertThat(result.get(0).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(1);
+        assertThat(result.get(1).getName().getValue()).isEqualTo(place2.getName().getValue());
+        assertThat(result.get(1).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(2);
+        assertThat(result.get(2).getName().getValue()).isEqualTo(place3.getName().getValue());
+        assertThat(result.get(2).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(3);
     }
 }

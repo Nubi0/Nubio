@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -30,12 +28,10 @@ public class AuthenticationController {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
-                                                     @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                                     @RequestHeader("x-forwarded-path") String originalRequestUrl,
                                                      HttpServletRequest request) {
 
-        log.info(request.getHeader("Authorization"));
-        log.info(request.getHeader("x-forwarded-path"));
+        String authHeader = request.getHeader("Authorization");
+        String originalRequestUrl = request.getHeader("x-forwarded-path");
         String requestMethod = request.getMethod();
         HttpHeaders headers = new HttpHeaders();
 
@@ -65,7 +61,7 @@ public class AuthenticationController {
                 .uri(originalRequestUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromValue(requestBody))
+                .body(requestBody != null ? BodyInserters.fromValue(requestBody) : BodyInserters.empty())
                 .retrieve()
                 .toEntity(String.class)
                 .map(responseEntity -> {

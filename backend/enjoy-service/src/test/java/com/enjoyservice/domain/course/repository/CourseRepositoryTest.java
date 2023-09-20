@@ -291,7 +291,7 @@ class CourseRepositoryTest {
         assertThat(result.get(2).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(3);
     }
 
-    @DisplayName("courseId로 CourseLike 목록 조회(active 상관 없이)")
+    @DisplayName("courseId, memberId로 CourseLike 조회(active 상관 없이)")
     @Test
     void findCourseLikesByCourseId() {
         // given

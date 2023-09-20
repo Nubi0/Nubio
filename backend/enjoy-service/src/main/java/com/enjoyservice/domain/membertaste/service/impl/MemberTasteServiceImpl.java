@@ -31,7 +31,7 @@ public class MemberTasteServiceImpl implements MemberTasteService {
 
     @Override
     @Transactional
-    public void deleteTaste(Long id) {
-        memberTasteRepository.deleteById(id);
+    public void deleteTaste(String id) {
+        memberTasteRepository.deleteAllByMemberId(id);
     }
 }

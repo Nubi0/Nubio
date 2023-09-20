@@ -7,5 +7,5 @@ import java.util.List;
 public interface MemberTasteService {
     List<MemberTaste> findByMemberId(String memberId);
     List<MemberTaste> saveAll(List<MemberTaste> memberTastes);
-    void deleteTaste(Long id);
+    void deleteTaste(String id);
 }

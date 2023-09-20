@@ -27,7 +27,6 @@ import java.util.UUID;
 public class MemberInfoServiceImpl implements MemberInfoService {
 
     private final MemberRepository memberRepository;
-    private final JwtManager jwtManager;
 
     @Override
     public MemberResDto getMemberInfo(MemberInfoDto memberInfo) {
@@ -57,8 +56,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
     @Override
     @Transactional
-    public void updateMemberInfo(String authorizedMember, MultipartFile profileImg, String nickname) {
-        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+    public void updateMemberInfo(MemberInfoDto memberInfo, MultipartFile profileImg, String nickname) {
+        Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
 
         if(!profileImg.isEmpty()) {
@@ -72,8 +71,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
     @Override
     @Transactional
-    public void deleteMember(String authorizedMember) {
-        Identification identification = Identification.from(jwtManager.getTokenClaims(authorizedMember).get("identification").toString());
+    public void deleteMember(MemberInfoDto memberInfo) {
+        Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
 
         member.withdraw();

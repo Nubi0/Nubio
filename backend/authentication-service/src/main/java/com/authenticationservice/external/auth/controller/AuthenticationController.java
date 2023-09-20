@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
+import java.util.Enumeration;
 import java.util.Map;
 
 @Slf4j
@@ -33,7 +34,15 @@ public class AuthenticationController {
         String authHeader = request.getHeader("Authorization");
         String originalRequestUrl = request.getHeader("x-forwarded-path");
         String requestMethod = request.getMethod();
+
         HttpHeaders headers = new HttpHeaders();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            headers.add(headerName, headerValue);
+        }
 
         int index = originalRequestUrl.indexOf("/v1");
         log.info("index : {}", index);

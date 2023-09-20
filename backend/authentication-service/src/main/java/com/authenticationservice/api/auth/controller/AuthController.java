@@ -5,6 +5,8 @@ import com.authenticationservice.api.auth.dto.request.LoginReqDto;
 import com.authenticationservice.api.auth.dto.request.SignupReqDto;
 import com.authenticationservice.api.auth.dto.response.SignResDto;
 import com.authenticationservice.api.auth.service.AuthService;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,9 +41,9 @@ public class AuthController {
 
     @Operation(summary = "로그아웃", description = "start/v1/member/logout\n\n" )
     @PostMapping("/logout")
-    public ApiResponse<String> logout(HttpServletRequest httpServletRequest) {
+    public ApiResponse<String> logout(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
-        authService.logout(authorizationHeader);
+        authService.logout(memberInfo, authorizationHeader);
         return ApiResponse.ok("Success");
     }
 

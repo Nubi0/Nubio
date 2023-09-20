@@ -27,13 +27,7 @@ public class MemberController {
 
     @Operation(summary = "프로필 조회", description = "auth/v1/member/me\n\n" )
     @GetMapping("/me")
-    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest request) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            log.info("{} : {}", headerName ,headerValue);
-        }
+    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo) {
         return ApiResponse.ok(memberInfoService.getMemberInfo(memberInfo));
     }
 
@@ -46,18 +40,17 @@ public class MemberController {
 
     @Operation(summary = "프로필 수정", description = "auth/v1/member/me\n\n" )
     @PatchMapping("/me")
-    public ApiResponse<String> updateMe(@RequestPart(name = "profileUrl", required = false) MultipartFile profileImg,
+    public ApiResponse<String> updateMe(@MemberInfo MemberInfoDto memberInfo,
+                                        @RequestPart(name = "profileUrl", required = false) MultipartFile profileImg,
                                         @RequestPart(name = "nickname", required = false) String nickName) {
-        String authorizedMember = SecurityUtil.getAuthorizedMember();
-        memberInfoService.updateMemberInfo(authorizedMember, profileImg, nickName);
+        memberInfoService.updateMemberInfo(memberInfo, profileImg, nickName);
         return ApiResponse.ok("Success");
     }
 
     @Operation(summary = "회원 탈퇴", description = "auth/v1/member/delete\n\n" )
     @PatchMapping("/delete")
-    public ApiResponse<String> deleteMe() {
-        String authorizedMember = SecurityUtil.getAuthorizedMember();
-        memberInfoService.deleteMember(authorizedMember);
+    public ApiResponse<String> deleteMe(@MemberInfo MemberInfoDto memberInfo) {
+        memberInfoService.deleteMember(memberInfo);
         return ApiResponse.ok("Success");
     }
 }

@@ -18,7 +18,8 @@ public enum ErrorCode {
     // 코스
     INVALID_REGION(HttpStatus.BAD_REQUEST, "C-001", "해당 지역은 존재하지 않습니다."),
     INVALID_SEQUENCE_NUMBER_RANGE(HttpStatus.BAD_REQUEST, "C-002", "코스에 속한 장소의 순서값의 범위는 0 이상 입니다."),
-
+    COURSE_NOT_FOUND(HttpStatus.BAD_REQUEST, "C-003", "해당 코스는 존재하지 않습니다."),
+    
     // 코스 리뷰
     INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다.")
     ;

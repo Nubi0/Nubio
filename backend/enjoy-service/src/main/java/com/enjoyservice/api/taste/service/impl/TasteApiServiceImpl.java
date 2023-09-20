@@ -34,9 +34,9 @@ public class TasteApiServiceImpl implements TasteApiService {
         searchByMemberId.forEach(memberTaste -> {
             String taste = memberTaste.getTaste().getType().getDescription();
             String description = memberTaste.getTaste().getDetailType().getDescription();
-            if (taste.equals(Type.EAT)) {
+            if (taste.equals(Type.EAT.getDescription())) {
                 foods.add(description);
-            } else if (taste.equals(Type.DRINK)) {
+            } else if (taste.equals(Type.DRINK.getDescription())) {
                 drinks.add(description);
             } else {
                 plays.add(description);

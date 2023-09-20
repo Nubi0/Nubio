@@ -5,8 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Builder
 public class CourseDetailRes {
 
     @JsonProperty("course_info")
@@ -15,7 +15,6 @@ public class CourseDetailRes {
     private List<PlaceInfo> placeInfos;
 
     @Setter
-    @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
@@ -32,7 +31,6 @@ public class CourseDetailRes {
         private long likeCount;
     }
 
-    @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

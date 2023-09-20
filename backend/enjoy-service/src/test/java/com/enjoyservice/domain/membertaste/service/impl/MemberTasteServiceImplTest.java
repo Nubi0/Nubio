@@ -73,13 +73,16 @@ class MemberTasteServiceImplTest {
     @Test
     void deleteTaste() {
         // given
-        MemberTaste beforeMemberTaste = MemberTaste.builder()
-                .memberId(beforeMemberId).build();
-        MemberTaste savedMemberTaste = memberTasteRepository.save(beforeMemberTaste);
-        Long savedMTId = savedMemberTaste.getId();
+        int length = 5;
+        List<MemberTaste> memberTastes = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            MemberTaste memberTaste = MemberTaste.builder()
+                    .memberId(beforeMemberId).build();
+            memberTastes.add(memberTaste);
+        }
         // when
-        memberTasteService.deleteTaste(savedMTId);
-        Optional<MemberTaste> findByIdMT = memberTasteRepository.findById(savedMTId);
+        memberTasteService.deleteTaste(beforeMemberId);
+        List<MemberTaste> findByIdMT = memberTasteRepository.findAllByMemberId(beforeMemberId);
         // then
         assertThat(findByIdMT.isEmpty()).isEqualTo(true);
 

@@ -1,5 +1,6 @@
 package com.authenticationservice.global.config;
 
+import com.authenticationservice.global.jwt.JwtHeaderFilter;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,10 @@ public class JwtConfig {
     @Bean
     public JwtManager tokenManager() {
         return new JwtManager(accessTokenExpirationTime, refreshTokenExpirationTime, tokenSecret, tokenIssuer);
+    }
+
+    @Bean
+    public JwtHeaderFilter jwtHeaderFilter() {
+        return new JwtHeaderFilter(tokenManager());
     }
 }

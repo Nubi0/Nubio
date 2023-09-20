@@ -1,6 +1,7 @@
 package com.authenticationservice.global.resolver.memberInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -8,6 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+@Slf4j
 @Component
 public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -24,6 +26,7 @@ public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String identification = request.getHeader("X-Identification");
         String role = request.getHeader("X-Role");
+        log.info("resolver {}" , request.getHeader(""));
 
         return MemberInfoDto.builder()
                 .identification(identification)

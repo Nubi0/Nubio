@@ -1,6 +1,9 @@
 package com.authenticationservice.global.config;
 
+import com.authenticationservice.global.jwt.JwtHeaderFilter;
+import com.authenticationservice.global.jwt.service.JwtManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +23,7 @@ import java.util.Map;
 public class SecurityConfig {
 
     private final WebConfig webConfig;
+    private final JwtManager jwtManager;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,6 +38,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/v1/member/login", "/v1/member/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
 //                        .anyRequest().authenticated()
                 )
+                .addFilterBefore(new JwtHeaderFilter(jwtManager), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(formLogin -> formLogin
                         .disable())
                 .logout(logout -> logout

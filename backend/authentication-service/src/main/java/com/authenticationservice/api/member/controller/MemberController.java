@@ -27,13 +27,8 @@ public class MemberController {
 
     @Operation(summary = "프로필 조회", description = "auth/v1/member/me\n\n" )
     @GetMapping("/me")
-    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest request) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            log.info("{} : {}", headerName ,headerValue);
-        }
+    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo) {
+        log.info("claim info => identification : {}, role : {}", memberInfo.getIdentification(), memberInfo.getRole());
         return ApiResponse.ok(memberInfoService.getMemberInfo(memberInfo));
     }
 

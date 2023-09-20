@@ -39,6 +39,8 @@ public class CourseDetailRes {
     @Builder
     public static class PlaceInfo {
         private long id;
+        @JsonProperty("kakao_id")
+        private int kakaoId;
         @JsonProperty("address_name")
         private String addressName;
         @JsonProperty("category_group_code")

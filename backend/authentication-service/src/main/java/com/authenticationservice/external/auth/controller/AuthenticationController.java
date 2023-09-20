@@ -3,8 +3,10 @@ package com.authenticationservice.external.auth.controller;
 import com.authenticationservice.global.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,11 @@ public class AuthenticationController {
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                      @RequestHeader(value = "Authorization", required = false) String authHeader,
                                                      @RequestHeader("x-forwarded-path") String originalRequestUrl,
-                                                     RequestMethod requestMethod) {
+                                                     HttpServletRequest request) {
 
+        log.info(request.getHeader("Authorization"));
+        log.info(request.getHeader("x-forwarded-path"));
+        String requestMethod = request.getMethod();
         HttpHeaders headers = new HttpHeaders();
 
         int index = originalRequestUrl.indexOf("/v1");
@@ -56,7 +61,7 @@ public class AuthenticationController {
         log.info("request: {}", requestBody);
 
         return webClientConfig.authClientBuilder().build()
-                .method(requestMethod.asHttpMethod())
+                .method(HttpMethod.valueOf(requestMethod))
                 .uri(originalRequestUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))

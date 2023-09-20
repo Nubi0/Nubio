@@ -26,6 +26,10 @@ public class AuthenticationController {
 
         HttpHeaders headers = new HttpHeaders();
 
+        int index = originalRequestUrl.indexOf("/v1");
+        log.info("index : {}", index);
+        originalRequestUrl = originalRequestUrl.substring(index);
+
         headers.add("Location", originalRequestUrl);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

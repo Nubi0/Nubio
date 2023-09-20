@@ -34,4 +34,16 @@ public class PlaceServiceImpl implements PlaceService {
     public List<Place> findOneByIdFetchImage(Long id) {
         return placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
     }
+
+    @Override
+    @Transactional
+    public List<Place> saveAll(List<Place> placeList) {
+        return placeRepository.saveAll(placeList);
+    }
+
+    @Override
+    @Transactional
+    public Place register(Place place) {
+        return placeRepository.save(place);
+    }
 }

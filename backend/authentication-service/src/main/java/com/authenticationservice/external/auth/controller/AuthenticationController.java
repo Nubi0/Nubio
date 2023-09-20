@@ -1,14 +1,19 @@
 package com.authenticationservice.external.auth.controller;
 
+import com.authenticationservice.global.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -19,11 +24,13 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final JwtManager jwtManager;
+    private final WebClientConfig webClientConfig;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-    public RedirectView handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
-                                          @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                          @RequestHeader("x-forwarded-path") String originalRequestUrl) {
+    public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
+                                                     @RequestHeader(value = "Authorization", required = false) String authHeader,
+                                                     @RequestHeader("x-forwarded-path") String originalRequestUrl,
+                                                     RequestMethod requestMethod) {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -41,30 +48,25 @@ public class AuthenticationController {
             String identification = claims.get("identification", String.class);
             String role = claims.get("role", String.class);
 
-            // 리다이렉션 URL을 먼저 초기화
-            String redirectToUrl = UriComponentsBuilder.fromUriString(originalRequestUrl)
-                    .build()
-                    .toUriString();
-
-            // 속성 추가
-            RedirectView redirectView = new RedirectView(redirectToUrl, true);
-            redirectView.addStaticAttribute("X-Identification", identification);
-            redirectView.addStaticAttribute("X-Role", role);
-
-            log.info("headers: {}", headers.entrySet().stream().toList());
-            log.info("request: {}", requestBody);
-
-            return redirectView;
+            headers.add("X-Identification", identification);
+            headers.add("X-Role", role);
         }
 
         log.info("headers: {}", headers.entrySet().stream().toList());
         log.info("request: {}", requestBody);
 
-        // 리다이렉션 URL을 먼저 초기화
-        String redirectToUrl = UriComponentsBuilder.fromUriString(originalRequestUrl)
-                .build()
-                .toUriString();
-
-        return new RedirectView(redirectToUrl, true);
+        return webClientConfig.authClientBuilder().build()
+                .method(requestMethod.asHttpMethod())
+                .uri(originalRequestUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .toEntity(String.class)
+                .map(responseEntity -> {
+                    return ResponseEntity.status(responseEntity.getStatusCode())
+                            .headers(responseEntity.getHeaders())
+                            .body(responseEntity.getBody());
+                });
     }
 }

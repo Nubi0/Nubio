@@ -20,7 +20,12 @@ public enum ErrorCode {
     INVALID_SEQUENCE_NUMBER_RANGE(HttpStatus.BAD_REQUEST, "C-002", "코스에 속한 장소의 순서값의 범위는 0 이상 입니다."),
 
     // 코스 리뷰
-    INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다.")
+    INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다."),
+
+    // 취향
+    INVALID_TASTE(HttpStatus.BAD_REQUEST,"T-001","해당 취향 목록은 존재하지 않습니다."),
+    INVALID_DETAIL_TASTE(HttpStatus.BAD_REQUEST,"T-001","해당 취향 상세 목록은 존재하지 않습니다."),
+
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

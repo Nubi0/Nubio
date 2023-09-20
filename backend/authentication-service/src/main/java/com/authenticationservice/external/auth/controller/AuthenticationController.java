@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Enumeration;
 import java.util.Map;
 
 @Slf4j
@@ -22,8 +23,17 @@ public class AuthenticationController {
     @PostMapping("/jwt")
     public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                               @RequestHeader("X-Original-Request-URL") String originalRequestUrl){
+                                               @RequestHeader("X-Original-Request-URL") String originalRequestUrl,
+                                               HttpServletRequest request){
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            log.info("{} : {}", headerName ,headerValue);
+        }
+
         HttpHeaders headers = new HttpHeaders();
+
 
         log.info("fulURL : {}", originalRequestUrl);
 

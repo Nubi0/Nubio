@@ -6,16 +6,26 @@ import {
 } from "../../../styles/SKakaoMap";
 import { placeType } from "../../../types/kakaoMaps";
 
-const SearchItem = ({ place, index }: { place: placeType; index: number }) => {
+const SearchItem = ({
+  place,
+  index,
+  setStartName,
+  setEndName,
+}: {
+  place: placeType;
+  index: number;
+  setStartName: any;
+  setEndName: any;
+}) => {
   const onClickStart = () => {
     localStorage.setItem("startX", `${place.x}`);
     localStorage.setItem("startY", `${place.y}`);
-    localStorage.setItem("startName", `${place.place_name}`);
+    setStartName(place.place_name);
   };
   const onClickEnd = () => {
     localStorage.setItem("endX", `${place.x}`);
     localStorage.setItem("endY", `${place.y}`);
-    localStorage.setItem("endName", `${place.place_name}`);
+    setEndName(place.place_name);
   };
 
   return (

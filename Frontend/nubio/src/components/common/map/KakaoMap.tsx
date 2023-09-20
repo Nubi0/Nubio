@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   MapWrapper,
   SearchListWrapper,
@@ -9,10 +9,10 @@ import Swal from "sweetalert2";
 import SearchItem from "./SearchItem";
 import axios from "axios";
 import proj4 from "proj4";
-
 import { useDispatch } from "react-redux";
 import { setTime } from "../../../redux/slice/EnjoySlice";
 import { placeType } from "../../../types/kakaoMaps";
+import useInput from "../../../hooks/useInput";
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
@@ -26,8 +26,9 @@ const KakaoMap = (props: propsType) => {
   var coordinate: any;
   const [linePath, setLinePath] = useState<kakao.maps.LatLng[]>([]); // linePath를 상태로 변경
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
-  const startName = localStorage.getItem("startName")!;
-  const endName = localStorage.getItem("endName")!;
+  const [startName, setStartName] = useState<any>("");
+  const [endName, setEndName] = useState<any>("");
+
   const TmapGetDirection = () => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var data = {
@@ -37,8 +38,8 @@ const KakaoMap = (props: propsType) => {
       endY: localStorage.getItem("endY"),
       reqCoordType: "WGS84GEO",
       resCoordType: "EPSG3857",
-      startName: localStorage.getItem("startName"),
-      endName: localStorage.getItem("endName"),
+      startName,
+      endName,
     };
     axios
       .post(
@@ -404,7 +405,7 @@ const KakaoMap = (props: propsType) => {
       }
     }
   }, [props.searchKeyword]);
-
+  console.log(startName);
   return (
     <>
       <MapWrapper id="map" className="map" />
@@ -412,8 +413,8 @@ const KakaoMap = (props: propsType) => {
         <SearchResultsWrapper id="search-result">
           {/* <SetDirection  /> */}
           <SetDirectionWrapper>
-            <input type="text" placeholder="출발지" value={startName} />
-            <input type="text" placeholder="도착지" value={endName} />
+            <p>{startName}</p>
+            <p>{endName}</p>
             <button onClick={TmapGetDirection}>길 찾기</button>
           </SetDirectionWrapper>
           <p className="result-text">
@@ -423,7 +424,13 @@ const KakaoMap = (props: propsType) => {
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list">
               {searchItmes.map((item, index) => (
-                <SearchItem key={index} place={item.place} index={item.i} />
+                <SearchItem
+                  key={index}
+                  place={item.place}
+                  index={item.i}
+                  setStartName={setStartName}
+                  setEndName={setEndName}
+                />
               ))}
             </ul>
           </SearchListWrapper>

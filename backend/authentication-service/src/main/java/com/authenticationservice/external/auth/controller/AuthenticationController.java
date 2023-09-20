@@ -22,15 +22,8 @@ public class AuthenticationController {
     @RequestMapping("/jwt")
     public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                                HttpServletRequest request){
+                                               @RequestHeader("X-Original-Request-URL") String originalRequestUrl){
         HttpHeaders headers = new HttpHeaders();
-        String fullURL = request.getRequestURL().toString();
-        log.info("fulURL : {}", fullURL);
-
-        int index = fullURL.indexOf("/v1");
-        log.info("index : {}", index);
-        String originalRequestUrl = fullURL.substring(index);
-
         headers.add("Location", originalRequestUrl);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

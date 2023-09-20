@@ -8,6 +8,10 @@ public enum ErrorCode {
 
     TEST_EXCEPTION(HttpStatus.UNAUTHORIZED, "TEST-000", "에러 테스트"),
 
+    // 대피소
+    SHELTER_TYPE_NOT_EXIST(HttpStatus.BAD_REQUEST, "SH-001", "해당 보호소의 Type은 없습니다."),
+
+
     // 노드
     FACILITY__NOT_EXIST(HttpStatus.BAD_REQUEST, "N-001", "거리 이내에 안전시설물이 없습니다."),
 

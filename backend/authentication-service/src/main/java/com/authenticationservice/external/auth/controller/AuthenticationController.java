@@ -23,14 +23,8 @@ public class AuthenticationController {
     @PostMapping("/jwt")
     public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                               @RequestHeader("X-Original-Request-URL") String originalRequestUrl,
+                                               @RequestHeader("x-forwarded-path") String originalRequestUrl,
                                                HttpServletRequest request){
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            log.info("{} : {}", headerName ,headerValue);
-        }
 
         HttpHeaders headers = new HttpHeaders();
 

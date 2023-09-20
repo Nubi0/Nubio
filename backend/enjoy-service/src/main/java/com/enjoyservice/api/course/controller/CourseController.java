@@ -2,6 +2,7 @@ package com.enjoyservice.api.course.controller;
 
 import com.enjoyservice.api.ApiResponse;
 import com.enjoyservice.api.course.dto.CourseCreateReq;
+import com.enjoyservice.api.course.dto.CourseDetailRes;
 import com.enjoyservice.api.course.dto.CourseListRes;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -34,6 +35,12 @@ public class CourseController {
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {
         CourseListRes response = courseApiService.getCourseList(region, memberInfoDto.getMemberId(), pageable);
+        return ApiResponse.ok(response);
+    }
+
+    @GetMapping("/course/{courseId}")
+    public ApiResponse<CourseDetailRes> getCourseDetail(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
+        CourseDetailRes response = courseApiService.getCourseDetail(courseId, memberInfoDto.getMemberId());
         return ApiResponse.ok(response);
     }
 }

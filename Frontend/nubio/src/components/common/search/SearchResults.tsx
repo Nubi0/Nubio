@@ -23,13 +23,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
         <button>길 찾기</button>
       </SetDirectionWrapper>
       <p>검색 결과</p>
-      <SearchListWrapper>
+      {/* <SearchListWrapper>
         <ul id="places-list">
           {results.map((item, index) => (
             <SearchItem key={index} place={item} />
           ))}
         </ul>
-      </SearchListWrapper>
+      </SearchListWrapper> */}
       <div id="pagination"></div>
     </SearchResultsWrapper>
   );

@@ -8,11 +8,11 @@ import {
 import Swal from "sweetalert2";
 import SearchItem from "./SearchItem";
 import axios from "axios";
+import proj4 from "proj4";
 
 import { useDispatch } from "react-redux";
 import { setTime } from "../../../redux/slice/EnjoySlice";
 import { placeType } from "../../../types/kakaoMaps";
-import SetDirection from "./SetDirection";
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
@@ -23,28 +23,90 @@ declare global {
 }
 
 const KakaoMap = (props: propsType) => {
-  const apiKey = "5b3ce3597851110001cf6248b9e727b35dd741be8d930a1f0a2c3b2e";
-
+  var coordinate: any;
+  const [linePath, setLinePath] = useState<kakao.maps.LatLng[]>([]); // linePath를 상태로 변경
+  const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const startName = localStorage.getItem("startName")!;
-  const endtName = localStorage.getItem("endtName")!;
-  const startPoint = localStorage.getItem("startPoint");
-  const endPoint = localStorage.getItem("endPoint");
-  const getDirection = () => {
+  const endName = localStorage.getItem("endName")!;
+  const TmapGetDirection = () => {
+    var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
+    var data = {
+      startX: localStorage.getItem("startX"),
+      startY: localStorage.getItem("startY"),
+      endX: localStorage.getItem("endX"),
+      endY: localStorage.getItem("endY"),
+      reqCoordType: "WGS84GEO",
+      resCoordType: "EPSG3857",
+      startName: localStorage.getItem("startName"),
+      endName: localStorage.getItem("endName"),
+    };
     axios
-      .get(
-        `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${startPoint}&end=${endPoint}`
+      .post(
+        "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+        data,
+        { headers: headers }
       )
       .then((res) => {
-        localStorage.setItem(
-          "coordinate",
-          res.data.features[0].geometry.coordinates
-        );
         console.log(res);
+        function flattenArray(arr: any) {
+          return arr.reduce((acc: any, val: any) => {
+            if (Array.isArray(val)) {
+              acc.push(...flattenArray(val));
+            } else {
+              acc.push(val);
+            }
+            return acc;
+          }, []);
+        }
+        const coordinates = res.data.features.flatMap((feature: any) =>
+          flattenArray(feature.geometry.coordinates)
+        );
+        const coordinatesList = [];
+
+        for (let i = 0; i < coordinates.length; i += 2) {
+          if (i + 1 < coordinates.length) {
+            // coordinatesList.push([coordinates[i + 1], coordinates[i]]);
+            coordinatesList.push([coordinates[i], coordinates[i + 1]]);
+          }
+        }
+        const convertedCoordinatesList = coordinatesList.map((coord: any) => {
+          const fromProjection = "EPSG:3857";
+          const toProjection = "EPSG:4326";
+          const convertedCoord = proj4(fromProjection, toProjection, coord);
+          return convertedCoord;
+        });
+        const result = convertedCoordinatesList.flatMap((feature: any) => {
+          return feature;
+        });
+        console.log(result);
+        coordinate = result;
+        const linePath = []; // linePath를 여기서 정의
+        for (let i = 0; i < result.length; i += 2) {
+          const latitude = parseFloat(result[i]);
+          const longitude = parseFloat(result[i + 1]);
+          const latLng = new kakao.maps.LatLng(latitude, longitude);
+          linePath.push(latLng);
+        }
+        setLinePath(linePath); // linePath 상태 업데이트
+        console.log(linePath);
+        // 지도에 표시할 선을 생성합니다
+        var polyline = new kakao.maps.Polyline({
+          path: linePath, // 선을 구성하는 좌표배열 입니다
+          strokeWeight: 5, // 선의 두께 입니다
+          strokeColor: "red", // 선의 색깔입니다
+          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: "solid", // 선의 스타일입니다
+        });
+
+        // // 지도에 선을 표시합니다
+        polyline.setMap(map);
+        console.log(polyline);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
   // 마커를 담는 배열
   let markers: any[] = [];
   const [searchItmes, setSearchItmes] = useState<
@@ -123,8 +185,9 @@ const KakaoMap = (props: propsType) => {
     };
 
     // 지도를 생성
+    // setMap(new kakao.maps.Map(mapContainer, mapOption));
     const map = new kakao.maps.Map(mapContainer, mapOption);
-
+    // setMap(maps);
     // Drawing Manger Option 설정
     const options = {
       map: map,
@@ -262,7 +325,7 @@ const KakaoMap = (props: propsType) => {
       }
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정
-      map.setBounds(bounds);
+      map?.setBounds(bounds);
     }
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수
@@ -340,31 +403,6 @@ const KakaoMap = (props: propsType) => {
         el.lastChild && el.removeChild(el.lastChild);
       }
     }
-
-    // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
-    const coordinateList = localStorage.getItem("coordinate") || "";
-    var coordinates = coordinateList.split(",");
-    console.log(coordinates);
-    var linePath = [];
-    for (let i = 0; i < coordinates.length; i += 2) {
-      const latitude = parseFloat(coordinates[i + 1]);
-      const longitude = parseFloat(coordinates[i]);
-      const latLng = new kakao.maps.LatLng(latitude, longitude);
-      linePath.push(latLng);
-    }
-
-    console.log(linePath);
-    // 지도에 표시할 선을 생성합니다
-    var polyline = new kakao.maps.Polyline({
-      path: linePath, // 선을 구성하는 좌표배열 입니다
-      strokeWeight: 5, // 선의 두께 입니다
-      strokeColor: "#FFAE00", // 선의 색깔입니다
-      strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-      strokeStyle: "solid", // 선의 스타일입니다
-    });
-
-    // 지도에 선을 표시합니다
-    polyline.setMap(map);
   }, [props.searchKeyword]);
 
   return (
@@ -375,19 +413,19 @@ const KakaoMap = (props: propsType) => {
           {/* <SetDirection  /> */}
           <SetDirectionWrapper>
             <input type="text" placeholder="출발지" value={startName} />
-            <input type="text" placeholder="도착지" value={endtName} />
-            <button onClick={getDirection}>길 찾기</button>
+            <input type="text" placeholder="도착지" value={endName} />
+            <button onClick={TmapGetDirection}>길 찾기</button>
           </SetDirectionWrapper>
           <p className="result-text">
             {props.searchKeyword}
             검색 결과
           </p>
           <SearchListWrapper className="scroll-wrapper">
-            {/* <ul id="places-list">
+            <ul id="places-list">
               {searchItmes.map((item, index) => (
                 <SearchItem key={index} place={item.place} index={item.i} />
               ))}
-            </ul> */}
+            </ul>
           </SearchListWrapper>
           <div id="pagination"></div>
         </SearchResultsWrapper>

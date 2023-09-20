@@ -1,68 +1,46 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { inputKeyword } from "../../../redux/slice/KakaoSlice";
+import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
-import SearchResults from "./SearchResults";
-interface SearchResult {
-  name: string;
-  // 다른 필요한 속성들을 여기에 추가할 수 있습니다.
-}
 
 const SearchBar = () => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
-  const [keyword, setKeyword] = useState<string>("");
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  // 검색
+  const dispatch = useDispatch();
+  // const keyWord = useSelector((state: RootState) => state.search);
 
-  const search = async () => {
-    try {
-      const data = {
-        searchKeyword: keyword,
-        resCoordType: "EPSG3857",
-        reqCoordType: "WGS84GEO",
-        count: 10,
-        page: currentPage,
-      };
-      const headers = {
-        appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF",
-      };
+  // 입력 폼 변화 감지하여 입력 값 관리
+  const [Value, setValue] = useState("");
+  // 제출한 검색어 관리
+  // const [Keyword, setKeyword] = useState("");
 
-      const response = await axios.get(
-        "https://apis.openapi.sk.com/tmap/pois",
-        {
-          params: data,
-          headers: headers,
-        }
-      );
+  // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
+  const keywordChange = (e: {
+    preventDefault: () => void;
+    target: { value: string };
+  }) => {
+    e.preventDefault();
+    setValue(e.target.value);
+  };
 
-      const newResults = response.data.searchPoiInfo.pois.poi;
-
-      setResults((prevResults: SearchResult[]) => [
-        ...prevResults,
-        ...newResults,
-      ]);
-    } catch (error) {
-      console.error(error);
+  // 제출한 검색어 state에 담아주는 함수
+  const submitKeyword = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    dispatch(inputKeyword(Value));
+    if (Value == "") {
+      Swal.fire({
+        title: "검색어를 입력해주세요.",
+      });
     }
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault(); // 이벤트의 기본 동작 중지
-    setCurrentPage(1);
-    setResults([]);
-    search();
-  };
-
-  const handleLoadMore = () => {
-    setCurrentPage((prevPage: number) => prevPage + 1);
-    search();
   };
   return (
     <SearchBarWrapper>
-      <SearchForm onSubmit={handleSearch}>
+      <SearchForm onSubmit={submitKeyword}>
         <input
           type="text"
           placeholder="장소를 검색하세요"
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={keywordChange}
         />
         <img
           src={searchIcon}
@@ -71,16 +49,6 @@ const SearchBar = () => {
 readingGlasses"
         />
       </SearchForm>
-      <SearchResults results={results} />
-      {/* <ul>
-        {results.map((result, index) => (
-          <li key={index}>{result.name}</li>
-        ))}
-      </ul> */}
-
-      {/* {results.length > 0 && (
-        <button onClick={handleLoadMore}>더 불러오기</button>
-      )} */}
     </SearchBarWrapper>
   );
 };

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
@@ -24,7 +25,7 @@ public class AuthenticationController {
     private final WebClient.Builder webClientBuilder;
 
     @PostMapping("/jwt")
-    public Mono<Void> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
+    public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                         @RequestHeader(value = "Authorization", required = false) String authHeader,
                                         @RequestHeader("x-forwarded-path") String originalRequestUrl){
 
@@ -50,8 +51,12 @@ public class AuthenticationController {
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
-                .toBodilessEntity()
-                .then();
+                .toEntity(String.class)
+                .map(responseEntity -> {
+                    return ResponseEntity.status(responseEntity.getStatusCode())
+                            .headers(responseEntity.getHeaders())
+                            .body(responseEntity.getBody());
+                });
 
     }
 }

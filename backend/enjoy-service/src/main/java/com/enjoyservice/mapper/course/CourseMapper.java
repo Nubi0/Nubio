@@ -2,6 +2,7 @@ package com.enjoyservice.mapper.course;
 
 import com.enjoyservice.api.course.dto.CourseCreateReq;
 import com.enjoyservice.api.course.dto.CourseListRes;
+import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.entity.type.Content;
@@ -67,6 +68,24 @@ public class CourseMapper {
                                     .build();
                         })
                         .toList())
+                .build();
+    }
+
+    public static PlaceInCourseInfoDto toPlaceInfoInCourseDto(Place place) {
+        int sequence = place.getSequences().get(0).getSequenceNumber().getValue();
+        return PlaceInCourseInfoDto.builder()
+                .id(place.getId())
+                .kakaoId(place.getKakaoId().getValue())
+                .addressName(place.getAddress().getName())
+                .categoryGroupCode(place.getCategory().getGroupCode().toString())
+                .categoryGroupName(place.getCategory().getGroupName().toString())
+                .phone(place.getPhone().getValue())
+                .placeName(place.getName().getValue())
+                .placeUrl(place.getUrl().getValue())
+                .roadAddressName(place.getAddress().getRoadName().getValue())
+                .longitude(place.getPosition().getLongitude().getValue().toString())
+                .latitude(place.getPosition().getLatitude().getValue().toString())
+                .sequence(sequence)
                 .build();
     }
 

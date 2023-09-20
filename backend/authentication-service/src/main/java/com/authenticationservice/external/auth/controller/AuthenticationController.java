@@ -5,12 +5,14 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import java.util.Enumeration;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
 import java.util.Map;
 
 @Slf4j
@@ -19,21 +21,14 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final JwtManager jwtManager;
+    private final WebClient.Builder webClientBuilder;
 
     @PostMapping("/jwt")
-    public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
-                                               @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                               @RequestHeader("x-forwarded-path") String originalRequestUrl,
-                                               HttpServletRequest request){
+    public Mono<Void> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
+                                        @RequestHeader(value = "Authorization", required = false) String authHeader,
+                                        @RequestHeader("x-forwarded-path") String originalRequestUrl){
 
         HttpHeaders headers = new HttpHeaders();
-
-
-        log.info("fulURL : {}", originalRequestUrl);
-
-        int index = originalRequestUrl.indexOf("/v1");
-        log.info("index : {}", index);
-        originalRequestUrl = originalRequestUrl.substring(index);
 
         headers.add("Location", originalRequestUrl);
 
@@ -49,7 +44,14 @@ public class AuthenticationController {
             headers.add("X-Role", role);
         }
 
-        return new ResponseEntity<>(requestBody, headers, HttpStatus.FOUND);
+        return webClientBuilder.build().post()
+                .uri(originalRequestUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromValue(requestBody))
+                .retrieve()
+                .toBodilessEntity()
+                .then();
 
     }
 }

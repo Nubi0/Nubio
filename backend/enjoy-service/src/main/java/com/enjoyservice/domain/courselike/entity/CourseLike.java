@@ -2,7 +2,7 @@ package com.enjoyservice.domain.courselike.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.course.entity.Course;
-import com.enjoyservice.domain.placelike.entity.type.Active;
+import com.enjoyservice.domain.courselike.entity.type.Active;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

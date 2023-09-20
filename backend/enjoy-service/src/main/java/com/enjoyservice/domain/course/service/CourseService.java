@@ -1,5 +1,6 @@
 package com.enjoyservice.domain.course.service;
 
+import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
@@ -22,4 +23,6 @@ public interface CourseService {
     List<CourseLike> findCourseLikesByCourse(Course course);
 
     List<Course> findCourseAndTagsByCourseId(Long courseId);
+
+    List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
 }

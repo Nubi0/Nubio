@@ -1,16 +1,20 @@
 package com.enjoyservice.domain.course.service.impl;
 
+import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
+import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
+import com.enjoyservice.mapper.course.CourseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @Slf4j
@@ -52,5 +56,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findCourseAndTagsByCourseId(Long courseId) {
         return courseRepository.findCourseAndTagsByCourseId(courseId);
+    }
+
+    @Override
+    public List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course) {
+        List<Place> places = courseRepository.findPlacesByCourse(course);
+        log.info("Place와 fetch join 된 sequence 조회 완료(CourseServiceImpl)");
+        return places.stream()
+                .map(CourseMapper::toPlaceInfoInCourseDto)
+                .toList();
     }
 }

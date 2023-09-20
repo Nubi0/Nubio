@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -45,19 +44,14 @@ public class AuthenticationController {
             headers.add("X-Role", role);
         }
 
+        log.info("headers: {}", headers.entrySet().stream().toList());
+        log.info("request: {}", requestBody);
         return webClientConfig.webClientBuilder().build().post()
                 .uri(originalRequestUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
-                .onStatus(status -> !status.is2xxSuccessful(), // 에러 상태 코드 처리
-                        clientResponse -> clientResponse.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    log.error("Remote server error: {}", errorBody);
-                                    return Mono.error(new RuntimeException("Remote server error: " + errorBody));
-                                })
-                )
                 .toEntity(String.class)
                 .map(responseEntity -> {
                     return ResponseEntity.status(responseEntity.getStatusCode())

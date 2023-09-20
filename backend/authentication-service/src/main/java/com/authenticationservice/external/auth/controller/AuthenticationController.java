@@ -14,15 +14,16 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/jwt")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final JwtManager jwtManager;
 
-    @PostMapping("/jwt")
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     public RedirectView handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                           @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                          @RequestHeader("x-forwarded-path") String originalRequestUrl){
+                                          @RequestHeader("x-forwarded-path") String originalRequestUrl) {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -40,13 +41,26 @@ public class AuthenticationController {
             String identification = claims.get("identification", String.class);
             String role = claims.get("role", String.class);
 
-            headers.add("X-Identification", identification);
-            headers.add("X-Role", role);
+            // 리다이렉션 URL을 먼저 초기화
+            String redirectToUrl = UriComponentsBuilder.fromUriString(originalRequestUrl)
+                    .build()
+                    .toUriString();
+
+            // 속성 추가
+            RedirectView redirectView = new RedirectView(redirectToUrl, true);
+            redirectView.addStaticAttribute("X-Identification", identification);
+            redirectView.addStaticAttribute("X-Role", role);
+
+            log.info("headers: {}", headers.entrySet().stream().toList());
+            log.info("request: {}", requestBody);
+
+            return redirectView;
         }
 
         log.info("headers: {}", headers.entrySet().stream().toList());
         log.info("request: {}", requestBody);
 
+        // 리다이렉션 URL을 먼저 초기화
         String redirectToUrl = UriComponentsBuilder.fromUriString(originalRequestUrl)
                 .build()
                 .toUriString();

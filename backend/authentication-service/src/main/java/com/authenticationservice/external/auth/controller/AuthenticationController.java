@@ -19,7 +19,7 @@ public class AuthenticationController {
 
     private final JwtManager jwtManager;
 
-    @RequestMapping("/jwt")
+    @PostMapping("/jwt")
     public ResponseEntity<?> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                @RequestHeader(value = "Authorization", required = false) String authHeader,
                                                @RequestHeader("X-Original-Request-URL") String originalRequestUrl){

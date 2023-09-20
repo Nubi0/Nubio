@@ -2,6 +2,7 @@ package com.enjoyservice.domain.taste.entity;
 
 import com.enjoyservice.domain.taste.entity.constant.DetailType;
 import com.enjoyservice.domain.taste.entity.constant.Type;
+import com.enjoyservice.domain.taste.entity.type.Active;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,9 +29,13 @@ public class Taste {
     @Enumerated(EnumType.STRING)
     private DetailType detailType;
 
+    @Embedded
+    private Active active = Active.from(true);
+
     @Builder
-    public Taste(Type type, DetailType detailType) {
+    public Taste(Type type, DetailType detailType, Active active) {
         this.type = type;
         this.detailType = detailType;
+        this.active = active;
     }
 }

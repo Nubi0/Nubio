@@ -2,7 +2,7 @@ import { EatWrapper, IconWrapper } from "../../../styles/SSignUpPage";
 
 type EatImages = { [key: string]: string };
 type EatListProps = {
-  handleImageClick: (name: string) => void;
+  handleImageClick: (name: string, type: string) => void;
   selectedImages: string[];
 };
 
@@ -28,7 +28,7 @@ const EatList: React.FC<EatListProps> = ({
               src={src}
               alt={name}
               id={selectedImages.includes(name) ? "check" : "unCheck"}
-              onClick={() => handleImageClick(name)}
+              onClick={() => handleImageClick(name, "food")}
             />
             {/* <h2>{name}</h2> */}
           </>

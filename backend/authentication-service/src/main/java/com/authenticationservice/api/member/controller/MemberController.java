@@ -8,10 +8,13 @@ import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import com.authenticationservice.global.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Enumeration;
 
 @Slf4j
 @RestController
@@ -24,7 +27,13 @@ public class MemberController {
 
     @Operation(summary = "프로필 조회", description = "auth/v1/member/me\n\n" )
     @GetMapping("/me")
-    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo) {
+    public ApiResponse<MemberResDto> info(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest request) {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            log.info("{} : {}", headerName ,headerValue);
+        }
         return ApiResponse.ok(memberInfoService.getMemberInfo(memberInfo));
     }
 

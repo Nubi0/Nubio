@@ -4,6 +4,7 @@ import com.enjoyservice.api.course.dto.CourseCreateReq;
 import com.enjoyservice.api.course.dto.CourseDetailRes;
 import com.enjoyservice.api.course.dto.CourseListRes;
 import com.enjoyservice.api.course.service.CourseApiService;
+import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.service.CourseService;
@@ -97,20 +98,26 @@ public class CourseApiServiceImpl implements CourseApiService {
 
     @Transactional(readOnly = true)
     public CourseDetailRes getCourseDetail(Long courseId, String memberId) {
+        // TODO: CourseService에서 courses.get(0) 한 결과를 반환하는게 더 좋을지도??
         List<Course> courses = courseService.findCourseAndTagsByCourseId(courseId);
         Course course = courses.get(0);
         List<Tag> tags = course.getCourseTags().stream()
                 .map(CourseTag::getTag)
                 .toList();
         log.info("Course, tags 조회 완료(CourseApiServiceImpl)");
+        // 코스 즐겨찾기 했는지
+        boolean favoriteFlag = courseFavoriteService.existsByCourseAndMemberId(course, memberId);
+        log.info("Course를 즐겨찾기 했는지 확인 완료(CourseApiServiceImpl)");
         // 코스 좋아요 - 좋아요 수, 내가 좋아요 했는지
         List<CourseLike> courseLikes = courseService.findCourseLikesByCourse(course);
         int likeCount = courseLikes.size();
         boolean likeFlag = isMemberLikeCourse(memberId, courseLikes);
         log.info("Course를 좋아요 했는지 확인, 좋아요 수 조회 완료(CourseApiServiceImpl)");
-        
+        // Course에 속한 Place 정보들 조회
+        List<PlaceInCourseInfoDto> placeInfos = courseService.findPlacesInfoInCourseByCourse(course);
+        log.info("Course에 속한 Place 정보들 조회 완료(CourseApiServiceImpl)");
 
-        return null;
+        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos);
     }
 
     private void linkCourseTag(CourseCreateReq request, Course course) {

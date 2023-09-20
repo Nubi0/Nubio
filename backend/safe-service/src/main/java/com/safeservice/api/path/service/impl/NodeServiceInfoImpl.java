@@ -8,6 +8,7 @@ import com.safeservice.api.path.dto.request.NearNode;
 import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.request.NodeDto;
 import com.safeservice.api.path.dto.response.NearNodeListResponse;
+import com.safeservice.api.path.dto.response.NearNodePageResponse;
 import com.safeservice.api.path.service.NodeServiceInfo;
 import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.path.entity.Node;
@@ -15,6 +16,8 @@ import com.safeservice.domain.path.service.NodeService;
 import com.safeservice.global.error.ErrorCode;
 import com.safeservice.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
@@ -100,6 +103,15 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
         List<Node> nodeList = nodeService.top3NodeNear(point, distance);
         return NearNodeListResponse.from(nodeList);
     }
+
+    @Override
+    public NearNodePageResponse findNearNodeWithPaging(NearNode nearNode, Pageable pageable) {
+        Point point = new Point(nearNode.getLongitude(), nearNode.getLatitude());
+        Distance distance = new Distance(nearNode.getDistance(), Metrics.KILOMETERS);
+        Page<Node> nodeNearPaging = nodeService.findNodeNearPaging(point, distance, pageable);
+        return NearNodePageResponse.from(nodeNearPaging);
+    }
+
 
     private Point getCenterPoint(double start_lat, double start_lon, double end_lat, double end_lon) {
         double center_lat = (start_lat + end_lat) / (double) 2;

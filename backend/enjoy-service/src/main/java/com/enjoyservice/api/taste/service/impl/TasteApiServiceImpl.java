@@ -45,12 +45,14 @@ public class TasteApiServiceImpl implements TasteApiService {
     }
 
     @Override
+    @Transactional
     public void updateTaste(String memberId, MemberTasteReq memberTasteReq) {
         memberTasteService.deleteTaste(memberId);
         saveTaste(memberId, memberTasteReq);
     }
 
     @Override
+    @Transactional
     public void createTaste(String memberId, MemberTasteReq memberTasteReq) {
         saveTaste(memberId, memberTasteReq);
     }

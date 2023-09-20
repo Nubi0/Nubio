@@ -1,8 +1,8 @@
 package com.authenticationservice.external.auth.controller;
 
+import com.authenticationservice.global.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -22,12 +22,12 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final JwtManager jwtManager;
-    private final WebClient.Builder webClientBuilder;
+    private final WebClientConfig webClientConfig;
 
     @PostMapping("/jwt")
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
-                                        @RequestHeader(value = "Authorization", required = false) String authHeader,
-                                        @RequestHeader("x-forwarded-path") String originalRequestUrl){
+                                                     @RequestHeader(value = "Authorization", required = false) String authHeader,
+                                                     @RequestHeader("x-forwarded-path") String originalRequestUrl){
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -45,18 +45,24 @@ public class AuthenticationController {
             headers.add("X-Role", role);
         }
 
-        return webClientBuilder.build().post()
+        return webClientConfig.webClientBuilder().build().post()
                 .uri(originalRequestUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
+                .onStatus(status -> !status.is2xxSuccessful(), // 에러 상태 코드 처리
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+                                    log.error("Remote server error: {}", errorBody);
+                                    return Mono.error(new RuntimeException("Remote server error: " + errorBody));
+                                })
+                )
                 .toEntity(String.class)
                 .map(responseEntity -> {
                     return ResponseEntity.status(responseEntity.getStatusCode())
                             .headers(responseEntity.getHeaders())
                             .body(responseEntity.getBody());
                 });
-
     }
 }

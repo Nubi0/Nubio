@@ -72,7 +72,7 @@ class NodeServiceImplTest {
                 .build());
 
         // then
-        assertThat(registeredNode.getSafety_score()).isEqualTo(safetyScore);
+        assertThat(registeredNode.getSafetyScore()).isEqualTo(safetyScore);
         assertThat(registeredNode.getLocation().getX()).isEqualTo(point.getX());
         assertThat(registeredNode.getLocation().getY()).isEqualTo(point.getY());
 
@@ -84,12 +84,10 @@ class NodeServiceImplTest {
         // given
         Point point = new Point(-63.616672, -38.416097);
         Distance distance = new Distance(0.5, Metrics.KILOMETERS);
-
+        List<Node> nodeNearList = nodeService.findNodeNear(point, distance);
         // when
         // then
-        assertThatThrownBy(() -> {
-            nodeService.findNodeNear(point, distance);
-        }).isInstanceOf(BusinessException.class);
+        assertThat(nodeNearList).hasSize(0);
     }
 
 
@@ -121,11 +119,11 @@ class NodeServiceImplTest {
 
         // then
         assertThat(nodeNearList).hasSize(3)
-                .extracting("id", "location.x", "location.y", "safety_score")
+                .extracting("id", "location.x", "location.y", "safetyScore")
                 .containsExactlyInAnyOrder(
-                        tuple(registeredNode1.getId(), registeredNode1.getLocation().getX(), registeredNode1.getLocation().getY(), registeredNode1.getSafety_score()),
-                        tuple(registeredNode2.getId(), registeredNode2.getLocation().getX(), registeredNode2.getLocation().getY(), registeredNode2.getSafety_score()),
-                        tuple(registeredNode3.getId(), registeredNode3.getLocation().getX(), registeredNode3.getLocation().getY(), registeredNode3.getSafety_score())
+                        tuple(registeredNode1.getId(), registeredNode1.getLocation().getX(), registeredNode1.getLocation().getY(), registeredNode1.getSafetyScore()),
+                        tuple(registeredNode2.getId(), registeredNode2.getLocation().getX(), registeredNode2.getLocation().getY(), registeredNode2.getSafetyScore()),
+                        tuple(registeredNode3.getId(), registeredNode3.getLocation().getX(), registeredNode3.getLocation().getY(), registeredNode3.getSafetyScore())
                 );
     }
 
@@ -160,10 +158,10 @@ class NodeServiceImplTest {
         List<Node> nodeNearList = nodeService.findNodeNear(point, distance);
 
         // then
-        assertThat(nodeNearList.get(0).getSafety_score()).isEqualTo(registeredNode3.getSafety_score());
-        assertThat(nodeNearList.get(1).getSafety_score()).isEqualTo(registeredNode2.getSafety_score());
-        assertThat(nodeNearList.get(2).getSafety_score()).isEqualTo(registeredNode1.getSafety_score());
-        assertThat(nodeNearList.get(3).getSafety_score()).isEqualTo(registeredNode4.getSafety_score());
+        assertThat(nodeNearList.get(0).getSafetyScore()).isEqualTo(registeredNode3.getSafetyScore());
+        assertThat(nodeNearList.get(1).getSafetyScore()).isEqualTo(registeredNode2.getSafetyScore());
+        assertThat(nodeNearList.get(2).getSafetyScore()).isEqualTo(registeredNode1.getSafetyScore());
+        assertThat(nodeNearList.get(3).getSafetyScore()).isEqualTo(registeredNode4.getSafetyScore());
 
     }
 
@@ -218,9 +216,9 @@ class NodeServiceImplTest {
 
         // then
         assertThat(nodeNearList).hasSize(3);
-        assertThat(nodeNearList.get(0).getSafety_score()).isEqualTo(registeredNode3.getSafety_score());
-        assertThat(nodeNearList.get(1).getSafety_score()).isEqualTo(registeredNode2.getSafety_score());
-        assertThat(nodeNearList.get(2).getSafety_score()).isEqualTo(registeredNode1.getSafety_score());
+        assertThat(nodeNearList.get(0).getSafetyScore()).isEqualTo(registeredNode3.getSafetyScore());
+        assertThat(nodeNearList.get(1).getSafetyScore()).isEqualTo(registeredNode2.getSafetyScore());
+        assertThat(nodeNearList.get(2).getSafetyScore()).isEqualTo(registeredNode1.getSafetyScore());
 
     }
 }

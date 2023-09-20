@@ -31,13 +31,13 @@ public class Node {
      */
     @Indexed
     @Field(name = "safety_score")
-    private Integer safety_score;
+    private Integer safetyScore;
 
     @Builder
     public Node(String id, Point location, Integer safety_score){
         this.id = id;
         this.location = location;
-        this.safety_score = safety_score;
+        this.safetyScore = safety_score;
     }
 
 }

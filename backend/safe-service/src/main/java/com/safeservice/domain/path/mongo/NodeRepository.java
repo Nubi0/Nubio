@@ -20,4 +20,6 @@ public interface NodeRepository extends MongoRepository<Node, String> {
 
     Page<Node> findNodeByLocationNear(Point point, Distance distance, Pageable pageable);
 
+    List<Node> findNodeByLocationNearAndSafetyScoreGreaterThan(Point point, Distance distance, int safetyScore, Sort sort);
+
 }

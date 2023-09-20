@@ -42,10 +42,7 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<Node> findNodeNear(Point point, Distance distance) {
         Sort sort = Sort.by(Sort.Direction.DESC, "safety_score");
-        List<Node> findNodeList = nodeRepository.findNodeByLocationNear(point, distance, sort);
-        if (findNodeList.size() == 0) {
-            throw new BusinessException(ErrorCode.FACILITY__NOT_EXIST);
-        }
+        List<Node> findNodeList = nodeRepository.findNodeByLocationNearAndSafetyScoreGreaterThan(point, distance, 0, sort);
         return findNodeList;
     }
 
@@ -69,7 +66,7 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<Node> top3NodeNear(Point point, Distance distance) {
         Sort sort = Sort.by(Sort.Direction.DESC, "safety_score");
-        List<Node> nodeByLocationNear = nodeRepository.findNodeByLocationNear(point, distance, sort);
+        List<Node> nodeByLocationNear = nodeRepository.findNodeByLocationNearAndSafetyScoreGreaterThan(point, distance, 0, sort);
 
         int fromIndex = 0;
         int toIndex = Math.min(3, nodeByLocationNear.size());

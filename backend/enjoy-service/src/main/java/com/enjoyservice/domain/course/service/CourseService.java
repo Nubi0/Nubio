@@ -6,7 +6,6 @@ import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.tag.entity.Tag;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,4 +24,6 @@ public interface CourseService {
     List<Course> findCourseAndTagsByCourseId(Long courseId);
 
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
+
+    boolean changeCourseLikeState(Long courseId, String memberId);
 }

@@ -20,7 +20,11 @@ public enum ErrorCode {
     INVALID_SEQUENCE_NUMBER_RANGE(HttpStatus.BAD_REQUEST, "C-002", "코스에 속한 장소의 순서값의 범위는 0 이상 입니다."),
 
     // 코스 리뷰
-    INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다.")
+    INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다."),
+
+    // File
+    INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, "F-001", "csv 파일 형식이 잘못되었습니다."),
+    FILE_FORMAT(HttpStatus.BAD_REQUEST, "F-002", "파일 형식이 잘못되었습니다."),
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

@@ -3,12 +3,14 @@ spring:
     activate:
       on-profile: dev
 
+
+
   # 개발 데이터베이스 연결
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/nubio
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/nubio
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -24,7 +26,7 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-file-size: 50MB # 파일 업로드 요청 시 하나의 파일 크기를 50MB 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
 
   mvc:

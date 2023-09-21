@@ -38,12 +38,12 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional
     public List<Place> saveAll(List<Place> placeList) {
-        return placeRepository.saveAll(placeList);
+        return placeRepository.saveAllAndFlush(placeList);
     }
 
     @Override
     @Transactional
     public Place register(Place place) {
-        return placeRepository.save(place);
+        return placeRepository.saveAndFlush(place);
     }
 }

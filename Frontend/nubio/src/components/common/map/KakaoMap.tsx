@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  DestinationWrapper,
   MapWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
@@ -296,8 +297,7 @@ const KakaoMap = (props: propsType) => {
       window.polyline?.setMap(null);
       window.startCustomOverlay?.setMap(null);
 
-      let content =
-        '<div class ="label" style="background:yellow;  width:100%; height:100%;"><span class="left"></span><span class="center">출발지</span><span class="right"></span></div>';
+      let content = `<div class ="label"  style="background:#FFC542; font-size:0.8rem; border:0.5px solid black; padding:0.3rem; border-radius:1rem;"></span><span class="center">${places.place_name}</span><span class="right"></span></div>`;
       // 커스텀 오버레이가 표시될 위치입니다
       let markerPosition = new kakao.maps.LatLng(places.y, places.x);
       // 커스텀 오버레이를 생성합니다
@@ -317,29 +317,25 @@ const KakaoMap = (props: propsType) => {
       window.polyline?.setMap(null);
       window.endCustomOverlay?.setMap(null);
 
-      let content =
-        '<div class ="label" style="background:yellow;  width:100%; height:100%;"><span class="left"></span><span class="center">도착지</span><span class="right"></span></div>';
-      // 커스텀 오버레이가 표시될 위치입니다
+      let content = `<div class ="label" style="background:#F25260; font-size:0.8rem; border:0.5px solid black; padding:0.3rem; border-radius:1rem;"><span class="left"></span><span class="center">${places.place_name}</span><span class="right"></span></div>`;
       let markerPosition = new kakao.maps.LatLng(places.y, places.x);
-      // 커스텀 오버레이를 생성합니다
       let customOverlay = new kakao.maps.CustomOverlay({
         position: markerPosition,
         content: content,
       });
 
-      // 커스텀 오버레이를 지도에 표시합니다
       window.endCustomOverlay = customOverlay;
-
       window.endCustomOverlay.setMap(window.map);
     };
     if (places.length !== 0) {
       let itemStr = `
         <div class="info">
         <div class="name">
-            <h5 class="info-item place-name">${index + 1}. ${
+            <h3 class="info-item place-name">${index + 1}. ${
         places.place_name
-      }</h5>
-        <a id="homePage" href=${places.place_url}>상세보기</a>
+      }<a id="homePage" href=${places.place_url}>상세보기</a>
+      </h3>
+        
     </div>
             ${
               places.road_address_name
@@ -354,10 +350,10 @@ const KakaoMap = (props: propsType) => {
             <span class="tel">
               ${places.phone}
             </span>
-            <span class="bnt">
-            <button id="start"> 출발</button>
-            <button id="end">도착</button>
-            </span>
+            <div class="bnt">
+              <button id="start"> 출발</button>
+              <button id="end">도착</button>
+            </div>
           </a>
         </div>
         `;
@@ -529,7 +525,13 @@ const KakaoMap = (props: propsType) => {
             {props.searchKeyword}
             검색 결과
           </p>
-          <button onClick={TmapGetDirection}>길 찾기</button>
+          <DestinationWrapper>
+            <h4>출발지 : {startName}</h4>
+            <h4>도착지 : {endName}</h4>
+          </DestinationWrapper>
+          <button id="find" onClick={TmapGetDirection}>
+            길 찾기
+          </button>
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list"></ul>
           </SearchListWrapper>

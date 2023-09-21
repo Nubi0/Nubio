@@ -1,9 +1,7 @@
 import {
   SearchResultsWrapper,
   SetDirectionWrapper,
-  SearchListWrapper,
 } from "../../../styles/SSearch";
-import SearchItem from "../map/SearchItem";
 
 interface SearchResult {
   name: string;

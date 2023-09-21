@@ -8,7 +8,6 @@ const Map = () => {
   const position = useSelector((state: RootState) => state.enjoy.positions);
   return (
     <>
-      <SearchBar />
       <KakaoMap searchKeyword={searchKeyword} position={position} />
     </>
   );

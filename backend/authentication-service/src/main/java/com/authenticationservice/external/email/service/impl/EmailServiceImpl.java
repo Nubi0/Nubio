@@ -39,11 +39,11 @@ public class EmailServiceImpl implements EmailService {
     @Transactional
     public String certifyEmail(EmailReqDto emailDto) {
         Optional<Member> member = memberInfoService.findByEmail(Email.from(emailDto.getEmail()));
-        log.info("member {}", member.get());
+
         String code = makeCode();
         log.info("code {}", code);
         if (member.isPresent()) {
-            if (member.get().getActive().getValue()) throw new ValidEmailException(ErrorCode.EMAIL_IS_EXISTS);
+            throw new ValidEmailException(ErrorCode.EMAIL_IS_EXISTS);
         }
         else{
             log.info("이메일 전송 시작");

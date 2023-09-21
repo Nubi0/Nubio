@@ -85,7 +85,7 @@ class CourseServiceImplTest {
         int placeSize = 5;
         List<Place> places = new ArrayList<>();
         for(int i = 1; i <= placeSize; i++) {
-            Place place = generatePlace(i, GroupCode.CD7, GroupName.카페);
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             places.add(place);
         }
         savedBeforePlaces = placeRepository.saveAllAndFlush(places);

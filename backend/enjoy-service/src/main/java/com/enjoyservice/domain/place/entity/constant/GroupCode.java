@@ -16,7 +16,7 @@ public enum GroupCode {
     AT4("관광명소 코드"),
     AD5("숙박 코드"),
     FD6("음식점 코드"),
-    CD7("카페 코드"),
+    CE7("카페 코드"),
     ;
 
     private String description;

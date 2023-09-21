@@ -52,7 +52,7 @@ class PlaceServiceImplTest {
         }
         // 카페 3개 만들기
         for (int i = 6; i < 9; i++) {
-            Place place = generatePlace(i, GroupCode.CD7, GroupName.카페);
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             beforePlaces.add(place);
         }
         // 9개 저장
@@ -113,7 +113,7 @@ class PlaceServiceImplTest {
     @Test
     void findAllByIdsNotExist() {
         // given
-        Long notExistId = 100L;
+        Long notExistId = 1000L;
         List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), notExistId);
         // when
         List<Place> result = placeService.findAllById(ids);
@@ -145,6 +145,7 @@ class PlaceServiceImplTest {
 
         // when
         Place registeredPlace = placeService.register(place);
+        em.clear();
 
         // then
         assertThat(registeredPlace.getKakaoId().getValue()).isEqualTo(place.getKakaoId().getValue());
@@ -171,6 +172,7 @@ class PlaceServiceImplTest {
 
         // when
         List<Place> savedList = placeService.saveAll(placeList);
+        em.clear();
 
         // then
         assertThat(savedList)

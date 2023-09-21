@@ -53,7 +53,7 @@ class PlaceFavoriteServiceImplTest {
     @Test
     void existsByMemberId() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
 
         String memberId =  "member123";
@@ -73,7 +73,7 @@ class PlaceFavoriteServiceImplTest {
     @Test
     void notExistsByMemberId() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
 
         String targetMemberId = "targetMember123";

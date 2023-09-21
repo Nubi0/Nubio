@@ -23,8 +23,9 @@ async def root():
 @app.post("/get-all")
 def get_all(request: Region):
     data = database.all()
-    train.makeModel(data)
-    return {"data" : data}
+    train.makeModel(data, request.region)
+    database.remove()
+    return {"response" : "success"}
 
 # 입력한 정보와 비슷한 코스 응답
 # 받아온 지역으로 해당지역 모델 불러와서 추천
@@ -32,3 +33,8 @@ def get_all(request: Region):
 async def process_words(request: InputData):
     words = train.recoCourse(request)
     return {"result": words}
+
+@app.get("/delete")
+def delete():
+    database.remove()
+    return {"data" : "delete"}

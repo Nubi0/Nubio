@@ -37,7 +37,7 @@ def recommend(model,positiveVal,negativeVal=[], produc_list=[],dataset={}):
 
 # 추천 학습모델 만들 때 사용
 # db에서 다 조회해서 리스트화, 벡터화, 저장 해야함
-def makeModel(data:list):
+def makeModel(data:list, region:str):
     words = []
     result_list = []  
     result_set = set()
@@ -59,23 +59,25 @@ def makeModel(data:list):
         result_list.append(pk)
         shuffle(enjoyList)
         words.append(enjoyList)
+        # print(words)
+        print(len(words))
         
     # 코스 id값 리스트 저장
-    with open('course_list', 'wb') as file:
+    with open(f'{region}_course_list', 'wb') as file:
         pickle.dump(result_list, file)
-    with open('dataset', 'wb') as file:
+    with open(f'{region}_dataset', 'wb') as file:
         pickle.dump(result_set, file)
-    b2v = word2vec.Word2Vec(words, window=2,vector_size=100, min_count=0,sg=0,workers=4,sample=0.00001,epochs=100)
-    b2v.wv.save_word2vec_format('w2v_model',binary=False)
+    b2v = word2vec.Word2Vec(words, window=5,vector_size=100, min_count=0,sg=0,workers=4,sample=0.00001,epochs=100)
+    b2v.wv.save_word2vec_format(f'{region}_w2v_model',binary=False)
 
     
 # 입력 리스트가 들어오면 저장되있던 모델 불러와서 유사한 코스 출력
 def recoCourse(data):    
-    with open('course_list', 'rb') as file:
+    with open(f'{data.region}_course_list', 'rb') as file:
         course_pk = pickle.load(file)
-    with open('dataset', 'rb') as file:
+    with open(f'{data.region}_dataset', 'rb') as file:
         dataset = pickle.load(file)
-    loaded_model = KeyedVectors.load_word2vec_format('w2v_model')
+    loaded_model = KeyedVectors.load_word2vec_format(f'{data.region}_w2v_model')
     reco=recommend(loaded_model,positiveVal=data.words, produc_list=course_pk, dataset=dataset)
     return reco
 

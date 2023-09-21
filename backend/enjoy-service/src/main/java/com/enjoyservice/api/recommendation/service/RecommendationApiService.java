@@ -4,7 +4,7 @@ import com.enjoyservice.api.recommendation.dto.RecommendationReq;
 import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
 
 public interface RecommendationApiService {
-    void saveModel();
+    void saveModel(String region);
     FastRecoRes getCourses(String memberId ,RecommendationReq recommendationReq);
 
 }

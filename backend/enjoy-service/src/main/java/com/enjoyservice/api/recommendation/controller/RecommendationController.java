@@ -3,6 +3,7 @@ package com.enjoyservice.api.recommendation.controller;
 import com.enjoyservice.api.ApiResponse;
 import com.enjoyservice.api.recommendation.client.FastApiClient;
 import com.enjoyservice.api.recommendation.dto.RecommendationReq;
+import com.enjoyservice.api.recommendation.dto.fastapi.FastCreateReq;
 import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
 import com.enjoyservice.api.recommendation.service.RecommendationApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -27,7 +28,11 @@ public class RecommendationController {
 
     @GetMapping("/create")
     public ApiResponse<String> create() {
-        recommendationApiService.saveModel();
+        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
+        for (String region : regions) {
+            recommendationApiService.saveModel(region);
+            fastApiClient.createModel(FastCreateReq.from(region));
+        }
         return ApiResponse.ok("모델 생성 완료");
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 public enum Region {
 
     DAEGU("대구광역시"),
+    GYEONGBUK("경상북도"),
     SEOUL("서울특별시"),
     BUSAN("부산광역시"),
     DAEJEON("대전광역시"),

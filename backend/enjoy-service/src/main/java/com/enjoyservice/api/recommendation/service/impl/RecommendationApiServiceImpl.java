@@ -16,7 +16,10 @@ import com.enjoyservice.domain.membertaste.entity.MemberTaste;
 import com.enjoyservice.domain.membertaste.service.MemberTasteService;
 import com.enjoyservice.domain.recomendation.entity.Words;
 import com.enjoyservice.domain.recomendation.service.WordsService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +30,9 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class RecommendationApiServiceImpl implements RecommendationApiService {
+
 
     private final WordsService wordsService;
     private final CourseService courseService;
@@ -40,11 +45,8 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
 
     @Override
     @Transactional
-    public void saveModel() {
-        String[] regions = {"DAEGU", "SEOUL" ,"BUSAN", "DAEJEON", "GWANGJU"};
-        for (String region : regions) {
-            processMakeModel(region);
-        }
+    public void saveModel(String region) {
+        processMakeModel(region);
     }
 
     @Override
@@ -52,7 +54,10 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
         List<String> courseInfo = new ArrayList<>();
         List<MemberTaste> courseMemberTaste = memberTasteService.findByMemberId(memberId);
         processMemberTaste(courseMemberTaste, courseInfo);
-        ClientDto regionReq = kakaoMapClient.getRegion(appKey, recommendationReq.getLongitude(), recommendationReq.getLatitude());
+        ClientDto regionReq = kakaoMapClient.getRegion(appKey, recommendationReq.getLongitude(),
+                recommendationReq.getLatitude());
+        log.info("address = {}", regionReq.getDocuments().get(0).getRegion_1depth_name());
+        log.info("trans to = {}", Region.check(regionReq.getDocuments().get(0).getRegion_1depth_name()).name());
         FastRecoRes recoCourses = fastApiClient.getReco(FastRecoReq.of(
                 Region.check(regionReq.getDocuments().get(0).getRegion_1depth_name()).name(), courseInfo));
         return recoCourses;
@@ -74,6 +79,7 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
     private void processMakeModel(String region) {
         List<Words> words = new ArrayList<>();
         List<Course> courses = courseService.findAllByRegionToModel(Region.from(region));
+        log.info("course length = {}", courses.size());
         for (Course course : courses) {
             List<String> courseInfo = new ArrayList<>();
             List<MemberTaste> courseMemberTaste = memberTasteService.findByMemberId(course.getMemberId());
@@ -85,6 +91,5 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
             words.add(Words.of(course.getId(), courseInfo));
         }
         wordsService.saveWords(words);
-        fastApiClient.createModel(FastCreateReq.from(region));
     }
 }

@@ -8,6 +8,10 @@ import com.authenticationservice.web.dto.KakaoTokenDto;
 import com.authenticationservice.web.dto.OauthLoginResDto;
 import com.authenticationservice.web.service.OauthLoginService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +41,9 @@ public class KakaoOAuthController {
     private String grantType;
 
     @Operation(summary = "카카오 회원가입 및 로그인", description = "start/v1/oauth/kakao/callback\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            })
     @PostMapping("/kakao/callback")
     public ApiResponseEntity<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8"; // 공식 문서

@@ -24,4 +24,10 @@ public class CourseReviewController {
         return ApiResponse.created(response);
     }
 
+    @DeleteMapping("/review/{courseReviewId}")
+    public ApiResponse<String> deleteCourseReview(@PathVariable("courseReviewId") Long courseReviewId) {
+        courseReviewApiService.deleteCourseReview(courseReviewId);
+        return ApiResponse.ok("삭제 완료");
+    }
+
 }

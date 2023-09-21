@@ -26,4 +26,10 @@ public class CourseReviewApiServiceImpl implements CourseReviewApiService {
                 .courseReviewId(savedCourseReviewId)
                 .build();
     }
+
+    @Transactional
+    @Override
+    public void deleteCourseReview(Long courseReviewId) {
+        courseReviewService.delete(courseReviewId);
+    }
 }

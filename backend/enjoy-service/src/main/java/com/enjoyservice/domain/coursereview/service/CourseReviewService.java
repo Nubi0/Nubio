@@ -6,4 +6,6 @@ import com.enjoyservice.domain.coursereview.entity.CourseReview;
 public interface CourseReviewService {
 
     Long save(String content, int point, Course course, String memberId);
+
+    void delete(Long courseReviewId);
 }

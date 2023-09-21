@@ -17,7 +17,7 @@ public class MemberResDto {
         res.identification = member.getIdentification().getValue();
         res.nickname = member.getNickname().getValue();
         res.email = member.getEmail().getValue();
-        res.profileUrl = member.getProfileUrl().getValue();
+        res.profileUrl = (member.getProfileUrl() != null) ? member.getProfileUrl().getValue() : null;
         return res;
     }
 }

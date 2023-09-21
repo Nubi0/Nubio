@@ -65,6 +65,6 @@ public class CourseReviewApiServiceImpl implements CourseReviewApiService {
 
         // meta
         Long totalElements = courseReviewService.countCourseReviewsByCourseId(courseId);
-        return CourseReviewMapper.courseToCourseListRes(courseReviewInfos, totalElements, pageable);
+        return CourseReviewMapper.toCourseReviewInfosRes(courseReviewInfos, totalElements, pageable);
     }
 }

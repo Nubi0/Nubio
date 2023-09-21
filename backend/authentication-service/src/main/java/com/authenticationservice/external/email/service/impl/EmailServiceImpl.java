@@ -82,9 +82,8 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setFrom(new InternetAddress(emailConfig.getAddress()));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("NUBIO 인증코드입니다.");
-            message.setText("인증코드: " + code);
-            log.info("message {}" ,message);
+            message.setSubject("NUBIO 인증코드입니다.",  "UTF-8");
+            message.setText("인증코드: " + code,  "UTF-8");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

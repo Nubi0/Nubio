@@ -28,6 +28,7 @@ public class AuthenticationController {
 
     private final JwtManager jwtManager;
     private final WebClientConfig webClientConfig;
+    private static HttpHeaders headers;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
@@ -37,37 +38,53 @@ public class AuthenticationController {
         String originalRequestUrl = request.getHeader("x-forwarded-path");
         String requestMethod = request.getMethod();
 
-        HttpHeaders headers = new HttpHeaders();
+        headers = new HttpHeaders();
 
+        setPreHeader(request);
+
+        if (!originalRequestUrl.contains("/start"))  {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                setClaimHeader(authHeader);
+            }
+            log.info("headers: {}, \n request: {}", headers.entrySet().stream().toList(), requestBody);
+        }
+
+        originalRequestUrl = setPath(originalRequestUrl);
+
+        return sendRealRequest(requestBody, originalRequestUrl, requestMethod);
+    }
+
+    private void setPreHeader(HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
             headers.add(headerName, headerValue);
         }
+    }
 
-        if (!originalRequestUrl.contains("/start")) {
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                String accessToken = authHeader.split(" ")[1];
+    private void setClaimHeader(String authHeader) {
+        String accessToken = authHeader.split(" ")[1];
 
-                Claims claims = jwtManager.getTokenClaims(accessToken);
+        Claims claims = jwtManager.getTokenClaims(accessToken);
 
-                String identification = claims.get("identification", String.class);
-                String role = claims.get("role", String.class);
+        String identification = claims.get("identification", String.class);
+        String role = claims.get("role", String.class);
 
-                headers.add("X-Identification", identification);
-                headers.add("X-Role", role);
-            }
-            log.info("headers: {}", headers.entrySet().stream().toList());
-            log.info("request: {}", requestBody);
-        }
+        headers.add("X-Identification", identification);
+        headers.add("X-Role", role);
+    }
 
+    private String setPath(String originalRequestUrl) {
         int index = originalRequestUrl.indexOf("/v1");
         log.info("index : {}", index);
         originalRequestUrl = originalRequestUrl.substring(index);
 
         headers.add("Location", originalRequestUrl);
+        return originalRequestUrl;
+    }
 
+    private Mono<ResponseEntity<?>> sendRealRequest(Map<String, Object> requestBody, String originalRequestUrl, String requestMethod) {
         return webClientConfig.authClientBuilder().build()
                 .method(HttpMethod.valueOf(requestMethod))
                 .uri(originalRequestUrl)
@@ -82,4 +99,5 @@ public class AuthenticationController {
                             .body(responseEntity.getBody());
                 });
     }
+
 }

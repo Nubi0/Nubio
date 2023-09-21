@@ -23,6 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -81,5 +83,31 @@ class CourseReviewServiceImplTest {
 
         // then
         assertThat(result).isNotNull();
+    }
+
+    @DisplayName("CourseReview 삭제시 soft delete")
+    @Test
+    void delete() {
+        // given
+        String content = "content";
+        int point = 4;
+        Course course = beforeSavedCourse;
+        String memberId = "memberId";
+
+        CourseReview courseReview = CourseReview.builder()
+                .content(Content.from(content))
+                .point(Point.from(point))
+                .course(course)
+                .memberId(memberId)
+                .build();
+        CourseReview savedCourseReview = courseReviewRepository.saveAndFlush(courseReview);
+        em.clear();
+        // when
+        courseReviewService.delete(savedCourseReview.getId());
+        em.flush();
+        em.clear();
+        Optional<CourseReview> result = courseReviewRepository.findById(savedCourseReview.getId());
+        // then
+        assertThat(result).isEmpty();
     }
 }

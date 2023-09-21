@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import java.util.Properties;
+
 @Slf4j
 @Getter
 @Configuration
@@ -34,6 +36,12 @@ public class EmailConfig {
         mailSender.setPort(587); // SMTP 서버 포트
         mailSender.setUsername(address); // 이메일 계정
         mailSender.setPassword(password); // 이메일 비밀번호
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
+        mailSender.setJavaMailProperties(props);
 
         return mailSender;
     }

@@ -47,4 +47,9 @@ public class CourseReviewServiceImpl implements CourseReviewService {
     public List<CourseReview> findCourseReviewsByCourseId(Long courseId, Pageable pageable) {
         return courseReviewRepository.findCourseReviewByCourseId(courseId, pageable);
     }
+
+    @Override
+    public Long countCourseReviewsByCourseId(Long courseId) {
+        return courseReviewRepository.countCourseReviewsByCourseId(courseId);
+    }
 }

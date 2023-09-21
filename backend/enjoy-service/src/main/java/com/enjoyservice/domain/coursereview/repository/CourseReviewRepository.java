@@ -12,4 +12,7 @@ public interface CourseReviewRepository extends JpaRepository<CourseReview, Long
 
     @Query("select cr from CourseReview cr where cr.course.id = :courseId")
     List<CourseReview> findCourseReviewByCourseId(@Param("courseId") Long courseId, Pageable pageable);
+
+    @Query("select count(cr) from CourseReview cr where cr.course.id = :courseId")
+    Long countCourseReviewsByCourseId(@Param("courseId") Long courseId);
 }

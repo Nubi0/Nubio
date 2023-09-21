@@ -13,4 +13,6 @@ public interface CourseReviewService {
     void delete(Long courseReviewId);
 
     List<CourseReview> findCourseReviewsByCourseId(Long courseId, Pageable pageable);
+
+    Long countCourseReviewsByCourseId(Long courseId);
 }

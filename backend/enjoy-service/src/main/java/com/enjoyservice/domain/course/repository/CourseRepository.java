@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
@@ -43,6 +44,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "left join fetch CourseLike cl on c = cl.course " +
             "where c = :course")
     List<CourseLike> findCourseLikesByCourse(@Param("course") Course course);
+
+    @Query("select cl, c " +
+            "from Course c " +
+            "left join fetch CourseLike cl on c = cl.course " +
+            "where c.id = :courseId and cl.memberId = :memberId")
+    Optional<CourseLike> findCourseLikesByCourseId(@Param("courseId") Long courseId, @Param("memberId") String memberId);
 
     @Query("select distinct c, t " +
             "from Course c " +

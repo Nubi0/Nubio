@@ -23,6 +23,7 @@ import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.repository.TagRepository;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @Transactional
 class CourseServiceImplTest {
@@ -113,6 +116,8 @@ class CourseServiceImplTest {
         }
         savedBeforeCoursePlaceSequences = coursePlaceSequenceRepository.saveAllAndFlush(coursePlaceSequences);
         em.clear();
+
+        log.info("=============================setUp==================================");
     }
 
     private Course generateCourse(int index, Region region) {
@@ -301,5 +306,76 @@ class CourseServiceImplTest {
                         tuple(place3.getId(), coursePlaceSequence3.getSequenceNumber().getValue())
                 );
 
+    }
+
+    @DisplayName("코스를 좋아요 한 적 없으면 새로 생성함")
+    @Test
+    void changeCourseLikeState1() {
+        // given
+        String memberId = "memberId";
+        Course course = savedBeforeCourses.get(0);
+        Optional<CourseLike> beforeOpCourseLike = courseRepository.findCourseLikesByCourseId(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        // when
+        boolean result = courseService.changeCourseLikeState(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        Optional<CourseLike> resultOpCourseLike = courseRepository.findCourseLikesByCourseId(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        // then
+        assertThat(beforeOpCourseLike).isEmpty();
+        assertTrue(result);
+        assertThat(resultOpCourseLike).isNotEmpty();
+    }
+
+    @DisplayName("코스가 이미 좋아요 되어 있으면 좋아요 취소")
+    @Test
+    void changeCourseLikeState2() {
+        // given
+        String memberId = "memberId";
+        Course course = savedBeforeCourses.get(0);
+        CourseLike courseLike = CourseLike.builder()
+                .memberId(memberId)
+                .course(course)
+                .build();
+        CourseLike savedCourseLike = courseLikeRepository.saveAndFlush(courseLike);
+        em.clear();
+        // when
+        boolean result = courseService.changeCourseLikeState(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        Optional<CourseLike> resultOpCourseLike = courseRepository.findCourseLikesByCourseId(course.getId(), memberId);
+        // then
+        assertFalse(result);
+        assertThat(resultOpCourseLike).isNotEmpty();
+        assertFalse(resultOpCourseLike.get().getActive().isValue());
+    }
+
+    @DisplayName("코스가 이미 좋아요 취소 되어 있으면 좋아요")
+    @Test
+    void changeCourseLikeState3() {
+        // given
+        String memberId = "memberId";
+        Course course = savedBeforeCourses.get(0);
+        CourseLike courseLike = CourseLike.builder()
+                .memberId(memberId)
+                .course(course)
+                .build();
+        CourseLike savedCourseLike = courseLikeRepository.saveAndFlush(courseLike);
+        em.clear();
+        // when
+        courseService.changeCourseLikeState(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        boolean result = courseService.changeCourseLikeState(course.getId(), memberId);
+        em.flush();
+        em.clear();
+        Optional<CourseLike> resultOpCourseLike = courseRepository.findCourseLikesByCourseId(course.getId(), memberId);
+        // then
+        assertTrue(result);
+        assertThat(resultOpCourseLike).isNotEmpty();
+        assertTrue(resultOpCourseLike.get().getActive().isValue());
     }
 }

@@ -1,6 +1,7 @@
 package com.safeservice.api.emergencymessage.service;
 
 import com.safeservice.api.emergencymessage.dto.EMAddressDto;
+import com.safeservice.api.emergencymessage.dto.EMReq;
 import com.safeservice.api.emergencymessage.dto.EMRequestDto;
 import com.safeservice.api.emergencymessage.dto.EMResponseDto;
 import com.safeservice.api.report.dto.ReportRequestDto;
@@ -62,7 +63,9 @@ class EmergencyMessageInfoServiceTest {
     void createEmergencyMessage() {
         // given
         LocalDateTime now = LocalDateTime.now();
-        EMRequestDto request = EMRequestDto.builder()
+
+        List<EMRequestDto> data = new ArrayList<>();
+        EMRequestDto req = EMRequestDto.builder()
                 .mdId(123)
                 .emerType("지진")
                 .emerStage("안전안내")
@@ -70,10 +73,12 @@ class EmergencyMessageInfoServiceTest {
                 .county("달서구")
                 .message("지진대피")
                 .occurredTime(now).build();
+        data.add(req);
+        EMReq request = EMReq.from(data);
         List<MultipartFile> files = new ArrayList<>();
         MockMultipartFile file =
-                new MockMultipartFile("file", "test.txt",
-                        "text/plain", "test file".getBytes(StandardCharsets.UTF_8));
+                new MockMultipartFile("file", "test.png",
+                        "image/png", "test file".getBytes(StandardCharsets.UTF_8));
         files.add(file);
         // when then
         assertThatCode(() -> emergencyMessageInfoService.createEmergencyMessage(request))

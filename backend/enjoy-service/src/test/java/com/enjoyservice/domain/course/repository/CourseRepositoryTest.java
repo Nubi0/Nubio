@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -288,5 +289,28 @@ class CourseRepositoryTest {
         assertThat(result.get(1).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(2);
         assertThat(result.get(2).getName().getValue()).isEqualTo(place3.getName().getValue());
         assertThat(result.get(2).getSequences().get(0).getSequenceNumber().getValue()).isEqualTo(3);
+    }
+
+    @DisplayName("courseId, memberId로 CourseLike 조회(active 상관 없이)")
+    @Test
+    void findCourseLikesByCourseId() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        Long courseId = course.getId();
+        String memberId = "memberId";
+        List<String> memberIds = List.of(memberId, "memberId1", "memberId2", "memberId3");
+        for(String id : memberIds) {
+            CourseLike courseLike = CourseLike.builder()
+                    .course(course)
+                    .memberId(id)
+                    .build();
+            courseLikeRepository.saveAndFlush(courseLike);
+        }
+        // when
+        Optional<CourseLike> opCourseLike = courseRepository.findCourseLikesByCourseId(courseId, memberId);
+        // then
+        assertThat(opCourseLike).isNotEmpty();
+        assertThat(opCourseLike.get().getCourse().getId()).isEqualTo(courseId);
+        assertThat(opCourseLike.get().getMemberId()).isEqualTo(memberId);
     }
 }

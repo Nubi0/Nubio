@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
     private Role role = Role.ROLE_USER;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private Gender gender;
 
     @Embedded

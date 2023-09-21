@@ -17,7 +17,7 @@ const SignUpForm = () => {
   const [pwdc, onChangePwdc] = useInput('');
   const [nickName, onChangeNickName] = useInput('');
   const [birth, onChangeBirth] = useInput('');
-  const [gender, setGender] = useState<string>('');
+  const [gender, setGender] = useState<string>('MALE');
   const taste = useSelector((state: any) => state.signup.taste);
   const navigate = useNavigate();
 

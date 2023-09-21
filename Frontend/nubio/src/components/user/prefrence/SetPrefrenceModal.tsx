@@ -23,6 +23,8 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
     const action = {name, type}
     if (isSelected) {
       setSelectedImages(selectedImages.filter((image) => image !== name));
+      dispatch(setTaste(action))
+
     } else {
       setSelectedImages([...selectedImages, name]);
       dispatch(setTaste(action))

@@ -2,6 +2,7 @@ package com.safeservice.api.emergencymessage.controller;
 
 import com.safeservice.api.ApiResponse;
 import com.safeservice.api.emergencymessage.client.KakaoMapClient;
+import com.safeservice.api.emergencymessage.dto.EMReq;
 import com.safeservice.api.emergencymessage.dto.EMResponseDto;
 import com.safeservice.api.emergencymessage.dto.EMAddressDto;
 import com.safeservice.api.emergencymessage.dto.EMRequestDto;
@@ -21,8 +22,8 @@ public class EmergencyMessageController {
 
     @PostMapping("/emergency")
     public ApiResponse<String> createEmergencyMessage(@Identification IdentificationDto identificationDto,
-                                                @RequestBody EMRequestDto emRequestDto) {
-        emergencyMessageInfoService.createEmergencyMessage(emRequestDto);
+                                                      @RequestBody EMReq emReq) {
+        emergencyMessageInfoService.createEmergencyMessage(emReq);
         return ApiResponse.ok("생성 완료");
     }
 

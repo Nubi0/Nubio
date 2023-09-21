@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { SearchBarWrapper, SearchForm } from "../../../styles/SSearchBar";
-import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { inputKeyword } from "../../../redux/slice/KakaoSlice";
-// import RootState from "../../../types/RootState";
-const SearchBar = () => {
+import Swal from "sweetalert2";
+import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
+
+const SearchBar = ({ searchPlaces }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
   // 검색
-  // 검색어 redux
   const dispatch = useDispatch();
-  // const keyWord = useSelector((state: RootState) => state.search);
+
   // 입력 폼 변화 감지하여 입력 값 관리
   const [Value, setValue] = useState("");
-  // 제출한 검색어 관리
-  // const [Keyword, setKeyword] = useState("");
 
   // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
   const keywordChange = (e: {
@@ -33,8 +30,8 @@ const SearchBar = () => {
         title: "검색어를 입력해주세요.",
       });
     }
+    searchPlaces(Value);
   };
-
   return (
     <SearchBarWrapper>
       <SearchForm onSubmit={submitKeyword}>
@@ -53,5 +50,4 @@ readingGlasses"
     </SearchBarWrapper>
   );
 };
-
 export default SearchBar;

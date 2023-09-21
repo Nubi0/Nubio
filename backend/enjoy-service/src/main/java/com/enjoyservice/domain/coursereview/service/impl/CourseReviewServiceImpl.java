@@ -4,8 +4,10 @@ import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.coursereview.entity.CourseReview;
 import com.enjoyservice.domain.coursereview.entity.type.Content;
 import com.enjoyservice.domain.coursereview.entity.type.Point;
+import com.enjoyservice.domain.coursereview.exception.CourseReviewNotFoundException;
 import com.enjoyservice.domain.coursereview.repository.CourseReviewRepository;
 import com.enjoyservice.domain.coursereview.service.CourseReviewService;
+import com.enjoyservice.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +30,13 @@ public class CourseReviewServiceImpl implements CourseReviewService {
                 .build();
         CourseReview savedCourseReview = courseReviewRepository.save(courseReview);
         return savedCourseReview.getId();
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long courseReviewId) {
+        CourseReview courseReview = courseReviewRepository.findById(courseReviewId)
+                .orElseThrow(() -> new CourseReviewNotFoundException(ErrorCode.COURSE_REVIEW_NOT_FOUND));
+        courseReviewRepository.delete(courseReview);
     }
 }

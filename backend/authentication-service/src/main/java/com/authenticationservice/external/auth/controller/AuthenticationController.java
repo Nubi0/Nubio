@@ -46,26 +46,27 @@ public class AuthenticationController {
             headers.add(headerName, headerValue);
         }
 
+        if (!originalRequestUrl.contains("/start")) {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String accessToken = authHeader.split(" ")[1];
+
+                Claims claims = jwtManager.getTokenClaims(accessToken);
+
+                String identification = claims.get("identification", String.class);
+                String role = claims.get("role", String.class);
+
+                headers.add("X-Identification", identification);
+                headers.add("X-Role", role);
+            }
+            log.info("headers: {}", headers.entrySet().stream().toList());
+            log.info("request: {}", requestBody);
+        }
+
         int index = originalRequestUrl.indexOf("/v1");
         log.info("index : {}", index);
         originalRequestUrl = originalRequestUrl.substring(index);
 
         headers.add("Location", originalRequestUrl);
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String accessToken = authHeader.split(" ")[1];
-
-            Claims claims = jwtManager.getTokenClaims(accessToken);
-
-            String identification = claims.get("identification", String.class);
-            String role = claims.get("role", String.class);
-
-            headers.add("X-Identification", identification);
-            headers.add("X-Role", role);
-        }
-
-        log.info("headers: {}", headers.entrySet().stream().toList());
-        log.info("request: {}", requestBody);
 
         return webClientConfig.authClientBuilder().build()
                 .method(HttpMethod.valueOf(requestMethod))

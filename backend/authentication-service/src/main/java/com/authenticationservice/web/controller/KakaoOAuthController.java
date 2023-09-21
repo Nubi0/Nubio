@@ -1,6 +1,6 @@
 package com.authenticationservice.web.controller;
 
-import com.authenticationservice.api.ApiResponse;
+import com.authenticationservice.api.ApiResponseEntity;
 import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.web.client.KakaoTokenClient;
 import com.authenticationservice.web.dto.KakaoAuthReqDto;
@@ -38,7 +38,7 @@ public class KakaoOAuthController {
 
     @Operation(summary = "카카오 회원가입 및 로그인", description = "start/v1/oauth/kakao/callback\n\n" )
     @PostMapping("/kakao/callback")
-    public ApiResponse<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
+    public ApiResponseEntity<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8"; // 공식 문서
         KakaoTokenDto.Req kakaoTokenRequestDto = KakaoTokenDto.Req.builder()
                 .client_id(clientId)
@@ -55,6 +55,6 @@ public class KakaoOAuthController {
 
         log.info("kakao 유저 정보 서버에 access-token 보내서 유저 정보 요청 시작");
         OauthLoginResDto jwt = oauthLoginService.oauthLogin(kakaoToken.getAccess_token(), OAuthType.KAKAO);
-        return ApiResponse.ok(jwt);
+        return ApiResponseEntity.ok(jwt);
     }
 }

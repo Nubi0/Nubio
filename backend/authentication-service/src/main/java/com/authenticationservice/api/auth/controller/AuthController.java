@@ -1,6 +1,6 @@
 package com.authenticationservice.api.auth.controller;
 
-import com.authenticationservice.api.ApiResponse;
+import com.authenticationservice.api.ApiResponseEntity;
 import com.authenticationservice.api.auth.dto.request.LoginReqDto;
 import com.authenticationservice.api.auth.dto.request.SignupReqDto;
 import com.authenticationservice.api.auth.dto.response.SignResDto;
@@ -8,6 +8,10 @@ import com.authenticationservice.api.auth.service.AuthService;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -29,22 +33,22 @@ public class AuthController {
 
     @Operation(summary = "회원가입", description = "start/v1/member/signup\n\n" )
     @PostMapping("/signup")
-    public ApiResponse<SignResDto> signup(@Valid @RequestBody SignupReqDto signupReqDto) {
-        return ApiResponse.created(authService.signup(signupReqDto));
+    public ApiResponseEntity<SignResDto> signup(@Valid @RequestBody SignupReqDto signupReqDto) {
+        return ApiResponseEntity.created(authService.signup(signupReqDto));
     }
 
     @Operation(summary = "로그인", description = "start/v1/member/login\n\n" )
     @PostMapping("/login")
-    public ApiResponse<SignResDto> login(@Valid @RequestBody LoginReqDto loginReqDto) {
-        return ApiResponse.ok(authService.login(loginReqDto));
+    public ApiResponseEntity<SignResDto> login(@Valid @RequestBody LoginReqDto loginReqDto) {
+        return ApiResponseEntity.ok(authService.login(loginReqDto));
     }
 
     @Operation(summary = "로그아웃", description = "start/v1/member/logout\n\n" )
     @PostMapping("/logout")
-    public ApiResponse<String> logout(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest httpServletRequest) {
+    public ApiResponseEntity<String> logout(@MemberInfo MemberInfoDto memberInfo, HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         authService.logout(memberInfo, authorizationHeader);
-        return ApiResponse.ok("Success");
+        return ApiResponseEntity.ok("Success");
     }
 
 }

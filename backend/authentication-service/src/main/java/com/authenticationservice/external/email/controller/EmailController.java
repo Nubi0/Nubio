@@ -1,6 +1,6 @@
 package com.authenticationservice.external.email.controller;
 
-import com.authenticationservice.api.ApiResponse;
+import com.authenticationservice.api.ApiResponseEntity;
 import com.authenticationservice.external.email.dto.request.EmailConfirmDto;
 import com.authenticationservice.external.email.dto.request.EmailReqDto;
 import com.authenticationservice.external.email.service.EmailService;
@@ -22,16 +22,16 @@ public class EmailController {
 
     @Operation(summary = "이메일 발송", description = "start/v1/email\n\n" )
     @PostMapping()
-    public ApiResponse<String> certifyEmail(@Valid @RequestBody EmailReqDto emailDto) {
-        return ApiResponse.created(emailService.certifyEmail(emailDto));
+    public ApiResponseEntity<String> certifyEmail(@Valid @RequestBody EmailReqDto emailDto) {
+        return ApiResponseEntity.created(emailService.certifyEmail(emailDto));
     }
 
     // 인증번호 확인
     @Operation(summary = "인증번호 확인", description = "start/v1/email/confirms\n\n" )
     @PostMapping("/confirms")
-    public ApiResponse<String> SmsVerification(@Valid @RequestBody EmailConfirmDto emailConfirmDto) {
+    public ApiResponseEntity<String> SmsVerification(@Valid @RequestBody EmailConfirmDto emailConfirmDto) {
         emailService.verifyEmail(emailConfirmDto);
-        return ApiResponse.ok("Success");
+        return ApiResponseEntity.ok("Success");
     }
 
 }

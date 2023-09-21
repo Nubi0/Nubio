@@ -25,25 +25,17 @@ const SignUpForm = () => {
     email,
     password: pwd,
     passwordCheck: pwdc,
-    nickName,
+    nickname: nickName,
     birth,
     gender,
-    taste,
   }
 
   const signUp = async (e: any) => {
     e.preventDefault();
-    await axios.post('/api/v1/member/signup', data)
+    await axios.post('https://nubi0.com/start/v1/member/signup', data)
                 .then((res) => {
-                  const { accessToken } = res.data;
-
-                  // axios 기본 header 값 설정
-                  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-                  
-                  // refresh-token, refresh-token-expiration-time loacalStorage 저장
-                  localStorage.setItem('refresh_token', res.data.refresh_token);
-                  localStorage.setItem('refresh_token_expiration_time', res.data.refresh_token_expiration_time);
-                  navigate('/');
+                  // Todo : 회원가입 성공 Swal
+                  navigate('/login');
                 })
                 .catch((err) => {
                   console.log(err);

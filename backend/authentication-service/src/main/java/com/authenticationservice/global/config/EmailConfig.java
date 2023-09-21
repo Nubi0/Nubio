@@ -31,7 +31,7 @@ public class EmailConfig {
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host); // SMTP 서버 호스트
-        mailSender.setPort(465); // SMTP 서버 포트
+        mailSender.setPort(587); // SMTP 서버 포트
         mailSender.setUsername(address); // 이메일 계정
         mailSender.setPassword(password); // 이메일 비밀번호
 

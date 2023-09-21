@@ -3,6 +3,7 @@ package com.authenticationservice.api.member.service.impl;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
+import com.authenticationservice.domain.member.entity.constant.Gender;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
@@ -53,7 +54,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
     @Override
     @Transactional
-    public void updateMemberInfo(MemberInfoDto memberInfo, MultipartFile profileImg, String nickname) {
+    public void updateMemberInfo(MemberInfoDto memberInfo, MultipartFile profileImg, String nickname, String gender, String birth) {
         Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
 
@@ -63,6 +64,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 //            member.setProfileUrl(url);
         }
         if(!nickname.isEmpty()) member.setNickname(Nickname.from(nickname));
+        if(!gender.isEmpty()) member.setGender(Gender.from(gender));
+        if(!birth.isEmpty()) member.setBirth(Birth.from(birth));
         memberRepository.save(member);
     }
 

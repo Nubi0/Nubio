@@ -60,8 +60,10 @@ public class MemberController {
     @PatchMapping("/me")
     public ApiResponseEntity<String> updateMe(@MemberInfo MemberInfoDto memberInfo,
                                               @RequestPart(name = "profileUrl", required = false) MultipartFile profileImg,
-                                              @RequestPart(name = "nickname", required = false) String nickName) {
-        memberInfoService.updateMemberInfo(memberInfo, profileImg, nickName);
+                                              @RequestPart(name = "nickname", required = false) String nickName,
+                                              @RequestPart(name = "gender", required = false) String gender,
+                                              @RequestPart(name = "birth", required = false) String birth) {
+        memberInfoService.updateMemberInfo(memberInfo, profileImg, nickName, gender, birth);
         return ApiResponseEntity.ok("Success");
     }
 

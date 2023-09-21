@@ -86,4 +86,30 @@ class CourseReviewRepositoryTest {
                         tuple("content5", courseId)
                 );
     }
+
+    @DisplayName("courseId로 CourseReview 전체 개수 조회")
+    @Test
+    void countCourseReviewsByCourseId() {
+        // given
+        int reviewCnt = 5;
+        Course course = beforeSavedCourse;
+        Long courseId = course.getId();
+        for(int i = 1; i <= reviewCnt; i++) {
+            String memberId = "memberId";
+            String content = "content" + i;
+            int point = 4;
+            CourseReview courseReview = CourseReview.builder()
+                    .content(Content.from(content))
+                    .point(Point.from(point))
+                    .memberId(memberId)
+                    .course(course)
+                    .build();
+            CourseReview savedCourseReview = courseReviewRepository.saveAndFlush(courseReview);
+        }
+        em.clear();
+        // when
+        Long result = courseReviewRepository.countCourseReviewsByCourseId(courseId);
+        // then
+        assertThat(result).isEqualTo(reviewCnt);
+    }
 }

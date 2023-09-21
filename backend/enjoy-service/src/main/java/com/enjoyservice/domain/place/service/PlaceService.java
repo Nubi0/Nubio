@@ -13,4 +13,8 @@ public interface PlaceService {
     List<Place> findAllById(List<Long> ids);
 
     List<Place> findOneByIdFetchImage(Long id);
+
+    List<Place> saveAll(List<Place> placeList);
+
+    Place register(Place place);
 }

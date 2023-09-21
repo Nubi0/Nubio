@@ -4,6 +4,7 @@ import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Category {
     @Embedded
     private Detail detail;
 
+    @Builder
     private Category(GroupCode groupCode, GroupName groupName, Detail detail) {
         this.groupCode = groupCode;
         this.groupName = groupName;

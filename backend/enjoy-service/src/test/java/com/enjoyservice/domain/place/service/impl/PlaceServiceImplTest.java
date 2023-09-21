@@ -41,18 +41,18 @@ class PlaceServiceImplTest {
         /* 장소 9개 생성 */
         List<Place> beforePlaces = new ArrayList<>();
         // 편의점 3개 만들기
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             Place place = generatePlace(i, GroupCode.CS2, GroupName.편의점);
             beforePlaces.add(place);
         }
         // 음식점 3개 만들기
-        for(int i = 3; i < 6; i++) {
+        for (int i = 3; i < 6; i++) {
             Place place = generatePlace(i, GroupCode.FD6, GroupName.음식점);
             beforePlaces.add(place);
         }
         // 카페 3개 만들기
-        for(int i = 6; i < 9; i++) {
-            Place place = generatePlace(i, GroupCode.CD7, GroupName.카페);
+        for (int i = 6; i < 9; i++) {
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             beforePlaces.add(place);
         }
         // 9개 저장
@@ -113,7 +113,7 @@ class PlaceServiceImplTest {
     @Test
     void findAllByIdsNotExist() {
         // given
-        Long notExistId = 100L;
+        Long notExistId = 1000L;
         List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), notExistId);
         // when
         List<Place> result = placeService.findAllById(ids);
@@ -135,5 +135,62 @@ class PlaceServiceImplTest {
         List<Place> result = placeService.findAllById(notExistIds);
         // then
         assertThat(result).hasSize(0);
+    }
+
+    @DisplayName("새로운 장소 1개 저장")
+    @Test
+    void register() {
+        // given
+        Place place = generatePlace(9, GroupCode.CS2, GroupName.편의점);
+
+        // when
+        Place registeredPlace = placeService.register(place);
+        em.clear();
+
+        // then
+        assertThat(registeredPlace.getKakaoId().getValue()).isEqualTo(place.getKakaoId().getValue());
+        assertThat(registeredPlace.getName().getValue()).isEqualTo(place.getName().getValue());
+        assertThat(registeredPlace.getCategory().getGroupCode()).isEqualTo(place.getCategory().getGroupCode());
+        assertThat(registeredPlace.getCategory().getGroupName()).isEqualTo(place.getCategory().getGroupName());
+        assertThat(registeredPlace.getPhone().getValue()).isEqualTo(place.getPhone().getValue());
+        assertThat(registeredPlace.getUrl().getValue()).isEqualTo(place.getUrl().getValue());
+        assertThat(registeredPlace.getAddress().getName()).isEqualTo(place.getAddress().getName());
+        assertThat(registeredPlace.getAddress().getRoadName()).isEqualTo(place.getAddress().getRoadName());
+        assertThat(registeredPlace.getPosition().getLatitude().getValue()).isEqualTo(place.getPosition().getLatitude().getValue());
+        assertThat(registeredPlace.getPosition().getLongitude().getValue()).isEqualTo(place.getPosition().getLongitude().getValue());
+
+    }
+
+    @DisplayName("여러 장소를 한번에 저장")
+    @Test
+    void saveAll() {
+        // given
+        Place place1 = generatePlace(1, GroupCode.CS2, GroupName.편의점);
+        Place place2 = generatePlace(2, GroupCode.AD5, GroupName.숙박);
+        Place place3 = generatePlace(3, GroupCode.CT1, GroupName.문화시설);
+        List<Place> placeList = List.of(place1, place2, place3);
+
+        // when
+        List<Place> savedList = placeService.saveAll(placeList);
+        em.clear();
+
+        // then
+        assertThat(savedList)
+                .hasSize(3)
+                .extracting("kakaoId.value", "name.value", "category.groupCode"
+                        , "category.groupName", "phone.value", "url.value", "address.name"
+                        , "address.roadName.value", "position.longitude.value", "position.latitude.value")
+                .containsExactlyInAnyOrder(
+                        tuple(place1.getKakaoId().getValue(), place1.getName().getValue(), place1.getCategory().getGroupCode(), place1.getCategory().getGroupName(),
+                                place1.getPhone().getValue(), place1.getUrl().getValue(), place1.getAddress().getName(), place1.getAddress().getRoadName().getValue(),
+                                place1.getPosition().getLongitude().getValue(), place1.getPosition().getLatitude().getValue()),
+                        tuple(place2.getKakaoId().getValue(), place2.getName().getValue(), place2.getCategory().getGroupCode(), place2.getCategory().getGroupName(),
+                                place2.getPhone().getValue(), place2.getUrl().getValue(), place2.getAddress().getName(), place2.getAddress().getRoadName().getValue(),
+                                place2.getPosition().getLongitude().getValue(), place2.getPosition().getLatitude().getValue()),
+                        tuple(place3.getKakaoId().getValue(), place3.getName().getValue(), place3.getCategory().getGroupCode(), place3.getCategory().getGroupName(),
+                                place3.getPhone().getValue(), place3.getUrl().getValue(), place3.getAddress().getName(), place3.getAddress().getRoadName().getValue(),
+                                place3.getPosition().getLongitude().getValue(), place3.getPosition().getLatitude().getValue())
+                );
+
     }
 }

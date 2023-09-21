@@ -51,6 +51,8 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	//mongodb
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	// OpenCsv
+	implementation 'com.opencsv:opencsv:5.5'
 }
 
 dependencyManagement {

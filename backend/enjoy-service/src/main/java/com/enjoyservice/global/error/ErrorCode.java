@@ -22,6 +22,10 @@ public enum ErrorCode {
     
     // 코스 리뷰
     INVALID_COURSE_REVIEW_POINT_RANGE(HttpStatus.BAD_REQUEST, "CR-001", "리뷰 점수의 범위는 0 ~ 5점 입니다."),
+
+    // File
+    INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, "F-001", "csv 파일 형식이 잘못되었습니다."),
+    FILE_FORMAT(HttpStatus.BAD_REQUEST, "F-002", "파일 형식이 잘못되었습니다."),
     COURSE_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "CR-002", "해당 코스 리뷰는 존재하지 않습니다."),
 
     // 취향

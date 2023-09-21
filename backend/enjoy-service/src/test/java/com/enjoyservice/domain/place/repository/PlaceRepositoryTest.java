@@ -56,7 +56,7 @@ class PlaceRepositoryTest {
     @Test
     void findByIdWithImage() {
         // given
-        Place targetPlace = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place targetPlace = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedTargetPlace = placeRepository.saveAndFlush(targetPlace);
         Place placeFood = generatePlace(1, GroupCode.FD6, GroupName.음식점);
         placeRepository.saveAndFlush(placeFood);
@@ -89,7 +89,7 @@ class PlaceRepositoryTest {
     @Test
     void findByIdWithNoImage() {
         // given
-        Place targetPlace = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place targetPlace = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedTargetPlace = placeRepository.saveAndFlush(targetPlace);
         Place placeFood = generatePlace(1, GroupCode.FD6, GroupName.음식점);
         Place savedPlaceFood = placeRepository.saveAndFlush(placeFood);

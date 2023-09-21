@@ -89,7 +89,7 @@ class PlaceLikeServiceImplTest {
     void changePlaceLikeState1() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
         em.flush();
         em.clear();
@@ -111,7 +111,7 @@ class PlaceLikeServiceImplTest {
     void changePlaceLikeState2() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
         em.clear();
 
@@ -139,7 +139,7 @@ class PlaceLikeServiceImplTest {
     void changePlaceLikeState3() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
         em.clear();
 

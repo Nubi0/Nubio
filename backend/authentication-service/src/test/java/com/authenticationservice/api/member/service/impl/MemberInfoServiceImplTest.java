@@ -79,10 +79,10 @@ class MemberInfoServiceImplTest {
         // given
         MemberResDto res = memberInfoService.getMemberInfo(memberInfoDto);
         // when then
-        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
-        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
-        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
-        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
     }
 
     @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
@@ -90,8 +90,10 @@ class MemberInfoServiceImplTest {
     void findByEmailSuccessful() {
         // given
         Email email = savedBeforeMember.getEmail();
+        Member member = null;
         // when
-        Member member = memberInfoService.findByEmail(email);
+        Optional<Member> findMember = memberInfoService.findByEmail(email);
+        if (findMember.isPresent()) member = findMember.get();
         // then
         assertThat(member).isEqualTo(savedBeforeMember);
     }
@@ -114,10 +116,10 @@ class MemberInfoServiceImplTest {
         // given
         MemberResDto res = memberInfoService.getMemberByIdentification(savedBeforeMember.getIdentification().getValue());
         // when then
-        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
-        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
-        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
-        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
     }
 
     @DisplayName("회원 탈퇴를 성공한다.")

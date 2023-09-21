@@ -92,6 +92,11 @@ public class CourseServiceImpl implements CourseService {
         return createCourseLike(memberId, courseId);
     }
 
+    @Override
+    public List<Course> findAllByRegionToModel(Region region) {
+        return courseRepository.findAllByRegionToModel(region);
+    }
+
     private boolean createCourseLike(String memberId, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(ErrorCode.COURSE_NOT_FOUND));

@@ -20,4 +20,5 @@ public interface CourseService {
     List<Course> findCourseAndTagsByCourseId(Long courseId);
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
     boolean changeCourseLikeState(Long courseId, String memberId);
+    List<Course> findAllByRegionToModel(Region region);
 }

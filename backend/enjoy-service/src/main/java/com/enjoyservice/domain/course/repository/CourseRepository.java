@@ -24,6 +24,14 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 
+    @Query("select c, cps, p " +
+            "from Course c " +
+            "left join fetch CoursePlaceSequence cps on c = cps.course " +
+            "join fetch Place p on cps.place = p " +
+            "where c.region = :region")
+    List<Course> findAllByRegionToModel(@Param("region") Region region);
+
+
     @Query("select p, cps " +
             "from Course c " +
             "left join fetch CoursePlaceSequence cps on c = cps.course " +

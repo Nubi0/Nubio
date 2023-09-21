@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -73,7 +74,7 @@ class CourseReviewRepositoryTest {
         }
         em.clear();
         // when
-        List<CourseReview> result = courseReviewRepository.findCourseReviewByCourseId(courseId);
+        List<CourseReview> result = courseReviewRepository.findCourseReviewByCourseId(courseId, PageRequest.of(0, 10));
         // then
         assertThat(result).hasSize(reviewCnt)
                 .extracting("content.value", "course.id")

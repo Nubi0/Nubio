@@ -9,8 +9,11 @@ import com.enjoyservice.domain.coursereview.repository.CourseReviewRepository;
 import com.enjoyservice.domain.coursereview.service.CourseReviewService;
 import com.enjoyservice.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -38,5 +41,10 @@ public class CourseReviewServiceImpl implements CourseReviewService {
         CourseReview courseReview = courseReviewRepository.findById(courseReviewId)
                 .orElseThrow(() -> new CourseReviewNotFoundException(ErrorCode.COURSE_REVIEW_NOT_FOUND));
         courseReviewRepository.delete(courseReview);
+    }
+
+    @Override
+    public List<CourseReview> findCourseReviewsByCourseId(Long courseId, Pageable pageable) {
+        return courseReviewRepository.findCourseReviewByCourseId(courseId, pageable);
     }
 }

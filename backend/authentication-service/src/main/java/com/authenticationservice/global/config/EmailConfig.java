@@ -12,19 +12,19 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class EmailConfig {
 
-    @Value("${mail.host}")
+    @Value("${spring.mail.host}")
     private String host;
 
-    @Value("${mail.port}")
+    @Value("${spring.mail.port}")
     private int port;
 
-    @Value("${mail.email-expiration-time}")
+    @Value("${spring.mail.email-expiration-time}")
     private String emailExpirationTime;
 
-    @Value("${mail.address}")
+    @Value("${spring.mail.username}")
     private String address;
 
-    @Value("${mail.password}")
+    @Value("${spring.mail.password}")
     private String password;
 
 

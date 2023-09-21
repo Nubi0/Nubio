@@ -1,8 +1,10 @@
 package com.authenticationservice.external.email.service.impl;
 
+import com.authenticationservice.api.auth.exception.InvalidEmailException;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.type.Email;
+import com.authenticationservice.external.email.dto.request.EmailConfirmDto;
 import com.authenticationservice.external.email.dto.request.EmailReqDto;
 import com.authenticationservice.external.email.exception.ValidEmailException;
 import com.authenticationservice.external.email.service.EmailService;
@@ -49,6 +51,20 @@ public class EmailServiceImpl implements EmailService {
         sendCodeToEmail(code, emailDto.getEmail());
 
         return code;
+    }
+
+    @Override
+    public void verifyEmail(EmailConfirmDto emailConfirmDto) {
+        if (isVerify(emailConfirmDto)) {
+            throw new InvalidEmailException(ErrorCode.EMAIL_CONFIRM_FAILED);
+        }
+        redisUtil.deleteEmail(emailConfirmDto.getEmail());
+    }
+
+    private boolean isVerify(EmailConfirmDto emailConfirmDto) {
+        return !(redisUtil.hasKeyEmail(emailConfirmDto.getEmail()) &&
+                redisUtil.getEmail(emailConfirmDto.getEmail())
+                        .equals(emailConfirmDto.getCode()));
     }
 
     private String makeCode() {

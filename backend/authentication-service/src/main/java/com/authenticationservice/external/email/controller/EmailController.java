@@ -1,8 +1,10 @@
 package com.authenticationservice.external.email.controller;
 
 import com.authenticationservice.api.ApiResponse;
+import com.authenticationservice.external.email.dto.request.EmailConfirmDto;
 import com.authenticationservice.external.email.dto.request.EmailReqDto;
 import com.authenticationservice.external.email.service.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,18 @@ public class EmailController {
 
     private final EmailService emailService;
 
+    @Operation(summary = "이메일 발송", description = "start/v1/email\n\n" )
     @PostMapping()
     public ApiResponse<String> certifyEmail(@Valid @RequestBody EmailReqDto emailDto) {
         return ApiResponse.created(emailService.certifyEmail(emailDto));
+    }
+
+    // 인증번호 확인
+    @Operation(summary = "인증번호 확인", description = "start/v1/email/confirms\n\n" )
+    @PostMapping("/confirms")
+    public ApiResponse<String> SmsVerification(@Valid @RequestBody EmailConfirmDto emailConfirmDto) {
+        emailService.verifyEmail(emailConfirmDto);
+        return ApiResponse.ok("Success");
     }
 
 }

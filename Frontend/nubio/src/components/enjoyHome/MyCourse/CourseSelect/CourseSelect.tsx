@@ -3,8 +3,8 @@ import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSele
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
 import { useDispatch, useSelector } from 'react-redux';
-import Map from '../../../common/map/Map';
 import { setPosition, setTime } from '../../../../redux/slice/EnjoySlice';
+import Tmap from './Tmap';
 
 declare global {
   interface Window {
@@ -71,7 +71,7 @@ const CourseSelect = ({ setModal }: any) => {
 
   return (
     <CourseSelectWrapper>
-      <Map />
+      <Tmap />
       <CourseMaker onClick={() => selectOverlay()} id="courseMaker">
         코스 그리기
       </CourseMaker>

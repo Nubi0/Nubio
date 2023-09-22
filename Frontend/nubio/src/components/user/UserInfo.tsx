@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Content, MyInfoWrapper, Title } from "../../styles/SProfilePage";
 import UserImg from './UserImg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ const UserInfo = () => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const newNickName = useSelector((state: any) => state.profile.newNickName);
     const isInputDisabled = useSelector((state: any) => state.profile.isInputDisabled);
+    const email = useSelector((state: any) => state.profile.email);
     const dispatch = useDispatch();
 
     const handleChange = (value: string) => {
@@ -32,11 +33,7 @@ const UserInfo = () => {
             <UserImg setIsChange={setIsChange} />
             <div>
                 <Title>이메일</Title>
-                <Content>abc123@naver.com</Content>
-            </div>
-            <div>
-                <Title>이름</Title>
-                <Content>김민규</Content>
+                <Content>{email}</Content>
             </div>
             <div>
                 <Title>닉네임</Title>

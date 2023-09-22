@@ -6,13 +6,12 @@ import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
 import Profile from "../components/user/Profile";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsChange, setIsInputDisabled, setNewNickName, setNickName } from "../redux/slice/Profileslice";
+import { setIsChange, setIsInputDisabled, setNewNickName } from "../redux/slice/Profileslice";
 
 const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isChange = useSelector((state: any) => state.profile.isChange);
   const newNickName = useSelector((state: any) => state.profile.newNickName);
-  const nickName = useSelector((state: any) => state.profile.nickName);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -34,14 +33,13 @@ const ProfilePage = () => {
       color: "black",
   }).then((res) => {
       dispatch(setIsChange(false));
-      dispatch(setNickName(newNickName))
+      dispatch(setNewNickName(newNickName))
   })
   }
 
   useEffect(() => {
     dispatch(setIsChange(false));
     dispatch(setIsInputDisabled(true));
-    dispatch(setNewNickName(nickName))
   }, [])
 
   return (

@@ -9,8 +9,6 @@ import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.util.DateTimeUtils;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.SQLDelete;
 
 import java.time.LocalDateTime;
 
@@ -56,7 +54,7 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private Birth birth;
 
-    @Column(name = "refreshtoken")
+    @Column(name = "refreshtoken", length = 500)
     private String refreshToken;
 
     @Column(name = "refreshtoken_expiration_time")

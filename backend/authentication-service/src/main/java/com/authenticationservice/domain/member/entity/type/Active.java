@@ -1,4 +1,4 @@
-package com.authenticationservice.domain.member.entity.type;
+package com.authenticationservice.domain.member.entity.type.member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

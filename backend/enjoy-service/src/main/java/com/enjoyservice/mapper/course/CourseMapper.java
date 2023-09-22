@@ -11,6 +11,7 @@ import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
@@ -36,6 +37,22 @@ public class CourseMapper {
                 .totalPages(totalPages)
                 .totalElements(totalElements)
                 .lastFlag(pageable.getPageNumber() == totalPages)
+                .build();
+
+        return CourseListRes.builder()
+                .courseInfos(courseInfos)
+                .meta(meta)
+                .build();
+    }
+
+    public static CourseListRes courseToCourseListRes(List<CourseListRes.CourseInfo> courseInfos,Page<Course> coursePage) {
+
+        CourseListRes.Meta meta = CourseListRes.Meta.builder()
+                .pageNumber(coursePage.getNumber())
+                .pageSize(coursePage.getSize())
+                .totalPages(coursePage.getTotalPages())
+                .totalElements(coursePage.getTotalElements())
+                .lastFlag(coursePage.isLast())
                 .build();
 
         return CourseListRes.builder()

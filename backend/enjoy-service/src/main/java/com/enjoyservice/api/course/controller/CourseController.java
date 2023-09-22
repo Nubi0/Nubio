@@ -4,6 +4,7 @@ import com.enjoyservice.api.ApiResponse;
 import com.enjoyservice.api.course.dto.CourseCreateReq;
 import com.enjoyservice.api.course.dto.CourseDetailRes;
 import com.enjoyservice.api.course.dto.CourseListRes;
+import com.enjoyservice.api.course.dto.CourseTagListReq;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
@@ -41,6 +42,16 @@ public class CourseController {
     @GetMapping("/course/{courseId}")
     public ApiResponse<CourseDetailRes> getCourseDetail(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
         CourseDetailRes response = courseApiService.getCourseDetail(courseId, memberInfoDto.getMemberId());
+        return ApiResponse.ok(response);
+    }
+
+    @PostMapping("/course/filter")
+    public ApiResponse<CourseListRes> getCourseDetailByCourseTags(@RequestBody CourseTagListReq courseTagListReq,
+                                                    @MemberInfo MemberInfoDto memberInfoDto,
+                                                    @PageableDefault(size = 100,
+                                                            sort = "createTime",
+                                                            direction = Sort.Direction.DESC) Pageable pageable) {
+        CourseListRes response = courseApiService.findAllByCourseTags(courseTagListReq, memberInfoDto.getMemberId(), pageable);
         return ApiResponse.ok(response);
     }
 }

@@ -522,7 +522,7 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,java,intellij,react,gradle,node,venv
 
 ### env
-application-lcoal.yml
+application-prod.yml
 application-oauth.yml
 application-auth.yml
 application-s3.yml

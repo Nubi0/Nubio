@@ -8,6 +8,10 @@ import com.enjoyservice.api.course.dto.CourseTagListReq;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +19,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Course API", description = "코스 api")
 @RestController
-@RequestMapping("api/v1/enjoy")
+@RequestMapping("v1/enjoy")
 @RequiredArgsConstructor
 public class CourseController {
 
     private final CourseApiService courseApiService;
 
+    @Operation(summary = "코스 생성", description = "api/v1/enjoy/course\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description =  "CREATED"),
+    })
     @PostMapping("/course")
     public ApiResponseEntity<String> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
                                                   @MemberInfo MemberInfoDto memberInfoDto) {

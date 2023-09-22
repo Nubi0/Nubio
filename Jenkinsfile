@@ -127,7 +127,7 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS'),
                     [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'nubio'],
-                    secretText(id: 'MONGO_URL')
+                    string(credentialsId: 'MONGO_URL', variable: 'MONGO_URL')
                 ]) {
                     sh """
                         export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
@@ -138,6 +138,7 @@ pipeline {
                 }
             }
         }
+
 
     }
 }

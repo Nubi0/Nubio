@@ -118,7 +118,7 @@
 </table>
 
 ## 🗂 프로토타입
-![main.png](./nubio/main.png){: width="10" height="10"}
+<img src="./nubio/main.png" width="150"/>
 
 ![enjoy.png](./nubio/enjoy1.JPG)
 

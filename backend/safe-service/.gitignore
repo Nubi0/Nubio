@@ -40,3 +40,4 @@ out/
 application-lcoal.yml
 /src/main/generated/
 application-db.yml
+application-prod.yml

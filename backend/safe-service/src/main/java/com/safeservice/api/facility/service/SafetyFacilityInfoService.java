@@ -34,11 +34,12 @@ public class SafetyFacilityInfoService {
 
     private final SafetyFacilityService safetyFacilityService;
 
-    public NearSafetyPageResponseDto findFacilityNearWithPaging(NearSafetyFacility nearSafetyFacility, FacilityType facilityType, Pageable pageable) {
+    public NearSafetyPageResponseDto findFacilityNearWithPaging(NearSafetyFacility nearSafetyFacility, String facilityTypeStr, Pageable pageable) {
+        FacilityType facilityType = FacilityType.from(facilityTypeStr);
         Point point = new Point(nearSafetyFacility.getLongitude(), nearSafetyFacility.getLatitude());
         Distance distance = new Distance(nearSafetyFacility.getDistance(), Metrics.KILOMETERS);
         Page<SafetyFacility> facilityNearWithPaging = safetyFacilityService.findFacilityNearWithPaging(point, distance, facilityType, pageable);
-        return  NearSafetyPageResponseDto.from(facilityNearWithPaging);
+        return NearSafetyPageResponseDto.from(facilityNearWithPaging);
     }
 
 

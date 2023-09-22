@@ -27,7 +27,7 @@ public class NearShelterResponseDto {
     @JsonProperty("location")
     private Location location;
 
-    @JsonProperty("ShelterType")
+    @JsonProperty("shelter_type")
     private ShelterType shelterType;
 
 

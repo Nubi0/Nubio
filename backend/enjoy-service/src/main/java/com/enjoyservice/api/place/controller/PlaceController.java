@@ -1,6 +1,6 @@
 package com.enjoyservice.api.place.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.place.dto.PlaceInfoRes;
 import com.enjoyservice.api.place.service.PlaceApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -16,8 +16,8 @@ public class PlaceController {
     private final PlaceApiService placeApiService;
 
     @GetMapping("/{placeId}")
-    public ApiResponse<PlaceInfoRes> getPlaceInfo(@PathVariable Long placeId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<PlaceInfoRes> getPlaceInfo(@PathVariable Long placeId, @MemberInfo MemberInfoDto memberInfoDto) {
         PlaceInfoRes result = placeApiService.getPlaceInfo(memberInfoDto.getMemberId(), placeId);
-        return ApiResponse.ok(result);
+        return ApiResponseEntity.ok(result);
     }
 }

@@ -1,6 +1,6 @@
 package com.enjoyservice.api.placelike.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.placelike.dto.PlaceLikeRes;
 import com.enjoyservice.api.placelike.service.PlaceLikeApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -19,8 +19,8 @@ public class PlaceLikeController {
     private final PlaceLikeApiService placeLikeApiService;
 
     @PostMapping("/like/{placeId}")
-    public ApiResponse<PlaceLikeRes> placeLike(@PathVariable Long placeId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<PlaceLikeRes> placeLike(@PathVariable Long placeId, @MemberInfo MemberInfoDto memberInfoDto) {
         PlaceLikeRes result = placeLikeApiService.likePlace(memberInfoDto.getMemberId(), placeId);
-        return ApiResponse.ok(result);
+        return ApiResponseEntity.ok(result);
     }
 }

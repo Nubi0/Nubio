@@ -1,6 +1,6 @@
 package com.enjoyservice.api.coursefavorite.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.coursefavorite.dto.CourseFavoriteRes;
 import com.enjoyservice.api.coursefavorite.service.CourseFavoriteApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -19,9 +19,9 @@ public class CourseFavoriteController {
     private final CourseFavoriteApiService courseFavoriteApiService;
 
     @PostMapping("/favorite/{courseId}")
-    public ApiResponse<CourseFavoriteRes> courseFavorite(@PathVariable("courseId") Long courseId,
-                                                         @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<CourseFavoriteRes> courseFavorite(@PathVariable("courseId") Long courseId,
+                                                               @MemberInfo MemberInfoDto memberInfoDto) {
         CourseFavoriteRes response = courseFavoriteApiService.courseFavorite(courseId, memberInfoDto.getMemberId());
-        return ApiResponse.ok(response);
+        return ApiResponseEntity.ok(response);
     }
 }

@@ -1,6 +1,6 @@
 package com.enjoyservice.api.coursereview.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.coursereview.dto.CourseReviewCreate;
 import com.enjoyservice.api.coursereview.dto.CourseReviewInfosRes;
 import com.enjoyservice.api.coursereview.service.CourseReviewApiService;
@@ -21,26 +21,26 @@ public class CourseReviewController {
     private final CourseReviewApiService courseReviewApiService;
 
     @GetMapping("/review/{courseId}")
-    public ApiResponse<CourseReviewInfosRes> getCourseReviews(@PathVariable("courseId") Long courseId,
-                                                              @PageableDefault(size = 100,
+    public ApiResponseEntity<CourseReviewInfosRes> getCourseReviews(@PathVariable("courseId") Long courseId,
+                                                                    @PageableDefault(size = 100,
                                                                       sort = "createTime",
                                                                       direction = Sort.Direction.DESC) Pageable pageable) {
         CourseReviewInfosRes response = courseReviewApiService.getCourseReviewInfos(courseId, pageable);
-        return ApiResponse.ok(response);
+        return ApiResponseEntity.ok(response);
     }
 
     @PostMapping("/review/{courseId}")
-    public ApiResponse<CourseReviewCreate.Res> createCourseReview(@PathVariable("courseId") Long courseId,
-                                                  @Valid @RequestBody CourseReviewCreate.Req request,
-                                                  @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<CourseReviewCreate.Res> createCourseReview(@PathVariable("courseId") Long courseId,
+                                                                        @Valid @RequestBody CourseReviewCreate.Req request,
+                                                                        @MemberInfo MemberInfoDto memberInfoDto) {
         CourseReviewCreate.Res response = courseReviewApiService.createCourseReview(courseId, request, memberInfoDto.getMemberId());
-        return ApiResponse.created(response);
+        return ApiResponseEntity.created(response);
     }
 
     @DeleteMapping("/review/{courseReviewId}")
-    public ApiResponse<String> deleteCourseReview(@PathVariable("courseReviewId") Long courseReviewId) {
+    public ApiResponseEntity<String> deleteCourseReview(@PathVariable("courseReviewId") Long courseReviewId) {
         courseReviewApiService.deleteCourseReview(courseReviewId);
-        return ApiResponse.ok("삭제 완료");
+        return ApiResponseEntity.ok("삭제 완료");
     }
 
 }

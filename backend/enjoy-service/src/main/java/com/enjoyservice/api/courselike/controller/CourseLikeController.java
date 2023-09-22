@@ -1,6 +1,6 @@
 package com.enjoyservice.api.courselike.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.courselike.dto.CourseLikeRes;
 import com.enjoyservice.api.courselike.service.CourseLikeApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
@@ -19,8 +19,8 @@ public class CourseLikeController {
     private final CourseLikeApiService courseLikeApiService;
 
     @PostMapping("/like/{courseId}")
-    public ApiResponse<CourseLikeRes> courseLike(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<CourseLikeRes> courseLike(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
         CourseLikeRes result = courseLikeApiService.likeCourse(memberInfoDto.getMemberId(), courseId);
-        return ApiResponse.ok(result);
+        return ApiResponseEntity.ok(result);
     }
 }

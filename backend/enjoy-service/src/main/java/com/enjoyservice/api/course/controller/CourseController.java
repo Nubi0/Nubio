@@ -1,6 +1,6 @@
 package com.enjoyservice.api.course.controller;
 
-import com.enjoyservice.api.ApiResponse;
+import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.course.dto.CourseCreateReq;
 import com.enjoyservice.api.course.dto.CourseDetailRes;
 import com.enjoyservice.api.course.dto.CourseListRes;
@@ -23,35 +23,35 @@ public class CourseController {
     private final CourseApiService courseApiService;
 
     @PostMapping("/course")
-    public ApiResponse<String> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
-                                            @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<String> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
+                                                  @MemberInfo MemberInfoDto memberInfoDto) {
         courseApiService.createCourse(courseCreateReq, memberInfoDto.getMemberId());
-        return ApiResponse.created("생성 성공");
+        return ApiResponseEntity.created("생성 성공");
     }
 
     @GetMapping("/course")
-    public ApiResponse<CourseListRes> getCourseList(@RequestParam("region") String region,
-                                                    @MemberInfo MemberInfoDto memberInfoDto,
-                                                    @PageableDefault(size = 100,
+    public ApiResponseEntity<CourseListRes> getCourseList(@RequestParam("region") String region,
+                                                          @MemberInfo MemberInfoDto memberInfoDto,
+                                                          @PageableDefault(size = 100,
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {
         CourseListRes response = courseApiService.getCourseList(region, memberInfoDto.getMemberId(), pageable);
-        return ApiResponse.ok(response);
+        return ApiResponseEntity.ok(response);
     }
 
     @GetMapping("/course/{courseId}")
-    public ApiResponse<CourseDetailRes> getCourseDetail(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public ApiResponseEntity<CourseDetailRes> getCourseDetail(@PathVariable Long courseId, @MemberInfo MemberInfoDto memberInfoDto) {
         CourseDetailRes response = courseApiService.getCourseDetail(courseId, memberInfoDto.getMemberId());
-        return ApiResponse.ok(response);
+        return ApiResponseEntity.ok(response);
     }
 
     @PostMapping("/course/filter")
-    public ApiResponse<CourseListRes> getCourseDetailByCourseTags(@RequestBody CourseTagListReq courseTagListReq,
-                                                    @MemberInfo MemberInfoDto memberInfoDto,
-                                                    @PageableDefault(size = 100,
+    public ApiResponseEntity<CourseListRes> getCourseDetailByCourseTags(@RequestBody CourseTagListReq courseTagListReq,
+                                                                        @MemberInfo MemberInfoDto memberInfoDto,
+                                                                        @PageableDefault(size = 100,
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {
         CourseListRes response = courseApiService.findAllByCourseTags(courseTagListReq, memberInfoDto.getMemberId(), pageable);
-        return ApiResponse.ok(response);
+        return ApiResponseEntity.ok(response);
     }
 }

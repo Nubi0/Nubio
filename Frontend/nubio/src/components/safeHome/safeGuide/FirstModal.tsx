@@ -26,7 +26,9 @@ const FirstModal = () => {
               <TipOffModal />
               <SafeGuideModal />
             </IconWrapper>
-            <button onClick={closeModal}>닫기</button>
+            <button id="close" onClick={closeModal}>
+              닫기
+            </button>
           </FirstModalBox>
         </FirstModalOverlay>
       ) : null}

@@ -45,7 +45,9 @@ const SafeGuideModal = () => {
           ) : (
             <>
               <Disaster openEvacuationModal={openEvacuationModal} />
-              <button onClick={closeModal}>닫기</button>
+              <button id="close" onClick={closeModal}>
+                닫기
+              </button>
             </>
           )}
         </SafeGuideModalBox>

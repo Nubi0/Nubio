@@ -12,12 +12,21 @@ export const LogoIcon = styled.img`
   width: 4rem;
   height: 2rem;
 `;
-
+// 내 위치
+export const MyLocation = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #ffc542;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.3rem;
+`;
 // 대피 설명서
 export const SafeIcon = styled.img`
   position: absolute;
-  top: 750px;
-  left: 350px;
+  top: 47rem;
+  right: 1rem;
   width: 4rem;
   height: 4rem;
   z-index: 1;
@@ -50,7 +59,7 @@ export const FirstModalBox = styled.div`
   height: 15%;
   padding: 1rem;
   border-radius: 1rem;
-  button {
+  #close {
     position: relative;
     top: 1rem;
     width: 20rem;
@@ -60,7 +69,6 @@ export const FirstModalBox = styled.div`
     border: none;
     border-radius: 1rem;
     background-color: #ffc542;
-    margin: 1rem;
   }
 `;
 export const IconWrapper = styled.div`
@@ -97,18 +105,28 @@ export const TipOffWrapper = styled.div`
     padding: 0.5rem;
   }
 
-  button {
+  #submit {
     width: 20rem;
     height: 2.5rem;
     font-size: 1.2rem;
     font-weight: 600;
+    color: white;
     border: none;
     border-radius: 1rem;
-    background-color: #ffc542;
-    margin-bottom: 1rem;
+    background-color: #f25260;
+    margin-top: 1rem;
   }
 `;
-export const TypeWrapper = styled.div``;
+export const TypeWrapper = styled.div`
+  label {
+    font-size: 1.5rem;
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+  }
+`;
 export const SafeGuideModalBox = styled.div`
   position: absolute;
   top: 15%;
@@ -119,16 +137,6 @@ export const SafeGuideModalBox = styled.div`
   border-radius: 1rem;
   text-align: center;
   z-index: 2;
-  button {
-    width: 20rem;
-    height: 2.5rem;
-    font-size: 1.2rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 1rem;
-    background-color: #ffc542;
-    margin-bottom: 1rem;
-  }
 `;
 
 // 대피경로

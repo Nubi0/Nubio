@@ -1,4 +1,4 @@
-package com.authenticationservice.domain.member.entity.type;
+package com.authenticationservice.domain.member.entity.type.member;
 
 import com.authenticationservice.domain.member.exception.InvalidBirthFormatException;
 import com.authenticationservice.global.error.ErrorCode;
@@ -17,7 +17,7 @@ public class Birth {
 
     private static final Pattern PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
 
-    @Column(name = "birth", nullable = false)
+    @Column(name = "birth")
     private LocalDate value;
 
     private Birth(LocalDate value) {

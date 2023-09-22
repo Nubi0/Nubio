@@ -25,14 +25,14 @@ pipeline {
                         sh "cp \$OAUTHFILE backend/authentication-service/src/main/resources/application-oauth.yml"
                     }
                 }
-                sh 'chmod +x backend/authentication-service/gradlew'
+                // sh 'chmod +x backend/authentication-service/gradlew'
 
-                script {
-                    dir('backend/authentication-service') {
-                        docker.build('authentication-service')
-                        sh './gradlew clean build -x test'
-                    }
-                }
+                // script {
+                //     dir('backend/authentication-service') {
+                //         docker.build('authentication-service')
+                //         sh './gradlew clean build -x test'
+                //     }
+                // }
             }
         }
 
@@ -43,9 +43,9 @@ pipeline {
                 ]) {
                     dir('backend/authentication-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build -t authentication:latest .'
-                        sh 'docker tag authentication:latest kathyleesh/authentication:latest'
-                        sh 'docker push kathyleesh/authentication:latest'
+                        sh 'docker build -t authentication-service:latest .'
+                        sh 'docker tag authentication-service:latest kathyleesh/authentication-service:latest'
+                        sh 'docker push kathyleesh/authentication-service:latest'
                     }
                 }
             }
@@ -64,16 +64,16 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS'),
-                    string(credentialsId: 'aws-id', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'aws-secret', variable: 'AWS_SECRET_ACCESS_KEY')
+                    [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'nubio']
                 ]) {
                     sh """
-                        export AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID
-                        export AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY
+                        export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                        export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
                         docker-compose -f docker-compose.yml up -d
                     """
                 }
             }
         }
+
     }
 }

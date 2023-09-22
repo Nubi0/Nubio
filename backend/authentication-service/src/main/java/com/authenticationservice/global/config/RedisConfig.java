@@ -24,4 +24,12 @@ public class RedisConfig {
         template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         return template;
     }
+
+    @Bean
+    public RedisTemplate<String, Object> redisEmailTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+        return template;
+    }
 }

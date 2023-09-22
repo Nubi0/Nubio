@@ -1,4 +1,4 @@
-package com.authenticationservice.domain.member.entity.type;
+package com.authenticationservice.domain.member.entity.type.member;
 
 import com.authenticationservice.domain.member.exception.InvalidEmailFormatException;
 import com.authenticationservice.global.error.ErrorCode;

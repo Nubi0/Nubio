@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisTemplate<String, Object> redisBlackListTemplate;
+    private final RedisTemplate<String, Object> redisEmailTemplate;
 
     public void set(String key, Object o, int minutes) {
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(o.getClass()));
@@ -45,5 +46,22 @@ public class RedisUtil {
 
     public boolean hasKeyBlackList(String key) {
         return redisBlackListTemplate.hasKey(key);
+    }
+
+    public void setEmail(String key, Object o, Long milliSeconds) {
+        redisEmailTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(o.getClass()));
+        redisEmailTemplate.opsForValue().set(key, o, milliSeconds, TimeUnit.MILLISECONDS);
+    }
+
+    public Object getEmail(String key) {
+        return redisEmailTemplate.opsForValue().get(key);
+    }
+
+    public boolean deleteEmail(String key) {
+        return redisEmailTemplate.delete(key);
+    }
+
+    public boolean hasKeyEmail(String key) {
+        return redisEmailTemplate.hasKey(key);
     }
 }

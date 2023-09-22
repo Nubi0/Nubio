@@ -12,6 +12,7 @@ import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class AuthServiceImplTest {
 
     @Autowired
@@ -36,6 +39,7 @@ class AuthServiceImplTest {
     private JwtManager jwtManager;
 
     private Member savedBeforeMember;
+    private MemberInfoDto memberInfoDto;
 
     @BeforeEach
     void setUp() {
@@ -54,6 +58,11 @@ class AuthServiceImplTest {
                 .build();
 
         savedBeforeMember = memberRepository.save(beforeMember);
+
+        memberInfoDto = MemberInfoDto.builder()
+                .identification(savedBeforeMember.getIdentification().getValue())
+                .role(savedBeforeMember.getRole().name())
+                .build();
     }
 
 
@@ -124,6 +133,6 @@ class AuthServiceImplTest {
         // then
         String authorizationHeader = testUser.getHeader("Authorization");
 
-        authService.logout(authorizationHeader);
+        authService.logout(memberInfoDto, authorizationHeader);
     }
 }

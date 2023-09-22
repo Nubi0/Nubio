@@ -18,24 +18,24 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final WebConfig webConfig;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors
-                        .configurationSource(webConfig.corsConfigurationSource()))
+                        .disable())
                 .csrf(csrf -> csrf
                                 .disable()
                 )
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/v1/users/login", "/v1/users/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+//                        .requestMatchers("/v1/member/login", "/v1/member/signup", "/v1/oauth/**",  "/mysql-console/**", "/static/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .disable())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/v1/users/login")
+                        .logoutSuccessUrl("/v1/member/login")
                         .permitAll()
                 );
         return http.build();

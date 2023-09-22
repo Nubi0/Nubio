@@ -1,12 +1,18 @@
 package com.authenticationservice.web.controller;
 
-import com.authenticationservice.api.ApiResponse;
+import com.authenticationservice.api.ApiResponseEntity;
 import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.web.client.KakaoTokenClient;
 import com.authenticationservice.web.dto.KakaoAuthReqDto;
 import com.authenticationservice.web.dto.KakaoTokenDto;
 import com.authenticationservice.web.dto.OauthLoginResDto;
 import com.authenticationservice.web.service.OauthLoginService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/oauth")
+@RequestMapping("/v1/oauth")
 @RequiredArgsConstructor
+@Tag(name = "1. OAUTH API", description = " 소셜 로그인 api")
 public class KakaoOAuthController {
 
     private final KakaoTokenClient kakaoTokenClient;
@@ -33,8 +40,12 @@ public class KakaoOAuthController {
     @Value("${oauth2.client.kakao.authorization_grant_type}")
     private String grantType;
 
+    @Operation(summary = "카카오 회원가입 및 로그인", description = "start/v1/oauth/kakao/callback\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            })
     @PostMapping("/kakao/callback")
-    public ApiResponse<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
+    public ApiResponseEntity<OauthLoginResDto> loginCallback(@RequestBody KakaoAuthReqDto request) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8"; // 공식 문서
         KakaoTokenDto.Req kakaoTokenRequestDto = KakaoTokenDto.Req.builder()
                 .client_id(clientId)
@@ -51,6 +62,6 @@ public class KakaoOAuthController {
 
         log.info("kakao 유저 정보 서버에 access-token 보내서 유저 정보 요청 시작");
         OauthLoginResDto jwt = oauthLoginService.oauthLogin(kakaoToken.getAccess_token(), OAuthType.KAKAO);
-        return ApiResponse.ok(jwt);
+        return ApiResponseEntity.ok(jwt);
     }
 }

@@ -1,27 +1,23 @@
 package com.authenticationservice.api.member.dto.response;
 
 import com.authenticationservice.domain.member.entity.Member;
-import com.authenticationservice.domain.member.entity.type.Email;
-import com.authenticationservice.domain.member.entity.type.Identification;
-import com.authenticationservice.domain.member.entity.type.Nickname;
-import com.authenticationservice.domain.member.entity.type.ProfileUrl;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class MemberResDto {
-    private Identification identification;
-    private Nickname nickname;
-    private Email email;
-    private ProfileUrl profileUrl;
+    private String identification;
+    private String nickname;
+    private String email;
+    private String profileUrl;
 
     public MemberResDto of(Member member) {
         MemberResDto res = new MemberResDto();
-        res.identification = member.getIdentification();
-        res.nickname = member.getNickname();
-        res.email = member.getEmail();
-        res.profileUrl = member.getProfileUrl();
+        res.identification = member.getIdentification().getValue();
+        res.nickname = member.getNickname().getValue();
+        res.email = member.getEmail().getValue();
+        res.profileUrl = (member.getProfileUrl() != null) ? member.getProfileUrl().getValue() : null;
         return res;
     }
 }

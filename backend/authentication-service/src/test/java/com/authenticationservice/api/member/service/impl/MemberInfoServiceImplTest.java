@@ -10,6 +10,9 @@ import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
+import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,14 +39,14 @@ class MemberInfoServiceImplTest {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtManager jwtManager;
+    @Autowired
+    private EntityManager em;
 
     private Member savedBeforeMember;
+    private MemberInfoDto memberInfoDto;
 
     @BeforeEach
     void setUp() {
-        memberRepository.findByEmail(Email.from("beforeMember@nubio.com"))
-                .ifPresent(member -> memberRepository.delete(member));
-
         Member beforeMember = Member.builder()
                 .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember@nubio.com"))
@@ -57,19 +59,30 @@ class MemberInfoServiceImplTest {
                 .build();
 
         savedBeforeMember = memberRepository.save(beforeMember);
+
+        memberInfoDto = MemberInfoDto.builder()
+                .identification(savedBeforeMember.getIdentification().getValue())
+                .role(savedBeforeMember.getRole().name())
+                .build();
+    }
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+        em.flush();
+        em.clear();
     }
 
     @DisplayName("회원 정보 조회를 성공한다.")
     @Test
     void getMemberInfo() {
         // given
-        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
-        MemberResDto res = memberInfoService.getMemberInfo(jwtDto.getAccessToken());
+        MemberResDto res = memberInfoService.getMemberInfo(memberInfoDto);
         // when then
-        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
-        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
-        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
-        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
     }
 
     @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
@@ -77,8 +90,10 @@ class MemberInfoServiceImplTest {
     void findByEmailSuccessful() {
         // given
         Email email = savedBeforeMember.getEmail();
+        Member member = null;
         // when
-        Member member = memberInfoService.findByEmail(email);
+        Optional<Member> findMember = memberInfoService.findByEmail(email);
+        if (findMember.isPresent()) member = findMember.get();
         // then
         assertThat(member).isEqualTo(savedBeforeMember);
     }
@@ -101,19 +116,17 @@ class MemberInfoServiceImplTest {
         // given
         MemberResDto res = memberInfoService.getMemberByIdentification(savedBeforeMember.getIdentification().getValue());
         // when then
-        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification());
-        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail());
-        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname());
-        assertThat(res.getProfileUrl()).isEqualTo(savedBeforeMember.getProfileUrl());
+        assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
+        assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
+        assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
     }
 
     @DisplayName("회원 탈퇴를 성공한다.")
     @Test
     void withdrawSuccessful() {
-        // given
-        JwtDto jwtDto = jwtManager.createJwtDto(savedBeforeMember.getIdentification().getValue(), savedBeforeMember.getRole());
-        // when
-        memberInfoService.deleteMember(jwtDto.getAccessToken());
+        // given when
+        memberInfoService.deleteMember(memberInfoDto);
         // then
         Optional<Member> withdrewMember = memberRepository.findById(savedBeforeMember.getId());
         assertThat(withdrewMember).isPresent();

@@ -8,9 +8,12 @@ const KaKaoLogin = () => {
         const redirectUrl = 'http://localhost:3000/oauth/kakao' 
         axios.post('https://nubi0.com/start/v1/oauth/kakao/callback', {code,redirectUrl})
              .then((res) => {
-                localStorage.setItem('refresh_token', res.data.refresh_token);
-                localStorage.setItem('refresh_token_expiration_time', res.data.refresh_token_expiration_time);
-                navigate('/')
+                const {accessToken, refreshToken, refreshTokenExpireTime} = res.data.data;
+                console.log(accessToken);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
+                navigate('/enjoy')
              })
              .catch((err) => {
                 console.error(err);

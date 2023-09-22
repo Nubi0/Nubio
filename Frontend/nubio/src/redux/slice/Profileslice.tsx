@@ -1,28 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const ProfileSlice = createSlice({
-  name: 'enjoyslice',
+  name: 'profileSlice',
   initialState: {
     isChange: false,
-    nickName: '김민규',
-    newNickName: '김민규',
+    newNickName: '',
     isInputDisabled: true,
+    email: null,
+    profileUrl: null,
   },
   reducers: {
     setIsChange: (state, action) => {
         state.isChange = action.payload;
-    },
-    setNickName: (state, action) => {
-        state.nickName = action.payload;
     },
     setNewNickName: (state, action) => {
         state.newNickName = action.payload;
     },
     setIsInputDisabled: (state, action) => {
         state.isInputDisabled = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    setProfileUrl: (state, action) => {
+      state.profileUrl = action.payload;
     }
   },
 });
 
-export const { setIsChange, setNickName, setNewNickName, setIsInputDisabled } = ProfileSlice.actions;
+export const { setIsChange,  setNewNickName, setIsInputDisabled, setEmail, setProfileUrl  } = ProfileSlice.actions;
 export default ProfileSlice.reducer;

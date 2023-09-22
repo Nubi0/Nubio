@@ -1,4 +1,4 @@
-package com.safeservice.api.facility.dto.request;
+package com.safeservice.api.shelter.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Range;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NearSafetyFacility {
+public class UserLocation {
 
     @JsonProperty("longitude")
     @Range(min = 120, max = 150, message = "경도가 범위를 벗어났습니다.")
@@ -24,5 +24,4 @@ public class NearSafetyFacility {
     @JsonProperty("distance")
     @Range(min = 0, max = 50, message = "거리범위를 벗어났습니다.")
     private double distance;
-
 }

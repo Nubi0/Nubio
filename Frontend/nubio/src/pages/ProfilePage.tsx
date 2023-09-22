@@ -12,7 +12,6 @@ const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isChange = useSelector((state: any) => state.profile.isChange);
   const newNickName = useSelector((state: any) => state.profile.newNickName);
-  const nickName = useSelector((state: any) => state.profile.nickName);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -41,7 +40,6 @@ const ProfilePage = () => {
   useEffect(() => {
     dispatch(setIsChange(false));
     dispatch(setIsInputDisabled(true));
-    dispatch(setNewNickName(nickName))
   }, [])
 
   return (

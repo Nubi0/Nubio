@@ -21,6 +21,7 @@ const SignUpForm = () => {
   const [gender, setGender] = useState<string>('MALE');
   const taste = useSelector((state: any) => state.signup.taste);
   const navigate = useNavigate();
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const data = {
     email,
@@ -51,6 +52,42 @@ const SignUpForm = () => {
         console.log(err);
       });
   };
+
+  const EmailCertification = (e: any) => {
+    e.preventDefault();
+    axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email', {email})
+          .then((res) => {
+              Swal.fire({
+                title: '이메일 인증',
+                input: 'text',
+                inputAttributes: {
+                  autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                showLoaderOnConfirm: true,
+                preConfirm: async (code) => {
+                  return await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email/confirms', {email, code})
+                                    .then((res) => {
+                                      console.log(res.data);
+                                      setIsConfirm(true);
+                                    })
+                                    .catch((err) => {
+                                      console.error(err);
+                                    })
+                },
+              }).then((res) => {
+                Swal.fire({
+                  title: '인증 성공',
+                  icon: 'success',
+                  text: 'NUBIO',
+                })
+              })
+          })
+          .catch((err) => {
+              console.error(err);
+          })
+  }
 
   // 남자 아이콘
   const manUrl = process.env.PUBLIC_URL + '/assets/man.png';
@@ -88,7 +125,7 @@ const SignUpForm = () => {
           value={email}
           onChange={onChangeEmail}
         />
-        <button id="check">중복확인</button>
+        {isConfirm ? <p>인증 완료</p> : <button id="check" onClick={EmailCertification}>이메일 인증</button>}
       </span>
       <span id="nickname">
         <input

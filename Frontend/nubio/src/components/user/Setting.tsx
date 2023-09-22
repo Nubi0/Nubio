@@ -52,6 +52,9 @@ const Setting = ({openModal}: any) => {
                         title: '회원탈퇴 성공',
                         text: 'NUBIO',
                         icon: 'success'
+                      }).then(() => {
+                        localStorage.clear();
+                        navigate('/');
                       })
                     })
                     .catch((err) => {

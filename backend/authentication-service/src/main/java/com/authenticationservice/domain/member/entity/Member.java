@@ -92,7 +92,7 @@ public class Member extends BaseTimeEntity {
 
     public void withdraw() {
         this.email.withdrawEmail();
-        this.birth.withdrawBirth();
+        if (this.birth != null) this.birth.withdrawBirth();
         this.nickname.withdrawNickname();
         this.password.withdrawPassword();
         if (this.profileUrl != null) this.profileUrl.withdrawProfileUrl();

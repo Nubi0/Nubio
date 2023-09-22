@@ -8,6 +8,7 @@ import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoReq;
 import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
 import com.enjoyservice.api.recommendation.dto.kakao.ClientDto;
 import com.enjoyservice.api.recommendation.service.RecommendationApiService;
+import com.enjoyservice.domain.course.dto.CourseDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.service.CourseService;
@@ -16,6 +17,7 @@ import com.enjoyservice.domain.membertaste.entity.MemberTaste;
 import com.enjoyservice.domain.membertaste.service.MemberTasteService;
 import com.enjoyservice.domain.recomendation.entity.Words;
 import com.enjoyservice.domain.recomendation.service.WordsService;
+import com.querydsl.core.Tuple;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -70,24 +72,33 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
         }
     }
 
-    private void processCoursePlace(List<CoursePlaceSequence> sequences, List<String> courseInfo) {
-        for (CoursePlaceSequence sequence : sequences) {
-            courseInfo.add(sequence.getPlace().getCategory().getDetail().getValue());
-            courseInfo.add(sequence.getPlace().getCategory().getGroupName().name());
+    private void processPlaceDetail(String detailsStr, List<String> courseInfo) {
+
+        String[] details = detailsStr.split(",");
+        for (String detail : details) {
+            courseInfo.add(detail);
         }
     }
+
+    private void processPlaceName(String namesStr, List<String> courseInfo) {
+        String[] names = namesStr.split(",");
+        for (String name : names) {
+            courseInfo.add(name);
+        }
+    }
+
     private void processMakeModel(String region) {
         List<Words> words = new ArrayList<>();
-        List<Course> courses = courseService.findAllByRegionToModel(Region.from(region));
+        List<CourseDto> courses = courseService.findAllByRegionToModel(Region.from(region));
         log.info("course length = {}", courses.size());
-        for (Course course : courses) {
+        for (CourseDto course : courses) {
             List<String> courseInfo = new ArrayList<>();
             List<MemberTaste> courseMemberTaste = memberTasteService.findByMemberId(course.getMemberId());
 
             processMemberTaste(courseMemberTaste, courseInfo);
-            processCoursePlace(course.getCoursePlaceSequences(), courseInfo);
+            processPlaceDetail(course.getCategoryDetails(), courseInfo);
+            processPlaceName(course.getCategoryNames(), courseInfo);
 
-            courseInfo.add(course.getId().toString());
             words.add(Words.of(course.getId(), courseInfo));
         }
         wordsService.saveWords(words);

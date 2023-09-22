@@ -28,7 +28,8 @@ public class RecommendationController {
 
     @GetMapping("/create")
     public ApiResponse<String> create() {
-        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
+//        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
+        String[] regions = {"DAEGU","SEOUL"};
         for (String region : regions) {
             recommendationApiService.saveModel(region);
             fastApiClient.createModel(FastCreateReq.from(region));

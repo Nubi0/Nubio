@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
 
     @Query("select c, cps, p, pi " +
             "from Course c " +
@@ -24,7 +24,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 
-    @Query("select c, cps, p " +
+    @Query("select distinct c, cps, p " +
             "from Course c " +
             "left join fetch CoursePlaceSequence cps on c = cps.course " +
             "join fetch Place p on cps.place = p " +

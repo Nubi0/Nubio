@@ -4,8 +4,7 @@ import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosition, setTime } from '../../../../redux/slice/EnjoySlice';
-import Tmap from './Tmap';
-
+import Map from '../../../common/map/Map';
 declare global {
   interface Window {
     kakao: any;
@@ -71,7 +70,7 @@ const CourseSelect = ({ setModal }: any) => {
 
   return (
     <CourseSelectWrapper>
-      <Tmap />
+      <Map />
       <CourseMaker onClick={() => selectOverlay()} id="courseMaker">
         코스 그리기
       </CourseMaker>

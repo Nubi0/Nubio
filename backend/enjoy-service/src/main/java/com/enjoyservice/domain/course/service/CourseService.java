@@ -1,10 +1,12 @@
 package com.enjoyservice.domain.course.service;
 
+import com.enjoyservice.domain.course.dto.CourseDto;
 import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.tag.entity.Tag;
+import com.querydsl.core.Tuple;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -20,5 +22,5 @@ public interface CourseService {
     List<Course> findCourseAndTagsByCourseId(Long courseId);
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
     boolean changeCourseLikeState(Long courseId, String memberId);
-    List<Course> findAllByRegionToModel(Region region);
+    List<CourseDto> findAllByRegionToModel(Region region);
 }

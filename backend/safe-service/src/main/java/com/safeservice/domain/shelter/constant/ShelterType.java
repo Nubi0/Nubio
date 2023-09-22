@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public enum ShelterType {
 
     SCHOOL("school"),
-    SENIOR_WELFARE("senior welfare"),
     CIVIL_DEFENSE("civil_defense"),
     HOSPITAL("hospital"),
     FIRE_STATION("fire_station"),
@@ -37,7 +36,7 @@ public enum ShelterType {
         return shelterTypes.size() != 0;
     }
     private static void validateType(String type) {
-        if (ShelterType.isShelterType(type.toUpperCase())) {
+        if (!ShelterType.isShelterType(type.toUpperCase())) {
             throw new BusinessException(ErrorCode.SHELTER_TYPE_NOT_EXIST);
         }
     }

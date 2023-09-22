@@ -70,8 +70,8 @@ public class ShelterInfoServiceImpl implements ShelterInfoService {
     }
 
     @Override
-    public NearShelterPageResponseDto findShelterNearWithPaging(NearShelter nearShelter, ShelterType shelterType, Pageable pageable) {
-
+    public NearShelterPageResponseDto findShelterNearWithPaging(NearShelter nearShelter, String shelterTypeStr, Pageable pageable) {
+        ShelterType shelterType = ShelterType.from(shelterTypeStr);
         Point point = new Point(nearShelter.getLongitude(), nearShelter.getLatitude());
         Distance distance = new Distance(nearShelter.getDistance(), Metrics.KILOMETERS);
         Page<Shelter> shelterNearWithPaging = shelterService.findShelterNearWithPaging(point, distance, shelterType, pageable);

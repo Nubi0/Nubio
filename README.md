@@ -18,10 +18,11 @@
 1. [프로젝트 기획 배경](#프로젝트-기획-배경)
 2. [주요 기능 설명](#주요-기능-설명)
 3. [기술 스택](#기술-스택)
-4. [아키텍처](#아키텍처)
-5. [ERD](#erd)
-6. [기능 엿보기](#기능-엿보기)
-7. [팀원 소개 및 역할](#팀원-소개-및-역할)
+4. [프로토타입](#프로토타입)
+5. [아키텍처](#아키텍처)
+6. [ERD](#erd)
+7. [기능 엿보기](#기능-엿보기)
+8. [팀원 소개 및 역할](#팀원-소개-및-역할)
 
 ## 📌프로젝트 기획 배경
 
@@ -116,6 +117,17 @@
 </tr>
 </table>
 
+## 🗂 프로토타입
+![main.png](./nubio/main.png){: width="10" height="10"}
+
+![enjoy.png](./nubio/enjoy1.JPG)
+
+![enjoy.png](./nubio/enjoy2.JPG)
+
+![enjoy.png](./nubio/enjoy3.JPG)
+
+![safe.PNG](./nubio/safe.PNG)
+
 ## 🧱아키텍처
 ![architecture.png](./nubio/architecture.png)
 
@@ -123,6 +135,8 @@
 ## 🗂ERD
 
 ![erd.png](./nubio/erd.png)
+
+
 
 
 

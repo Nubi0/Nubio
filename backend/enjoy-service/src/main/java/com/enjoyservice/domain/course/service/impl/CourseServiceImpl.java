@@ -15,6 +15,7 @@ import com.enjoyservice.global.error.exception.BusinessException;
 import com.enjoyservice.mapper.course.CourseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -90,6 +91,11 @@ public class CourseServiceImpl implements CourseService {
         }
         // 아직 해당 장소를 한 번도 좋아요 한 적이 없으면 새로 만들어서 결과 반환
         return createCourseLike(memberId, courseId);
+    }
+
+    @Override
+    public Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable) {
+        return courseRepository.findAllByCourseTags(courseTagIds, courseTagIds.size(), pageable);
     }
 
     private boolean createCourseLike(String memberId, Long courseId) {

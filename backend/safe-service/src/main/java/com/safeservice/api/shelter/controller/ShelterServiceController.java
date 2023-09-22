@@ -1,11 +1,10 @@
 package com.safeservice.api.shelter.controller;
 
 import com.safeservice.api.ApiResponse;
-import com.safeservice.api.shelter.dto.request.NearShelter;
+import com.safeservice.api.shelter.dto.request.UserLocation;
 import com.safeservice.api.shelter.dto.response.NearShelterPageResponseDto;
 import com.safeservice.api.shelter.service.ShelterInfoService;
 import com.safeservice.domain.shelter.constant.ShelterType;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -60,12 +59,12 @@ public class ShelterServiceController {
                                                                                  @PageableDefault(size = 20,
                                                                                          sort = "id",
                                                                                          direction = Sort.Direction.ASC) Pageable pageable) {
-        NearShelter nearShelter = NearShelter.builder()
+        UserLocation userLocation = UserLocation.builder()
                 .longitude(longitude)
                 .latitude(latitude)
                 .distance(distance)
                 .build();
-        NearShelterPageResponseDto shelterNearWithPaging = shelterInfoService.findShelterNearWithPaging(nearShelter, type, pageable);
+        NearShelterPageResponseDto shelterNearWithPaging = shelterInfoService.findShelterNearWithPaging(userLocation, type, pageable);
         return ApiResponse.ok(shelterNearWithPaging);
     }
 

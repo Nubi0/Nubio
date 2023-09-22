@@ -1,14 +1,11 @@
 package com.safeservice.api.facility.controller;
 
 import com.safeservice.api.ApiResponse;
-import com.safeservice.api.facility.dto.request.NearSafetyFacility;
+import com.safeservice.api.facility.dto.request.UserLocation;
 import com.safeservice.api.facility.dto.response.NearSafetyPageResponseDto;
 import com.safeservice.api.facility.service.SafetyFacilityInfoService;
 import com.safeservice.domain.facility.constant.FacilityType;
-import com.safeservice.domain.facility.entity.SafetyFacility;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -56,12 +53,12 @@ public class SafetyFacilityController {
                                                                     @PageableDefault(size = 20,
                                                                             sort = "id",
                                                                             direction = Sort.Direction.ASC) Pageable pageable) {
-        NearSafetyFacility nearSafetyFacility = NearSafetyFacility.builder()
+        UserLocation userLocation = UserLocation.builder()
                 .longitude(longitude)
                 .latitude(latitude)
                 .distance(distance)
                 .build();
-        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(nearSafetyFacility, type, pageable);
+        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(userLocation, type, pageable);
         return ApiResponse.ok(facilityNearWithPaging);
     }
 

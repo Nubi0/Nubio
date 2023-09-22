@@ -26,7 +26,7 @@ public class PlaceFavorite extends BaseEntity {
     private Place place;
 
     @Embedded
-    private Active active;
+    private Active active = Active.from(true);
 
     @Builder
     public PlaceFavorite(String memberId, Place place) {

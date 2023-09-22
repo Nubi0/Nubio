@@ -125,7 +125,7 @@ const SignUpForm = () => {
           value={email}
           onChange={onChangeEmail}
         />
-        {isConfirm ? <p>인증 완료</p> : <button id="check" onClick={EmailCertification}>이메일 인증</button>}
+        <button id="check" onClick={EmailCertification} disabled={isConfirm ? true : false}>{isConfirm ? '인증완료' : '이메일 인증' }</button>
       </span>
       <span id="nickname">
         <input

@@ -28,7 +28,7 @@ export const Form = styled.form`
     margin: 0.5rem 0;
   }
   #check {
-    width: 4.5rem;
+    width: auto;
     border: none;
     border-radius: 1rem;
     font-weight: 600;
@@ -36,6 +36,11 @@ export const Form = styled.form`
     right: 3em;
     margin: 1.5rem;
     background-color: #ffc542;
+  }
+  #check:disabled{
+    background-color: transparent!important;
+    color: #14ca48;
+    font-weight: 600;
   }
   #date {
     font-family: "Pretendard";
@@ -69,7 +74,6 @@ export const GenderWrapper = styled.div`
   #womanCheck {
     border-radius:1rem;
     background-color: pink;
-  }
   }
 `;
 export const ManIcon = styled.img`

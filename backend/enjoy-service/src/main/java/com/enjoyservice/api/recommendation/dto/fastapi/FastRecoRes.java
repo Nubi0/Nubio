@@ -1,8 +1,7 @@
-package com.enjoyservice.api.recommendation.dto;
+package com.enjoyservice.api.recommendation.dto.fastapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +10,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class FastRecoReq {
+public class FastRecoRes {
 
-    @JsonProperty("words")
-    private List<String> words;
+    @JsonProperty("result")
+    private List<String> result;
+
 }

@@ -2,30 +2,40 @@ package com.enjoyservice.api.recommendation.controller;
 
 import com.enjoyservice.api.ApiResponse;
 import com.enjoyservice.api.recommendation.client.FastApiClient;
-import com.enjoyservice.api.recommendation.dto.FastRecoReq;
-import com.enjoyservice.api.recommendation.dto.FastRecoRes;
+import com.enjoyservice.api.recommendation.dto.RecommendationReq;
+import com.enjoyservice.api.recommendation.dto.fastapi.FastCreateReq;
+import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
+import com.enjoyservice.api.recommendation.service.RecommendationApiService;
+import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
+import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/enjoy/recommendation")
+@RequestMapping("/v1/enjoy")
 @RequiredArgsConstructor
 public class RecommendationController {
 
     private final FastApiClient fastApiClient;
+    private final RecommendationApiService recommendationApiService;
 
-    @GetMapping("/test")
-    public ApiResponse<FastRecoRes> test() {
-        List<String> test = new ArrayList<>();
-        test.add("당구");
-        test.add("꽃구경");
-        FastRecoReq build = FastRecoReq.builder().words(test).build();
-        FastRecoRes reco = fastApiClient.getReco(build);
-        return ApiResponse.ok(reco);
+    @PostMapping("")
+    public ApiResponse<FastRecoRes> getReco(@MemberInfo MemberInfoDto memberInfoDto,
+                                            @RequestBody RecommendationReq recommendationReq) {
+        FastRecoRes recoCourses = recommendationApiService.getCourses(memberInfoDto.getMemberId(), recommendationReq);
+        return ApiResponse.ok(recoCourses);
     }
+
+    @GetMapping("/create")
+    public ApiResponse<String> create() {
+//        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
+        String[] regions = {"DAEGU","SEOUL"};
+        for (String region : regions) {
+            recommendationApiService.saveModel(region);
+            fastApiClient.createModel(FastCreateReq.from(region));
+        }
+        return ApiResponse.ok("모델 생성 완료");
+    }
+
+
 }

@@ -22,8 +22,8 @@ public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String memberId = request.getHeader("sub");
-        String role = request.getHeader("auth");
+        String memberId = request.getHeader("X-Identification");
+        String role = request.getHeader("X-Role");
 
         return MemberInfoDto.builder()
                 .memberId(memberId)

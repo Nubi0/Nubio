@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FastRecoRes {
+public class RecommendationReq {
 
-    @JsonProperty("result")
-    private List<String> result;
+    @JsonProperty("longitude")
+    private double longitude;
 
+    @JsonProperty("latitude")
+    private double latitude;
 }

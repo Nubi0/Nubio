@@ -1,0 +1,55 @@
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
+
+### env
+.env
+
+### file
+DAEGU_course_list
+DAEGU_dataset
+DAEGU_w2v_model
+
+GYEONGBUK_course_list
+GYEONGBUK_dataset
+GYEONGBUK_w2v_model
+
+DAEGU_course_list
+DAEGU_dataset
+DAEGU_w2v_model
+
+SEOUL_course_list
+SEOUL_dataset
+SEOUL_w2v_model
+
+DAEJEON_course_list
+DAEJEON_dataset
+DAEJEON_w2v_model
+
+BUSAN_course_list
+BUSAN_dataset
+BUSAN_w2v_model
+
+GWANGJU_course_list
+GWANGJU_dataset
+GWANGJU_w2v_model

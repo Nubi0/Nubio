@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const SafeHomeWrapper = styled.div`
-  width: 430px;
-  height: 932px;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export const LogoIcon = styled.img`

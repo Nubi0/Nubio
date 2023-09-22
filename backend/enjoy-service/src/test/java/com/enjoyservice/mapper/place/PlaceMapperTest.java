@@ -38,7 +38,7 @@ class PlaceMapperTest {
     @Test
     void toPlaceInfoResNoImg() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         int likeCount = 10;
         boolean likeFlag = true;
         boolean favoriteFlag = true;
@@ -58,7 +58,7 @@ class PlaceMapperTest {
     @Test
     void toPlaceInfoRes() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         PlaceImage placeImage = PlaceImage.builder().place(place)
                 .url(com.enjoyservice.domain.placeimage.entity.type.Url.from("url"))
                 .build();

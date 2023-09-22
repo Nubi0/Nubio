@@ -5,7 +5,7 @@ export const MapWrapper = styled.div`
   height: 90%;
   z-index: 0;
 `;
-export const SearchResultWrapper = styled.div`
+export const SearchResultsWrapper = styled.div`
   position: absolute;
   top: 7rem;
   left: 1rem;
@@ -17,12 +17,11 @@ export const SearchResultWrapper = styled.div`
   border: 0.1rem solid black;
   border-radius: 1rem;
   overflow-y: scroll;
-  #places-list {
-    list-style: none;
-  }
+
   .result-text {
-    font-size: 1.3rem;
-    margin: 0;
+    font-size: 1.2rem;
+    margin: 0.8rem;
+    // border-bottom: 0.1rem solid black;
   }
   #pagination {
     text-align: center;
@@ -32,51 +31,66 @@ export const SearchResultWrapper = styled.div`
       margin: 10px;
     }
   }
+  #find {
+    float: right;
+    border: 0.1rem solid black;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+    background: transparent;
+    margin-right: 0.5rem;
+  }
 `;
 
 export const SearchListWrapper = styled.div`
+  margin-top: 3rem;
   #places-list {
     padding: 0 1rem;
+    list-style: none;
   }
-  .info {
-    // background: red;
-    margin: 1.5rem 0;
-    width: 100%;
-  }
-
-  a {
-    text-decoration-line: none;
-    color: black;
-  }
-  // 인덱스 이름
   .name {
-    margin: 1rem 0;
-    display: flex;
-
-    h5 {
-      width: 100%;
-      font-size: 1.3rem;
-      margin: 0;
+    #homePage {
+      width: 5rem;
+      height: 1rem;
+      text-decoration: none;
+      color: #f9373f;
+      border: 1px solid #f9373f;
+      font-size: 0.9rem;
+      padding: 0.25rem;
+      margin: 0 1rem;
+      border-radius: 0.5rem;
     }
   }
-  #homePage {
-    width: 5rem;
-    height: 1rem;
-    text-decoration: none;
-    color: #f9373f;
-    border: 1px solid #f9373f;
-    font-size: 0.9rem;
-    padding: 0.25rem;
-    margin: 0 1rem;
-    border-radius: 0.5rem;
+  .bnt {
+    margin-top: 0.5rem;
+    #start {
+      width: 3rem;
+      background: transparent;
+      color: #ffc542;
+      border: 0.1rem solid #ffc542;
+      font-size: 0.9rem;
+      padding: 0.25rem;
+      margin: 0 0.1rem;
+      border-radius: 0.5rem;
+    }
+    #end {
+      width: 3rem;
+      background: transparent;
+      color: #f9373f;
+      border: 0.1rem solid #f9373f;
+      font-size: 0.9rem;
+      padding: 0.25rem;
+      margin: 0 0.1rem;
+      border-radius: 0.5rem;
+    }
   }
+`;
 
-  // 주소
-  .address {
-  }
-  // 번호
-  .tel {
-    display: block;
-    margin: 0.5rem 0;
+export const DestinationWrapper = styled.div`
+  h4 {
+    border: 0.1rem solid black;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    margin: 0.5rem;
   }
 `;

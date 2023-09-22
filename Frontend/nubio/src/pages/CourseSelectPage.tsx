@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { CourseSelectPageWrapper } from "../styles/SCourseSelectPage";
 import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
 import CourseSelect from "../components/enjoyHome/MyCourse/CourseSelect/CourseSelect";

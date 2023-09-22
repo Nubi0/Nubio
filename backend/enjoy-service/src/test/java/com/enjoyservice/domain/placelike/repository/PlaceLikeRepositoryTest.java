@@ -111,7 +111,7 @@ class PlaceLikeRepositoryTest {
     @Test
     void softDelete() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
         String memberId = "memberId";
         PlaceLike placeLike = PlaceLike.builder()
@@ -135,7 +135,7 @@ class PlaceLikeRepositoryTest {
     @Test
     void whereClause() {
         // given
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Place savedPlace = placeRepository.saveAndFlush(place);
         String memberId = "memberId";
         PlaceLike placeLike = PlaceLike.builder()

@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Range;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NearSafetyFacility {
+public class UserLocation {
 
     @JsonProperty("longitude")
     @Range(min = 120, max = 150, message = "경도가 범위를 벗어났습니다.")

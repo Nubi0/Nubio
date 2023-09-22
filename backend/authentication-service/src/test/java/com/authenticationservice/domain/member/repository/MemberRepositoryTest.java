@@ -31,6 +31,9 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        memberRepository.findByEmail(Email.from("beforeMember@nubio.com"))
+                .ifPresent(member -> memberRepository.delete(member));
+
         Member beforeMember = Member.builder()
                 .identification(Identification.createIdentification())
                 .email(Email.from("beforeMember@nubio.com"))

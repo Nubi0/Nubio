@@ -3,6 +3,8 @@ spring:
     active: dev
     include:
       - s3
+      - db
+      - map
 
 server:
   port: 8081

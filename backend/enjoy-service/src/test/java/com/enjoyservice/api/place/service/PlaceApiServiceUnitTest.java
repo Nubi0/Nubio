@@ -61,7 +61,7 @@ class PlaceApiServiceUnitTest {
         // given
         String memberId = "memberId0";
         Long mockPlaceId = 1L;
-        Place mockPlace = generatePlace(1, GroupCode.CD7, GroupName.카페);
+        Place mockPlace = generatePlace(1, GroupCode.CE7, GroupName.카페);
         List<Place> places = java.util.List.of(mockPlace);
 
         List<PlaceLike> likes = new ArrayList<>();

@@ -20,6 +20,7 @@ public enum ErrorCode {
     // 인증
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A-001", "토큰이 만료되었습니다."),
     NOT_VALID_TOKEN(HttpStatus.UNAUTHORIZED, "A-002", "해당 토큰은 유효한 토큰이 아닙니다."),
+    EMAIL_CONFIRM_FAILED(HttpStatus.BAD_REQUEST, "A-003", "이메일 인증 실패하였습니다."),
 
     ;
 

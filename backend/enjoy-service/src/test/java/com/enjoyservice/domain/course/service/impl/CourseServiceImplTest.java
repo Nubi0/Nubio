@@ -15,6 +15,7 @@ import com.enjoyservice.domain.courseplacesequence.entity.type.SequenceNumber;
 import com.enjoyservice.domain.courseplacesequence.repository.CoursePlaceSequenceRepository;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import com.enjoyservice.domain.coursetag.repository.CourseTagRepository;
+import com.enjoyservice.domain.coursetag.service.CourseTagService;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.place.entity.constant.GroupCode;
 import com.enjoyservice.domain.place.entity.constant.GroupName;
@@ -22,6 +23,7 @@ import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.repository.TagRepository;
+import com.enjoyservice.domain.tag.service.TagService;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,13 +31,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -73,11 +79,11 @@ class CourseServiceImplTest {
         // 코스 저장
         int courseSize = 2;
         List<Course> courses = new ArrayList<>();
-        for(int i = 1; i <= courseSize; i++) {
+        for (int i = 1; i <= courseSize; i++) {
             Course course = generateCourse(i, Region.DAEGU);
             courses.add(course);
         }
-        for(int i = courseSize + 1; i <= courseSize + 3; i++) {
+        for (int i = courseSize + 1; i <= courseSize + 3; i++) {
             Course course = generateCourse(i, Region.BUSAN);
             courses.add(course);
         }
@@ -87,8 +93,8 @@ class CourseServiceImplTest {
         // 장소 저장
         int placeSize = 5;
         List<Place> places = new ArrayList<>();
-        for(int i = 1; i <= placeSize; i++) {
-            Place place = generatePlace(i, GroupCode.CD7, GroupName.카페);
+        for (int i = 1; i <= placeSize; i++) {
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             places.add(place);
         }
         savedBeforePlaces = placeRepository.saveAllAndFlush(places);
@@ -97,7 +103,7 @@ class CourseServiceImplTest {
         // CoursePlaceSequence 저장
         // 1번 코스에 장소 3개 추가
         List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
-        for(int seq = 1; seq <= 3; seq++) {
+        for (int seq = 1; seq <= 3; seq++) {
             CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
                     .place(savedBeforePlaces.get(seq - 1))
                     .course(savedBeforeCourses.get(0))
@@ -106,7 +112,7 @@ class CourseServiceImplTest {
             coursePlaceSequences.add(coursePlaceSequence);
         }
         // 2번 코스에 장소 2개 추가
-        for(int seq = 1; seq <= 2; seq++) {
+        for (int seq = 1; seq <= 2; seq++) {
             CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
                     .place(savedBeforePlaces.get(seq + 2))
                     .course(savedBeforeCourses.get(1))
@@ -185,7 +191,7 @@ class CourseServiceImplTest {
         Course course = savedBeforeCourses.get(0);
         int tagCount = 5;
         List<Tag> tags = new ArrayList<>();
-        for(int i = 1; i <= tagCount; i++) {
+        for (int i = 1; i <= tagCount; i++) {
             Tag tag = Tag.from("tag" + i);
             tags.add(tag);
         }
@@ -193,7 +199,7 @@ class CourseServiceImplTest {
         em.clear();
 
         List<CourseTag> courseTags = new ArrayList<>();
-        for(Tag tag : savedTags) {
+        for (Tag tag : savedTags) {
             CourseTag courseTag = CourseTag.builder()
                     .course(course)
                     .tag(tag)
@@ -228,7 +234,7 @@ class CourseServiceImplTest {
         Course course = savedBeforeCourses.get(0);
 
         List<CourseLike> courseLikes = new ArrayList<>();
-        for(String memberId : memberIds) {
+        for (String memberId : memberIds) {
             CourseLike courseLike = CourseLike.builder()
                     .course(course)
                     .memberId(memberId)
@@ -249,14 +255,14 @@ class CourseServiceImplTest {
                 );
     }
 
-    @DisplayName("CourseId로 연관된 Tag 모두 조회하기")
+    @DisplayName("CourseTag로 연관된 Course 모두 조회하기")
     @Test
-    void findTagsByCourseId() {
+    void findAllByCourseTags() {
         // given
         Course course = savedBeforeCourses.get(0);
         int tagCount = 5;
         List<Tag> tags = new ArrayList<>();
-        for(int i = 1; i <= tagCount; i++) {
+        for (int i = 1; i <= tagCount; i++) {
             Tag tag = Tag.from("tag" + i);
             tags.add(tag);
         }
@@ -264,7 +270,144 @@ class CourseServiceImplTest {
         em.clear();
 
         List<CourseTag> courseTags = new ArrayList<>();
-        for(Tag tag : savedTags) {
+        for (Tag tag : savedTags) {
+            CourseTag courseTag = CourseTag.builder()
+                    .course(course)
+                    .tag(tag)
+                    .build();
+            courseTags.add(courseTag);
+        }
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+
+        List<String> tagNameList = tags.stream()
+                .map(tag -> tag.getName().getValue())
+                .collect(Collectors.toList());
+
+        //when
+        List<Long> allByCourseTags = courseTagRepository.findAllByCourseTags(tagNameList);
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(coursePage.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(coursePage.getNumber()).isEqualTo(0);
+        // 다음 페이지 존재 여부
+        assertThat(coursePage.hasNext()).isFalse();
+        // 시작 페이지(0) 여부
+        assertThat(coursePage.isFirst()).isTrue();
+        assertThat(coursePage).hasSize(1);
+    }
+
+    @DisplayName("CourseTag로 연관된 Course 없는 경우 조회")
+    @Test
+    void findNotCourseTags() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for (int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+
+        List<String> tagNameList = tags.stream()
+                .map(tag -> tag.getName().getValue())
+                .collect(Collectors.toList());
+
+        //when
+        List<Long> allByCourseTags = courseTagRepository.findAllByCourseTags(tagNameList);
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(coursePage.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(coursePage.getNumber()).isEqualTo(0);
+        // 다음 페이지 존재 여부
+        assertThat(coursePage.hasNext()).isFalse();
+        // 시작 페이지(0) 여부
+        assertThat(coursePage.isFirst()).isTrue();
+        assertThat(coursePage).hasSize(0);
+    }
+
+    @DisplayName("일부분 CourseTag로 연관된 Course 모두 조회")
+    @Test
+    void findSubCourseTags() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for (int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        for (Tag tag : savedTags) {
+            CourseTag courseTag = CourseTag.builder()
+                    .course(course)
+                    .tag(tag)
+                    .build();
+            courseTags.add(courseTag);
+        }
+        List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
+        em.clear();
+
+        List<String> tagNameList = tags.stream()
+                .map(tag -> tag.getName().getValue())
+                .collect(Collectors.toList());
+
+        //when
+        List<Long> allByCourseTags = List.of(savedCourseTags.get(0).getId());
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(coursePage.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(coursePage.getNumber()).isEqualTo(0);
+        // 다음 페이지 존재 여부
+        assertThat(coursePage.hasNext()).isFalse();
+        // 시작 페이지(0) 여부
+        assertThat(coursePage.isFirst()).isTrue();
+        assertThat(coursePage).hasSize(1);
+    }
+
+    @DisplayName("CourseId로 연관된 Tag 모두 조회하기")
+    @Test
+    void findTagsByCourseId() {
+        // given
+        Course course = savedBeforeCourses.get(0);
+        int tagCount = 5;
+        List<Tag> tags = new ArrayList<>();
+        for (int i = 1; i <= tagCount; i++) {
+            Tag tag = Tag.from("tag" + i);
+            tags.add(tag);
+        }
+        List<Tag> savedTags = tagRepository.saveAllAndFlush(tags);
+        em.clear();
+
+        List<CourseTag> courseTags = new ArrayList<>();
+        for (Tag tag : savedTags) {
             CourseTag courseTag = CourseTag.builder()
                     .course(course)
                     .tag(tag)

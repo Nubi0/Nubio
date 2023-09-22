@@ -2,6 +2,7 @@ package com.authenticationservice.domain.member.service.impl;
 
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.type.Email;
+import com.authenticationservice.domain.member.entity.type.Identification;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
 import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Member register(Member member) {
         validateDuplicateMember(member);
+        member.setIdentification(Identification.createIdentification());
         return memberRepository.save(member);
     }
 

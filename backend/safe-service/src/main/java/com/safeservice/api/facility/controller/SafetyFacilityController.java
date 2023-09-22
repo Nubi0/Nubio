@@ -1,14 +1,11 @@
 package com.safeservice.api.facility.controller;
 
 import com.safeservice.api.ApiResponse;
-import com.safeservice.api.facility.dto.request.NearSafetyFacility;
+import com.safeservice.api.facility.dto.request.UserLocation;
 import com.safeservice.api.facility.dto.response.NearSafetyPageResponseDto;
 import com.safeservice.api.facility.service.SafetyFacilityInfoService;
 import com.safeservice.domain.facility.constant.FacilityType;
-import com.safeservice.domain.facility.entity.SafetyFacility;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -47,43 +44,21 @@ public class SafetyFacilityController {
         return ApiResponse.ok("저장완료");
     }
 
-    @PostMapping("/nearwith/safe-bell")
-    public ApiResponse<NearSafetyPageResponseDto> findSafeBellNearWithPaging(@Valid  @RequestBody NearSafetyFacility nearSafetyFacility
-            , @PageableDefault(size = 20,
-            sort = "id",
-            direction = Sort.Direction.ASC) Pageable pageable) {
 
-        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(nearSafetyFacility, FacilityType.SAFETY_BELL, pageable);
-        return ApiResponse.ok(facilityNearWithPaging);
-    }
-
-    @PostMapping("/nearwith/lamp")
-    public ApiResponse<NearSafetyPageResponseDto>  findLampNearWithPaging(@Valid  @RequestBody NearSafetyFacility nearSafetyFacility
-            , @PageableDefault(size = 20,
-            sort = "id",
-            direction = Sort.Direction.ASC) Pageable pageable) {
-
-        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(nearSafetyFacility, FacilityType.LAMP, pageable);
-        return ApiResponse.ok(facilityNearWithPaging);
-    }
-
-    @PostMapping("/nearwith/convenience-store")
-    public ApiResponse<NearSafetyPageResponseDto> findConvenienceStoreNearWithPaging(@Valid  @RequestBody NearSafetyFacility nearSafetyFacility
-            , @PageableDefault(size = 20,
-            sort = "id",
-            direction = Sort.Direction.ASC) Pageable pageable) {
-
-        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(nearSafetyFacility, FacilityType.CONVENIENCE_STORE, pageable);
-        return ApiResponse.ok(facilityNearWithPaging);
-    }
-
-    @PostMapping("/nearwith/police")
-    public ApiResponse<NearSafetyPageResponseDto> findPoliceNearWithPaging(@Valid  @RequestBody NearSafetyFacility nearSafetyFacility
-            , @PageableDefault(size = 20,
-            sort = "id",
-            direction = Sort.Direction.ASC) Pageable pageable) {
-
-        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(nearSafetyFacility, FacilityType.POLICE, pageable);
+    @GetMapping("/nearwith/safe-facility")
+    public ApiResponse<NearSafetyPageResponseDto> findSafeStructure(@RequestParam("type") String type,
+                                                                    @RequestParam("longitude") double longitude,
+                                                                    @RequestParam("latitude") double latitude,
+                                                                    @RequestParam("distance") double distance,
+                                                                    @PageableDefault(size = 20,
+                                                                            sort = "id",
+                                                                            direction = Sort.Direction.ASC) Pageable pageable) {
+        UserLocation userLocation = UserLocation.builder()
+                .longitude(longitude)
+                .latitude(latitude)
+                .distance(distance)
+                .build();
+        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(userLocation, type, pageable);
         return ApiResponse.ok(facilityNearWithPaging);
     }
 

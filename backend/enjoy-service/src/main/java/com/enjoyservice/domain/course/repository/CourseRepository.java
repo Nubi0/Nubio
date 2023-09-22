@@ -3,8 +3,10 @@ package com.enjoyservice.domain.course.repository;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
+import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.domain.Pageable;
@@ -65,4 +67,16 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "join fetch Tag t on ct.tag = t " +
             "where c.id = :courseId")
     List<Course> findCourseAndTagsByCourseId(@Param("courseId") Long courseId);
+
+    @Query(
+            "select c "
+                    + "from Course c "
+                    + "join fetch CourseTag ct on c = ct.course "
+                    + "join fetch Tag t on ct.tag = t "
+                    + "where ct.id IN :courseTagIds "
+                    + "group by c "
+                    + "having count(ct) >= :size"
+    )
+    Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
+
 }

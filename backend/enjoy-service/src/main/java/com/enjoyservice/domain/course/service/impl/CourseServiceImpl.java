@@ -15,6 +15,7 @@ import com.enjoyservice.global.error.ErrorCode;
 import com.enjoyservice.mapper.course.CourseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -95,6 +96,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDto> findAllByRegionToModel(Region region) {
         return courseRepository.findCourseForModel(region);
+    }
+  
+    @Override
+    public Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable) {
+        return courseRepository.findAllByCourseTags(courseTagIds, courseTagIds.size(), pageable);
     }
 
     private boolean createCourseLike(String memberId, Long courseId) {

@@ -16,7 +16,7 @@ class GroupCodeTest {
 
     @DisplayName("GroupCode가 맞으면 GroupCode 객체를 생성한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CD7"})
+    @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CE7"})
     void from(String input) {
         // when
         GroupCode groupCode = GroupCode.from(input);
@@ -35,7 +35,7 @@ class GroupCodeTest {
 
     @DisplayName("GroupCode가 맞으면 통과한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CD7"})
+    @ValueSource(strings = {"CS2", "PK6", "OL7", "CT1", "AT4", "AD5", "FD6", "CE7"})
     void isGroupCode(String input) {
         assertTrue(GroupCode.isGroupCode(input));
     }

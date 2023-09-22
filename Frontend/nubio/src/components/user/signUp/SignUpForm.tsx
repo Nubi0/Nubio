@@ -36,7 +36,7 @@ const SignUpForm = () => {
   return (
     <Form>
       <span>
-        <input type="text" placeholder="아이디(이메일 형식)" />
+        <input type="Email" placeholder="아이디(이메일 형식)" />
         <button id="check">중복확인</button>
       </span>
       <span id="nickname">

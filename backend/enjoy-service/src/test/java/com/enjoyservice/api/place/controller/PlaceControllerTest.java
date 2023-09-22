@@ -41,7 +41,7 @@ class PlaceControllerTest {
         String memberId = "memberId1";
         String role = "ROLE_USER";
 
-        PlaceInfoRes placeInfoRes = PlaceMapper.toPlaceInfoRes(generatePlace(0, GroupCode.CD7, GroupName.카페),
+        PlaceInfoRes placeInfoRes = PlaceMapper.toPlaceInfoRes(generatePlace(0, GroupCode.CE7, GroupName.카페),
                                                         10, true, true);
 
         // mocking

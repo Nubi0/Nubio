@@ -18,6 +18,7 @@ import com.authenticationservice.global.error.ErrorCode;
 import com.authenticationservice.global.error.exception.BusinessException;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import com.authenticationservice.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,8 +72,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignResDto login(LoginReqDto loginReqDto) {
-        Member member = memberInfoService.findByEmail(Email.from(loginReqDto.getEmail()));
-
+        Optional<Member> findMember = memberInfoService.findByEmail(Email.from(loginReqDto.getEmail()));
+        if(findMember.isEmpty()) throw new InvalidEmailException(ErrorCode.MEMBER_NOT_EXISTS);
+        Member member = findMember.get();
         if(!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword().getValue()))
             throw new BusinessException(ErrorCode.INVALID_PASSWORD_CHECK);
         JwtDto jwtDto = jwtManager.createJwtDto(String.valueOf(member.getIdentification().getValue()), member.getRole());
@@ -82,9 +84,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void logout(String authorizationHeader) {
+    public void logout(MemberInfoDto memberInfo, String authorizationHeader) {
         String accessToken = authorizationHeader.split(" ")[1];
-        Identification identification = Identification.from(jwtManager.getTokenClaims(accessToken).get("identification").toString());
+        Identification identification = Identification.from(memberInfo.getIdentification());
 
         Member member = memberInfoService.findByIdentification(identification);
 

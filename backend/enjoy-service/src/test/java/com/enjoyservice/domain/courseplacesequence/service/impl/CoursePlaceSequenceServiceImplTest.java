@@ -66,7 +66,7 @@ class CoursePlaceSequenceServiceImplTest {
         }
         // 카페 3개 만들기
         for(int i = 6; i < 9; i++) {
-            Place place = generatePlace(i, GroupCode.CD7, GroupName.카페);
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             beforePlaces.add(place);
         }
         // 9개 저장

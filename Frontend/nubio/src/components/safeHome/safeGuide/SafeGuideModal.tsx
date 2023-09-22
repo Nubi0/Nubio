@@ -1,12 +1,10 @@
 import { useState } from "react";
 import {
-  SafeGuideModalOverlay,
   SafeGuideModalBox,
   SafeGuideIcon,
 } from "../../../styles/SSafeHomePage";
 import Disaster from "./Disaster";
 import EvacuationRouteModal from "./EvacuationRouteModal";
-
 const SafeGuideModal = () => {
   //이미지
   const safeGuide = process.env.PUBLIC_URL + "/assets/safeGuide.png";
@@ -36,22 +34,21 @@ const SafeGuideModal = () => {
   return (
     <>
       <SafeGuideIcon src={safeGuide} alt="가이드북" onClick={openModal} />
+      <h2>대피 가이드</h2>
       {isOpen ? (
-        <SafeGuideModalOverlay>
-          <SafeGuideModalBox>
-            {isOpen && selectedEvacuation ? (
-              <EvacuationRouteModal
-                closeModal={closeEvacuationModal}
-                Evacuation={selectedEvacuation}
-              />
-            ) : (
-              <>
-                <Disaster openEvacuationModal={openEvacuationModal} />
-                <button onClick={closeModal}>닫기</button>
-              </>
-            )}
-          </SafeGuideModalBox>
-        </SafeGuideModalOverlay>
+        <SafeGuideModalBox>
+          {isOpen && selectedEvacuation ? (
+            <EvacuationRouteModal
+              closeModal={closeEvacuationModal}
+              Evacuation={selectedEvacuation}
+            />
+          ) : (
+            <>
+              <Disaster openEvacuationModal={openEvacuationModal} />
+              <button onClick={closeModal}>닫기</button>
+            </>
+          )}
+        </SafeGuideModalBox>
       ) : null}
     </>
   );

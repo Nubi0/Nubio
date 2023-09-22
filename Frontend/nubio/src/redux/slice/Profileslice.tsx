@@ -8,6 +8,8 @@ const ProfileSlice = createSlice({
     isInputDisabled: true,
     email: null,
     profileUrl: null,
+    birth: null,
+    gender: null,
   },
   reducers: {
     setIsChange: (state, action) => {
@@ -24,9 +26,15 @@ const ProfileSlice = createSlice({
     },
     setProfileUrl: (state, action) => {
       state.profileUrl = action.payload;
+    },
+    setBirth: (state, action) => {
+      state.birth = action.payload;
+    },
+    setGender: (state, action) => {
+      state.gender = action.payload;
     }
   },
 });
 
-export const { setIsChange,  setNewNickName, setIsInputDisabled, setEmail, setProfileUrl  } = ProfileSlice.actions;
+export const { setIsChange,  setNewNickName, setIsInputDisabled, setEmail, setProfileUrl, setBirth, setGender } = ProfileSlice.actions;
 export default ProfileSlice.reducer;

@@ -4,7 +4,7 @@ import UserInfo from "./UserInfo";
 import { useDispatch } from "react-redux";
 import { useEffect } from 'react';
 import axios from "axios";
-import { setEmail, setNewNickName, setProfileUrl } from "../../redux/slice/Profileslice";
+import { setEmail, setNewNickName, setProfileUrl, setBirth, setGender } from "../../redux/slice/Profileslice";
 
 const Profile = ({openModal}: any) => {
     const dispatch = useDispatch();
@@ -12,11 +12,13 @@ const Profile = ({openModal}: any) => {
     useEffect(() => {
       axios.get(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/me')
             .then((res) => {
-              const { nickname, profileUrl, email, identification } = res.data.data;
+                console.log(res);
+              const { nickname, profileUrl, email, birth, gender } = res.data.data;
               dispatch(setEmail(email));
               dispatch(setProfileUrl(profileUrl));
-              dispatch(setNewNickName(nickname));  
-              localStorage.setItem('identification', identification);
+              dispatch(setNewNickName(nickname));
+              dispatch(setBirth(birth));
+              dispatch(setGender(gender));
             })
             .catch((err) => {
               console.error(err);

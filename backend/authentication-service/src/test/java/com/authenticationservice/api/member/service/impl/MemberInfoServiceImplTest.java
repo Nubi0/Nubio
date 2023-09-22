@@ -8,7 +8,6 @@ import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.repository.MemberRepository;
-import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import jakarta.persistence.EntityManager;

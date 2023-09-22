@@ -30,7 +30,7 @@ public class AuthenticationController {
     private final WebClientConfig webClientConfig;
     private static HttpHeaders headers;
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH})
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                      HttpServletRequest request) {
 

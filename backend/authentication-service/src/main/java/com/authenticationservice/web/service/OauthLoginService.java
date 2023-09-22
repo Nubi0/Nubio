@@ -45,7 +45,7 @@ public class OauthLoginService {
             oauthMember = optionalMember.get();
         }
         // 토큰 생성
-        jwtTokenDto = jwtManager.createJwtDto(String.valueOf(oauthMember.getIdentification()), oauthMember.getRole());
+        jwtTokenDto = jwtManager.createJwtDto(String.valueOf(oauthMember.getIdentification().getValue()), oauthMember.getRole());
         oauthMember.updateRefreshToken(jwtTokenDto);
 
         return OauthLoginResDto.of(jwtTokenDto, oauthMember.getRole());

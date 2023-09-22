@@ -1,4 +1,4 @@
-package com.authenticationservice.domain.member.entity.type.member;
+package com.authenticationservice.domain.member.entity.type;
 
 import com.authenticationservice.domain.member.exception.InvalidBirthFormatException;
 import com.authenticationservice.global.error.ErrorCode;

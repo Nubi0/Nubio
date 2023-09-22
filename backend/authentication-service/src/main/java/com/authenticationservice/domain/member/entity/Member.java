@@ -39,6 +39,9 @@ public class Member extends BaseTimeEntity {
     @Column(name = "oauth_type", nullable = false)
     private OAuthType oAuthType;
 
+//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private ProfileImg profileImg;
+
     @Embedded
     private ProfileUrl profileUrl;
 

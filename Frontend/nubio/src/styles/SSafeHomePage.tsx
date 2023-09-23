@@ -228,3 +228,31 @@ export const SafeDistanceWrapper = styled.div`
     color: white;
   }
 `;
+
+// 재난문자
+export const CalamityWrapper = styled.div`
+  // background: red;
+  width: 100%;
+  height: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+`;
+
+export const CalamityMessageWrapper = styled.div`
+  background: white;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  border: 0.5rem double red;
+  text-align: center;
+  p {
+    margin: 0.5rem 0;
+    width: 80%;
+    margin: 0;
+    font-size: 1.5rem;
+    border-bottom: 0.2rem solid red;
+  }
+`;

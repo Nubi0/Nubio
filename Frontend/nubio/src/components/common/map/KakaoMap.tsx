@@ -170,26 +170,16 @@ const KakaoMap = (props: propsType) => {
         const calculateAndDisplayLineDistances = () => {
           if (linePath.length > 0) {
             const distances: any = calculateLineDistance(linePath);
-            const walkkTime = (distances / 67) | 0;
-            if (walkkTime > 60) {
-              dispatch(
-                setTime({
-                  time: Math.ceil(walkkTime / 60),
-                  type: "시간",
-                  dis: Math.floor(distances),
-                }),
-              );
-            } else {
-              dispatch(
-                setTime({
-                  time: walkkTime % 60,
-                  type: "분",
-                  dis: Math.floor(distances),
-                }),
-              );
-            }
-          } else {
-            console.log("라인이 그려지지 않았습니다.");
+            const walkTime = (distances / 67) | 0;
+            console.log(distances);
+            console.log(walkTime);
+            dispatch(
+              setTime({
+                time: walkTime,
+                type: "분",
+                dis: Math.floor(distances),
+              }),
+            );
           }
         };
         calculateAndDisplayLineDistances();
@@ -227,18 +217,18 @@ const KakaoMap = (props: propsType) => {
         const distance = calculateLineDistance(line);
         return distance.toFixed();
       });
-      const walkkTime = (distances / 67) | 0;
-      if (walkkTime > 60) {
+      const walkTime = (distances / 67) | 0;
+      if (walkTime > 60) {
         dispatch(
           setTime({
-            time: Math.ceil(walkkTime / 60),
+            time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
           }),
         );
       } else {
         dispatch(
-          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] }),
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {

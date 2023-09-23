@@ -192,3 +192,25 @@ export const EvacuationRouteModalBox = styled.div`
     margin: 1rem;
   }
 `;
+
+// 길 찾기 결과
+export const RootInfoWrapper = styled.div`
+  position: absolute;
+  bottom: 10rem;
+  width: 100%;
+  height: 15%;
+  background: red;
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const SafeDistanceWrapper = styled.div`
+  width: 40%;
+  height: 100%;
+  background: green;
+`;
+export const ShortDistanceWrapper = styled.div`
+  width: 40%;
+  height: 100%;
+  background: blue;
+`;

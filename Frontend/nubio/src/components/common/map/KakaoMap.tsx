@@ -12,6 +12,7 @@ import axios from "axios";
 import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
 import { MyLocation } from "../../../styles/SSafeHomePage";
+import RootInfo from "../../safeHome/route/RootInfo";
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -68,14 +69,14 @@ const KakaoMap = (props: propsType) => {
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(
               window.mylatitude,
-              window.mylongitude
+              window.mylongitude,
             ),
           });
           marker.setMap(map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
-        }
+        },
       );
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
@@ -98,7 +99,7 @@ const KakaoMap = (props: propsType) => {
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers }
+        { headers: headers },
       )
       .then((res) => {
         console.log(res);
@@ -113,7 +114,7 @@ const KakaoMap = (props: propsType) => {
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
+          flattenArray(feature.geometry.coordinates),
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -137,50 +138,53 @@ const KakaoMap = (props: propsType) => {
           const latLng = new kakao.maps.LatLng(latitude, longitude);
           linePath.push(latLng);
         }
+
         // 거리계산 공식
         const calculateLineDistance = (line: any) => {
-          console.log(line);
-          const path = line["points"];
           const R = 6371;
           let totalDistance = 0;
-          for (let i = 0; i < path.length - 1; i++) {
-            const point1 = path[i];
-            const point2 = path[i + 1];
-            const dLat = deg2rad(point1["y"] - point2["y"]);
-            const dLon = deg2rad(point1["x"] - point2["x"]);
+          for (let i = 0; i < line.length - 1; i++) {
+            const point1 = line[i];
+            const point2 = line[i + 1];
+            const dLat = deg2rad(point1["Ma"] - point2["Ma"]);
+            const dLon = deg2rad(point1["La"] - point2["La"]);
+            if (dLat === 0 && dLon === 0) {
+              continue;
+            }
             const a =
               Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(deg2rad(point1["y"])) *
-                Math.cos(deg2rad(point2["y"])) *
+              Math.cos(deg2rad(point1["Ma"])) *
+                Math.cos(deg2rad(point2["Ma"])) *
                 Math.sin(dLon / 2) *
                 Math.sin(dLon / 2);
+
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c * 1000;
             totalDistance += distance;
           }
+
           return totalDistance;
         };
         // 거리가 계산된 결과 출력 함수
         const calculateAndDisplayLineDistances = () => {
-          console.log(linePath);
           if (linePath.length > 0) {
-            const distances = linePath.map((line: any) => {
-              const distance = calculateLineDistance(line);
-              return distance.toFixed();
-            });
-            console.log(distances[0]);
+            const distances: any = calculateLineDistance(linePath);
             const walkkTime = (distances / 67) | 0;
             if (walkkTime > 60) {
               dispatch(
                 setTime({
                   time: Math.ceil(walkkTime / 60),
                   type: "시간",
-                  dis: distances[0],
-                })
+                  dis: Math.floor(distances),
+                }),
               );
             } else {
               dispatch(
-                setTime({ time: walkkTime % 60, type: "분", dis: distances[0] })
+                setTime({
+                  time: walkkTime % 60,
+                  type: "분",
+                  dis: Math.floor(distances),
+                }),
               );
             }
           } else {
@@ -188,11 +192,6 @@ const KakaoMap = (props: propsType) => {
           }
         };
         calculateAndDisplayLineDistances();
-
-        // 도(degree)단위를 라디안(radian)단위로 바꾸는 함수
-        const deg2rad = (deg: any) => {
-          return deg * (Math.PI / 180);
-        };
 
         // 지도에 표시할 선을 생성합니다
         var polyline = new kakao.maps.Polyline({
@@ -220,13 +219,12 @@ const KakaoMap = (props: propsType) => {
   // 거리가 계산된 결과 출력 함수
   const calculateAndDisplayLineDistances = () => {
     const drawnLines = getDrawnLines();
-    console.log(drawnLines);
+
     if (drawnLines.length > 0) {
       const distances = drawnLines.map((line: any) => {
         const distance = calculateLineDistance(line);
         return distance.toFixed();
       });
-      console.log(distances[0]);
       const walkkTime = (distances / 67) | 0;
       if (walkkTime > 60) {
         dispatch(
@@ -234,11 +232,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkkTime / 60),
             type: "시간",
             dis: distances[0],
-          })
+          }),
         );
       } else {
         dispatch(
-          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] })
+          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {
@@ -248,6 +246,7 @@ const KakaoMap = (props: propsType) => {
 
   // 거리계산 공식
   const calculateLineDistance = (line: any) => {
+    console.log(line);
     const path = line["points"];
     const R = 6371;
     let totalDistance = 0;
@@ -256,6 +255,8 @@ const KakaoMap = (props: propsType) => {
       const point2 = path[i + 1];
       const dLat = deg2rad(point1["y"] - point2["y"]);
       const dLon = deg2rad(point1["x"] - point2["x"]);
+      console.log(dLat);
+      console.log(dLon);
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(deg2rad(point1["y"])) *
@@ -588,7 +589,7 @@ const KakaoMap = (props: propsType) => {
 
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options
+      options,
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -606,7 +607,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng
+          props.position[i].lng,
         ),
       });
 
@@ -630,6 +631,7 @@ const KakaoMap = (props: propsType) => {
       <MapWrapper id="map" className="map" />
       <SearchBar searchPlaces={searchPlaces} setListIsOpen={setListIsOpen} />
       <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
+      <RootInfo></RootInfo>
       {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">

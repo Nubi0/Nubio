@@ -1,5 +1,7 @@
+import { SafeDistanceWrapper } from "../../../styles/SSafeHomePage";
+
 const SafeDistance = () => {
-  return;
+  return <SafeDistanceWrapper></SafeDistanceWrapper>;
 };
 
 export default SafeDistance;

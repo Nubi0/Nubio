@@ -1,0 +1,70 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test?serverTimezone=Asia/Seoul;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  security:
+    user:
+      name: securityUserName
+      password: securityUserPassword
+
+  data:
+    redis:
+      pool:
+        min-idle: 0 # pool에서 관리하는 idle 최소 커넥션  수
+        max-idle: 8 # pool의 idle 최대 커넥션 수
+        max-active: 8  # pool에 할당될 수 있는 최대 커넥션
+      port: 6379
+      host: 127.0.0.1 # 레디스 서버 호스트
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dfdfdfdf@gmail.com
+    password: qwertyuiopasdfgh
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    email-expiration-time: 180000
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+token:
+  issuer : dkdkfjeia
+  secret: sadfsdf # JWT secret key
+  access-token-expiration-time: 1800000  # 15분 1000(ms) x 60(s) x 30(m)
+  refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
+
+oauth2:
+  client:
+    kakao:
+      client_id: asdfs
+      client_secret: asdfsadf
+      redirect_uri: http://localhost:3000/oauth/kakao
+      authorization_grant_type: authorization_code
+
+nubio:
+  url: https://ooooo.com
+  auth: http://ec2-00-000-00-000.ap-northeast-2.compute.amazonaws.com:8080

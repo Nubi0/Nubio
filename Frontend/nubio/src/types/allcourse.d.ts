@@ -1,0 +1,3 @@
+interface AllCourseProps {
+  handleModal: () => void;
+}

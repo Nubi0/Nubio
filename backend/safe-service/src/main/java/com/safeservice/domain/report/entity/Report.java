@@ -48,7 +48,7 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Active active = Active.from(true);
 
-    @Column(nullable = false)
+    @Column(name = "identification_id")
     private String identification;
 
     @Builder

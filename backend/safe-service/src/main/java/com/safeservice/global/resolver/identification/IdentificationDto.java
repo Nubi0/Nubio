@@ -8,4 +8,5 @@ import lombok.Getter;
 public class IdentificationDto {
 
     private String identification;
+    private String role;
 }

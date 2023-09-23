@@ -61,7 +61,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
 
-        if(!profileImg.isEmpty()) {
+        if(profileImg != null) {
             // TODO : 이미지 s3 저장
 //            String url = fileService.uploadFile(profileImg, null).getUrl();
 //            member.setProfileUrl(url);

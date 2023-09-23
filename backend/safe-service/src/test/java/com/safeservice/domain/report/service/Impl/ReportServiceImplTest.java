@@ -215,7 +215,7 @@ class ReportServiceImplTest {
         }
 
         // when
-        List<Report> reports = reportService.searchReport();
+        List<Report> reports = reportService.searchReport(123.12,26.26);
 
         // then
         assertThat(reports.size()).isEqualTo(length + 1);

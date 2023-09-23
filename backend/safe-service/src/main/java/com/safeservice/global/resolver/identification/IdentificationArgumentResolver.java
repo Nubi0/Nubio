@@ -24,9 +24,11 @@ public class IdentificationArgumentResolver implements HandlerMethodArgumentReso
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String identification = request.getHeader("Identification");
+        String identification = request.getHeader("X-Identification");
+        String role = request.getHeader("X-Role");
 
         return IdentificationDto.builder()
-                .identification(identification).build();
+                .identification(identification)
+                .role(role).build();
     }
 }

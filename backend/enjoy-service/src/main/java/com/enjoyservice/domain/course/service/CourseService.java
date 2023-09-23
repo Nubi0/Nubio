@@ -1,5 +1,6 @@
 package com.enjoyservice.domain.course.service;
 
+import com.enjoyservice.domain.course.dto.CourseDto;
 import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
@@ -21,5 +22,6 @@ public interface CourseService {
     List<Course> findCourseAndTagsByCourseId(Long courseId);
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
     boolean changeCourseLikeState(Long courseId, String memberId);
+    List<CourseDto> findAllByRegionToModel(Region region);
     Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable);
 }

@@ -17,3 +17,6 @@ def all():
         i["_id"] = str(i["_id"])
         data.append(i)
     return data
+
+def remove():
+    col.delete_many({})

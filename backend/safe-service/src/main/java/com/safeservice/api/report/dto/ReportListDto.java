@@ -38,8 +38,11 @@ public class ReportListDto {
     }
 
     private static boolean isMatchIdentification(Report report, String identification) {
-        if (report.getIdentification().equals(identification)){
-            return true;
+        if (identification != null) {
+            if (report.getIdentification().equals(identification)){
+                return true;
+            }
+            return false;
         }
         return false;
     }

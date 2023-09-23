@@ -1,5 +1,6 @@
 package com.enjoyservice.domain.course.service.impl;
 
+import com.enjoyservice.domain.course.dto.CourseDto;
 import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
@@ -11,7 +12,6 @@ import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.global.error.ErrorCode;
-import com.enjoyservice.global.error.exception.BusinessException;
 import com.enjoyservice.mapper.course.CourseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +93,11 @@ public class CourseServiceImpl implements CourseService {
         return createCourseLike(memberId, courseId);
     }
 
+    @Override
+    public List<CourseDto> findAllByRegionToModel(Region region) {
+        return courseRepository.findCourseForModel(region);
+    }
+  
     @Override
     public Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable) {
         return courseRepository.findAllByCourseTags(courseTagIds, courseTagIds.size(), pageable);

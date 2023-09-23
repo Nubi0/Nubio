@@ -3,9 +3,8 @@ import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSele
 import CoursePinList from './CourseList';
 import CourseResult from './CourseResult';
 import { useDispatch, useSelector } from 'react-redux';
-import Map from '../../../common/map/Map';
 import { setPosition, setTime } from '../../../../redux/slice/EnjoySlice';
-
+import Map from '../../../common/map/Map';
 declare global {
   interface Window {
     kakao: any;

@@ -20,7 +20,7 @@ public class NearSafetyResponseDto {
     @JsonProperty("location")
     private Location location;
 
-    @JsonProperty("facilityType")
+    @JsonProperty("facility_type")
     private FacilityType facilityType;
 
     public static NearSafetyResponseDto of(SafetyFacility safetyFacility) {

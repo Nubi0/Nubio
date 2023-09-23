@@ -14,8 +14,8 @@ public enum DetailType {
     WESTERN("양식"),
     CHINESE("중식"),
     JAPANESE("일식"),
-    MOVIE("영화"),
 
+    MOVIE("영화"),
     BOARD_GAME("보드게임"),
     KARAOKE("노래방"),
     THEME_PARK("테마파크"),

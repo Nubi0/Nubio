@@ -1,16 +1,16 @@
 package com.enjoyservice.global.config.jpa;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class AuditorAwareImpl implements AuditorAware<String> {
 
-    @Autowired
-    private HttpServletRequest httpServletRequest;
+    private final HttpServletRequest httpServletRequest;
 
     @Override
     public Optional<String> getCurrentAuditor() {

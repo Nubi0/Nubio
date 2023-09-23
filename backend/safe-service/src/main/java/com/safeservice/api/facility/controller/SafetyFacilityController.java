@@ -5,6 +5,10 @@ import com.safeservice.api.facility.dto.request.UserLocation;
 import com.safeservice.api.facility.dto.response.NearSafetyPageResponseDto;
 import com.safeservice.api.facility.service.SafetyFacilityInfoService;
 import com.safeservice.domain.facility.constant.FacilityType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Tag(name = "SafeFacility API", description = "안전 시설 api")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/safe")
@@ -45,6 +50,10 @@ public class SafetyFacilityController {
     }
 
 
+    @Operation(summary = "근처의 안전 시설 조회", description = "safe/v1/safe/nearwith/safe-facility\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
     @GetMapping("/nearwith/safe-facility")
     public ApiResponseEntity<NearSafetyPageResponseDto> findSafeStructure(@RequestParam("type") String type,
                                                                           @RequestParam("longitude") double longitude,

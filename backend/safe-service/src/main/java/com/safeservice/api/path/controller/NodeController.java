@@ -6,6 +6,10 @@ import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.response.NearNodeListResponse;
 import com.safeservice.api.path.dto.response.NearNodePageResponse;
 import com.safeservice.api.path.service.NodeServiceInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +18,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Tag(name = "Node API", description = "안전 노드 api")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/safe")
 public class NodeController {
 
     private final NodeServiceInfo nodeServiceInfo;
-
 
     @PostMapping("/node/upload-csv-file")
     public ApiResponseEntity<String> saveNode(@RequestPart("file") MultipartFile file) {
@@ -34,12 +38,15 @@ public class NodeController {
         return ApiResponseEntity.ok(nodeList);
     }
 
+    @Operation(summary = "출발지와 도착지 사이 안전한 노드 조회", description = "safe/v1/safe/recommend/node\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
     @PostMapping("/recommend/node")
     public ApiResponseEntity<NearNodeListResponse > recommendNearNode(@Valid @RequestBody NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
         NearNodeListResponse nodeList = nodeServiceInfo.recommendNearNode(nodeBetweenStartAndEnd);
         return ApiResponseEntity.ok(nodeList);
     }
-
 
     @PostMapping("/nearwith-page/node")
     public ApiResponseEntity<NearNodePageResponse> findNodeNearWithPaging(@Valid @RequestBody NearNode nearNode

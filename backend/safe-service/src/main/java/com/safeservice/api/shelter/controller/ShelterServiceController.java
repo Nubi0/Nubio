@@ -5,6 +5,10 @@ import com.safeservice.api.shelter.dto.request.UserLocation;
 import com.safeservice.api.shelter.dto.response.NearShelterPageResponseDto;
 import com.safeservice.api.shelter.service.ShelterInfoService;
 import com.safeservice.domain.shelter.constant.ShelterType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Tag(name = "Shelter API", description = "안전 대피소 api")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/safe")
@@ -50,7 +55,10 @@ public class ShelterServiceController {
         return ApiResponseEntity.ok("저장완료");
     }
 
-
+    @Operation(summary = "근처의 안전 대피소 조회", description = "safe/v1/safe/nearwith/safe-shelter\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
     @GetMapping("/nearwith/safe-shelter")
     public ApiResponseEntity<NearShelterPageResponseDto> findSafeShelterNearWithPaging(@RequestParam("type") String type,
                                                                                        @RequestParam("longitude") double longitude,

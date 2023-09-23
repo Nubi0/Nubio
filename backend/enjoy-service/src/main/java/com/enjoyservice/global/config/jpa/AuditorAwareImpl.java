@@ -3,12 +3,10 @@ package com.enjoyservice.global.config.jpa;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
-@Component
 public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Autowired

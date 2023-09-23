@@ -1,20 +1,25 @@
 package com.safeservice.api.report.controller;
 
-import com.safeservice.api.ApiResponse;
+import com.safeservice.api.ApiResponseEntity;
 import com.safeservice.api.report.dto.ReportRequestDto;
-import com.safeservice.api.report.dto.ReportListDto;
 import com.safeservice.api.report.dto.ReportResponseDto;
 import com.safeservice.api.report.dto.ReportUpdateRequestDto;
 import com.safeservice.api.report.service.ReportInfoService;
 import com.safeservice.global.resolver.identification.Identification;
 import com.safeservice.global.resolver.identification.IdentificationDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Tag(name = "Report API", description = "제보 api")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/safe")
@@ -22,26 +27,42 @@ public class ReportController {
 
     private final ReportInfoService reportInfoService;
 
-    @PostMapping("/report")
-    public ApiResponse<String> createReport(@Identification IdentificationDto identificationDto,
-                                            @RequestPart(value = "file", required = false) List<MultipartFile> files,
-                                            @Valid  @RequestPart("report") ReportRequestDto reportRequestDto) {
+    @Operation(summary = "제보 생성", description = "safe/v1/safe/report\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED")
+    })
+    @PostMapping(value = "/report",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponseEntity<String> createReport(@Identification IdentificationDto identificationDto,
+                                                  @RequestPart(value = "file", required = false) List<MultipartFile> files,
+                                                  @Valid  @RequestPart("report") ReportRequestDto reportRequestDto) {
         reportInfoService.createReport(reportRequestDto, files, identificationDto.getIdentification());
-        return ApiResponse.ok("생성 완료");
+        return ApiResponseEntity.ok("생성 완료");
     }
 
+    @Operation(summary = "제보 수정", description = "safe/v1/safe/report\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
     @PutMapping("/report")
-    public ApiResponse<String> updateReport(@Identification IdentificationDto identificationDto,
-                                            @RequestPart("file") List<MultipartFile> files,
-                                            @Valid @RequestPart("report") ReportUpdateRequestDto reportUpdateRequestDto) {
+    public ApiResponseEntity<String> updateReport(@Identification IdentificationDto identificationDto,
+                                                  @RequestPart("file") List<MultipartFile> files,
+                                                  @Valid @RequestPart("report") ReportUpdateRequestDto reportUpdateRequestDto) {
         reportInfoService.updateReport(reportUpdateRequestDto, files, identificationDto.getIdentification());
-        return ApiResponse.ok("수정 완료");
+        return ApiResponseEntity.ok("수정 완료");
     }
 
+    @Operation(summary = "제보 조회", description = "safe/v1/safe/report\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
     @GetMapping("/report")
-    public ApiResponse<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
-        ReportResponseDto responseReport = reportInfoService.searchAll(identificationDto.getIdentification());
-        return ApiResponse.ok(responseReport);
+    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto,
+                                                          @RequestParam("longitude") double longitude,
+                                                          @RequestParam("latitude") double latitude) {
+        ReportResponseDto responseReport = reportInfoService.searchAll(
+                identificationDto.getIdentification(),longitude,latitude);
+        return ApiResponseEntity.ok(responseReport);
     }
 
 }

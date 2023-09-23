@@ -46,8 +46,9 @@ const KakaoMap = (props: propsType) => {
   const [endX, setEndX] = useState("");
   const [endY, setEndY] = useState("");
   const [listIsOpen, setListIsOpen] = useState(false);
+  const [findRouteOpen, setFindRouteOpen] = useState(false);
   const timeData = useSelector((state: any) => state.enjoy.time);
-  console.log(timeData);
+
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
@@ -204,6 +205,7 @@ const KakaoMap = (props: propsType) => {
         window.polyline = polyline;
         // // 지도에 선을 표시합니다
         polyline.setMap(window.map);
+        setFindRouteOpen(true);
       })
       .catch((err) => {
         console.log(err);
@@ -624,14 +626,19 @@ const KakaoMap = (props: propsType) => {
     // 맵 클릭 시 검색리스트 안보임
     window.map.addListener("click", () => {
       setListIsOpen(false);
+      // setFindRouteOpen(false);
     });
   }, []);
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <SearchBar searchPlaces={searchPlaces} setListIsOpen={setListIsOpen} />
+      <SearchBar
+        searchPlaces={searchPlaces}
+        setListIsOpen={setListIsOpen}
+        setFindRouteOpen={setFindRouteOpen}
+      />
       <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
-      <RootInfo></RootInfo>
+      {findRouteOpen ? <RootInfo /> : null}
       {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">

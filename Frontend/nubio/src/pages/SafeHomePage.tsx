@@ -20,7 +20,7 @@ const SafeHomePage = () => {
       <FirstModal />
       <Map />
       <LogoIcon src={logo} />
-      <Footer />
+      {/* <Footer /> */}
     </SafeHomeWrapper>
   );
 };

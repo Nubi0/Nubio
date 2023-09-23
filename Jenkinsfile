@@ -59,7 +59,7 @@ pipeline {
                 ]) {
                     dir('backend/authentication-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build -t authentication-service:latest .'
+                        sh 'docker build --no-cache -t authentication-service:latest .'
                         sh 'docker tag authentication-service:latest kathyleesh/authentication-service:latest'
                         sh 'docker push kathyleesh/authentication-service:latest'
                     }
@@ -75,7 +75,7 @@ pipeline {
                 ]) {
                     dir('backend/enjoy-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build -t enjoy-service:latest .'
+                        sh 'docker build --no-cache -t enjoy-service:latest .'
                         sh 'docker tag enjoy-service:latest kathyleesh/enjoy-service:latest'
                         sh 'docker push kathyleesh/enjoy-service:latest'
                     }
@@ -90,7 +90,7 @@ pipeline {
                 ]) {
                     dir('backend/safe-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build -t safe-service:latest .'
+                        sh 'docker build --no-cache -t safe-service:latest .'
                         sh 'docker tag safe-service:latest kathyleesh/safe-service:latest'
                         sh 'docker push kathyleesh/safe-service:latest'
                     }
@@ -139,6 +139,12 @@ pipeline {
             }
         }
 
-
+        stage('Force deletion of all unused images of stopped containers') {
+            steps {
+                sh '''
+                    docker system prune -a -f
+                '''
+            }
+        }
     }
 }

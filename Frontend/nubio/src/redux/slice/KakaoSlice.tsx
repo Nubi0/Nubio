@@ -1,14 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const kakaoSearchSlice = createSlice({
-  name: "kakaoSearch",
-  initialState: "" as string,
+const kakaoSlice = createSlice({
+  name: "kakaoSlice",
+  initialState: {
+    keyWord: null,
+    latitude: null,
+    longitude: null,
+  },
   reducers: {
-    inputKeyword: (state, action) => {
-      return action.payload;
+    setkeyWord: (state, action) => {
+      state.keyWord = action.payload;
+    },
+    setLatitude: (state, action) => {
+      state.latitude = action.payload;
+    },
+    setLongitude: (state, action) => {
+      state.longitude = action.payload;
     },
   },
 });
 
-export const { inputKeyword } = kakaoSearchSlice.actions;
-export default kakaoSearchSlice.reducer;
+export const { setkeyWord, setLatitude, setLongitude } = kakaoSlice.actions;
+export default kakaoSlice.reducer;

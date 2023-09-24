@@ -13,6 +13,8 @@ import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import RootInfo from "../../safeHome/route/RootInfo";
+import { setLatitude, setLongitude } from "../../../redux/slice/KakaoSlice";
+
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -35,8 +37,6 @@ declare global {
     polyline: any;
     startCustomOverlay: any;
     endCustomOverlay: any;
-    mylatitude: any;
-    mylongitude: any;
   }
 }
 
@@ -56,33 +56,6 @@ const KakaoMap = (props: propsType) => {
   const [startName, setStartName] = useState<any>("");
   const [endName, setEndName] = useState<any>("");
 
-  const startCurPosition = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          window.mylatitude = latitude;
-          window.mylongitude = longitude;
-          const map = window.map;
-          map.setCenter(new window.kakao.maps.LatLng(latitude, longitude));
-          // 현재 위치에 마커를 표시
-          const marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(
-              window.mylatitude,
-              window.mylongitude,
-            ),
-          });
-          marker.setMap(map); // 마커를 지도에 표시
-        },
-        (error) => {
-          console.error("geolocation 에러 발생:", error);
-        },
-      );
-    } else {
-      console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
-    }
-  };
   const TmapGetDirection = () => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var data = {
@@ -549,7 +522,33 @@ const KakaoMap = (props: propsType) => {
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     // 현재위치
-    // startCurPosition();
+    const startCurPosition = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            dispatch(setLatitude(latitude));
+            dispatch(setLongitude(longitude));
+            const map = window.map;
+            map.setCenter(new window.kakao.maps.LatLng(latitude, longitude));
+            // 현재 위치에 마커를 표시
+            const marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(latitude, longitude),
+            });
+            marker.setMap(map); // 마커를 지도에 표시
+            console.log(latitude);
+            console.log(longitude);
+          },
+          (error) => {
+            console.error("geolocation 에러 발생:", error);
+          },
+        );
+      } else {
+        console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
+      }
+    };
+    startCurPosition();
     const mapContainer = document.getElementById("map");
     const mapOption = {
       // center: new kakao.maps.LatLng(window.mylatitude, window.mylongitude),
@@ -627,7 +626,7 @@ const KakaoMap = (props: propsType) => {
         setListIsOpen={setListIsOpen}
         setFindRouteOpen={setFindRouteOpen}
       />
-      <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
+      {/* <MyLocation onClick={startCurPosition}>내 위치</MyLocation> */}
       {findRouteOpen ? <RootInfo /> : null}
       {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">

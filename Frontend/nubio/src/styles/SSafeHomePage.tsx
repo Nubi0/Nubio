@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 export const SafeHomeWrapper = styled.div`
   width: 100vw;
@@ -42,6 +43,7 @@ export const TipOffIcon = styled.img`
   height: 4rem;
   z-index: 1;
 `;
+
 // 사이렌 모달
 export const FirstModalOverlay = styled.div`
   z-index: 9998;
@@ -75,7 +77,11 @@ export const IconWrapper = styled.div`
   display: flex;
   justify-content: space-around;
 `;
-export const TipOffModalWrapper = styled.div``;
+export const TipOffModalWrapper = styled.div`
+  .swal2-container {
+    z-index: 9999; /* 더 높은 값으로 설정 */
+  }
+`;
 export const TipOffWrapper = styled.div`
   position: absolute;
   top: 15%;
@@ -86,6 +92,7 @@ export const TipOffWrapper = styled.div`
   border-radius: 1rem;
   text-align: center;
   z-index: 2;
+
   #title {
     width: 95%;
     height: 2rem;
@@ -126,6 +133,10 @@ export const TypeWrapper = styled.div`
       margin-right: 5px;
     }
   }
+`;
+export const ImageWrapper = styled.div`
+  
+}
 `;
 export const SafeGuideModalBox = styled.div`
   position: absolute;

@@ -84,7 +84,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "from Course c " +
             "left join fetch CoursePlaceSequence cps on c = cps.course " +
             "join fetch Place p on cps.place = p " +
-            "join fetch PlaceImage i on i.place = p " +
+            "left join fetch PlaceImage i on i.place = p " +
             "where c = :course")
     List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
 }

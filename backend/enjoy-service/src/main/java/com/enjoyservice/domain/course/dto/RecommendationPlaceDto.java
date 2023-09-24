@@ -22,6 +22,8 @@ public class RecommendationPlaceDto {
                 .id(place.getId())
                 .kakaoId(place.getKakaoId().getValue())
                 .placeName(place.getName().getValue())
-                .imgUrl(place.getImages().get(0).getUrl().getValue()).build();
+                .imgUrl(!place.getImages().isEmpty()
+                        ? place.getImages().get(0).getUrl().getValue() : "not exist")
+                .build();
     }
 }

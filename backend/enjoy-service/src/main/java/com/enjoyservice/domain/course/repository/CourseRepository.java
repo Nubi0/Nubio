@@ -61,7 +61,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "where c.id = :courseId and cl.memberId = :memberId")
     Optional<CourseLike> findCourseLikesByCourseId(@Param("courseId") Long courseId, @Param("memberId") String memberId);
 
-    @Query("select distinct c, t " +
+    @Query("select c, ct, t " +
             "from Course c " +
             "left join fetch CourseTag ct on c = ct.course " +
             "join fetch Tag t on ct.tag = t " +

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTaste } from "../../../redux/slice/SignUpSlice";
 import {
   PrefrenceModalBox,
   PrefrenceModalOverlay,
@@ -6,8 +9,6 @@ import {
 import DrinkList from "./DrinkList";
 import EatList from "./EatList";
 import PlayList from "./PlayList";
-import { useDispatch } from "react-redux";
-import { setTaste } from "../../../redux/slice/SignUpSlice";
 
 type SetPrefrenceModalProps = {
   closeModal: () => void;
@@ -30,6 +31,27 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
       dispatch(setTaste(action))
     }
   };
+  const HandleSave = () => {
+    const taste = useSelector((state: any) => state.signup.taste);
+    axios.post('https://nubi0.com/enjoy/v1/profile/taste', taste)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+  }
+
+  useEffect(() => {
+    axios.get('https://nubi0.com/enjoy/v1/profile/taste')
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+  })
+
   return (
     <PrefrenceModalOverlay>
       <PrefrenceModalBox>

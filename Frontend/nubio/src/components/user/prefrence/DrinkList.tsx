@@ -29,7 +29,7 @@ const DrinkList: React.FC<DrinkListProps> = ({
             src={src}
             alt={name}
             id={selectedImages.includes(name) ? "check" : "unCheck"}
-            onClick={() => handleImageClick(name, 'drink')}
+            onClick={() => handleImageClick(name, '마시기')}
           />
         ))}
       </IconWrapper>

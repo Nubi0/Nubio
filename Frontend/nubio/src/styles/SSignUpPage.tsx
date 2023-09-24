@@ -126,6 +126,7 @@ export const PrefrenceModalOverlay = styled.div`
   background: rgba(0, 0, 0, 0.7);
 `;
 
+
 export const PrefrenceModalBox = styled.div`
   background: white;
   width: 80%;

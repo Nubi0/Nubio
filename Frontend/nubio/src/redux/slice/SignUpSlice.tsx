@@ -5,15 +5,15 @@ const SignUpSlice = createSlice({
   initialState: {
     taste: [
       {
-        type: 'drink',
+        type: '마시기',
         detailTypes: [] as string[],
       },
       {
-        type: 'food',
+        type: '먹기',
         detailTypes: [] as string[],
       },
       {
-        type: 'play',
+        type: '놀기',
         detailTypes: [] as string[],
       },
     ],

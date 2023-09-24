@@ -1,4 +1,4 @@
-import { PlayWrapper, IconWrapper } from "../../../styles/SSignUpPage";
+import { IconWrapper, PlayWrapper } from "../../../styles/SSignUpPage";
 
 type PlayImages = { [key: string]: string };
 type PlayListProps = {
@@ -32,7 +32,7 @@ const PlayList: React.FC<PlayListProps> = ({
             src={src}
             alt={name}
             id={selectedImages.includes(name) ? "check" : "unCheck"}
-            onClick={() => handleImageClick(name, 'play')}
+            onClick={() => handleImageClick(name, '놀기')}
           />
         ))}
       </IconWrapper>

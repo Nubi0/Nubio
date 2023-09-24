@@ -4,7 +4,6 @@ import KakaoMap from "./KakaoMap";
 
 const Map = () => {
   const searchKeyword = useSelector((state: RootState) => state.search.keyWord);
-
   const position = useSelector((state: RootState) => state.enjoy.positions);
   return (
     <>

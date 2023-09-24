@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react";
 import {
-  TipOffIcon,
-  TipOffWrapper,
+  ReportIcon,
+  ReportWrapper,
   TypeWrapper,
   ImageWrapper,
 } from "../../../styles/SSafeHomePage";
@@ -10,7 +10,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 
-const TipOffModal = () => {
+const ReportModal = () => {
   const loudSpeaker =
     process.env.PUBLIC_URL + "/assets/disaster/loudSpeaker.svg";
   // 모달
@@ -24,17 +24,13 @@ const TipOffModal = () => {
   // 이미지 제외 data
   const [title, onChangeTitle] = useInput("");
   const [content, onChangeContent] = useInput("");
-  // const [longitude, setLongitude] = useState("");
-  // const [latitude, setLatitude] = useState("");
   const latitude =
     useSelector(
-      (state: { kakaoSlice: { latitude: string } }) =>
-        state.kakaoSlice.latitude,
+      (state: { MapSlice: { latitude: string } }) => state.MapSlice.latitude,
     ) || null;
   const longitude =
     useSelector(
-      (state: { kakaoSlice: { longitude: string } }) =>
-        state.kakaoSlice.longitude,
+      (state: { MapSlice: { longitude: string } }) => state.MapSlice.longitude,
     ) || null;
   // 이미지
   const [images, setImages] = useState<File[]>([]);
@@ -95,10 +91,10 @@ const TipOffModal = () => {
   };
   return (
     <>
-      <TipOffIcon src={loudSpeaker} alt="가이드북" onClick={openModal} />
+      <ReportIcon src={loudSpeaker} alt="가이드북" onClick={openModal} />
       <h2>제보하기</h2>
       {isOpen ? (
-        <TipOffWrapper>
+        <ReportWrapper>
           <h2>제보하기</h2>
           <form onSubmit={(e) => submitForm(e)}>
             <input
@@ -155,9 +151,9 @@ const TipOffModal = () => {
           <button id="close" onClick={closeModal}>
             닫기
           </button>
-        </TipOffWrapper>
+        </ReportWrapper>
       ) : null}
     </>
   );
 };
-export default TipOffModal;
+export default ReportModal;

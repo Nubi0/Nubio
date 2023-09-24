@@ -1,6 +1,6 @@
 import { SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
 import Map from "../components/common/map/Map";
-import FirstModal from "../components/safeHome/safeGuide/FirstModal";
+import FirstModal from "../components/safeHome/FirstModal";
 import Calamity from "../components/safeHome/calamity/Calamity";
 import { useState } from "react";
 

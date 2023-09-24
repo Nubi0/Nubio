@@ -1,5 +1,5 @@
-import KakaoSlice from '../redux/slice/KakaoSlice';
-import EnjoySlice from '../redux/slice/EnjoySlice';
+import KakaoSlice from "../redux/slice/MapSlice";
+import EnjoySlice from "../redux/slice/EnjoySlice";
 
 export type RootState = {
   search: ReturnType<typeof KakaoSlice>;

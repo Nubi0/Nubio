@@ -13,7 +13,7 @@ import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import RootInfo from "../../safeHome/route/RootInfo";
-import { setLatitude, setLongitude } from "../../../redux/slice/KakaoSlice";
+import { setLatitude, setLongitude } from "../../../redux/slice/MapSlice";
 
 interface placeType {
   place_name: string;

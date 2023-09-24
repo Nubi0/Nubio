@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Swal from "sweetalert2";
 
 export const SafeHomeWrapper = styled.div`
   width: 100vw;
@@ -38,7 +37,7 @@ export const SafeGuideIcon = styled.img`
   height: 4rem;
   z-index: 1;
 `;
-export const TipOffIcon = styled.img`
+export const ReportIcon = styled.img`
   width: 4rem;
   height: 4rem;
   z-index: 1;
@@ -77,12 +76,14 @@ export const IconWrapper = styled.div`
   display: flex;
   justify-content: space-around;
 `;
-export const TipOffModalWrapper = styled.div`
+
+// 제보하기
+export const ReportModalWrapper = styled.div`
   .swal2-container {
     z-index: 9999; /* 더 높은 값으로 설정 */
   }
 `;
-export const TipOffWrapper = styled.div`
+export const ReportWrapper = styled.div`
   position: absolute;
   top: 15%;
   background: white;
@@ -138,6 +139,9 @@ export const ImageWrapper = styled.div`
   
 }
 `;
+
+export const CheckReportWrapper = styled.div``;
+// 재난 대피
 export const SafeGuideModalBox = styled.div`
   position: absolute;
   top: 15%;

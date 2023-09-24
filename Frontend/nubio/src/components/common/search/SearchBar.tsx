@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setkeyWord } from "../../../redux/slice/KakaoSlice";
+import { setkeyWord } from "../../../redux/slice/MapSlice";
 import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
 

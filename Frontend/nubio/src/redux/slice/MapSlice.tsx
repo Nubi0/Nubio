@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const kakaoSlice = createSlice({
-  name: "kakaoSlice",
+const MapSlice = createSlice({
+  name: "MapSlice",
   initialState: {
     keyWord: null,
     latitude: null,
@@ -20,5 +20,5 @@ const kakaoSlice = createSlice({
   },
 });
 
-export const { setkeyWord, setLatitude, setLongitude } = kakaoSlice.actions;
-export default kakaoSlice.reducer;
+export const { setkeyWord, setLatitude, setLongitude } = MapSlice.actions;
+export default MapSlice.reducer;

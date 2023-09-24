@@ -77,13 +77,13 @@ public class CourseMapper {
                             Long id = place.getId();
                             Integer kakaoId = place.getKakaoId().getValue();
                             String placeName = place.getName().getValue();
-//                            String imageUrl = place.getImages().get(0).getUrl().getValue();
+                            String imageUrl = place.getImages().get(0).getUrl().getValue();
 
                             return CourseListRes.CourseInfo.PlaceInfo.builder()
                                     .placeId(id)
                                     .kakaoId(kakaoId)
                                     .placeName(placeName)
-//                                    .imageUrl(imageUrl)
+                                    .imageUrl(imageUrl)
                                     .build();
                         })
                         .toList())

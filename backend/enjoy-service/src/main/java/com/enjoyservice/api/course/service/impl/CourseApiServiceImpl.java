@@ -194,8 +194,6 @@ public class CourseApiServiceImpl implements CourseApiService {
 
     private boolean isMemberLikeCourse(String memberId, List<CourseLike> likes) {
         return likes.stream()
-                .filter(Objects::nonNull)
-//                .filter(like -> like.getMemberId() != null)
                 .anyMatch(courseLike -> courseLike.getMemberId().equals(memberId));
     }
 

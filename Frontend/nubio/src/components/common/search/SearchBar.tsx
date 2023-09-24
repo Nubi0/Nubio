@@ -4,7 +4,7 @@ import { inputKeyword } from "../../../redux/slice/KakaoSlice";
 import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
 
-const SearchBar = ({ searchPlaces }: any) => {
+const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
@@ -32,6 +32,11 @@ const SearchBar = ({ searchPlaces }: any) => {
     }
     searchPlaces(Value);
   };
+  const inputClick = () => {
+    setListIsOpen(true);
+    // setFindRouteOpen(true);
+    searchPlaces(Value);
+  };
   return (
     <SearchBarWrapper>
       <SearchForm onSubmit={submitKeyword}>
@@ -39,6 +44,7 @@ const SearchBar = ({ searchPlaces }: any) => {
           type="text"
           placeholder="장소를 검색하세요"
           onChange={keywordChange}
+          onClick={inputClick}
         />
         <img
           src={searchIcon}

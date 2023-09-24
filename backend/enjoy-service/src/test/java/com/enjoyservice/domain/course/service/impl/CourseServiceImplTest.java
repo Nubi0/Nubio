@@ -417,14 +417,14 @@ class CourseServiceImplTest {
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
         // when
-        List<Course> result = courseService.findCourseAndTagsByCourseId(course.getId());
+        Course result = courseService.findCourseAndTagsByCourseId(course.getId());
         // then
-        assertThat(result.size()).isEqualTo(tagCount);
-        assertThat(result.get(0).getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
-        assertThat(result.get(0).getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
-        assertThat(result.get(0).getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
-        assertThat(result.get(0).getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
-        assertThat(result.get(0).getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
+//        assertThat(result.size()).isEqualTo(tagCount);
+        assertThat(result.getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
+        assertThat(result.getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
+        assertThat(result.getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
+        assertThat(result.getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
+        assertThat(result.getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
     }
 
     @DisplayName("Course안에 속한 Place 목록 정보 조회(Place 순서 포함)")

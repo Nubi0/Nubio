@@ -4,6 +4,7 @@ import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
 import CourseSelect from "../components/enjoyHome/MyCourse/CourseSelect/CourseSelect";
 import Footer from "../components/common/Footer";
 import CourseSelectModal from "../components/enjoyHome/MyCourse/CourseSelect/CourseSelectModal";
+import SearchBar from "../components/common/search/SearchBar";
 
 const CourseSelectPage = () => {
     const [modal, setModal] = useState(false);

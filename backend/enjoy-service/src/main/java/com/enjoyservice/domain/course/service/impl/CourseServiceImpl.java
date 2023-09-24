@@ -67,8 +67,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findCourseAndTagsByCourseId(Long courseId) {
-        return courseRepository.findCourseAndTagsByCourseId(courseId);
+    public Course findCourseAndTagsByCourseId(Long courseId) {
+        List<Course> result = courseRepository.findCourseAndTagsByCourseId(courseId);
+        return result.get(0);
     }
 
     @Override

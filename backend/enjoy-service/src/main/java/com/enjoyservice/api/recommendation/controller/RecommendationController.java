@@ -3,6 +3,7 @@ package com.enjoyservice.api.recommendation.controller;
 import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.recommendation.client.FastApiClient;
 import com.enjoyservice.api.recommendation.dto.RecommendationReq;
+import com.enjoyservice.api.recommendation.dto.RecommendationRes;
 import com.enjoyservice.api.recommendation.dto.fastapi.FastCreateReq;
 import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
 import com.enjoyservice.api.recommendation.service.RecommendationApiService;
@@ -20,16 +21,16 @@ public class RecommendationController {
     private final RecommendationApiService recommendationApiService;
 
     @PostMapping("")
-    public ApiResponseEntity<FastRecoRes> getReco(@MemberInfo MemberInfoDto memberInfoDto,
+    public ApiResponseEntity<RecommendationRes> getReco(@MemberInfo MemberInfoDto memberInfoDto,
                                                   @RequestBody RecommendationReq recommendationReq) {
-        FastRecoRes recoCourses = recommendationApiService.getCourses(memberInfoDto.getMemberId(), recommendationReq);
+        RecommendationRes recoCourses = recommendationApiService.getCourses(memberInfoDto.getMemberId(), recommendationReq);
         return ApiResponseEntity.ok(recoCourses);
     }
 
     @GetMapping("/create")
     public ApiResponseEntity<String> create() {
 //        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
-        String[] regions = {"DAEGU","SEOUL"};
+        String[] regions = {"DAEGU"};
         for (String region : regions) {
             recommendationApiService.saveModel(region);
             fastApiClient.createModel(FastCreateReq.from(region));

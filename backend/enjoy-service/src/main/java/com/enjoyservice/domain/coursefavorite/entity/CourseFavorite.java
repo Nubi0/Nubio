@@ -27,7 +27,7 @@ public class CourseFavorite extends BaseEntity {
     private String memberId;
 
     @Embedded
-    private Active active;
+    private Active active = Active.from(true);
 
     @Builder
     public CourseFavorite(Course course, String memberId) {

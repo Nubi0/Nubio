@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const EnjoySlice = createSlice({
   name: 'enjoyslice',
@@ -6,6 +6,7 @@ const EnjoySlice = createSlice({
     manager: null,
     time: null,
     positions: [],
+    tag: [] as string[]
   },
   reducers: {
     setManager: (state, action) => {
@@ -17,8 +18,19 @@ const EnjoySlice = createSlice({
     setPosition: (state, action) => {
       state.positions = action.payload;
     },
+    setTag: (state, action: PayloadAction<string>) => {
+      const name = action.payload;
+      const exists = state.tag.includes(name);
+      if (exists) {
+        // 이미 존재하는 경우, 배열에서 제거
+        state.tag = state.tag.filter((el) => el !== name);
+      } else {
+        // 존재하지 않는 경우, 추가
+        state.tag.push(name);
+      }
+    }
   },
 });
 
-export const { setManager, setTime, setPosition } = EnjoySlice.actions;
+export const { setManager, setTime, setPosition, setTag } = EnjoySlice.actions;
 export default EnjoySlice.reducer;

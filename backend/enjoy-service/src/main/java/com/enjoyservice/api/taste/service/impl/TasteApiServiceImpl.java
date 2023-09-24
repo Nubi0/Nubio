@@ -8,7 +8,9 @@ import com.enjoyservice.domain.membertaste.service.MemberTasteService;
 import com.enjoyservice.domain.taste.entity.Taste;
 import com.enjoyservice.domain.taste.entity.constant.DetailType;
 import com.enjoyservice.domain.taste.entity.constant.Type;
+import com.enjoyservice.domain.taste.exception.InvalidCheckTaste;
 import com.enjoyservice.domain.taste.service.TasteService;
+import com.enjoyservice.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,10 @@ public class TasteApiServiceImpl implements TasteApiService {
             } else {
                 plays.add(description);
             }});
-        return TasteApiRes.of(foods,drinks,plays);
+        checkIsCreated(foods, drinks, plays);
+        return TasteApiRes.of(TasteApiRes.MemberTasteInfoDto.of("먹기",foods),
+                TasteApiRes.MemberTasteInfoDto.of("마시기",drinks),
+                TasteApiRes.MemberTasteInfoDto.of("놀기",plays));
     }
 
     @Override
@@ -71,4 +76,9 @@ public class TasteApiServiceImpl implements TasteApiService {
     }
 
 
+    private void checkIsCreated(List<String> foods,List<String> drinks, List<String> plays) {
+        if (foods.size() == 0 && drinks.size() == 0 && plays.size() == 0) {
+            throw new InvalidCheckTaste(ErrorCode.INVALID_CHECK_TASTE);
+        }
+    }
 }

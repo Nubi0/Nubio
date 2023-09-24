@@ -7,6 +7,7 @@ const CustomCourseList = () => {
             title: '더미1 코스',
             like_count: 10,
             favorite_flag: true,
+            course_id: "1",
             place_list: [
                 {
                     place_id: 12,
@@ -21,6 +22,7 @@ const CustomCourseList = () => {
             title: '더미2 코스',
             like_count: 0,
             favorite_flag: true,
+            course_id: "2",
             place_list: [
                 {
                     place_id: 12,
@@ -35,6 +37,7 @@ const CustomCourseList = () => {
             title: '더미3 코스',
             like_count: 40,
             favorite_flag: false,
+            course_id: "3",
             place_list: [
                 {
                     place_id: 12,

@@ -6,7 +6,8 @@ const EnjoySlice = createSlice({
     manager: null,
     time: null,
     positions: [],
-    tag: [] as string[]
+    tag: [] as string[],
+    courseList: []
   },
   reducers: {
     setManager: (state, action) => {
@@ -28,9 +29,12 @@ const EnjoySlice = createSlice({
         // 존재하지 않는 경우, 추가
         state.tag.push(name);
       }
+    },
+    setCourseList: (state, action) => {
+      state.courseList = action.payload;
     }
   },
 });
 
-export const { setManager, setTime, setPosition, setTag } = EnjoySlice.actions;
+export const { setManager, setTime, setPosition, setTag, setCourseList } = EnjoySlice.actions;
 export default EnjoySlice.reducer;

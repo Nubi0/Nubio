@@ -1,11 +1,19 @@
-import { AllCourseItemWrapper } from "../../../../styles/SAllCoursePage";
-import { BigImg, DetailWrapper } from "../../../../styles/SAllCoursePage";
-import { HeadContent, Title, CourseTag, FavImg, PlaceImg, PlaceItem, PlaceName, PlaceListWrapper } from "../../../../styles/SAllCoursePage";
+import axios from "axios";
+import { AllCourseItemWrapper, BigImg, CourseTag, DetailWrapper, FavImg, HeadContent, PlaceImg, PlaceItem, PlaceListWrapper, PlaceName, Title } from "../../../../styles/SAllCoursePage";
 
 const AllCourseItem = ({value} : CourseProps) => {
     const {title, favorite_flag, course_tags, place_list} = value;
     const starFill = process.env.PUBLIC_URL + '/assets/starFill.svg';
     const star = process.env.PUBLIC_URL + '/assets/star.svg';
+    const handleFav = () => {
+        axios.post(`https://nubi0.com/enjoy/v1/enjoy/course/like/${value.course_id}`)
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
     return(
         <AllCourseItemWrapper>
             <BigImg src={place_list[0].img_url} />
@@ -17,7 +25,7 @@ const AllCourseItem = ({value} : CourseProps) => {
                         <CourseTag key={index}>{value}</CourseTag>
                         );
                     })}
-                    <FavImg src={favorite_flag ? starFill : star} />
+                    <FavImg src={favorite_flag ? starFill : star} onClick={handleFav} />
                 </HeadContent>
                 <PlaceListWrapper>
                 {place_list.slice(1).map((value:PlaceItem, index: number) => {

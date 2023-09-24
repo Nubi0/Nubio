@@ -12,6 +12,7 @@ const CourseList = () => {
                 "course_tags" : [ "카페", "데이트", "단맛" ],
                 "favorite_flag" : true,
                 "like_count" : 10,
+                "course_id": "1",
                 "place_list" : [
                     {
                         "place_id" : 12,

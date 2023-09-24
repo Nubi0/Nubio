@@ -4,6 +4,7 @@ interface CourseItem {
     favorite_flag: boolean
     like_count: number
     place_list: Array
+    course_id: string
 };
 
 interface CourseProps {

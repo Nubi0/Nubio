@@ -10,4 +10,6 @@ import java.util.List;
 public interface CourseLikeRepository extends JpaRepository<CourseLike, Long> {
 
     List<CourseLike> findAllByCourseAndActive(Course course, Active active);
+
+
 }

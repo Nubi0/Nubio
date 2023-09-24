@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CourseApiServiceImpl implements CourseApiService {
 
@@ -45,7 +46,7 @@ public class CourseApiServiceImpl implements CourseApiService {
     private final CourseTagService courseTagService;
     private final CourseFavoriteService courseFavoriteService;
 
-//    @Transactional
+    @Transactional
     @Override
     public void createCourse(final CourseCreateReq request, final String memberId) {
         // 코스 저장
@@ -69,7 +70,6 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("Course에 Tag 연결 완료(CourseApiServiceImpl)");
     }
 
-    @Transactional(readOnly = true)
     @Override
     public CourseListRes getCourseList(String region, String memberId, Pageable pageable) {
         // 코스 - 장소 가져오기
@@ -98,12 +98,12 @@ public class CourseApiServiceImpl implements CourseApiService {
         return CourseMapper.courseToCourseListRes(courseInfos, totalElements, pageable);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public CourseDetailRes getCourseDetail(Long courseId, String memberId) {
         // TODO: CourseService에서 courses.get(0) 한 결과를 반환하는게 더 좋을지도??
-        List<Course> courses = courseService.findCourseAndTagsByCourseId(courseId);
-        Course course = courses.get(0);
+//        Course course = courseService.findCourseAndTagsByCourseId(courseId);
+//        Course course = courses.get(0);
+        Course course = courseService.findById(courseId);
         List<Tag> tags = course.getCourseTags().stream()
                 .map(CourseTag::getTag)
                 .toList();
@@ -195,6 +195,7 @@ public class CourseApiServiceImpl implements CourseApiService {
 
     private boolean isMemberLikeCourse(String memberId, List<CourseLike> likes) {
         return likes.stream()
+                .filter(Objects::nonNull)
                 .anyMatch(courseLike -> courseLike.getMemberId().equals(memberId));
     }
 

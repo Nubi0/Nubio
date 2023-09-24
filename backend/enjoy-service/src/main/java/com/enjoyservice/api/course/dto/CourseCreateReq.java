@@ -2,10 +2,7 @@ package com.enjoyservice.api.course.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +27,7 @@ public class CourseCreateReq {
     @Size(max = 100, message = "코스 지역의 길이는 최대 100글자 입니다.")
     private String region;
 
-    @NotBlank(message = "공개 여부는 필수값입니다.")
+    @NotNull(message = "공개 여부는 필수값입니다.")
     @JsonProperty("public_flag")
     private boolean publicFlag;
 
@@ -60,12 +57,13 @@ public class CourseCreateReq {
     @AllArgsConstructor
     static public class PlaceInfo {
 
-        @NotBlank(message = "장소 id는 필수값입니다.")
+        @NotNull(message = "장소 id는 필수값입니다.")
         @JsonProperty("place_id")
         private long placeId;
 
-        @NotBlank(message = "장소 순서는 필수값입니다.")
-        @Size(min = 1, max = 5, message = "장소 순서는 1 ~ 5 입니다.")
+        @NotNull(message = "장소 순서는 필수값입니다.")
+        @Min(value = 1, message = "장소 순서의 최소값은 1입니다.")
+        @Max(value = 5, message = "장소 순서의 최대값은 5입니다.")
         private int sequence;
     }
 }

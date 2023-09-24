@@ -250,9 +250,54 @@ export const CalamityMessageWrapper = styled.div`
   text-align: center;
   p {
     margin: 0.5rem 0;
-    width: 80%;
     margin: 0;
-    font-size: 1.5rem;
-    border-bottom: 0.2rem solid red;
+    font-size: 1rem;
   }
+  #title {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  button {
+    width: 5rem;
+    height: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    color: white;
+    border-radius: 1rem;
+    background-color: red;
+  }
+`;
+
+// 첫번째 모달 대피경로
+export const EvacuationInfoWrapper = styled.div`
+  width: 90%;
+  height: 30%;
+  margin: 1rem auto 0 auto;
+`;
+export const EvacuationGuideWrapper = styled.div`
+  width: 90%;
+  height: 45%;
+  margin: auto auto 0.5rem auto;
+  border-radius: 1rem;
+  background: rgb(204, 204, 204, 0.2);
+  display: flex;
+  padding: 0.5rem;
+  #evacuationContent {
+    width: 60%;
+    height: 90%;
+    padding: 1rem;
+  }
+`;
+
+export const EvacuationIconWrapper = styled.div`
+width:30%;
+img {
+  width: 80%;
+  height:80%;
+  EvacuationGuideWrapper
+}
+p{
+font-weight:1000;
+}
 `;

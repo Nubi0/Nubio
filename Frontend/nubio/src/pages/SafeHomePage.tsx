@@ -13,6 +13,7 @@ declare global {
 const SafeHomePage = () => {
   // 이미지
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
+
   // 재난문자 수신
   const [isReceiveMessage, setIsReceiveMessage] = useState(true);
   return (

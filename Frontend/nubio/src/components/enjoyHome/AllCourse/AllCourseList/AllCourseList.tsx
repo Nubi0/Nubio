@@ -59,7 +59,7 @@ const AllCourseList = ({active}: {active: any}) => {
     useEffect(() => {
         if (active.all === true) {
           axios
-            .get('https://nubi0.com/enjoy/v1/enjoy/course?region=Deagu')
+            .get('https://nubi0.com/enjoy/v1/enjoy/course?region=DAEGU')
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })
@@ -68,7 +68,7 @@ const AllCourseList = ({active}: {active: any}) => {
             });
         } else {
           axios
-            .get('https://nubi0.com/enjoy/v1/enjoy/course?region=Deagu&sort=likeCount')
+            .get('https://nubi0.com/enjoy/v1/enjoy/course?region=DAEGU&sort=likeCount')
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })

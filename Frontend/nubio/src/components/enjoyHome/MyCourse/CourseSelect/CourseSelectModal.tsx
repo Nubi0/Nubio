@@ -31,7 +31,7 @@ const CourseSelectModal = ({setModal}: any) => {
             return { value };
         });
         const positionData = positions.map((value: any) => {
-            return {position_id: value.id, sequence: value.index}
+            return {kakao_id: value.id, sequence: value.index}
         })
         const config = {
             title,

@@ -1,7 +1,12 @@
+import axios from "axios";
 import { CustomCouresListWrapper } from "../../../../styles/SEnjoyHomePage";
 import CustomCourseItem from "./CustomCourseItem";
+import { useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { setCourseList } from "../../../../redux/slice/EnjoySlice";
 
 const CustomCourseList = () => {
+    const dispatch = useDispatch();
     const itemList: CourseItem[] = [
         {
             title: '더미1 코스',
@@ -49,6 +54,17 @@ const CustomCourseList = () => {
             course_tags: ['카페', '데이트', '단맛']
         },
     ]
+    useEffect(() => {
+        axios.post('https://nubi0.com/enjoy/v1/enjoy',    {"longitude" : 128.5934, "latitude" : 35.8556})
+            .then((res) => {
+                console.log(res)
+                dispatch(setCourseList(res.data.course_list));
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+
+    })
     return(
         <CustomCouresListWrapper>
             {itemList.map((value: CourseItem, index: number) => (

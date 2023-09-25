@@ -33,7 +33,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<Place> findAllByKakaoId(List<KakaoId> kakaoIds) {
-        return placeRepository.findAllByKakaoId(kakaoIds);
+        return placeRepository.findAllByKakaoIds(kakaoIds);
     }
 
     @Override

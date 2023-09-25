@@ -1,9 +1,6 @@
 package com.enjoyservice.api.course.service.impl;
 
-import com.enjoyservice.api.course.dto.CourseCreateReq;
-import com.enjoyservice.api.course.dto.CourseDetailRes;
-import com.enjoyservice.api.course.dto.CourseListRes;
-import com.enjoyservice.api.course.dto.CourseTagListReq;
+import com.enjoyservice.api.course.dto.*;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
 import com.enjoyservice.domain.course.entity.Course;
@@ -48,7 +45,7 @@ public class CourseApiServiceImpl implements CourseApiService {
 
     @Transactional
     @Override
-    public void createCourse(final CourseCreateReq request, final String memberId) {
+    public CourseCreateRes createCourse(final CourseCreateReq request, final String memberId) {
         // 코스 저장
         Course course = CourseMapper.courseCreateReqToCourse(request, memberId);
         Course savedCourse = courseService.save(course);
@@ -68,6 +65,8 @@ public class CourseApiServiceImpl implements CourseApiService {
         // 태그 잇는지 확인
         linkCourseTag(request, course);
         log.info("Course에 Tag 연결 완료(CourseApiServiceImpl)");
+
+        return new CourseCreateRes(savedCourse.getId());
     }
 
     @Override

@@ -6,7 +6,7 @@ import Category from './Category';
 
 const AllCourse = ({ handleModal }: AllCourseProps) => {
   const [active, setActive] = useState({
-    all: false,
+    all: true,
     popular: false,
   })
   const handleButton = (category: string) => {

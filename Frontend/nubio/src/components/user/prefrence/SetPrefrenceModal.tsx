@@ -33,8 +33,9 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
   };
   const HandleSave = () => {
     const taste = useSelector((state: any) => state.signup.taste);
-    axios.post('https://nubi0.com/enjoy/v1/profile/taste', taste)
+    axios.post('https://nubi0.com/enjoy/v1/enjoy/profile/taste', taste)
           .then((res) => {
+            closeModal();
             console.log(res.data);
           })
           .catch((err) => {
@@ -43,7 +44,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
   }
 
   useEffect(() => {
-    axios.get('https://nubi0.com/enjoy/v1/profile/taste')
+    axios.get('https://nubi0.com/enjoy/v1/enjoy/profile/taste')
           .then((res) => {
             console.log(res.data);
           })
@@ -67,7 +68,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
           handleImageClick={handleImageClick}
           selectedImages={selectedImages}
         />
-        <button onClick={closeModal}>닫기</button>
+        <button onClick={HandleSave}>닫기</button>
       </PrefrenceModalBox>
     </PrefrenceModalOverlay>
   );

@@ -4,25 +4,29 @@ import LocationItem from "./LocaiontItem";
 const LocationList = () => {
     const locations = [
         {
-            name: '서울',
+            name: 'SEOUL',
             url: process.env.PUBLIC_URL + '/assets/city/seoul.jpg'
         },
         {
-            name: '구미',
+            name: 'DAEGU',
             url: process.env.PUBLIC_URL + '/assets/city/gumi.jpg'
         },
         {
-            name: '대전',
+            name: 'GYEONGBUK',
             url: process.env.PUBLIC_URL + '/assets/city/daejeon.jpg'
         },
         {
-            name: '광주',
+            name: 'BUSAN',
             url: process.env.PUBLIC_URL + '/assets/city/gwangju.jpg'
         },
         {
-            name: '부울경',
+            name: 'DAEJEON',
             url: process.env.PUBLIC_URL + '/assets/city/busan.jpg'
         },
+        {
+            name: 'GWANGJU',
+            url: process.env.PUBLIC_URL + '/assets/city/gwangju.jpg'
+        }
     ];
 
     return(

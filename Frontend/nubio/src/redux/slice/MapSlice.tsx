@@ -6,6 +6,8 @@ const MapSlice = createSlice({
     keyWord: null,
     latitude: null,
     longitude: null,
+    safeLatitude: null,
+    safeLongitude: null,
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -17,8 +19,20 @@ const MapSlice = createSlice({
     setLongitude: (state, action) => {
       state.longitude = action.payload;
     },
+    setSafeLatitude: (state, action) => {
+      state.safeLatitude = action.payload;
+    },
+    setSafeLongitude: (state, action) => {
+      state.safeLongitude = action.payload;
+    },
   },
 });
 
-export const { setkeyWord, setLatitude, setLongitude } = MapSlice.actions;
+export const {
+  setkeyWord,
+  setLatitude,
+  setLongitude,
+  setSafeLatitude,
+  setSafeLongitude,
+} = MapSlice.actions;
 export default MapSlice.reducer;

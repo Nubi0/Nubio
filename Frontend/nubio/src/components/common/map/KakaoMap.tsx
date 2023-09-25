@@ -13,7 +13,12 @@ import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import RouteInfo from "../../safeHome/route/RouteInfo";
-import { setLatitude, setLongitude } from "../../../redux/slice/MapSlice";
+import {
+  setLatitude,
+  setLongitude,
+  setSafeLatitude,
+  setSafeLongitude,
+} from "../../../redux/slice/MapSlice";
 
 interface placeType {
   place_name: string;
@@ -56,7 +61,7 @@ const KakaoMap = (props: propsType) => {
   const [startName, setStartName] = useState<any>("");
   const [endName, setEndName] = useState<any>("");
   // 최단거리 길찾기
-  const GetShortDirection = () => {
+  const getShortDirection = () => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var data = {
       startX,
@@ -67,6 +72,162 @@ const KakaoMap = (props: propsType) => {
       resCoordType: "EPSG3857",
       startName,
       endName,
+    };
+    axios
+      .post(
+        "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+        data,
+        { headers: headers }
+      )
+      .then((res) => {
+        console.log(res);
+        function flattenArray(arr: any) {
+          return arr.reduce((acc: any, val: any) => {
+            if (Array.isArray(val)) {
+              acc.push(...flattenArray(val));
+            } else {
+              acc.push(val);
+            }
+            return acc;
+          }, []);
+        }
+        const coordinates = res.data.features.flatMap((feature: any) =>
+          flattenArray(feature.geometry.coordinates)
+        );
+        const coordinatesList = [];
+        for (let i = 0; i < coordinates.length; i += 2) {
+          if (i + 1 < coordinates.length) {
+            coordinatesList.push([coordinates[i], coordinates[i + 1]]);
+          }
+        }
+        const convertedCoordinatesList = coordinatesList.map((coord: any) => {
+          const fromProjection = "EPSG:3857";
+          const toProjection = "EPSG:4326";
+          const convertedCoord = proj4(fromProjection, toProjection, coord);
+          return convertedCoord;
+        });
+        const coordinate = convertedCoordinatesList.flatMap((feature: any) => {
+          return feature;
+        });
+        const linePath: any = [];
+        for (let i = 0; i < coordinate?.length; i += 2) {
+          const latitude = parseFloat(coordinate[i + 1]);
+          const longitude = parseFloat(coordinate[i]);
+          const latLng = new kakao.maps.LatLng(latitude, longitude);
+          linePath.push(latLng);
+        }
+
+        // 거리계산 공식
+        const calculateLineDistance = (line: any) => {
+          const R = 6371;
+          let totalDistance = 0;
+          for (let i = 0; i < line.length - 1; i++) {
+            const point1 = line[i];
+            const point2 = line[i + 1];
+            const dLat = deg2rad(point1["Ma"] - point2["Ma"]);
+            const dLon = deg2rad(point1["La"] - point2["La"]);
+            if (dLat === 0 && dLon === 0) {
+              continue;
+            }
+            const a =
+              Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(deg2rad(point1["Ma"])) *
+                Math.cos(deg2rad(point2["Ma"])) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c * 1000;
+            totalDistance += distance;
+          }
+
+          return totalDistance;
+        };
+        // 거리가 계산된 결과 출력 함수
+        const calculateAndDisplayLineDistances = () => {
+          if (linePath.length > 0) {
+            const distances: any = calculateLineDistance(linePath);
+            const walkTime = (distances / 67) | 0;
+            console.log(distances);
+            console.log(walkTime);
+            dispatch(
+              setTime({
+                time: walkTime,
+                type: "분",
+                dis: Math.floor(distances),
+              })
+            );
+          }
+        };
+        calculateAndDisplayLineDistances();
+
+        // 지도에 표시할 선을 생성합니다
+        var polyline = new kakao.maps.Polyline({
+          path: linePath, // 선을 구성하는 좌표배열 입니다
+          strokeWeight: 5, // 선의 두께 입니다
+          strokeColor: "#FFC542", // 선의 색깔입니다
+          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: "solid", // 선의 스타일입니다
+        });
+        window.polyline = polyline;
+        // // 지도에 선을 표시합니다
+        polyline.setMap(window.map);
+        setFindRouteOpen(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 안전경로 길찾기
+  var safeLatitude =
+    useSelector(
+      (state: { map: { safeLatitude: string } }) => state.map.safeLatitude
+    ) || null;
+  var safeLongitude =
+    useSelector(
+      (state: { map: { safeLongitude: string } }) => state.map.safeLongitude
+    ) || null;
+  const getSafeLocation = () => {
+    axios
+      .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
+        start_location: {
+          longitude: startX,
+          latitude: startY,
+        },
+        end_location: {
+          longitude: endX,
+          latitude: endY,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        var safeLatitude = res.data.data.content[0].location.latitude;
+        var safeLongitude = res.data.data.content[0].location.longitude;
+
+        getSafeDirection(safeLatitude, safeLongitude);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getSafeDirection = (safeLatitude: any, safeLongitude: any) => {
+    var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
+    var safeLatituded = safeLatitude?.toString();
+    var safeLongituded = safeLongitude?.toString();
+    console.log(safeLatitude);
+    console.log(safeLongituded);
+    var data = {
+      startX,
+      startY,
+      endX,
+      endY,
+      reqCoordType: "WGS84GEO",
+      resCoordType: "EPSG3857",
+      startName,
+      endName,
+      passList: safeLongituded + "," + safeLatituded,
+      searchOption: 0,
     };
     console.log(data);
     axios
@@ -174,130 +335,6 @@ const KakaoMap = (props: propsType) => {
         console.log(err);
       });
   };
-  // 안전경로 길찾기
-  const GetSafeDirection = () => {
-    var data = {
-      startX,
-      startY,
-      endX,
-      endY,
-      reqCoordType: "WGS84GEO",
-      resCoordType: "EPSG3857",
-      startName,
-      endName,
-    };
-    console.log(data);
-    axios
-      .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
-        start_location: {
-          longitude: startX,
-          latitude: startY,
-        },
-        end_location: {
-          longitude: endX,
-          latitude: endY,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        function flattenArray(arr: any) {
-          return arr.reduce((acc: any, val: any) => {
-            if (Array.isArray(val)) {
-              acc.push(...flattenArray(val));
-            } else {
-              acc.push(val);
-            }
-            return acc;
-          }, []);
-        }
-        const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
-        );
-        const coordinatesList = [];
-        for (let i = 0; i < coordinates.length; i += 2) {
-          if (i + 1 < coordinates.length) {
-            coordinatesList.push([coordinates[i], coordinates[i + 1]]);
-          }
-        }
-        const convertedCoordinatesList = coordinatesList.map((coord: any) => {
-          const fromProjection = "EPSG:3857";
-          const toProjection = "EPSG:4326";
-          const convertedCoord = proj4(fromProjection, toProjection, coord);
-          return convertedCoord;
-        });
-        const coordinate = convertedCoordinatesList.flatMap((feature: any) => {
-          return feature;
-        });
-        const linePath: any = [];
-        for (let i = 0; i < coordinate?.length; i += 2) {
-          const latitude = parseFloat(coordinate[i + 1]);
-          const longitude = parseFloat(coordinate[i]);
-          const latLng = new kakao.maps.LatLng(latitude, longitude);
-          linePath.push(latLng);
-        }
-
-        // 거리계산 공식
-        const calculateLineDistance = (line: any) => {
-          const R = 6371;
-          let totalDistance = 0;
-          for (let i = 0; i < line.length - 1; i++) {
-            const point1 = line[i];
-            const point2 = line[i + 1];
-            const dLat = deg2rad(point1["Ma"] - point2["Ma"]);
-            const dLon = deg2rad(point1["La"] - point2["La"]);
-            if (dLat === 0 && dLon === 0) {
-              continue;
-            }
-            const a =
-              Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(deg2rad(point1["Ma"])) *
-                Math.cos(deg2rad(point2["Ma"])) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
-
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            const distance = R * c * 1000;
-            totalDistance += distance;
-          }
-
-          return totalDistance;
-        };
-        // 거리가 계산된 결과 출력 함수
-        const calculateAndDisplayLineDistances = () => {
-          if (linePath.length > 0) {
-            const distances: any = calculateLineDistance(linePath);
-            const walkTime = (distances / 67) | 0;
-            console.log(distances);
-            console.log(walkTime);
-            dispatch(
-              setTime({
-                time: walkTime,
-                type: "분",
-                dis: Math.floor(distances),
-              })
-            );
-          }
-        };
-        calculateAndDisplayLineDistances();
-
-        // 지도에 표시할 선을 생성합니다
-        var polyline = new kakao.maps.Polyline({
-          path: linePath, // 선을 구성하는 좌표배열 입니다
-          strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: "red", // 선의 색깔입니다
-          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: "solid", // 선의 스타일입니다
-        });
-        window.polyline = polyline;
-        // // 지도에 선을 표시합니다
-        polyline.setMap(window.map);
-        setFindRouteOpen(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const getDrawnLines = () => {
     const drawnPolylines =
       drawnData[window.kakao.maps.drawing.OverlayType.POLYLINE];
@@ -761,10 +798,10 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-          <button id="find" onClick={GetShortDirection}>
+          <button id="find" onClick={getShortDirection}>
             빠른 길 찾기
           </button>
-          <button onClick={GetSafeDirection}>안전한 길 찾기</button>
+          <button onClick={getSafeLocation}>안전한 길 찾기</button>
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list"></ul>
           </SearchListWrapper>

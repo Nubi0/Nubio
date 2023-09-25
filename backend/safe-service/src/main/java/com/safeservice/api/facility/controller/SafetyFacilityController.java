@@ -71,4 +71,20 @@ public class SafetyFacilityController {
         return ApiResponseEntity.ok(facilityNearWithPaging);
     }
 
+    @GetMapping("/nearwith/safe-facility/all")
+    public ApiResponseEntity<NearSafetyPageResponseDto> findAllSafeStructure(
+                                                                          @RequestParam("longitude") double longitude,
+                                                                          @RequestParam("latitude") double latitude,
+                                                                          @RequestParam("distance") double distance,
+                                                                          @PageableDefault(size = 50,
+                                                                                  sort = "id",
+                                                                                  direction = Sort.Direction.ASC) Pageable pageable) {
+        UserLocation userLocation = UserLocation.builder()
+                .longitude(longitude)
+                .latitude(latitude)
+                .distance(distance)
+                .build();
+        NearSafetyPageResponseDto facilityNearWithPaging = safetyFacilityInfoService.findFacilityNearWithPaging(userLocation, pageable);
+        return ApiResponseEntity.ok(facilityNearWithPaging);
+    }
 }

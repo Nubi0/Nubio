@@ -11,4 +11,5 @@ public interface ShelterInfoService {
     void registerShelter(MultipartFile file, ShelterType shelterType);
 
     NearShelterPageResponseDto findShelterNearWithPaging(UserLocation userLocation, String type, Pageable pageable);
+    NearShelterPageResponseDto findShelterNearWithPaging(UserLocation userLocation, Pageable pageable);
 }

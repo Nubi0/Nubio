@@ -64,6 +64,7 @@ public class TasteApiServiceImpl implements TasteApiService {
     }
 
     @Override
+    @Transactional
     public void saveTaste(TasteInfoReq tasteInfoReq) {
         tasteService.saveTaste(TasteInfoReq.toEntity(tasteInfoReq));
     }

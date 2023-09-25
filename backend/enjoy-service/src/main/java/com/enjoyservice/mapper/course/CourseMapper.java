@@ -63,6 +63,7 @@ public class CourseMapper {
 
     public static CourseListRes.CourseInfo convertToCourseInfo(Course course, List<Tag> tags, boolean favoriteFlag, int likeCount, boolean likeFlag) {
         return CourseListRes.CourseInfo.builder()
+                .courseId(course.getId())
                 .title(course.getTitle().getValue())
                 .courseTags(tags.stream()
                         .map(t -> t.getName().getValue())

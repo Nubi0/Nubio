@@ -30,7 +30,7 @@ public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         URI uri = UriComponentsBuilder
-                .fromUriString("http://localhost:8080")
+                .fromUriString("http://ec2-13-124-94-38.ap-northeast-2.compute.amazonaws.com:8080")
                 .path("/jwt/claim")
                 .queryParam("Authorization", request.getHeader("Authorization"))
                 .encode()

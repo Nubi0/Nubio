@@ -3,19 +3,28 @@ spring:
     activate:
       on-profile: dev
 
+
+
   # 개발 데이터베이스 연결
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/nubio
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/nubio
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/enjoy_db?useUnicode=true&serverTimezone=Asia/Seoul
+#    username: root
+#    password: 
+#    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:
+        database-platform: com.enjoyservice.global.config.dialect.MysqlCustomDialect
         format_sql: true # sql 예쁘게 출력
         default_batch_fetch_size: 500 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
         use_sql_comments: true
@@ -24,7 +33,7 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-file-size: 50MB # 파일 업로드 요청 시 하나의 파일 크기를 50MB 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
 
   mvc:

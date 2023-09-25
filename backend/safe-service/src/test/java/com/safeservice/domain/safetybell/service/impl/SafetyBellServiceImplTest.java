@@ -56,21 +56,21 @@ class SafetyBellServiceImplTest {
         // given
         SafetyBell registered1 = safetyBellService.register(SafetyBell.builder()
                 .address("영등포역")
-                .location(new Point(126.9052383, 37.5157702))
+                .location(new Point(-63.616672, -38.416097))
                 .build());
 
         SafetyBell registered2 = safetyBellService.register(SafetyBell.builder()
                 .address("신도림역")
-                .location(new Point(126.8890174, 37.5088141))
+                .location(new Point(-63.616672, -38.416097))
                 .build());
 
         SafetyBell registered3 = safetyBellService.register(SafetyBell.builder()
                 .address("여의도역")
-                .location(new Point(126.9221228, 37.5215737))
+                .location(new Point(-63.616672, -38.416097))
                 .build());
 
         //when
-        List<SafetyBell> withinList = safetyBellService.findWithinDistance(126.9019532, 37.5170112, 2);
+        List<SafetyBell> withinList = safetyBellService.findWithinDistance(-63.616672, -38.416097, 2);
 
         // then
         assertThat(withinList).hasSize(3)
@@ -88,17 +88,17 @@ class SafetyBellServiceImplTest {
         // given
         SafetyBell registered1 = safetyBellService.register(SafetyBell.builder()
                 .address("대림역")
-                .location(new Point(126.8927728, 37.4925085))
+                .location(new Point(-63.616672, -38.416097))
                 .build());
 
         SafetyBell registered2 = safetyBellService.register(SafetyBell.builder()
                 .address("신촌역")
-                .location(new Point(126.9347011, 37.5551399))
+                .location(new Point(-63.616672, -38.416097))
                 .build());
 
 
         //when
-        List<SafetyBell> withinList = safetyBellService.findWithinDistance(126.9019532, 37.5170112, 2);
+        List<SafetyBell> withinList = safetyBellService.findWithinDistance(-33.616672, -38.416097, 2);
 
         // then
         assertThat(withinList).hasSize(0);

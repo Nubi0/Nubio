@@ -2,7 +2,6 @@ package com.authenticationservice.domain.member.entity.type;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
 
 import java.util.Objects;
 import java.util.UUID;

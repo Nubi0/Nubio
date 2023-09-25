@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { inputKeyword } from "../../../redux/slice/KakaoSlice";
+import { setkeyWord } from "../../../redux/slice/MapSlice";
 import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
 
-const SearchBar = ({ searchPlaces }: any) => {
+const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
@@ -24,12 +24,17 @@ const SearchBar = ({ searchPlaces }: any) => {
   // 제출한 검색어 state에 담아주는 함수
   const submitKeyword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(inputKeyword(Value));
+    dispatch(setkeyWord(Value));
     if (Value == "") {
       Swal.fire({
         title: "검색어를 입력해주세요.",
       });
     }
+    searchPlaces(Value);
+    setFindRouteOpen(false);
+  };
+  const inputClick = () => {
+    setListIsOpen(true);
     searchPlaces(Value);
   };
   return (
@@ -39,6 +44,7 @@ const SearchBar = ({ searchPlaces }: any) => {
           type="text"
           placeholder="장소를 검색하세요"
           onChange={keywordChange}
+          onClick={inputClick}
         />
         <img
           src={searchIcon}

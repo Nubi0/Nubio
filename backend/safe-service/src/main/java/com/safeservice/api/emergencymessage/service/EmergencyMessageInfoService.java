@@ -1,11 +1,8 @@
 package com.safeservice.api.emergencymessage.service;
 
 import com.safeservice.api.emergencymessage.client.KakaoMapClient;
-import com.safeservice.api.emergencymessage.dto.EMAddressDto;
-import com.safeservice.api.emergencymessage.dto.EMInfoDto;
-import com.safeservice.api.emergencymessage.dto.EMResponseDto;
+import com.safeservice.api.emergencymessage.dto.*;
 import com.safeservice.api.emergencymessage.dto.client.ClientDto;
-import com.safeservice.api.emergencymessage.dto.EMRequestDto;
 import com.safeservice.domain.emergencymessage.entity.EmergencyMessage;
 import com.safeservice.domain.emergencymessage.service.EmergencyMessageService;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +31,9 @@ public class EmergencyMessageInfoService {
     private String appKey;
 
     @Transactional
-    public void createEmergencyMessage(EMRequestDto emRequestDto) {
-        emergencyMessageService.save(EMRequestDto.toEntity(emRequestDto));
+    public void createEmergencyMessage(EMReq emReq) {
+        emReq.getData().forEach(emRequestDto ->
+                emergencyMessageService.save(EMRequestDto.toEntity(emRequestDto)));
     }
 
     public EMResponseDto checkEM(EMAddressDto emAddressDto) {

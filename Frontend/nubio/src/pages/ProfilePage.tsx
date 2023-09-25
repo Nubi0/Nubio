@@ -6,13 +6,16 @@ import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
 import Profile from "../components/user/Profile";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsChange, setIsInputDisabled, setNewNickName, setNickName } from "../redux/slice/Profileslice";
+import { setIsChange, setIsInputDisabled, setNewNickName } from "../redux/slice/Profileslice";
+import axios from "axios";
 
 const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isChange = useSelector((state: any) => state.profile.isChange);
   const newNickName = useSelector((state: any) => state.profile.newNickName);
-  const nickName = useSelector((state: any) => state.profile.nickName);
+  const email = useSelector((state: any) => state.profile.email);
+  const gender = useSelector((state: any) => state.profile.gender);
+  const birth = useSelector((state: any) => state.profile.birth);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -33,15 +36,33 @@ const ProfilePage = () => {
       cancelButtonText: "아니요",
       color: "black",
   }).then((res) => {
-      dispatch(setIsChange(false));
-      dispatch(setNickName(newNickName))
-  })
+    if(res.isConfirmed){
+      const config = {
+        birth: birth,
+        gender: gender,
+        nickname: newNickName,
+        profileUrl: "c:\Users\SSAFY\Downloads\kakao_login_large_wide.png",
+      }
+      console.log(config);
+      axios.patch(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/me', config)
+            .then((res) => {
+              console.log(res);
+              Swal.fire({
+                title: '회원정보 수정 완료',
+                text: 'NUBIO',
+                icon: 'success',
+              })
+            })
+            .catch((err) => {
+              console.error(err);
+            })
+          }
+        })
   }
 
   useEffect(() => {
     dispatch(setIsChange(false));
     dispatch(setIsInputDisabled(true));
-    dispatch(setNewNickName(nickName))
   }, [])
 
   return (

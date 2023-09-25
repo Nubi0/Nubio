@@ -52,8 +52,8 @@ public class ReportInfoService {
         uploadIPFiles("report", files, savedReport);
     }
 
-    public ReportResponseDto searchAll(String identification) {
-        List<Report> reports = reportService.searchReport();
+    public ReportResponseDto searchAll(String identification, double longitude, double latitude) {
+        List<Report> reports = reportService.searchReport(longitude, latitude);
         List<ReportListDto> reportList = new ArrayList<>();
         for (Report report : reports) {
             reportList.add(ReportListDto.of(report, identification));
@@ -62,42 +62,41 @@ public class ReportInfoService {
     }
 
     @Transactional
-    public List<ReportFileDto> uploadIPFiles(String category,
+    public void uploadIPFiles(String category,
                                              List<MultipartFile> files,
                                              Report report) {
+        if (files != null) {
+            List<MultipartFile> validMultipartFiles = files.stream()
+                    .filter(this::validateFileExists)
+                    .collect(Collectors.toList());
 
-        List<MultipartFile> validMultipartFiles = files.stream()
-                .filter(this::validateFileExists)
-                .collect(Collectors.toList());
+            validateFileSize(validMultipartFiles);
 
-        validateFileSize(validMultipartFiles);
+            LocalDateTime now = LocalDateTime.now();
 
-        LocalDateTime now = LocalDateTime.now();
+            List<ReportFileDto> responseDtos = new ArrayList<>();
+            for (MultipartFile file : validMultipartFiles) {
+                String fileName = FileUtils.buildFileName(category, report.getId(), file.getOriginalFilename(), now);
 
-        List<ReportFileDto> responseDtos = new ArrayList<>();
-        for (MultipartFile file : validMultipartFiles) {
-            String fileName = FileUtils.buildFileName(category, report.getId(), file.getOriginalFilename(), now);
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(file.getSize());
+                objectMetadata.setContentType(file.getContentType());
 
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(file.getSize());
-            objectMetadata.setContentType(file.getContentType());
+                try (InputStream inputStream = file.getInputStream()) {
+                    amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
 
-            try (InputStream inputStream = file.getInputStream()) {
-                amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                    String url = amazonS3Client.getUrl(bucketName, fileName).toString();
+                    ReportFileDto fileUploadResponseDto = new ReportFileDto(url);
+                    responseDtos.add(fileUploadResponseDto);
 
-                String url = amazonS3Client.getUrl(bucketName, fileName).toString();
-                ReportFileDto fileUploadResponseDto = new ReportFileDto(url);
-                responseDtos.add(fileUploadResponseDto);
+                    reportFileService.saveAccuseFile(file.getOriginalFilename(), url, objectMetadata.getContentLength(), report);
 
-                reportFileService.saveAccuseFile(file.getOriginalFilename(), url, objectMetadata.getContentLength(), report);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
-
-        return responseDtos;
     }
 
     private boolean validateFileExists(MultipartFile file) {

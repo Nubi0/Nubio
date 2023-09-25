@@ -6,7 +6,6 @@ export const LoginPageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     color: rgba(0, 0, 0, 0.46);
     img{
         margin-top: 20%;
@@ -44,4 +43,9 @@ export const LoginForm = styled.form`
         background-color: transparent;
         color: #D9D9D9;
     }
+`;
+
+
+export const KakaoLogin = styled.img`
+    margin-top: 3rem!important;
 `;

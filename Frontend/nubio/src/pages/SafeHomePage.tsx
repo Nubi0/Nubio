@@ -1,7 +1,9 @@
-import { SafeHomeWrapper, LogoIcon } from '../styles/SSafeHomePage';
-import Footer from '../components/common/Footer';
-import SafeGuideModal from '../components/safeHome/safeGuide/SafeGuideModal';
-import Map from '../components/common/map/Map';
+import { SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
+import Map from "../components/common/map/Map";
+import FirstModal from "../components/safeHome/FirstModal";
+import Calamity from "../components/safeHome/calamity/Calamity";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -10,15 +12,20 @@ declare global {
 }
 
 const SafeHomePage = () => {
+  const navigate = useNavigate();
   // 이미지
-  const logo = process.env.PUBLIC_URL + '/assets/nubio.png';
-  // 검색 redux
+  const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
+  // 재난문자 수신
+  const [isReceiveMessage, setIsReceiveMessage] = useState(true);
   return (
     <SafeHomeWrapper>
-      <SafeGuideModal />
+      <FirstModal />
+      {isReceiveMessage ? (
+        <Calamity setIsReceiveMessage={setIsReceiveMessage} />
+      ) : null}
+      {/* <Calamity setIsReceiveMessage={setIsReceiveMessage} /> */}
       <Map />
-      <LogoIcon src={logo} />
-      <Footer />
+      <LogoIcon src={logo} onClick={() => navigate("/")} />
     </SafeHomeWrapper>
   );
 };

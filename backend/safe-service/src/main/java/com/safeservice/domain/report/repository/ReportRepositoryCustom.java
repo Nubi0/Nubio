@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ReportRepositoryCustom {
 
-    List<Report> searchAllReport();
+    List<Report> searchAllReport(double longitude, double latitude);
 }

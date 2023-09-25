@@ -36,7 +36,7 @@ public enum FacilityType {
     }
 
     private static void validateType(String type) {
-        if(FacilityType.isFacilityType(type.toUpperCase())){
+        if(!FacilityType.isFacilityType(type.toUpperCase())){
             throw new BusinessException(ErrorCode.FACILITY_TYPE_NOT_EXIST);
         }
     }

@@ -6,6 +6,10 @@ RUN apt-get update -y && apt-get upgrade -y && \
     apt-get install -y openjdk-17-jdk && \
     rm -rf /var/lib/apt/lists/*
 
+# Set Java environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
 # Install Gradle 8.2
 RUN apt-get update && apt-get install -y wget unzip \
  && wget https://services.gradle.org/distributions/gradle-8.2-bin.zip -P /tmp \
@@ -33,5 +37,5 @@ WORKDIR /app/build/libs
 # Expose the port the app runs in and the debug port
 EXPOSE 8080
 
-# Run the application with debug options
+# Run the application
 CMD ["java", "-jar", "authentication-service-0.0.1-SNAPSHOT.jar"]

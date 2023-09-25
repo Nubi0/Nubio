@@ -3,10 +3,9 @@ package com.safeservice.api.facility.service;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.safeservice.api.facility.dto.request.NearSafetyFacility;
+import com.safeservice.api.facility.dto.request.UserLocation;
 import com.safeservice.api.facility.dto.request.SafetyFacilityDto;
 import com.safeservice.api.facility.dto.response.NearSafetyPageResponseDto;
-import com.safeservice.api.facility.dto.response.NearSafetyResponseDto;
 import com.safeservice.domain.facility.constant.FacilityType;
 import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.facility.service.SafetyFacilityService;
@@ -34,11 +33,12 @@ public class SafetyFacilityInfoService {
 
     private final SafetyFacilityService safetyFacilityService;
 
-    public NearSafetyPageResponseDto findFacilityNearWithPaging(NearSafetyFacility nearSafetyFacility, FacilityType facilityType, Pageable pageable) {
-        Point point = new Point(nearSafetyFacility.getLongitude(), nearSafetyFacility.getLatitude());
-        Distance distance = new Distance(nearSafetyFacility.getDistance(), Metrics.KILOMETERS);
+    public NearSafetyPageResponseDto findFacilityNearWithPaging(UserLocation userLocation, String facilityTypeStr, Pageable pageable) {
+        FacilityType facilityType = FacilityType.from(facilityTypeStr);
+        Point point = new Point(userLocation.getLongitude(), userLocation.getLatitude());
+        Distance distance = new Distance(userLocation.getDistance(), Metrics.KILOMETERS);
         Page<SafetyFacility> facilityNearWithPaging = safetyFacilityService.findFacilityNearWithPaging(point, distance, facilityType, pageable);
-        return  NearSafetyPageResponseDto.from(facilityNearWithPaging);
+        return NearSafetyPageResponseDto.from(facilityNearWithPaging);
     }
 
 

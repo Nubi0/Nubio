@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class RegionTest {
 
     @DisplayName("Region이 맞으면 true를 반환한다.")
@@ -25,7 +24,7 @@ class RegionTest {
 
     @DisplayName("Region이 아니면 false를 반환한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"SEOUL"})
+    @ValueSource(strings = {"PYEONGYANG"})
     void isNotGroupName(String input) {
         assertFalse(Region.isRegion(input));
     }

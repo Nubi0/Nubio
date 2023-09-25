@@ -55,7 +55,7 @@ class PlaceLikeApiServiceImplUnitTest {
     void firstLikePlace() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Long placeId = 1L;
         List<PlaceLike> placeLikes = new ArrayList<>();
         long placeLikeSize = 5;
@@ -85,7 +85,7 @@ class PlaceLikeApiServiceImplUnitTest {
     void likePlace1() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Long placeId = 1L;
         List<PlaceLike> placeLikes = new ArrayList<>();
         long placeLikeSize = 5;
@@ -120,7 +120,7 @@ class PlaceLikeApiServiceImplUnitTest {
     void likePlace2() {
         // given
         String memberId = "testMemberId";
-        Place place = generatePlace(0, GroupCode.CD7, GroupName.카페);
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
         Long placeId = 1L;
         List<PlaceLike> placeLikes = new ArrayList<>();
         long placeLikeSize = 5;

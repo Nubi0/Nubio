@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Phone {
 
-    private static final Pattern PHONE_NUMBER_PATTERN1 = Pattern.compile("^\\d{2,4}-\\d{3,4}-\\d{4}$");
+    private static final Pattern PHONE_NUMBER_PATTERN1 = Pattern.compile("^(?:\\d{2,4}-\\d{3,4}-\\d{4}|\\d{4}-\\d{4})$");
 
     @Column(name = "phone_number")
     private String value;
@@ -25,7 +25,7 @@ public class Phone {
     }
 
     public static Phone from(final String value) {
-        validate(value);
+//        validate(value);
         return new Phone(value);
     }
 

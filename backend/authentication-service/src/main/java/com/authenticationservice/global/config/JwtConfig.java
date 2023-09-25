@@ -17,8 +17,12 @@ public class JwtConfig {
     @Value("${token.secret}")
     private String tokenSecret;
 
+    @Value("${token.issuer}")
+    private String tokenIssuer;
+
     @Bean
     public JwtManager tokenManager() {
-        return new JwtManager(accessTokenExpirationTime, refreshTokenExpirationTime, tokenSecret);
+        return new JwtManager(accessTokenExpirationTime, refreshTokenExpirationTime, tokenSecret, tokenIssuer);
     }
+
 }

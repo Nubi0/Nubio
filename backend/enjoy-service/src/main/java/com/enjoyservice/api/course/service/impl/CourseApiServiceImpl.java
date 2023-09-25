@@ -52,8 +52,11 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("course 저장 완료(CourseApiServiceImpl) : courseId = {}, memberId = {}", savedCourse.getId(), savedCourse.getMemberId());
 
         // 코스에 속한 장소 순서 저장
-        List<Long> placeIds = collectPlaceIds(request.getPlaceInfos());
-        List<Place> places = placeService.findAllById(placeIds);
+        List<Long> placeKakaoIds = collectPlaceIds(request.getPlaceInfos());
+        List<KakaoId> kakaoIds = placeKakaoIds.stream()
+                .map(id -> KakaoId.from(id.intValue()))
+                .toList();
+        List<Place> places = placeService.findAllByKakaoId(kakaoIds);
         log.info("place 목록 조회 완료(CourseApiServiceImpl)");
 
         Map<Long, Integer> placeSequence = mappingSequence(request.getPlaceInfos());

@@ -77,4 +77,25 @@ public class ShelterServiceController {
     }
 
 
+    @Operation(summary = "근처의 안전 대피소 조회", description = "safe/v1/safe/nearwith/safe-shelter\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @GetMapping("/nearwith/safe-shelter/all")
+    public ApiResponseEntity<NearShelterPageResponseDto> findSafeShelterNearWithPaging(
+                                                                                       @RequestParam("longitude") double longitude,
+                                                                                       @RequestParam("latitude") double latitude,
+                                                                                       @RequestParam("distance") double distance,
+                                                                                       @PageableDefault(size = 50,
+                                                                                               sort = "id",
+                                                                                               direction = Sort.Direction.ASC) Pageable pageable) {
+        UserLocation userLocation = UserLocation.builder()
+                .longitude(longitude)
+                .latitude(latitude)
+                .distance(distance)
+                .build();
+        NearShelterPageResponseDto shelterNearWithPaging = shelterInfoService.findShelterNearWithPaging(userLocation, pageable);
+        return ApiResponseEntity.ok(shelterNearWithPaging);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.place.service.impl;
 
 import com.enjoyservice.domain.place.entity.Place;
+import com.enjoyservice.domain.place.entity.type.KakaoId;
 import com.enjoyservice.domain.place.exception.PlaceNotFoundException;
 import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.place.service.PlaceService;
@@ -28,6 +29,11 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public List<Place> findAllById(List<Long> ids) {
         return placeRepository.findAllById(ids);
+    }
+
+    @Override
+    public List<Place> findAllByKakaoId(List<KakaoId> kakaoIds) {
+        return placeRepository.findAllByKakaoId(kakaoIds);
     }
 
     @Override

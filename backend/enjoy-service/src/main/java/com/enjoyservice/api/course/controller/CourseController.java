@@ -34,7 +34,7 @@ public class CourseController {
     })
     @PostMapping("/course")
     public ApiResponseEntity<String> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
-                                                  @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto) {
+                                                  @MemberInfo MemberInfoDto memberInfoDto) {
         courseApiService.createCourse(courseCreateReq, memberInfoDto.getMemberId());
         return ApiResponseEntity.created("생성 성공");
     }
@@ -45,7 +45,7 @@ public class CourseController {
     })
     @GetMapping("/course")
     public ApiResponseEntity<CourseListRes> getCourseList(@RequestParam("region") String region,
-                                                          @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
+                                                          @MemberInfo MemberInfoDto memberInfoDto,
                                                           @PageableDefault(size = 100,
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {

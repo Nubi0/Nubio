@@ -26,6 +26,30 @@
 .env
 
 ### file
-course_list
-dataset
-w2v_model
+DAEGU_course_list
+DAEGU_dataset
+DAEGU_w2v_model
+
+GYEONGBUK_course_list
+GYEONGBUK_dataset
+GYEONGBUK_w2v_model
+
+DAEGU_course_list
+DAEGU_dataset
+DAEGU_w2v_model
+
+SEOUL_course_list
+SEOUL_dataset
+SEOUL_w2v_model
+
+DAEJEON_course_list
+DAEJEON_dataset
+DAEJEON_w2v_model
+
+BUSAN_course_list
+BUSAN_dataset
+BUSAN_w2v_model
+
+GWANGJU_course_list
+GWANGJU_dataset
+GWANGJU_w2v_model

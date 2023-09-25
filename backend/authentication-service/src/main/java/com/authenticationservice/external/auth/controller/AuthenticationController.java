@@ -2,6 +2,7 @@ package com.authenticationservice.external.auth.controller;
 
 import com.authenticationservice.global.config.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -30,7 +32,7 @@ public class AuthenticationController {
     private final WebClientConfig webClientConfig;
     private static HttpHeaders headers;
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH})
     public Mono<ResponseEntity<?>> handleAllRequests(@RequestBody(required = false) Map<String, Object> requestBody,
                                                      HttpServletRequest request) {
 
@@ -52,6 +54,21 @@ public class AuthenticationController {
         originalRequestUrl = setPath(originalRequestUrl);
 
         return sendRealRequest(requestBody, originalRequestUrl, requestMethod);
+    }
+
+    @GetMapping("/claim")
+    public Map<String, String> getClaim(@RequestParam("Authorization") String auth) {
+        String accessToken = auth.split(" ")[1];
+        Claims claims = jwtManager.getTokenClaims(accessToken);
+
+        String identification = claims.get("identification", String.class);
+        String role = claims.get("role", String.class);
+
+        Map map = new HashMap<>();
+        map.put("identification", identification);
+        map.put("role", role);
+
+        return map;
     }
 
     private void setPreHeader(HttpServletRequest request) {

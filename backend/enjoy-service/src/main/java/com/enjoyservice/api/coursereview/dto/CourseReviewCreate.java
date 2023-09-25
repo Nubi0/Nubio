@@ -1,7 +1,6 @@
 package com.enjoyservice.api.coursereview.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +17,9 @@ public class CourseReviewCreate {
         @NotBlank(message = "리뷰 내용은 필수값입니다.")
         private String content;
 
-        @NotBlank(message = "리뷰 점수는 필수값입니다.")
-        @Size(min = 0, max = 5, message = "리뷰 점수는 0 ~ 5 입니다.")
+        @NotNull(message = "리뷰 점수는 필수값입니다.")
+        @Max(value = 5, message = "리뷰 점수는 최대 5점입니다.")
+        @Min(value = 0, message = "리뷰 점수는 최소 0점입니다.")
         private int point;
     }
 

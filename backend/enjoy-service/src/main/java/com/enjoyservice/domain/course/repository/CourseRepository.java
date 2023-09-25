@@ -16,7 +16,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
 
     @Query("select c, cps, p, pi " +
             "from Course c " +
@@ -25,6 +25,14 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "left join fetch PlaceImage pi on pi.place = p " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
+
+    @Query("select distinct c, cps, p " +
+            "from Course c " +
+            "left join fetch CoursePlaceSequence cps on c = cps.course " +
+            "join fetch Place p on cps.place = p " +
+            "where c.region = :region")
+    List<Course> findAllByRegionToModel(@Param("region") Region region);
+
 
     @Query("select p, cps " +
             "from Course c " +
@@ -53,7 +61,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             "where c.id = :courseId and cl.memberId = :memberId")
     Optional<CourseLike> findCourseLikesByCourseId(@Param("courseId") Long courseId, @Param("memberId") String memberId);
 
-    @Query("select distinct c, t " +
+    @Query("select c, ct, t " +
             "from Course c " +
             "left join fetch CourseTag ct on c = ct.course " +
             "join fetch Tag t on ct.tag = t " +
@@ -71,4 +79,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     )
     Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
 
+
+    @Query("select p, cps, i " +
+            "from Course c " +
+            "left join fetch CoursePlaceSequence cps on c = cps.course " +
+            "join fetch Place p on cps.place = p " +
+            "left join fetch PlaceImage i on i.place = p " +
+            "where c = :course")
+    List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
 }

@@ -209,7 +209,7 @@ export const EvacuationRouteModalBox = styled.div`
 `;
 
 // 길 찾기 결과
-export const RootInfoWrapper = styled.div`
+export const RouteInfoWrapper = styled.div`
   position: absolute;
   bottom: 2.5rem;
   width: 100%;

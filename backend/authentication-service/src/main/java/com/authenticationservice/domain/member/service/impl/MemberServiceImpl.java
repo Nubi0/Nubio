@@ -4,7 +4,6 @@ import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.type.Email;
 import com.authenticationservice.domain.member.entity.type.Identification;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
-import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
 import com.authenticationservice.global.error.ErrorCode;

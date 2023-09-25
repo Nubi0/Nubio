@@ -3,7 +3,7 @@ package com.safeservice.api.shelter.service.impl;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.safeservice.api.shelter.dto.request.NearShelter;
+import com.safeservice.api.shelter.dto.request.UserLocation;
 import com.safeservice.api.shelter.dto.request.ShelterDto;
 import com.safeservice.api.shelter.dto.response.NearShelterPageResponseDto;
 import com.safeservice.api.shelter.service.ShelterInfoService;
@@ -70,10 +70,10 @@ public class ShelterInfoServiceImpl implements ShelterInfoService {
     }
 
     @Override
-    public NearShelterPageResponseDto findShelterNearWithPaging(NearShelter nearShelter, ShelterType shelterType, Pageable pageable) {
-
-        Point point = new Point(nearShelter.getLongitude(), nearShelter.getLatitude());
-        Distance distance = new Distance(nearShelter.getDistance(), Metrics.KILOMETERS);
+    public NearShelterPageResponseDto findShelterNearWithPaging(UserLocation userLocation, String shelterTypeStr, Pageable pageable) {
+        ShelterType shelterType = ShelterType.from(shelterTypeStr);
+        Point point = new Point(userLocation.getLongitude(), userLocation.getLatitude());
+        Distance distance = new Distance(userLocation.getDistance(), Metrics.KILOMETERS);
         Page<Shelter> shelterNearWithPaging = shelterService.findShelterNearWithPaging(point, distance, shelterType, pageable);
 
         return NearShelterPageResponseDto.from(shelterNearWithPaging);

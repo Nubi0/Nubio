@@ -4,7 +4,10 @@ import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.constant.Gender;
-import com.authenticationservice.domain.member.entity.type.*;
+import com.authenticationservice.domain.member.entity.type.Birth;
+import com.authenticationservice.domain.member.entity.type.Email;
+import com.authenticationservice.domain.member.entity.type.Identification;
+import com.authenticationservice.domain.member.entity.type.Nickname;
 import com.authenticationservice.domain.member.exception.MemberNotFoundException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.global.error.ErrorCode;
@@ -58,7 +61,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         Identification identification = Identification.from(memberInfo.getIdentification());
         Member member = findByIdentification(identification);
 
-        if(!profileImg.isEmpty()) {
+        if(profileImg != null) {
             // TODO : 이미지 s3 저장
 //            String url = fileService.uploadFile(profileImg, null).getUrl();
 //            member.setProfileUrl(url);

@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { ImgPlus, MyImg, ProfileImg } from "../../styles/SProfilePage";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UserImg = ({setIsChange}: any) => {
     const user = process.env.PUBLIC_URL + "/assets/user.png";
     const plus = process.env.PUBLIC_URL + '/assets/camera.svg';
+    const profileUrl = useSelector((state: any) => state.profile.profileUrl);
     const [image, setImage] = useState(user);
     const [prevImage, setPrevImage] = useState(user);
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const UserImg = ({setIsChange}: any) => {
 
     return(
         <ProfileImg>
-            <MyImg src={image} alt="" />
+            <MyImg src={profileUrl} alt="" />
             <ImgPlus src={plus} onClick={handlePlus} />
             <input 
                 type="file" 

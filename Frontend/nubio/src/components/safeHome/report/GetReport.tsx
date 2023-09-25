@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const GetReport = () => {
   const latitude =
@@ -21,6 +22,9 @@ const GetReport = () => {
         console.log(err);
       });
   };
+  useEffect(() => {
+    getReport();
+  });
   return;
 };
 export default GetReport;

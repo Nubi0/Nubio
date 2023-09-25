@@ -10,5 +10,5 @@ public interface ReportService {
     Report update(Report report, Long reportId, String identification);
 
     void delete(Long id);
-    List<Report> searchReport();
+    List<Report> searchReport(double longitude, double latitude);
 }

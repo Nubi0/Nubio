@@ -22,6 +22,8 @@ public enum ErrorCode {
     NOT_VALID_TOKEN(HttpStatus.UNAUTHORIZED, "A-002", "해당 토큰은 유효한 토큰이 아닙니다."),
     EMAIL_CONFIRM_FAILED(HttpStatus.BAD_REQUEST, "A-003", "이메일 인증 실패하였습니다."),
 
+    // 프로필
+    PROFILE_SIZE_LIMIT(HttpStatus.BAD_REQUEST, "P-003", "제출할 수 있는 파일 사이즈를 초과했습니다."),
     ;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

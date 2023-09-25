@@ -1,6 +1,9 @@
 package com.authenticationservice.global.resolver.memberInfo;
 
+import com.authenticationservice.global.jwt.service.JwtManager;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -9,11 +12,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import java.util.Enumeration;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver {
+
+    private final JwtManager jwtManager;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -26,8 +31,13 @@ public class MemberInfoArgumentResolver implements HandlerMethodArgumentResolver
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String identification = request.getHeader("X-Identification");
-        String role = request.getHeader("X-Role");
+        String authorizationHeader = request.getHeader("Authorization");
+        String token = authorizationHeader.split(" ")[1];
+
+        Claims claims = jwtManager.getTokenClaims(token);
+        String identification = (String) claims.get("identification");
+        String role = (String) claims.get("role");
+
 
         return MemberInfoDto.builder()
                 .identification(identification)

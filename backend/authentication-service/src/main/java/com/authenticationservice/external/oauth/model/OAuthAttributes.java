@@ -17,7 +17,7 @@ public class OAuthAttributes { // 회원 정보 가져올 때 통일시킴
 
     private String nickname;
     private String email;
-    private String profileUrl;
+    //private String profileUrl;
     private OAuthType oauthType;
 
     public Member toMemberEntity(OAuthType oauthType, Role role) {
@@ -25,7 +25,7 @@ public class OAuthAttributes { // 회원 정보 가져올 때 통일시킴
                 .nickname(Nickname.from(nickname))
                 .email(Email.from(email))
                 .oAuthType(oauthType)
-                .profileUrl(ProfileUrl.from(profileUrl))
+                //.profileUrl(ProfileUrl.from(profileUrl))
                 .role(role)
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.authenticationservice.domain.member.entity;
 
 import com.authenticationservice.domain.common.BaseTimeEntity;
+import com.authenticationservice.domain.profile.entity.Profile;
 import com.authenticationservice.domain.member.entity.constant.Gender;
 import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.domain.member.entity.constant.Role;
@@ -39,11 +40,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "oauth_type", nullable = false)
     private OAuthType oAuthType;
 
-//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private ProfileImg profileImg;
-
-    @Embedded
-    private ProfileUrl profileUrl;
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Profile profile;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -68,7 +66,7 @@ public class Member extends BaseTimeEntity {
 
     @Builder
     public Member(Long id, Identification identification, Email email, Nickname nickname,
-                  Password password, OAuthType oAuthType, ProfileUrl profileUrl, Role role,
+                  Password password, OAuthType oAuthType, Role role,
                   Gender gender, Birth birth, String refreshToken, LocalDateTime refreshTokenExpirationTime) {
         this.id = id;
         this.identification = identification;
@@ -76,7 +74,6 @@ public class Member extends BaseTimeEntity {
         this.nickname = nickname;
         this.password = password;
         this.oAuthType = oAuthType;
-        this.profileUrl = profileUrl;
         this.role = role;
         this.gender = gender;
         this.birth = birth;
@@ -90,12 +87,16 @@ public class Member extends BaseTimeEntity {
         this.refreshTokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpireTime());
     }
 
+    public void updateImage(Profile profile) {
+        this.profile = profile;
+    }
+
     public void withdraw() {
         this.email.withdrawEmail();
         if (this.birth != null) this.birth.withdrawBirth();
         this.nickname.withdrawNickname();
         this.password.withdrawPassword();
-        if (this.profileUrl != null) this.profileUrl.withdrawProfileUrl();
+        if (this.profile != null) this.profile.withdrawProfile();
         this.active.withdrawActive();
     }
 }

@@ -3,17 +3,16 @@ import { useSelector } from "react-redux";
 
 const GetReport = () => {
   const latitude =
-    useSelector(
-      (state: { MapSlice: { latitude: string } }) => state.MapSlice.latitude,
-    ) || null;
+    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
+    null;
   const longitude =
     useSelector(
-      (state: { MapSlice: { longitude: string } }) => state.MapSlice.longitude,
+      (state: { map: { longitude: string } }) => state.map.longitude
     ) || null;
   const getReport = () => {
     axios
       .get(
-        `https://nubi0.com/api/v1/safe/report?longitude=${longitude}&latitude=${latitude}`,
+        `https://nubi0.com/api/v1/safe/report?longitude=${longitude}&latitude=${latitude}`
       )
       .then((res) => {
         console.log(res);

@@ -10,7 +10,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 
-const ReportModal = () => {
+const CreateModal = () => {
   const loudSpeaker =
     process.env.PUBLIC_URL + "/assets/disaster/loudSpeaker.svg";
   // 모달
@@ -25,12 +25,11 @@ const ReportModal = () => {
   const [title, onChangeTitle] = useInput("");
   const [content, onChangeContent] = useInput("");
   const latitude =
-    useSelector(
-      (state: { MapSlice: { latitude: string } }) => state.MapSlice.latitude,
-    ) || null;
+    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
+    null;
   const longitude =
     useSelector(
-      (state: { MapSlice: { longitude: string } }) => state.MapSlice.longitude,
+      (state: { map: { longitude: string } }) => state.map.longitude
     ) || null;
   // 이미지
   const [images, setImages] = useState<File[]>([]);
@@ -69,11 +68,11 @@ const ReportModal = () => {
     });
     formData.append(
       "report",
-      new Blob([JSON.stringify(report)], { type: "application/json" }),
+      new Blob([JSON.stringify(report)], { type: "application/json" })
     );
 
     axios
-      .post("https://nubi0.com/api/v1/safe/report", formData, {
+      .post("https://nubi0.com/safe/v1/safe/report", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -156,4 +155,4 @@ const ReportModal = () => {
     </>
   );
 };
-export default ReportModal;
+export default CreateModal;

@@ -115,6 +115,7 @@ public class CourseMapper {
         return CourseDetailRes.builder()
                 .courseInfo(
                         CourseDetailRes.CourseInfo.builder()
+                                .courseId(course.getId())
                                 .title(course.getTitle().getValue())
                                 .content(course.getContent().getValue())
                                 .courseTags(tags.stream().map(tag -> tag.getName().getValue()).toList())

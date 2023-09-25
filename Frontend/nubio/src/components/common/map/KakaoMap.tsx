@@ -16,8 +16,8 @@ import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
   setLatitude,
   setLongitude,
-  setSafeLatitude,
-  setSafeLongitude,
+  setSafeTime,
+  setShortTime,
 } from "../../../redux/slice/MapSlice";
 
 interface placeType {
@@ -151,7 +151,7 @@ const KakaoMap = (props: propsType) => {
             console.log(distances);
             console.log(walkTime);
             dispatch(
-              setTime({
+              setShortTime({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
@@ -165,7 +165,7 @@ const KakaoMap = (props: propsType) => {
         var polyline = new kakao.maps.Polyline({
           path: linePath, // 선을 구성하는 좌표배열 입니다
           strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: "#FFC542", // 선의 색깔입니다
+          strokeColor: "red", // 선의 색깔입니다
           strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
           strokeStyle: "solid", // 선의 스타일입니다
         });
@@ -204,7 +204,6 @@ const KakaoMap = (props: propsType) => {
         console.log(res);
         var safeLatitude = res.data.data.content[0].location.latitude;
         var safeLongitude = res.data.data.content[0].location.longitude;
-
         getSafeDirection(safeLatitude, safeLongitude);
       })
       .catch((err) => {
@@ -308,7 +307,7 @@ const KakaoMap = (props: propsType) => {
             console.log(distances);
             console.log(walkTime);
             dispatch(
-              setTime({
+              setSafeTime({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
@@ -322,7 +321,7 @@ const KakaoMap = (props: propsType) => {
         var polyline = new kakao.maps.Polyline({
           path: linePath, // 선을 구성하는 좌표배열 입니다
           strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: "red", // 선의 색깔입니다
+          strokeColor: "green", // 선의 색깔입니다
           strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
           strokeStyle: "solid", // 선의 스타일입니다
         });

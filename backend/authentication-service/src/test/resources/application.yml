@@ -68,3 +68,13 @@ oauth2:
 nubio:
   url: https://ooooo.com
   auth: http://ec2-00-000-00-000.ap-northeast-2.compute.amazonaws.com:8080
+
+cloud:
+  aws:
+    s3:
+      bucket: nubio
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: sfdgdgdfgregre
+      secretKey: oHZfsgdfgdfs7/ICFmpuGpMKDvdfadsfdsfJ6h

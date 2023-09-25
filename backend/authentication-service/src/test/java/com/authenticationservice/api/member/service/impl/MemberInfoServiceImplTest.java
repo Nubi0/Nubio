@@ -81,7 +81,7 @@ class MemberInfoServiceImplTest {
         assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
         assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
         assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
-        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfile() != null) ? savedBeforeMember.getProfile().getFileUrl().getValue() : null);
     }
 
     @DisplayName("존재하는 email로 member를 조회하면 성공한다.")
@@ -118,7 +118,7 @@ class MemberInfoServiceImplTest {
         assertThat(res.getIdentification()).isEqualTo(savedBeforeMember.getIdentification().getValue());
         assertThat(res.getEmail()).isEqualTo(savedBeforeMember.getEmail().getValue());
         assertThat(res.getNickname()).isEqualTo(savedBeforeMember.getNickname().getValue());
-        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfileUrl() != null) ? savedBeforeMember.getProfileUrl().getValue() : null);
+        assertThat(res.getProfileUrl()).isEqualTo((savedBeforeMember.getProfile() != null) ? savedBeforeMember.getProfile().getFileUrl().getValue() : null);
     }
 
     @DisplayName("회원 탈퇴를 성공한다.")
@@ -135,7 +135,7 @@ class MemberInfoServiceImplTest {
         assertThat(member.getEmail().getValue()).contains(savedBeforeMember.getEmail().getValue());
         assertThat(member.getBirth().getValue()).isEqualTo(LocalDate.of(1000,1,1));
         assertThat(member.getPassword().getValue()).isEqualTo("탈퇴한 회원입니다.");
-        if (member.getProfileUrl() != null) assertThat(member.getProfileUrl().getValue()).isEqualTo("탈퇴한 회원입니다.");
+        if (member.getProfile() != null) assertThat(member.getProfile().getFileUrl().getValue()).isEqualTo("탈퇴한 회원입니다.");
         assertThat(member.getActive().getValue()).isEqualTo(false);
     }
 }

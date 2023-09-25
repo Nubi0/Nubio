@@ -35,7 +35,7 @@ public class KakaoLoginApiServiceImpl implements SocialLoginApiService {
         return OAuthAttributes.builder()
                 .email(!StringUtils.hasText(email) ? kakaoUserInfoResponseDto.getId() : email)
                 .nickname(kakaoAccount.getProfile().getNickname())
-                .profileUrl(kakaoAccount.getProfile().getThumbnailImageUrl())
+                //.profileUrl(kakaoAccount.getProfile().getThumbnailImageUrl())
                 .oauthType(OAuthType.KAKAO)
                 .build();
     }

@@ -2,6 +2,7 @@ package com.authenticationservice.api.member.service.impl;
 
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
+import com.authenticationservice.api.profile.service.ProfileUploadService;
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.constant.Gender;
 import com.authenticationservice.domain.member.entity.type.Birth;
@@ -29,6 +30,9 @@ import java.util.Optional;
 public class MemberInfoServiceImpl implements MemberInfoService {
 
     private final MemberRepository memberRepository;
+    private final ProfileUploadService profileUploadService;
+
+    private final String category = "nubio";
 
     @Override
     public MemberResDto getMemberInfo(MemberInfoDto memberInfo) {
@@ -62,9 +66,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         Member member = findByIdentification(identification);
 
         if(profileImg != null) {
-            // TODO : 이미지 s3 저장
-//            String url = fileService.uploadFile(profileImg, null).getUrl();
-//            member.setProfileUrl(url);
+            profileUploadService.uploadProfile(category, member, profileImg);
         }
         if(!nickname.isEmpty()) member.setNickname(Nickname.from(nickname));
         if(!gender.isEmpty()) member.setGender(Gender.from(gender));

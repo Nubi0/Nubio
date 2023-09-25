@@ -19,4 +19,5 @@ public interface ShelterService {
 
     List<Shelter> findShelterNear(Point point, Distance distance);
     Page<Shelter> findShelterNearWithPaging(Point point, Distance distance,Pageable pageable);
+
 }

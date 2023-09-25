@@ -1,5 +1,6 @@
 package com.enjoyservice.api.taste.service.impl;
 
+import com.enjoyservice.api.taste.dto.create.TasteInfoReq;
 import com.enjoyservice.api.taste.dto.search.TasteApiRes;
 import com.enjoyservice.api.taste.dto.update.MemberTasteReq;
 import com.enjoyservice.api.taste.service.TasteApiService;
@@ -60,6 +61,11 @@ public class TasteApiServiceImpl implements TasteApiService {
     @Transactional
     public void createTaste(String memberId, MemberTasteReq memberTasteReq) {
         saveTaste(memberId, memberTasteReq);
+    }
+
+    @Override
+    public void saveTaste(TasteInfoReq tasteInfoReq) {
+        tasteService.saveTaste(TasteInfoReq.toEntity(tasteInfoReq));
     }
 
     private void saveTaste(String memberId, MemberTasteReq memberTasteReq) {

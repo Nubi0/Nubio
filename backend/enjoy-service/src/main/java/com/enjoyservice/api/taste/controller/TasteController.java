@@ -1,6 +1,7 @@
 package com.enjoyservice.api.taste.controller;
 
 import com.enjoyservice.api.ApiResponseEntity;
+import com.enjoyservice.api.taste.dto.create.TasteInfoReq;
 import com.enjoyservice.api.taste.dto.search.TasteApiRes;
 import com.enjoyservice.api.taste.dto.update.MemberTasteReq;
 import com.enjoyservice.api.taste.service.TasteApiService;
@@ -43,15 +44,25 @@ public class TasteController {
         return ApiResponseEntity.ok("수정 완료 하였습니다.");
     }
 
-    @Operation(summary = "취향 생성", description = "enjoy/v1/enjoy/profile/taste\n\n" )
+    @Operation(summary = "멤버 취향 생성", description = "enjoy/v1/enjoy/profile/taste\n\n" )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description =  "OK"),
     })
     @PostMapping("/taste")
-    public ApiResponseEntity<String> createTaste(@MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
+    public ApiResponseEntity<String> createMemberTaste(@MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
                                                  @RequestBody MemberTasteReq memberTasteReq) {
         tasteApiService.createTaste(memberInfoDto.getMemberId(), memberTasteReq);
         return ApiResponseEntity.ok("생성 완료 하였습니다.");
     }
 
+    @Operation(summary = "취향 생성", description = "enjoy/v1/enjoy/profile/taste/create\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description =  "OK"),
+    })
+    @PostMapping("/taste/create")
+    public ApiResponseEntity<String> createTaste(@MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
+                                                 @RequestBody TasteInfoReq tasteInfoReq) {
+        tasteApiService.saveTaste(tasteInfoReq);
+        return ApiResponseEntity.ok("생성 완료 하였습니다.");
+    }
 }

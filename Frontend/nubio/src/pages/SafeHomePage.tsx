@@ -4,6 +4,7 @@ import FirstModal from "../components/safeHome/FirstModal";
 import Calamity from "../components/safeHome/calamity/Calamity";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GetCalamity from "../components/safeHome/calamity/GetCalamity";
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ const SafeHomePage = () => {
   return (
     <SafeHomeWrapper>
       <FirstModal />
+      <GetCalamity></GetCalamity>
       {isReceiveMessage ? (
         <Calamity setIsReceiveMessage={setIsReceiveMessage} />
       ) : null}

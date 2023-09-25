@@ -223,7 +223,7 @@ export const RouteInfoWrapper = styled.div`
 export const ShortDistanceWrapper = styled.div`
   width: 40%;
   height: 90%;
-  background: #ffc542;
+  background: red;
   border-radius: 1rem;
   padding: 0.5rem;
   p {
@@ -236,7 +236,7 @@ export const SafeDistanceWrapper = styled.div`
   width: 40%;
   height: 90%;
   border-radius: 1rem;
-  background: #f25260;
+  background: #33ff57;
   padding: 0.5rem;
   p {
     margin: 0.5rem;

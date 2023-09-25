@@ -19,6 +19,7 @@ import {
   setSafeTime,
   setShortTime,
 } from "../../../redux/slice/MapSlice";
+import NearbyShelter from "../../safeHome/route/safe/NearbyShelter";
 
 interface placeType {
   place_name: string;
@@ -35,7 +36,7 @@ const { kakao } = window as any;
 
 declare global {
   interface Window {
-    kakaoManager: any; // 또는 DrawingManager 타입에 맞는 타입 지정
+    kakaoManager: any;
     map: any;
     infowindow: any;
     ps: any;
@@ -52,7 +53,6 @@ const KakaoMap = (props: propsType) => {
   const [endY, setEndY] = useState("");
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
-  const timeData = useSelector((state: any) => state.enjoy.time);
 
   // 마커를 담는 배열
   let markers: any[] = [];
@@ -161,16 +161,14 @@ const KakaoMap = (props: propsType) => {
         };
         calculateAndDisplayLineDistances();
 
-        // 지도에 표시할 선을 생성합니다
         var polyline = new kakao.maps.Polyline({
-          path: linePath, // 선을 구성하는 좌표배열 입니다
-          strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: "red", // 선의 색깔입니다
-          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: "solid", // 선의 스타일입니다
+          path: linePath,
+          strokeWeight: 5,
+          strokeColor: "red",
+          strokeOpacity: 0.7,
+          strokeStyle: "solid",
         });
         window.polyline = polyline;
-        // // 지도에 선을 표시합니다
         polyline.setMap(window.map);
         setFindRouteOpen(true);
       })
@@ -180,14 +178,6 @@ const KakaoMap = (props: propsType) => {
   };
 
   // 안전경로 길찾기
-  var safeLatitude =
-    useSelector(
-      (state: { map: { safeLatitude: string } }) => state.map.safeLatitude
-    ) || null;
-  var safeLongitude =
-    useSelector(
-      (state: { map: { safeLongitude: string } }) => state.map.safeLongitude
-    ) || null;
   const getSafeLocation = () => {
     axios
       .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
@@ -317,16 +307,14 @@ const KakaoMap = (props: propsType) => {
         };
         calculateAndDisplayLineDistances();
 
-        // 지도에 표시할 선을 생성합니다
         var polyline = new kakao.maps.Polyline({
-          path: linePath, // 선을 구성하는 좌표배열 입니다
-          strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: "green", // 선의 색깔입니다
-          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: "solid", // 선의 스타일입니다
+          path: linePath,
+          strokeWeight: 5,
+          strokeColor: "#33ff57",
+          strokeOpacity: 0.7,
+          strokeStyle: "solid",
         });
         window.polyline = polyline;
-        // // 지도에 선을 표시합니다
         polyline.setMap(window.map);
         setFindRouteOpen(true);
       })
@@ -780,6 +768,7 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
+      <NearbyShelter></NearbyShelter>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}
@@ -797,10 +786,12 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-          <button id="find" onClick={getShortDirection}>
+          <button id="short" onClick={getShortDirection}>
             빠른 길 찾기
           </button>
-          <button onClick={getSafeLocation}>안전한 길 찾기</button>
+          <button id="safe" onClick={getSafeLocation}>
+            안전한 길 찾기
+          </button>
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list"></ul>
           </SearchListWrapper>

@@ -25,6 +25,6 @@ const NearbyShelter = () => {
   useEffect(() => {
     getNearbyShelter();
   });
-  return;
+  return null;
 };
 export default NearbyShelter;

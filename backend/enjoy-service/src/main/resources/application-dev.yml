@@ -12,11 +12,11 @@ spring:
 #    password:
 #    driver-class-name: org.h2.Driver
 
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/enjoy_db?useUnicode=true&serverTimezone=Asia/Seoul
-#    username: root
-#    password: 
-#    driver-class-name: org.h2.Driver
+  datasource:
+    url: jdbc:mysql://localhost:3306/enjoy_db?useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: fpwmshvm@12
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -43,5 +43,5 @@ spring:
 logging:
   level:
     org.hibernate.sql: debug
-    org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
+    org.hibernate.type.descriptor.sql.BasicBinder: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
     com.enjoyservice: trace

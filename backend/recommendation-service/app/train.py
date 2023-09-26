@@ -25,10 +25,10 @@ def recommend(model,positiveVal,negativeVal=[], produc_list=[],dataset={}):
 
     # 만약 모든 입력이 존재하지 않는다면 일정한 입력 미리 넣기
     if len(pos) == 0:
-        pos.append("고기")
+        pos.append("한식")
         
     reco_list=[]
-    similar_words = model.most_similar(positive=pos, negative=negativeVal, topn=100, restrict_vocab=None)
+    similar_words = model.most_similar(positive=pos, negative=negativeVal, topn=200, restrict_vocab=None)
     # print(similar_words)
     reco_list = [word for word, _ in similar_words]
     result = [s for s in map(str, reco_list) if any(str(x) in s for x in map(str, produc_list))]

@@ -59,7 +59,7 @@ public class CourseCreateReq {
 
         @NotNull(message = "장소 id는 필수값입니다.")
         @JsonProperty("kakao_id")
-        private int kakaoId;
+        private long kakaoId;
 
         @NotNull(message = "장소 순서는 필수값입니다.")
         @Min(value = 1, message = "장소 순서의 최소값은 1입니다.")

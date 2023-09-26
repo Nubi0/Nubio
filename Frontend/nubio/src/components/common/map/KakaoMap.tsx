@@ -6,12 +6,15 @@ import {
   SearchResultsWrapper,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux"
 import { setPosition, setTime } from "../../../redux/slice/EnjoySlice";
 import axios from "axios";
 import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
 import { useLocation } from "react-router";
+import { MyLocation } from "../../../styles/SSafeHomePage";
+import RootInfo from "../../safeHome/route/RootInfo";
+
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -23,7 +26,6 @@ interface placeType {
   y: string;
 }
 
-// head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
 declare global {
@@ -35,6 +37,8 @@ declare global {
     polyline: any;
     startCustomOverlay: any;
     endCustomOverlay: any;
+    mylatitude: any;
+    mylongitude: any;
   }
 }
 
@@ -43,6 +47,10 @@ const KakaoMap = (props: propsType) => {
   const [startY, setStartY] = useState("");
   const [endX, setEndX] = useState("");
   const [endY, setEndY] = useState("");
+  const [listIsOpen, setListIsOpen] = useState(false);
+  const [findRouteOpen, setFindRouteOpen] = useState(false);
+  const timeData = useSelector((state: any) => state.enjoy.time);
+
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
@@ -51,6 +59,33 @@ const KakaoMap = (props: propsType) => {
   const [endName, setEndName] = useState<any>("");
   const location = useLocation();
 
+  const startCurPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          window.mylatitude = latitude;
+          window.mylongitude = longitude;
+          const map = window.map;
+          map.setCenter(new window.kakao.maps.LatLng(latitude, longitude));
+          // 현재 위치에 마커를 표시
+          const marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(
+              window.mylatitude,
+              window.mylongitude,
+            ),
+          });
+          marker.setMap(map); // 마커를 지도에 표시
+        },
+        (error) => {
+          console.error("geolocation 에러 발생:", error);
+        },
+      );
+    } else {
+      console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
+    }
+  };
   const TmapGetDirection = () => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var data = {
@@ -68,9 +103,10 @@ const KakaoMap = (props: propsType) => {
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers }
+        { headers: headers },
       )
       .then((res) => {
+        console.log(res);
         function flattenArray(arr: any) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {
@@ -82,13 +118,11 @@ const KakaoMap = (props: propsType) => {
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
+          flattenArray(feature.geometry.coordinates),
         );
         const coordinatesList = [];
-
         for (let i = 0; i < coordinates.length; i += 2) {
           if (i + 1 < coordinates.length) {
-            // coordinatesList.push([coordinates[i + 1], coordinates[i]]);
             coordinatesList.push([coordinates[i], coordinates[i + 1]]);
           }
         }
@@ -101,13 +135,68 @@ const KakaoMap = (props: propsType) => {
         const coordinate = convertedCoordinatesList.flatMap((feature: any) => {
           return feature;
         });
-        const linePath = []; // linePath를 여기서 정의
+        const linePath: any = [];
         for (let i = 0; i < coordinate?.length; i += 2) {
           const latitude = parseFloat(coordinate[i + 1]);
           const longitude = parseFloat(coordinate[i]);
           const latLng = new kakao.maps.LatLng(latitude, longitude);
           linePath.push(latLng);
         }
+
+        // 거리계산 공식
+        const calculateLineDistance = (line: any) => {
+          const R = 6371;
+          let totalDistance = 0;
+          for (let i = 0; i < line.length - 1; i++) {
+            const point1 = line[i];
+            const point2 = line[i + 1];
+            const dLat = deg2rad(point1["Ma"] - point2["Ma"]);
+            const dLon = deg2rad(point1["La"] - point2["La"]);
+            if (dLat === 0 && dLon === 0) {
+              continue;
+            }
+            const a =
+              Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(deg2rad(point1["Ma"])) *
+                Math.cos(deg2rad(point2["Ma"])) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c * 1000;
+            totalDistance += distance;
+          }
+
+          return totalDistance;
+        };
+        // 거리가 계산된 결과 출력 함수
+        const calculateAndDisplayLineDistances = () => {
+          if (linePath.length > 0) {
+            const distances: any = calculateLineDistance(linePath);
+            const walkkTime = (distances / 67) | 0;
+            if (walkkTime > 60) {
+              dispatch(
+                setTime({
+                  time: Math.ceil(walkkTime / 60),
+                  type: "시간",
+                  dis: Math.floor(distances),
+                }),
+              );
+            } else {
+              dispatch(
+                setTime({
+                  time: walkkTime % 60,
+                  type: "분",
+                  dis: Math.floor(distances),
+                }),
+              );
+            }
+          } else {
+            console.log("라인이 그려지지 않았습니다.");
+          }
+        };
+        calculateAndDisplayLineDistances();
+
         // 지도에 표시할 선을 생성합니다
         var polyline = new kakao.maps.Polyline({
           path: linePath, // 선을 구성하는 좌표배열 입니다
@@ -119,6 +208,7 @@ const KakaoMap = (props: propsType) => {
         window.polyline = polyline;
         // // 지도에 선을 표시합니다
         polyline.setMap(window.map);
+        setFindRouteOpen(true);
       })
       .catch((err) => {
         console.log(err);
@@ -134,13 +224,12 @@ const KakaoMap = (props: propsType) => {
   // 거리가 계산된 결과 출력 함수
   const calculateAndDisplayLineDistances = () => {
     const drawnLines = getDrawnLines();
-    console.log(drawnLines);
+
     if (drawnLines.length > 0) {
       const distances = drawnLines.map((line: any) => {
         const distance = calculateLineDistance(line);
         return distance.toFixed();
       });
-      console.log(distances[0]);
       const walkkTime = (distances / 67) | 0;
       if (walkkTime > 60) {
         dispatch(
@@ -148,11 +237,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkkTime / 60),
             type: "시간",
             dis: distances[0],
-          })
+          }),
         );
       } else {
         dispatch(
-          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] })
+          setTime({ time: walkkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {
@@ -162,6 +251,7 @@ const KakaoMap = (props: propsType) => {
 
   // 거리계산 공식
   const calculateLineDistance = (line: any) => {
+    console.log(line);
     const path = line["points"];
     const R = 6371;
     let totalDistance = 0;
@@ -170,6 +260,8 @@ const KakaoMap = (props: propsType) => {
       const point2 = path[i + 1];
       const dLat = deg2rad(point1["y"] - point2["y"]);
       const dLon = deg2rad(point1["x"] - point2["x"]);
+      console.log(dLat);
+      console.log(dLon);
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(deg2rad(point1["y"])) *
@@ -273,6 +365,19 @@ const KakaoMap = (props: propsType) => {
         itemEl.onmouseout = function () {
           window.infowindow.close();
         };
+
+        // 스마트폰 터치 및 클릭 이벤트 처리
+        itemEl.addEventListener("click", function () {
+          displayInfowindow(marker, title);
+        });
+
+        itemEl.addEventListener("touchstart", function () {
+          displayInfowindow(marker, title);
+        });
+
+        itemEl.addEventListener("touchend", function () {
+          window.infowindow.close();
+        });
       })(marker, places[i].place_name);
 
       fragment.appendChild(itemEl);
@@ -464,9 +569,12 @@ const KakaoMap = (props: propsType) => {
 
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
+    // 현재위치
+    // startCurPosition();
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+      // center: new kakao.maps.LatLng(window.mylatitude, window.mylongitude),
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3, // 지도의 확대 레벨
     };
 
@@ -491,9 +599,10 @@ const KakaoMap = (props: propsType) => {
         zIndex: 1000,
       },
     };
+
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options
+      options,
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -511,7 +620,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng
+          props.position[i].lng,
         ),
       });
 
@@ -524,12 +633,24 @@ const KakaoMap = (props: propsType) => {
     // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     window.infowindow = infowindow;
+
+    // 맵 클릭 시 검색리스트 안보임
+    window.map.addListener("click", () => {
+      setListIsOpen(false);
+      // setFindRouteOpen(false);
+    });
   }, []);
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <SearchBar searchPlaces={searchPlaces} />
-      {props.searchKeyword !== "" ? (
+      <SearchBar
+        searchPlaces={searchPlaces}
+        setListIsOpen={setListIsOpen}
+        setFindRouteOpen={setFindRouteOpen}
+      />
+      <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
+      {findRouteOpen ? <RootInfo /> : null}
+      {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">
             {props.searchKeyword}

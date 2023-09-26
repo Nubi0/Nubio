@@ -2,6 +2,7 @@ package com.authenticationservice.api.auth.service.impl;
 
 import com.authenticationservice.api.auth.dto.request.LoginReqDto;
 import com.authenticationservice.api.auth.dto.request.SignupReqDto;
+import com.authenticationservice.api.auth.dto.response.AccessTokenResDto;
 import com.authenticationservice.api.auth.dto.response.SignResDto;
 import com.authenticationservice.api.auth.exception.InvalidEmailException;
 import com.authenticationservice.api.auth.exception.InvalidPasswordException;
@@ -16,6 +17,7 @@ import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
 import com.authenticationservice.global.error.ErrorCode;
 import com.authenticationservice.global.error.exception.BusinessException;
+import com.authenticationservice.global.jwt.constant.GrantType;
 import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
@@ -95,5 +98,19 @@ public class AuthServiceImpl implements AuthService {
         // redis에 black-list 등록
         Long tokenExpiration = jwtManager.getTokenExpiration(accessToken);
         redisUtil.setBlackList(accessToken, "access-token", tokenExpiration);
+    }
+
+    @Override
+    public AccessTokenResDto createAccessTokenByRefreshToken(String refreshToken) {
+        Member member = memberService.findByRefreshToken(refreshToken);
+
+        Date accessTokenExpireTime = jwtManager.createAccessTokenExpireTime();
+        String accessToken = jwtManager.createAccessToken(member.getIdentification().getValue(), member.getRole(),  accessTokenExpireTime);
+
+        return AccessTokenResDto.builder()
+                .grantType(GrantType.BEARER.getType())
+                .accessToken(accessToken)
+                .accessTokenExpireTime(accessTokenExpireTime)
+                .build();
     }
 }

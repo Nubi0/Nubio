@@ -26,6 +26,8 @@ public class CourseLikeApiServiceImpl implements CourseLikeApiService {
         Course course = courseService.findById(courseId);
         boolean result = courseService.changeCourseLikeState(courseId, memberId);
         List<CourseLike> courseLikes = courseLikeService.findAllByCourseAndActiveIsTrue(course);
+        course.updateLikeCount(courseLikes.size());
+
         return CourseLikeRes.builder()
                 .courseId(courseId)
                 .likeCount(courseLikes.size())

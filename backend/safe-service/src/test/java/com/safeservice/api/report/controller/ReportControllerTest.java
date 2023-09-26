@@ -294,6 +294,8 @@ class ReportControllerTest extends ControllerTestSupport {
         mockMvc.perform(
                         get("/v1/safe/report")
                                 .header("Identification","kim")
+                                .param("longitude", "123.456")
+                                .param("latitude", "45.678")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())

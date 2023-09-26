@@ -2,10 +2,7 @@ package com.enjoyservice.domain.course.entity;
 
 import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.course.entity.constant.Region;
-import com.enjoyservice.domain.course.entity.type.Active;
-import com.enjoyservice.domain.course.entity.type.Content;
-import com.enjoyservice.domain.course.entity.type.PublicFlag;
-import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.course.entity.type.*;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import jakarta.persistence.*;
@@ -43,6 +40,9 @@ public class Course extends BaseEntity {
     private PublicFlag publicFlag;
 
     @Embedded
+    private LikeCount likeCount = LikeCount.from(0);
+
+    @Embedded
     private Active active = Active.from(true);
 
     @Column(name = "member_id")
@@ -61,5 +61,9 @@ public class Course extends BaseEntity {
         this.region = region;
         this.publicFlag = publicFlag;
         this.memberId = memberId;
+    }
+
+    public void updateLikeCount(long value) {
+        this.likeCount.updateValue(value);
     }
 }

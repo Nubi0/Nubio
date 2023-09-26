@@ -27,11 +27,15 @@ public enum ErrorCode {
     // File
     INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, "F-001", "csv 파일 형식이 잘못되었습니다."),
     FILE_FORMAT(HttpStatus.BAD_REQUEST, "F-002", "파일 형식이 잘못되었습니다."),
-    COURSE_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "CR-002", "해당 코스 리뷰는 존재하지 않습니다."),
+    COURSE_REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "F-003", "해당 코스 리뷰는 존재하지 않습니다."),
 
     // 취향
     INVALID_TASTE(HttpStatus.BAD_REQUEST,"T-001","해당 취향 목록은 존재하지 않습니다."),
-    INVALID_DETAIL_TASTE(HttpStatus.BAD_REQUEST,"T-001","해당 취향 상세 목록은 존재하지 않습니다."),
+    INVALID_DETAIL_TASTE(HttpStatus.BAD_REQUEST,"T-002","해당 취향 상세 목록은 존재하지 않습니다."),
+    INVALID_CHECK_TASTE(HttpStatus.BAD_REQUEST,"T-003","해당 유저의 취향이 존재하지 않습니다."),
+
+    // 코스 추천
+    INVALID_RECOMMENDATION_LIST(HttpStatus.BAD_REQUEST,"R-001","적어도 하나의 취향을 선택하여야 합니다."),
 
     ;
 

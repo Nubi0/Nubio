@@ -12,15 +12,15 @@ spring:
 #    password:
 #    driver-class-name: org.h2.Driver
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/enjoy_db?useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password:
-    driver-class-name: org.h2.Driver
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/enjoy_db?useUnicode=true&serverTimezone=Asia/Seoul
+#    username: root
+#    password: 
+#    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:

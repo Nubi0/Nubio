@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -52,6 +53,21 @@ public class AuthenticationController {
         originalRequestUrl = setPath(originalRequestUrl);
 
         return sendRealRequest(requestBody, originalRequestUrl, requestMethod);
+    }
+
+    @GetMapping("/claim")
+    public Map<String, String> getClaim(@RequestParam("Authorization") String auth) {
+        String accessToken = auth.split(" ")[1];
+        Claims claims = jwtManager.getTokenClaims(accessToken);
+
+        String identification = claims.get("identification", String.class);
+        String role = claims.get("role", String.class);
+
+        Map map = new HashMap<>();
+        map.put("identification", identification);
+        map.put("role", role);
+
+        return map;
     }
 
     private void setPreHeader(HttpServletRequest request) {

@@ -12,18 +12,38 @@ export const LogoIcon = styled.img`
   width: 4rem;
   height: 2rem;
 `;
-
-// 대피 설명서
-export const SafeGuideIcon = styled.img`
+// 내 위치
+export const MyLocation = styled.button`
   position: absolute;
-  top: 750px;
-  left: 350px;
+  top: 1rem;
+  right: 1rem;
+  background: #ffc542;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.3rem;
+`;
+// 대피 설명서
+export const SafeIcon = styled.img`
+  position: absolute;
+  top: 47rem;
+  right: 1rem;
   width: 4rem;
   height: 4rem;
   z-index: 1;
 `;
 
-export const SafeGuideModalOverlay = styled.div`
+export const SafeGuideIcon = styled.img`
+  width: 4rem;
+  height: 4rem;
+  z-index: 1;
+`;
+export const TipOffIcon = styled.img`
+  width: 4rem;
+  height: 4rem;
+  z-index: 1;
+`;
+// 사이렌 모달
+export const FirstModalOverlay = styled.div`
   z-index: 9998;
   width: 100%;
   height: 100%;
@@ -33,15 +53,15 @@ export const SafeGuideModalOverlay = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
 `;
-
-export const SafeGuideModalBox = styled.div`
+export const FirstModalBox = styled.div`
   background: white;
   width: 80%;
-  height: 60%;
+  height: 15%;
   padding: 1rem;
   border-radius: 1rem;
-  text-align: center;
-  button {
+  #close {
+    position: relative;
+    top: 1rem;
     width: 20rem;
     height: 2.5rem;
     font-size: 1.2rem;
@@ -49,8 +69,74 @@ export const SafeGuideModalBox = styled.div`
     border: none;
     border-radius: 1rem;
     background-color: #ffc542;
-    margin: 1rem;
   }
+`;
+export const IconWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+export const TipOffModalWrapper = styled.div``;
+export const TipOffWrapper = styled.div`
+  position: absolute;
+  top: 15%;
+  background: white;
+  width: 80%;
+  height: 60%;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  z-index: 2;
+  #title {
+    width: 95%;
+    height: 2rem;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  #content {
+    width: 95%;
+    height: 15rem;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    border: 0.15rem solid black;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  #submit {
+    width: 20rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    background-color: #f25260;
+    margin-top: 1rem;
+  }
+`;
+export const TypeWrapper = styled.div`
+  label {
+    font-size: 1.5rem;
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+  }
+`;
+export const SafeGuideModalBox = styled.div`
+  position: absolute;
+  top: 15%;
+  background: white;
+  width: 80%;
+  height: 60%;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  z-index: 2;
 `;
 
 // 대피경로
@@ -104,5 +190,41 @@ export const EvacuationRouteModalBox = styled.div`
     border-radius: 1rem;
     background-color: #ffc542;
     margin: 1rem;
+  }
+`;
+
+// 길 찾기 결과
+export const RootInfoWrapper = styled.div`
+  position: absolute;
+  bottom: 2.5rem;
+  width: 100%;
+  height: 15%;
+  // background: red;
+  display: flex;
+  justify-content: space-around;
+  z-index: 2;
+`;
+
+export const ShortDistanceWrapper = styled.div`
+  width: 40%;
+  height: 90%;
+  background: #ffc542;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  p {
+    margin: 0.5rem;
+    color: white;
+  }
+`;
+
+export const SafeDistanceWrapper = styled.div`
+  width: 40%;
+  height: 90%;
+  border-radius: 1rem;
+  background: #f25260;
+  padding: 0.5rem;
+  p {
+    margin: 0.5rem;
+    color: white;
   }
 `;

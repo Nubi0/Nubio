@@ -50,7 +50,7 @@ class ReportInfoServiceTest {
                 .reportType(ReportType.TERROR)
                 .title(Title.from("first"))
                 .content(Content.from("first content"))
-                .position(Position.of(123.12, 26.26))
+                .position(Position.of(126.36, 36.36))
                 .identification("kim")
                 .active(Active.from(true)).build();
         beforeReport = reportRepository.save(firstReport);
@@ -147,7 +147,7 @@ class ReportInfoServiceTest {
                     .active(Active.from(true)).build());
         }
         // when
-        ReportResponseDto reportResponseDto = reportInfoService.searchAll(identification);
+        ReportResponseDto reportResponseDto = reportInfoService.searchAll(identification,longitude,latitude);
         // then
         assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
     }

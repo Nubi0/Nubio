@@ -2,6 +2,7 @@ package com.enjoyservice.domain.course.service.impl;
 
 import com.enjoyservice.domain.course.dto.CourseDto;
 import com.enjoyservice.domain.course.dto.PlaceInCourseInfoDto;
+import com.enjoyservice.domain.course.dto.RecommendationPlaceDto;
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.exception.CourseNotFoundException;
@@ -20,8 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,8 +70,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findCourseAndTagsByCourseId(Long courseId) {
-        return courseRepository.findCourseAndTagsByCourseId(courseId);
+    public Course findCourseAndTagsByCourseId(Long courseId) {
+        List<Course> result = courseRepository.findCourseAndTagsByCourseId(courseId);
+        return result.get(0);
     }
 
     @Override
@@ -101,6 +105,15 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable) {
         return courseRepository.findAllByCourseTags(courseTagIds, courseTagIds.size(), pageable);
+    }
+
+    @Override
+    public List<RecommendationPlaceDto> findPlaceByCourse(Course course) {
+        List<Place> placesAndImageByCourse = courseRepository.findPlacesAndImageByCourse(course);
+        log.info("places length = {} " , placesAndImageByCourse.size());
+        return placesAndImageByCourse.stream()
+                .map(RecommendationPlaceDto::of)
+                .collect(Collectors.toList());
     }
 
     private boolean createCourseLike(String memberId, Long courseId) {

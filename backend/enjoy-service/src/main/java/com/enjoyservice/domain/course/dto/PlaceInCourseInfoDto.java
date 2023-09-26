@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class PlaceInCourseInfoDto {
     private long id;
-    private int kakaoId;
+    private long kakaoId;
     private String addressName;
     private String categoryGroupCode;
     private String categoryGroupName;

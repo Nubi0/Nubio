@@ -4,6 +4,7 @@ import com.safeservice.api.path.dto.request.NearNode;
 import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.response.NearNodeListResponse;
 import com.safeservice.api.path.dto.response.NearNodePageResponse;
+import com.safeservice.api.path.dto.response.RecommendNodeResponse;
 import com.safeservice.domain.path.entity.Node;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
@@ -18,7 +19,7 @@ public interface NodeServiceInfo {
 
     NearNodeListResponse findNodeNear(NearNode nearNode);
 
-    NearNodeListResponse recommendNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd);
+    RecommendNodeResponse recommendNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd);
 
     NearNodePageResponse findNearNodeWithPaging(NearNode nearNode, Pageable pageable);
 }

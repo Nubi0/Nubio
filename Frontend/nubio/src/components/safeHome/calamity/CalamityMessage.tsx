@@ -6,7 +6,6 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Navigation from "swiper";
 
 type EmergencyMessage = {
   city: string;
@@ -17,8 +16,6 @@ type EmergencyMessage = {
 };
 const CalamityMessage = () => {
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
-  const evacuationLogo =
-    process.env.PUBLIC_URL + "assets/disaster/evacuation.svg";
   // 재난문자 수신
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
   const closeWrapper = () => {
@@ -61,7 +58,7 @@ const CalamityMessage = () => {
 
   useEffect(() => {
     getCalamity();
-    setInterval(getCalamity, 60000);
+    // setInterval(getCalamity, 60000);
   }, []);
   // 시간
   const time = new Date();
@@ -70,33 +67,15 @@ const CalamityMessage = () => {
   const day = String(time.getDate()).padStart(2, "0");
   const hours = String(time.getHours()).padStart(2, "0");
   const minutes = String(time.getMinutes()).padStart(2, "0");
-
   const formattedTime = `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`;
-  const test = {
-    code: 200,
-    status: "OK",
-    data: {
-      emergency_messages: [
-        {
-          city: "대구광역시",
-          county: "ㅁㄴㅇ",
-          message: "ㅁㄴㅇ",
-          md_id: 123,
-          emer_type: "지진",
-          emer_stage: "안전안내",
-        },
-      ],
-      emergency_message_flag: true,
-    },
-  };
   return (
     <>
       {isReceiveMessage ? (
         <CalamityMessageWrapper>
           <p id="title">재난문자{messageList.length}개가 수신되었습니다.</p>
           <Swiper>
-            {messageList.map((message) => (
-              <SwiperSlide key={message.md_id}>
+            {messageList.map((message, index) => (
+              <SwiperSlide key={index}>
                 <EvacuationGuideWrapper>
                   <p id="messageTime">{formattedTime}</p>
                   <p id="messageCity">

@@ -62,6 +62,7 @@ const KakaoMap = (props: propsType) => {
   const [endName, setEndName] = useState<any>("");
   // 최단거리 길찾기
   const getShortDirection = () => {
+    clearRoute();
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var data = {
       startX,
@@ -177,6 +178,7 @@ const KakaoMap = (props: propsType) => {
 
   // 안전경로 길찾기
   const getSafeLocation = () => {
+    clearRoute();
     axios
       .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
         start_location: {
@@ -189,8 +191,41 @@ const KakaoMap = (props: propsType) => {
         },
       })
       .then((res) => {
+        console.log(res);
         var safeLatitude = res.data.data.content[0].location.latitude;
         var safeLongitude = res.data.data.content[0].location.longitude;
+        var safePlaces = res.data.data.content[0].safety_facilities;
+        for (let i = 0; i < safePlaces.length; i++) {
+          let placeName;
+          if (safePlaces[i].facility_type == "CONVENIENCE_STORE") {
+            placeName = "편의점";
+          }
+          if (safePlaces[i].facility_type == "POLICE") {
+            placeName = "경찰서";
+          }
+          if (safePlaces[i].facility_type == "LAMP") {
+            placeName = "가로등";
+          }
+          if (safePlaces[i].facility_type == "SAFETY_BELL") {
+            placeName = "안전벨";
+          }
+          let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
+        ${placeName}</span><span class="right"></span></div>`;
+          // 커스텀 오버레이가 표시될 위치입니다
+          console.log(safePlaces[i]);
+          let markerPosition = new kakao.maps.LatLng(
+            safePlaces[i].location.latitude,
+            safePlaces[i].location.longitude
+          );
+          // 커스텀 오버레이를 생성합니다
+          let customOverlay = new kakao.maps.CustomOverlay({
+            position: markerPosition,
+            content: content,
+          });
+          window.startCustomOverlay = customOverlay;
+          // 커스텀 오버레이를 지도에 표시합니다
+          window.startCustomOverlay.setMap(window.map);
+        }
         getSafeDirection(safeLatitude, safeLongitude);
       })
       .catch((err) => {
@@ -201,7 +236,6 @@ const KakaoMap = (props: propsType) => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var safeLatituded = safeLatitude?.toString();
     var safeLongituded = safeLongitude?.toString();
-
     var data = {
       startX,
       startY,
@@ -463,19 +497,6 @@ const KakaoMap = (props: propsType) => {
         itemEl.onmouseout = function () {
           window.infowindow.close();
         };
-
-        // 스마트폰 터치 및 클릭 이벤트 처리
-        itemEl.addEventListener("click", function () {
-          displayInfowindow(marker, title);
-        });
-
-        itemEl.addEventListener("touchstart", function () {
-          displayInfowindow(marker, title);
-        });
-
-        itemEl.addEventListener("touchend", function () {
-          window.infowindow.close();
-        });
       })(marker, places[i].place_name);
 
       fragment.appendChild(itemEl);
@@ -657,7 +678,14 @@ const KakaoMap = (props: propsType) => {
       el.lastChild && el.removeChild(el.lastChild);
     }
   }
+  // 라인 지우기
+  function clearRoute() {
+    window.polyline?.setMap(null);
+    // window.startCustomOverlay?.setMap(null);
+    // window.endCustomOverlay?.setMap(null);
 
+    removeMarker();
+  }
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     // 현재위치
@@ -758,7 +786,7 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <NearbyShelter></NearbyShelter>
+      <NearbyShelter />
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}

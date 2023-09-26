@@ -253,16 +253,17 @@ export const CalamityWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 0;
 `;
 
 export const CalamityMessageWrapper = styled.div`
-  background: white;
   width: 80%;
   height: 100%;
-  margin: 0 auto;
+  margin: auto;
   border: 0.5rem double red;
+  background: white;
   text-align: center;
+
   p {
     margin: 0.5rem 0;
     margin: 0;

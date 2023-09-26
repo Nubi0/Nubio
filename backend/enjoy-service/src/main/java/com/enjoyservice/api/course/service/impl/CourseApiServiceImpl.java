@@ -51,7 +51,7 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("course 저장 완료(CourseApiServiceImpl) : courseId = {}, memberId = {}", savedCourse.getId(), savedCourse.getMemberId());
 
         // 코스에 속한 장소 순서 저장
-        List<Integer> placeKakaoIds = collectKakaoIds(request.getPlaceInfos());
+        List<Long> placeKakaoIds = collectKakaoIds(request.getPlaceInfos());
         log.info("placeKakaoIds : {}", placeKakaoIds);
         List<KakaoId> kakaoIds = placeKakaoIds.stream()
                 .map(id -> KakaoId.from(id.intValue()))
@@ -60,7 +60,7 @@ public class CourseApiServiceImpl implements CourseApiService {
         List<Place> places = placeService.findAllByKakaoId(kakaoIds);
         log.info("place 목록 조회 완료(CourseApiServiceImpl), places : {}", places);
 
-        Map<Integer, Integer> placeSequence = mappingSequence(request.getPlaceInfos());
+        Map<Long, Integer> placeSequence = mappingSequence(request.getPlaceInfos());
         log.info("placeSequence 맵 : {}", placeSequence);
         List<CoursePlaceSequence> coursePlaceSequences = collectCoursePlaceSequences(course, places, placeSequence);
         log.info("coursePlaceSequences 리스트 : {}, 크기: {}", coursePlaceSequences, coursePlaceSequences.size());
@@ -179,20 +179,20 @@ public class CourseApiServiceImpl implements CourseApiService {
         courseTagService.save(courseTag);
     }
 
-    private Map<Integer, Integer> mappingSequence(List<CourseCreateReq.PlaceInfo> placeInfos) {
+    private Map<Long, Integer> mappingSequence(List<CourseCreateReq.PlaceInfo> placeInfos) {
         return placeInfos.stream()
                 .collect(Collectors.toMap(CourseCreateReq.PlaceInfo::getKakaoId,
                                             CourseCreateReq.PlaceInfo::getSequence,
                                             (oldValue, newValue) -> newValue));
     }
 
-    private List<Integer> collectKakaoIds(List<CourseCreateReq.PlaceInfo> placeInfos) {
+    private List<Long> collectKakaoIds(List<CourseCreateReq.PlaceInfo> placeInfos) {
         return placeInfos.stream()
                 .map(CourseCreateReq.PlaceInfo::getKakaoId)
                 .toList();
     }
 
-    private List<CoursePlaceSequence> collectCoursePlaceSequences(Course course, List<Place> places, Map<Integer, Integer> placeSequence) {
+    private List<CoursePlaceSequence> collectCoursePlaceSequences(Course course, List<Place> places, Map<Long, Integer> placeSequence) {
         List<CoursePlaceSequence> sequences = new ArrayList<>();
         for(Place place : places) {
             CoursePlaceSequence seq = CoursePlaceSequence.from(placeSequence.get(place.getKakaoId().getValue()), course, place);

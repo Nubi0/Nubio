@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class RecommendationPlaceDto {
 
     private Long id;
-    private int kakaoId;
+    private long kakaoId;
     private String placeName;
     private String imgUrl;
 

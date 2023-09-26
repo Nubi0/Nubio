@@ -76,7 +76,7 @@ public class CourseMapper {
                             Place place = coursePlaceSequence.getPlace();
 
                             Long id = place.getId();
-                            Integer kakaoId = place.getKakaoId().getValue();
+                            Long kakaoId = place.getKakaoId().getValue();
                             String placeName = place.getName().getValue();
 //                            String imageUrl = place.getImages().get(0).getUrl().getValue();
 

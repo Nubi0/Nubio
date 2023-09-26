@@ -14,6 +14,7 @@ import SearchBar from "../search/SearchBar";
 import { useLocation } from "react-router";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import RootInfo from "../../safeHome/route/RootInfo";
+import { useSelector } from "react-redux";
 
 interface placeType {
   place_name: string;

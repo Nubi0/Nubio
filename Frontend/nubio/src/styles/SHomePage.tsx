@@ -4,8 +4,12 @@ import styled from 'styled-components';
 export const HomePageWrapper = styled.div`
     display: flex;
     flex-direction: column;
+`;
+
+export const Logo = styled.img`
     margin: 4rem 2rem 0 2rem;
 `;
+
 export const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -13,6 +17,7 @@ export const ButtonWrapper = styled.div`
     background-color: #41D992;
     padding: 1rem;
     border-radius: 1rem;
+    margin: 0 2rem;
 `
 
 
@@ -26,7 +31,6 @@ export const SafeButtonWrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0.5rem 0.5rem 0.5rem 0;
     button{
         border: none;
         background-color: transparent;
@@ -51,7 +55,6 @@ export const EnjoyButtonWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0.5rem 0.5rem 0.5rem 0;
 
     button{
         border: none;
@@ -70,13 +73,12 @@ export const EnjoyButtonWrapper = styled.div`
 // 첫 홈페이지 시작하기 버튼
 export const StartButtonWrapper = styled.div`
     background-color: #41D992;
-    width: 100%;
     height: 5rem;
-    margin-top: 2rem;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 2rem 2rem 0 2rem;
     button{
         border: none;
         background-color: transparent;
@@ -90,7 +92,7 @@ export const StartButtonWrapper = styled.div`
 export const AppContentWrapper = styled.div`
     flex: 1;
     border-radius: 1rem;
-    margin-top: 2rem;
+    margin: 2rem 2rem 0 2rem;
 `;
 
 export const Discuss = styled.div`
@@ -105,5 +107,22 @@ export const Discuss = styled.div`
     img{
         width: 3rem;
         height: 3rem;
+    }
+`;
+
+export const PreferenceButtonWrapper = styled.div`
+background-color: #41D992;
+    height: 5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 2rem 0 2rem;
+    button{
+        border: none;
+        background-color: transparent;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
     }
 `;

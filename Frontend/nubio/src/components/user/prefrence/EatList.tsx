@@ -28,7 +28,7 @@ const EatList: React.FC<EatListProps> = ({
               src={src}
               alt={name}
               id={selectedImages.includes(name) ? "check" : "unCheck"}
-              onClick={() => handleImageClick(name, "food")}
+              onClick={() => handleImageClick(name, "먹기")}
             />
             {/* <h2>{name}</h2> */}
           </>

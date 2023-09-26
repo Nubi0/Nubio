@@ -1,7 +1,7 @@
 import { LocationListWrapper } from "../../../../styles/SMyCoursePage";
-import LocationItem from "./LocaiontItem";
+import AllCourseLocationItem from "./AllCourseLocationItem";
 
-const LocationList = () => {
+const AllCourseLocationList = () => {
     const locations = [
         {
             name: 'SEOUL',
@@ -33,11 +33,11 @@ const LocationList = () => {
         <LocationListWrapper>
             {locations.map((location, index) => {
                 return(
-                    <LocationItem key={index} location={location} />
+                    <AllCourseLocationItem key={index} location={location} />
                 )
             })}
         </LocationListWrapper>
     );
 };
 
-export default LocationList;
+export default AllCourseLocationList;

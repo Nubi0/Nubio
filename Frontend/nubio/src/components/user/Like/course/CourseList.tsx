@@ -1,7 +1,10 @@
-import AllCourseItem from "../../../enjoyHome/AllCourse/AllCourseList/AllCourseItem";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { CourseListWrapper } from "../../../../styles/SLikePage";
+import AllCourseItem from "../../../enjoyHome/AllCourse/AllCourseList/AllCourseItem";
 
 const CourseList = () => {
+    const [cousre, setCourse] = useState<object[]>([])
     const course_list = 
         [
             {
@@ -9,6 +12,7 @@ const CourseList = () => {
                 "course_tags" : [ "카페", "데이트", "단맛" ],
                 "favorite_flag" : true,
                 "like_count" : 10,
+                "course_id": "1",
                 "place_list" : [
                     {
                         "place_id" : 12,
@@ -49,6 +53,16 @@ const CourseList = () => {
                 ]
             },
     ];
+    useEffect(() => {
+        axios.get('https://nubi0.com/enjoy/v1/profile')
+              .then((res) => {
+                setCourse(res.data.data.course_list);
+              })
+              .catch((err) => {
+                console.error(err);
+              })
+    })
+
     return(
         <CourseListWrapper>
             {course_list.map((value, index) => {

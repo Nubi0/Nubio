@@ -6,7 +6,7 @@ type DrinkListProps = {
   selectedImages: string[];
 };
 const drinkImages: DrinkImages = {
-  맥주: process.env.PUBLIC_URL + "/assets/drink/beer.png",
+  술: process.env.PUBLIC_URL + "/assets/drink/beer.png",
   캌테일: process.env.PUBLIC_URL + "/assets/drink/cocktail.png",
   커피: process.env.PUBLIC_URL + "/assets/drink/coffee.png",
   아이스크림: process.env.PUBLIC_URL + "/assets/drink/iceCream.png",
@@ -29,7 +29,7 @@ const DrinkList: React.FC<DrinkListProps> = ({
             src={src}
             alt={name}
             id={selectedImages.includes(name) ? "check" : "unCheck"}
-            onClick={() => handleImageClick(name, 'drink')}
+            onClick={() => handleImageClick(name, '마시기')}
           />
         ))}
       </IconWrapper>

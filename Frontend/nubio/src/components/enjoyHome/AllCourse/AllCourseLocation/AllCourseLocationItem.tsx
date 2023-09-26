@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { LocationItemWrapper, LocationText, LocationImg, TextWrapper } from "../../../../styles/SMyCoursePage";
 import { useDispatch } from "react-redux";
-import { setLocation } from "../../../../redux/slice/EnjoySlice";
+import { setRegion } from "../../../../redux/slice/EnjoySlice";
 
 type cityProps = {
     location: {
@@ -15,8 +15,8 @@ const LocationItem = ({location}: cityProps) => {
     const dispatch = useDispatch();
     const {name, url} = location;
     const handleLocation = () => {
-        dispatch(setLocation(name));
-        navigate('/enjoy/mycourse/location/select');
+        dispatch(setRegion(name));
+        navigate('/enjoy/all');
     }
     return(
         <LocationItemWrapper onClick={handleLocation}>

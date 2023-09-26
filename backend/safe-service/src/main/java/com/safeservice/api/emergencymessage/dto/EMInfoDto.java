@@ -44,6 +44,10 @@ public class EMInfoDto {
                 .city(emergencyMessage.getAddress().getCity())
                 .county(emergencyMessage.getAddress().getCounty())
                 .message(emergencyMessage.getMessage().getValue())
-                .occurredTime(emergencyMessage.getOccurredTime().getValue()).build();
+                .occurredTime(toAsiaTime(emergencyMessage.getOccurredTime().getValue())).build();
+    }
+
+    private static LocalDateTime toAsiaTime(LocalDateTime time) {
+        return time.plus(9, ChronoUnit.HOURS);
     }
 }

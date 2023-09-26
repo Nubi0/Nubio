@@ -27,8 +27,7 @@ public class EmergencyMessageController {
             @ApiResponse(responseCode = "201", description = "CREATED")
     })
     @PostMapping("/emergency")
-    public ApiResponseEntity<String> createEmergencyMessage(@Identification IdentificationDto identificationDto,
-                                                            @RequestBody EMReq emReq) {
+    public ApiResponseEntity<String> createEmergencyMessage(@RequestBody EMReq emReq) {
         emergencyMessageInfoService.createEmergencyMessage(emReq);
         return ApiResponseEntity.ok("생성 완료");
     }
@@ -38,8 +37,7 @@ public class EmergencyMessageController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/check")
-    public ApiResponseEntity<EMResponseDto> EmergencyMessage(@Identification IdentificationDto identificationDto,
-                                                             @RequestBody EMAddressDto emAddressDto) {
+    public ApiResponseEntity<EMResponseDto> EmergencyMessage(@RequestBody EMAddressDto emAddressDto) {
         EMResponseDto emergencyMessages = emergencyMessageInfoService.checkEM(emAddressDto);
         return ApiResponseEntity.ok(emergencyMessages);
     }

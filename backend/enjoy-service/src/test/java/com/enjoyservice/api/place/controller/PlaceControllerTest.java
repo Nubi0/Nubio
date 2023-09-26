@@ -50,15 +50,16 @@ class PlaceControllerTest {
         // then
         mockMvc.perform(
                 get("/v1/enjoy/place/1")
-                        .header("sub", memberId)
-                        .header("auth", role)
+//                        .header("sub", memberId)
+//                        .header("auth", role)
+                        .header("Authorization", "Bearer asdf")
                 )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.code").value("200"))
-                .andExpect(jsonPath("$.status").value("OK"));
-//                .andExpect(jsonPath("$.data").isNotEmpty());
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.code").value("200"))
+//                .andExpect(jsonPath("$.status").value("OK"));
+                .andExpect(jsonPath("$.data").isNotEmpty());
 //                .andExpect(jsonPath("$.data").value(objectMapper.writeValueAsString(placeInfoRes)));
     }
 

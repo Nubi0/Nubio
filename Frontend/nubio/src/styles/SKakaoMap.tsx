@@ -103,3 +103,6 @@ export const DestinationWrapper = styled.div`
     margin: 0.5rem;
   }
 `;
+
+// 최소거리
+export const ShortDirectionButton = styled.button``;

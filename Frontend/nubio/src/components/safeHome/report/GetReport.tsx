@@ -10,8 +10,7 @@ const GetReport = () => {
     useSelector(
       (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
-  console.log(latitude);
-  console.log(longitude);
+
   const getReport = () => {
     axios
       .get(

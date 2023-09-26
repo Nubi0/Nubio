@@ -82,7 +82,7 @@ const CalamityMessage = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <button id="safeRoute">대피경로</button>
+            <button id="safeRoute">대피소 찾기</button>
             <button id="close" onClick={closeWrapper}>
               닫기
             </button>

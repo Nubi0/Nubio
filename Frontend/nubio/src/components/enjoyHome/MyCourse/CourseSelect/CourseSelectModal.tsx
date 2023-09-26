@@ -3,19 +3,15 @@ import { CourseSelectModalWrapper, Modal, ModalTitle, ModalBody, ItemWrapper, Mo
 import PurposeItem from "../../common/PurposeItem";
 import axios from 'axios';
 import useInput from '../../../../hooks/useInput';
-import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 
 const CourseSelectModal = ({setModal}: any) => {
     const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
     const [title, setTitle] = useInput('');
-    const time = useSelector((state: any) => state.enjoy.time.time);
-    const type = useSelector((state: any) => state.enjoy.time.type);
-    const distance = useSelector((state: any) => state.enjoy.time.dis);
     const positions = useSelector((state: any) => state.enjoy.positions);
     const location = useSelector((state: any) => state.enjoy.location);
-    const path = useSelector((state: any) => state.enjoy.coursePoint);
+
     const handlePurposeClick = (purpose: string) => {
         if (!selectedPurposes.includes(purpose)) {
           // 목적이 이미 선택되지 않았다면 추가
@@ -40,10 +36,6 @@ const CourseSelectModal = ({setModal}: any) => {
             pubilc_flag: true,
             region: location,
             place_list: positionData,
-            path,
-            time,
-            type,
-            distance,
         }
         await axios.post('https://nubi0.com/enjoy/v1/enjoy/course', config)
                 .then((res) => {

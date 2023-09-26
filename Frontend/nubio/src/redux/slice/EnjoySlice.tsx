@@ -7,9 +7,10 @@ const EnjoySlice = createSlice({
     time: null,
     positions: [] as any[],
     location: null,
-    tag: [] as string[],
+    course_tag: [] as string[],
     courseList: [],
     coursePoint: [],
+    region: null,
   },
   reducers: {
     setManager: (state, action) => {
@@ -57,13 +58,13 @@ const EnjoySlice = createSlice({
     },
     setTag: (state, action: PayloadAction<string>) => {
       const name = action.payload;
-      const exists = state.tag.includes(name);
+      const exists = state.course_tag.includes(name);
       if (exists) {
         // 이미 존재하는 경우, 배열에서 제거
-        state.tag = state.tag.filter((el) => el !== name);
+        state.course_tag = state.course_tag.filter((el) => el !== name);
       } else {
         // 존재하지 않는 경우, 추가
-        state.tag.push(name);
+        state.course_tag.push(name);
       }
     },
     setCourseList: (state, action) => {
@@ -71,9 +72,15 @@ const EnjoySlice = createSlice({
     },
     setCoursePoint: (state, action) => {
       state.coursePoint = action.payload;
+    },
+    resetPosition: (state) => {
+      state.positions = [];
+    },
+    setRegion: (state, action) => {
+      state.region = action.payload;
     }
   },
 });
 
-export const { setManager, setTime, setPosition, setTag, setCourseList, setLocation, setCoursePoint } = EnjoySlice.actions;
+export const { setManager, setTime, setPosition, setTag, setCourseList, setLocation, setCoursePoint, resetPosition, setRegion } = EnjoySlice.actions;
 export default EnjoySlice.reducer;

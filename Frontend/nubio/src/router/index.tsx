@@ -13,6 +13,7 @@ import SafeHomePage from '../pages/SafeHomePage';
 import CourseSelectPage from '../pages/CourseSelectPage';
 import KaKaoLogin from '../pages/KaKaoLogin';
 import CourseLocationSelectPage from '../pages/CourseLocationSelectPage';
+import AllCourseLocationSelectPage from '../pages/AllCourseLocationSelectPage';
 
 const routes = [
   {
@@ -74,6 +75,10 @@ const routes = [
   {
     path: '/enjoy/mycourse/location/select',
     Component: CourseLocationSelectPage,
+  },
+  {
+    path: '/enjoy/all/location',
+    Component: AllCourseLocationSelectPage,
   }
 ];
 

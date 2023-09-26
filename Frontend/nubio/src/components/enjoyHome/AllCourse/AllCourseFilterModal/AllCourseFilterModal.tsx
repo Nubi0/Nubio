@@ -19,7 +19,7 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
   handleModal,
 }) => {
   const dispatch = useDispatch();
-  const tags = useSelector((state: any) => state.enjoy.tag);
+  const course_tag = useSelector((state: any) => state.enjoy.course_tag);
   const purposes = [
     '인생샷 찍기',
     '산책',
@@ -45,8 +45,8 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
   };
 
   const handleSave = async () => {
-    const config = tags
-    await axios.post('https://nubi0.com/enjoy/v1/enjoy/course/filter', config)
+    const config = course_tag
+    await axios.post('https://nubi0.com/enjoy/v1/enjoy/course/filter', {config})
           .then((res) => {
             console.log(res.data);
             handleModal();
@@ -61,7 +61,7 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
         <ModalHeader>목적</ModalHeader>
         <ModalBody>
           {purposes.map((purpose: string, index: number) => {
-            const isSelected = tags.includes(purpose);
+            const isSelected = course_tag.includes(purpose);
             return (
               <PurposeItem
                 purpose={purpose}

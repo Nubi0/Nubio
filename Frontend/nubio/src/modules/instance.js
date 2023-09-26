@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://nubi0.com',
+  baseURL: process.env.PUBLIC_URL,
 });
 
 instance.interceptors.request.use(
@@ -34,3 +34,5 @@ instance.interceptors.response.use(async (err) => {
   }
   return Promise.reject(err);
 });
+
+export default instance;

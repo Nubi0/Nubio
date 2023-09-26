@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Builder
@@ -49,6 +50,10 @@ public class EMRequestDto {
                 .emerStage(EmerStage.from(emRequestDto.getEmerStage()))
                 .address(Address.of(emRequestDto.getCity(), emRequestDto.getCounty()))
                 .message(Message.from(emRequestDto.getMessage()))
-                .occurredTime(OccurredTime.from(emRequestDto.getOccurredTime())).build();
+                .occurredTime(OccurredTime.from(toUTCTime(emRequestDto.getOccurredTime()))).build();
+    }
+
+    private static LocalDateTime toUTCTime(LocalDateTime time) {
+        return time.minus(9, ChronoUnit.HOURS);
     }
 }

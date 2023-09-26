@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Builder
@@ -32,7 +33,7 @@ public class EMInfoDto {
     private String message;
 
     @JsonProperty("occurred_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime occurredTime;
 
     public static EMInfoDto from(EmergencyMessage emergencyMessage) {

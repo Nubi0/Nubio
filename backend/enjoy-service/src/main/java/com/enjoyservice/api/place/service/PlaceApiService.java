@@ -42,7 +42,7 @@ public class PlaceApiService {
     private final int BATCH_SIZE = 100000; // 자를 크기를 설정
 
     public PlaceInfoRes getPlaceInfo(String memberId, long placeId) {
-        Place place = placeService.findOneByIdFetchImage(placeId).get(0);
+        Place place = placeService.findOneByIdFetchImage(placeId);
         List<PlaceLike> placeLikeResults = placeLikeService.findAllByPlaceAndActiveIsTrue(place);
         int likeCount = placeLikeResults.size();
         boolean likeFlag = isMemberLikePlace(memberId, placeLikeResults);

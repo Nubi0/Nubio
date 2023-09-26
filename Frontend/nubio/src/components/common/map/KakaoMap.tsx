@@ -69,9 +69,7 @@ const KakaoMap = (props: propsType) => {
   // 라인, 마커 삭제
   function clearRoute() {
     window.polyline?.setMap(null);
-    window.startCustomOverlay?.setMap(null);
-    window.endCustomOverlay?.setMap(null);
-    // window.safeCustomOverlay?.setMap(null);
+    window.safeCustomOverlay?.setMap(null);
     removeMarker();
   }
   // 최단거리 길찾기
@@ -93,7 +91,7 @@ const KakaoMap = (props: propsType) => {
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers }
+        { headers: headers },
       )
       .then((res) => {
         function flattenArray(arr: any) {
@@ -107,7 +105,7 @@ const KakaoMap = (props: propsType) => {
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
+          flattenArray(feature.geometry.coordinates),
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -169,7 +167,7 @@ const KakaoMap = (props: propsType) => {
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
-              })
+              }),
             );
           }
         };
@@ -193,7 +191,6 @@ const KakaoMap = (props: propsType) => {
 
   // 안전경로 길찾기
   const getSafeLocation = () => {
-    window.safeCustomOverlay?.setMap(null);
     axios
       .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
         start_location: {
@@ -228,10 +225,9 @@ const KakaoMap = (props: propsType) => {
             let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
           ${placeName}</span><span class="right"></span></div>`;
             // 커스텀 오버레이가 표시될 위치입니다
-            console.log(safePlaces[i]);
             let markerPosition = new kakao.maps.LatLng(
               safePlaces[i].location.latitude,
-              safePlaces[i].location.longitude
+              safePlaces[i].location.longitude,
             );
             // 커스텀 오버레이를 생성합니다
             let customOverlay = new kakao.maps.CustomOverlay({
@@ -271,7 +267,7 @@ const KakaoMap = (props: propsType) => {
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers }
+        { headers: headers },
       )
       .then((res) => {
         function flattenArray(arr: any) {
@@ -285,7 +281,7 @@ const KakaoMap = (props: propsType) => {
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
+          flattenArray(feature.geometry.coordinates),
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -347,7 +343,7 @@ const KakaoMap = (props: propsType) => {
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
-              })
+              }),
             );
           }
         };
@@ -390,11 +386,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          })
+          }),
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {
@@ -727,7 +723,7 @@ const KakaoMap = (props: propsType) => {
           },
           (error) => {
             console.error("geolocation 에러 발생:", error);
-          }
+          },
         );
       } else {
         console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
@@ -765,7 +761,7 @@ const KakaoMap = (props: propsType) => {
 
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options
+      options,
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -783,7 +779,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng
+          props.position[i].lng,
         ),
       });
 
@@ -806,7 +802,7 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <NearbyShelter />
+      {/* <NearbyShelter /> */}
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}

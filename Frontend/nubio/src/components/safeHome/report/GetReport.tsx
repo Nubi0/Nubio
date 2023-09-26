@@ -8,12 +8,14 @@ const GetReport = () => {
     null;
   const longitude =
     useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude
+      (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
+  console.log(latitude);
+  console.log(longitude);
   const getReport = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`
+        `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`,
       )
       .then((res) => {
         console.log(res);

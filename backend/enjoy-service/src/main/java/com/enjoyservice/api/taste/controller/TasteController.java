@@ -33,16 +33,6 @@ public class TasteController {
         return ApiResponseEntity.ok(tasteApiRes);
     }
 
-    @Operation(summary = "취향 수정", description = "enjoy/v1/enjoy/profile/taste\n\n" )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description =  "OK"),
-    })
-    @PutMapping("/taste")
-    public ApiResponseEntity<String> updateTaste(@MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
-                                                 @RequestBody MemberTasteReq memberTasteReq) {
-        tasteApiService.updateTaste(memberInfoDto.getMemberId(), memberTasteReq);
-        return ApiResponseEntity.ok("수정 완료 하였습니다.");
-    }
 
     @Operation(summary = "멤버 취향 생성", description = "enjoy/v1/enjoy/profile/taste\n\n" )
     @ApiResponses(value = {

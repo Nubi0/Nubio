@@ -7,12 +7,15 @@ import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -37,8 +40,11 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public List<Place> findOneByIdFetchImage(Long id) {
-        return placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
+    public Place findOneByIdFetchImage(Long id) {
+        Page<Place> result = placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
+        List<Place> list = result.getContent();
+        log.info("list: {}, list-size: {}", list, list.size());
+        return list.get(0);
     }
 
     @Override

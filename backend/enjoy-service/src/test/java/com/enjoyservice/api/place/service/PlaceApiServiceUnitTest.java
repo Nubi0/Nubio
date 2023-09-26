@@ -74,7 +74,7 @@ class PlaceApiServiceUnitTest {
         }
         //Mocking
         given(placeService.findOneByIdFetchImage(mockPlaceId))
-                .willReturn(places);
+                .willReturn(mockPlace);
         when(placeLikeService.findAllByPlaceAndActiveIsTrue(any(Place.class)))
                         .thenReturn(likes);
         given(placeFavoriteService.existsByMemberIdAndPlace(memberId, mockPlace))

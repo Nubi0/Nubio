@@ -2,12 +2,15 @@ package com.enjoyservice.mapper.place;
 
 import com.enjoyservice.api.place.dto.PlaceInfoRes;
 import com.enjoyservice.domain.place.entity.Place;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PlaceMapper {
 
     public static PlaceInfoRes toPlaceInfoRes(Place place, int likeCount, boolean likeFlag, boolean favoriteFlag) {
 
         String imgUrl = "";
+        log.info("여기서 이미지 조회 쿼리 날라가나?");
         int imageSize = place.getImages().size();
         if(imageSize >= 1) {
             imgUrl = place.getImages().get(0).getUrl().getValue();

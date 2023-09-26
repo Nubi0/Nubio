@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    @Query("select p from Place p left join fetch PlaceImage pi on p = pi.place where p.id = :id")
-    Page<Place> findOneByIdFetchImage(@Param("id") Long id, Pageable pageable);
+    @Query("select p from Place p left join fetch p.images where p.id = :id")
+    List<Place> findOneByIdFetchImage(@Param("id") Long id, Pageable pageable);
 
     @Query("select p from Place p where p.kakaoId in :kakaoIds")
     List<Place> findAllByKakaoIds(@Param("kakaoIds") List<KakaoId> kakaoIds);

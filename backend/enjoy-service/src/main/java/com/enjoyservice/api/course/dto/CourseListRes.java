@@ -22,6 +22,8 @@ public class CourseListRes {
     @Setter
     @Getter
     public static class CourseInfo {
+        @JsonProperty("course_id")
+        private long courseId;
         private String title;
         @JsonProperty("course_tags")
         private List<String> courseTags;
@@ -44,7 +46,7 @@ public class CourseListRes {
             @JsonProperty("place_id")
             private long placeId;
             @JsonProperty("kakao_id")
-            private int kakaoId;
+            private long kakaoId;
             @JsonProperty("place_name")
             private String placeName;
             @JsonProperty("img_url")

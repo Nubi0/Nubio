@@ -10,4 +10,6 @@ public interface MemberService {
     Member register(Member member);
 
     Optional<Member> findByEmail(Email email);
+
+    Member findByRefreshToken(String refreshToken);
 }

@@ -9,9 +9,14 @@ import com.enjoyservice.api.recommendation.dto.fastapi.FastRecoRes;
 import com.enjoyservice.api.recommendation.service.RecommendationApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "recommendation API", description = "코스 추천 api")
 @RestController
 @RequestMapping("/v1/enjoy")
 @RequiredArgsConstructor
@@ -20,6 +25,10 @@ public class RecommendationController {
     private final FastApiClient fastApiClient;
     private final RecommendationApiService recommendationApiService;
 
+    @Operation(summary = "코스 추천 조회", description = "enjoy/v1/enjoy\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description =  "OK"),
+    })
     @PostMapping("")
     public ApiResponseEntity<RecommendationRes> getReco(@MemberInfo MemberInfoDto memberInfoDto,
                                                   @RequestBody RecommendationReq recommendationReq) {
@@ -30,7 +39,7 @@ public class RecommendationController {
     @GetMapping("/create")
     public ApiResponseEntity<String> create() {
 //        String[] regions = {"DAEGU","GYEONGBUK","SEOUL","DAEJEON","BUSAN","GWANGJU"};
-        String[] regions = {"DAEGU"};
+        String[] regions = {"DAEGU", "GYEONGBUK"};
         for (String region : regions) {
             recommendationApiService.saveModel(region);
             fastApiClient.createModel(FastCreateReq.from(region));

@@ -24,6 +24,8 @@ import com.enjoyservice.domain.membertaste.service.MemberTasteService;
 import com.enjoyservice.domain.recomendation.entity.Words;
 import com.enjoyservice.domain.recomendation.service.WordsService;
 import com.enjoyservice.domain.tag.entity.Tag;
+import com.enjoyservice.global.error.ErrorCode;
+import com.enjoyservice.global.error.exception.InvalidRecommendationException;
 import com.querydsl.core.Tuple;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -66,6 +68,7 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
         List<String> courseInfo = new ArrayList<>();
         List<MemberTaste> courseMemberTaste = memberTasteService.findByMemberId(memberId);
         processMemberTaste(courseMemberTaste, courseInfo);
+        validateRecoList(courseInfo);
         ClientDto regionReq = kakaoMapClient.getRegion(appKey, recommendationReq.getLongitude(),
                 recommendationReq.getLatitude());
         FastRecoRes recoCourses = fastApiClient.getReco(FastRecoReq.of(
@@ -144,5 +147,11 @@ public class RecommendationApiServiceImpl implements RecommendationApiService {
         return likes.stream()
                 .filter(Objects::nonNull)
                 .anyMatch(courseLike -> courseLike.getMemberId().equals(memberId));
+    }
+
+    private void validateRecoList(List<String> courseInfo) {
+        if (courseInfo.size() == 0) {
+            throw new InvalidRecommendationException(ErrorCode.INVALID_RECOMMENDATION_LIST);
+        }
     }
 }

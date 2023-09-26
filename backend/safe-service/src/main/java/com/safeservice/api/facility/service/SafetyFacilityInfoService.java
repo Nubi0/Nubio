@@ -42,6 +42,13 @@ public class SafetyFacilityInfoService {
     }
 
 
+    public NearSafetyPageResponseDto findFacilityNearWithPaging(UserLocation userLocation, Pageable pageable) {
+        Point point = new Point(userLocation.getLongitude(), userLocation.getLatitude());
+        Distance distance = new Distance(userLocation.getDistance(), Metrics.KILOMETERS);
+        Page<SafetyFacility> facilityNearWithPaging = safetyFacilityService.findFacilityNearWithPaging(point, distance, pageable);
+        return NearSafetyPageResponseDto.from(facilityNearWithPaging);
+    }
+
     public void registerSafetyBell(MultipartFile file, FacilityType facilityType) {
 
         if (!StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), ".csv")) {

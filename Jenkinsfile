@@ -1,7 +1,22 @@
 pipeline {
     agent any
 
+    environment { 
+            SLACK_CHANNEL = '#자동배포' 
+            TEAM_DOMAIN = 'nubiohq' 
+            TOKEN_CREDENTIAL_ID = 'slack-access-token'
+
+        }
+
     stages {
+
+        stage('Start') {
+                    steps {
+                        slackSend (channel: SLACK_CHANNEL, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+                    }
+                }
+
+
         stage('Cleanup Workspace') {
             steps {
                 sh 'rm -rf *'
@@ -59,7 +74,7 @@ pipeline {
                 ]) {
                     dir('backend/authentication-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build --no-cache -t authentication-service:latest .'
+                        sh 'docker build -t authentication-service:latest .'
                         sh 'docker tag authentication-service:latest kathyleesh/authentication-service:latest'
                         sh 'docker push kathyleesh/authentication-service:latest'
                     }
@@ -75,7 +90,7 @@ pipeline {
                 ]) {
                     dir('backend/enjoy-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build --no-cache -t enjoy-service:latest .'
+                        sh 'docker build -t enjoy-service:latest .'
                         sh 'docker tag enjoy-service:latest kathyleesh/enjoy-service:latest'
                         sh 'docker push kathyleesh/enjoy-service:latest'
                     }
@@ -90,7 +105,7 @@ pipeline {
                 ]) {
                     dir('backend/safe-service') {
                         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
-                        sh 'docker build --no-cache -t safe-service:latest .'
+                        sh 'docker build -t safe-service:latest .'
                         sh 'docker tag safe-service:latest kathyleesh/safe-service:latest'
                         sh 'docker push kathyleesh/safe-service:latest'
                     }
@@ -146,5 +161,15 @@ pipeline {
                 '''
             }
         }
+    }
+
+    post {
+    success {
+         slackSend (channel: SLACK_CHANNEL, color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+         }
+
+    failure {
+         slackSend (channel: SLACK_CHANNEL, color: '#F01717', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+         }
     }
 }

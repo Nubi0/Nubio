@@ -34,9 +34,9 @@ public class CourseApiServiceImplTest {
                 .courseTags(List.of(new CourseCreateReq.TagInfo(tagName1),
                         new CourseCreateReq.TagInfo(tagName2),
                         new CourseCreateReq.TagInfo(tagName3)))
-                .placeInfos(List.of(new CourseCreateReq.PlaceInfo(1L, 1),
-                        new CourseCreateReq.PlaceInfo(2L, 2),
-                        new CourseCreateReq.PlaceInfo(3L, 3)))
+                .placeInfos(List.of(new CourseCreateReq.PlaceInfo(1, 1),
+                        new CourseCreateReq.PlaceInfo(2, 2),
+                        new CourseCreateReq.PlaceInfo(3, 3)))
                 .build();
         String memberId = "memberId";
         // when then

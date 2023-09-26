@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+//@DataJpaTest
 @Transactional
 class PlaceRepositoryTest {
 
@@ -77,7 +79,7 @@ class PlaceRepositoryTest {
         em.flush();
         em.clear();
         // when
-        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1)).getContent();
         Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);
@@ -112,11 +114,29 @@ class PlaceRepositoryTest {
         em.flush();
         em.clear();
         // when
-        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1)).getContent();
         Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);
         assertThat(place.getId()).isEqualTo(savedTargetPlace.getId());
         assertThat(place.getImages().size()).isEqualTo(0);
+    }
+
+    @DisplayName("kakaoid로 장소 찾기")
+    @Test
+    void findAllByKakaoId() {
+        // given
+        for(int i = 1; i <= 3; i++) {
+            Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
+            placeRepository.saveAndFlush(place);
+        }
+        em.clear();
+        // when
+        List<Place> result = placeRepository.findAllByKakaoIds(List.of(KakaoId.from(1), KakaoId.from(2), KakaoId.from(3)));
+        em.flush();
+        em.clear();
+        // then
+        assertThat(result).hasSize(3);
+
     }
 }

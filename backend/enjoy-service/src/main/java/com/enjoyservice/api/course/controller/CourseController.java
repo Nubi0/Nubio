@@ -1,10 +1,7 @@
 package com.enjoyservice.api.course.controller;
 
 import com.enjoyservice.api.ApiResponseEntity;
-import com.enjoyservice.api.course.dto.CourseCreateReq;
-import com.enjoyservice.api.course.dto.CourseDetailRes;
-import com.enjoyservice.api.course.dto.CourseListRes;
-import com.enjoyservice.api.course.dto.CourseTagListReq;
+import com.enjoyservice.api.course.dto.*;
 import com.enjoyservice.api.course.service.CourseApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
@@ -33,10 +30,10 @@ public class CourseController {
             @ApiResponse(responseCode = "201", description =  "CREATED"),
     })
     @PostMapping("/course")
-    public ApiResponseEntity<String> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
-                                                  @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto) {
-        courseApiService.createCourse(courseCreateReq, memberInfoDto.getMemberId());
-        return ApiResponseEntity.created("생성 성공");
+    public ApiResponseEntity<CourseCreateRes> createCourse(@Valid @RequestBody CourseCreateReq courseCreateReq,
+                                                  @MemberInfo MemberInfoDto memberInfoDto) {
+        CourseCreateRes response = courseApiService.createCourse(courseCreateReq, memberInfoDto.getMemberId());
+        return ApiResponseEntity.created(response);
     }
 
     @Operation(summary = "코스 목록 조회(지역별)", description = "enjoy/v1/enjoy/course\n\n" )
@@ -45,7 +42,7 @@ public class CourseController {
     })
     @GetMapping("/course")
     public ApiResponseEntity<CourseListRes> getCourseList(@RequestParam("region") String region,
-                                                          @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
+                                                          @MemberInfo MemberInfoDto memberInfoDto,
                                                           @PageableDefault(size = 100,
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {

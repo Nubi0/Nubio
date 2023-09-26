@@ -3,10 +3,12 @@ package com.authenticationservice.api.auth.controller;
 import com.authenticationservice.api.ApiResponseEntity;
 import com.authenticationservice.api.auth.dto.request.LoginReqDto;
 import com.authenticationservice.api.auth.dto.request.SignupReqDto;
+import com.authenticationservice.api.auth.dto.response.AccessTokenResDto;
 import com.authenticationservice.api.auth.dto.response.SignResDto;
 import com.authenticationservice.api.auth.service.AuthService;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
+import com.authenticationservice.global.util.AuthorizationHeaderUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -72,6 +74,24 @@ public class AuthController {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         authService.logout(memberInfo, authorizationHeader);
         return ApiResponseEntity.ok("Success");
+    }
+
+    @Operation(summary = "refresh-token으로 access-token 재발급", description = "start/v1/member/access-token/issue\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "A-004", description =  "NOT_EXISTS_AUTHORIZATION", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-004\", \"errorMessage\": \"Authorization Header가 빈값입니다.\"}"))),
+            @ApiResponse(responseCode = "A-005", description =  "NOT_VALID_BEARER_GRANT_TYPE", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-005\", \"errorMessage\": \"인증 타입이 Bearer 타입이 아닙니다.\"}"))),
+            @ApiResponse(responseCode = "A-006", description =  "REFRESH_TOKEN_NOT_FOUND", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-006\", \"errorMessage\": \"해당 refresh token은 존재하지 않습니다.\"}"))),
+            @ApiResponse(responseCode = "A-007", description =  "REFRESH_TOKEN_EXPIRED", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-007\", \"errorMessage\": \"해당 refresh token은 만료됐습니다.\"}")))
+    })
+    @PostMapping("/access-token/issue")
+    public ApiResponseEntity<AccessTokenResDto> reissueAccessToken(HttpServletRequest httpServletRequest) {
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        AuthorizationHeaderUtils.validateAuthorization(authorizationHeader);
+
+        String refreshToken = authorizationHeader.split(" ")[1];
+        AccessTokenResDto response = authService.createAccessTokenByRefreshToken(refreshToken);
+        return ApiResponseEntity.created(response);
     }
 
 }

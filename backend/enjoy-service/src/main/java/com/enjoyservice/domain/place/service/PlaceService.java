@@ -1,6 +1,7 @@
 package com.enjoyservice.domain.place.service;
 
 import com.enjoyservice.domain.place.entity.Place;
+import com.enjoyservice.domain.place.entity.type.KakaoId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
@@ -12,7 +13,9 @@ public interface PlaceService {
 
     List<Place> findAllById(List<Long> ids);
 
-    List<Place> findOneByIdFetchImage(Long id);
+    List<Place> findAllByKakaoId(List<KakaoId> kakaoIds);
+
+    Place findOneByIdFetchImage(Long id);
 
     List<Place> saveAll(List<Place> placeList);
 

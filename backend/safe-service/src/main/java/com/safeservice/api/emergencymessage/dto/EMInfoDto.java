@@ -1,11 +1,15 @@
 package com.safeservice.api.emergencymessage.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.safeservice.domain.emergencymessage.entity.EmergencyMessage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Builder
@@ -28,6 +32,10 @@ public class EMInfoDto {
 
     private String message;
 
+    @JsonProperty("occurred_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime occurredTime;
+
     public static EMInfoDto from(EmergencyMessage emergencyMessage) {
         return EMInfoDto.builder()
                 .mdId(emergencyMessage.getMdId().getValue())
@@ -35,6 +43,11 @@ public class EMInfoDto {
                 .emerStage(emergencyMessage.getEmerStage().getDescription())
                 .city(emergencyMessage.getAddress().getCity())
                 .county(emergencyMessage.getAddress().getCounty())
-                .message(emergencyMessage.getMessage().getValue()).build();
+                .message(emergencyMessage.getMessage().getValue())
+                .occurredTime(toAsiaTime(emergencyMessage.getOccurredTime().getValue())).build();
+    }
+
+    private static LocalDateTime toAsiaTime(LocalDateTime time) {
+        return time.plus(9, ChronoUnit.HOURS);
     }
 }

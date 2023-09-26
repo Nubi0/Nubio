@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { CourseSelectModalWrapper, Modal, ModalTitle, ModalBody, ItemWrapper, ModalFooter } from "../../../../styles/SCourseSelectPage";
 import PurposeItem from "../../common/PurposeItem";
+import axios from 'axios';
+import useInput from '../../../../hooks/useInput';
+import { useSelector } from 'react-redux';
 
 const CourseSelectModal = ({setModal}: any) => {
     const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
+    const [title, setTitle] = useInput('');
+    const positions = useSelector((state: any) => state.enjoy.positions);
+    const location = useSelector((state: any) => state.enjoy.location);
+
     const handlePurposeClick = (purpose: string) => {
         if (!selectedPurposes.includes(purpose)) {
           // 목적이 이미 선택되지 않았다면 추가
@@ -14,13 +21,37 @@ const CourseSelectModal = ({setModal}: any) => {
           const updatedPurposes = selectedPurposes.filter((item) => item !== purpose);
           setSelectedPurposes(updatedPurposes);
         }
-      };
+    };
+    const handleSave = async () => {
+        const post_purpose = selectedPurposes.map((value) => {
+            return { value };
+        });
+        const positionData = positions.map((value: any) => {
+            return {kakao_id: value.id, sequence: value.index}
+        })
+        const config = {
+            title,
+            content: title,
+            course_tags: post_purpose,
+            pubilc_flag: true,
+            region: location,
+            place_list: positionData,
+        }
+        await axios.post('https://nubi0.com/enjoy/v1/enjoy/course', config)
+                .then((res) => {
+                console.log(res.data.data);
+                setModal();
+                })
+                .catch((err) => {
+                console.error(err);
+                })
+    };
     return(
         <CourseSelectModalWrapper>
             <Modal>
                 <ModalTitle>
                     <div>코스 제목을 입력해주세요</div>
-                    <input type="text" placeholder='ex) 바람개비 나들이' />
+                    <input type="text" placeholder='ex) 바람개비 나들이' onChange={setTitle} />
                 </ModalTitle>
                 <ModalBody>
                 <div>
@@ -38,7 +69,7 @@ const CourseSelectModal = ({setModal}: any) => {
                 <ModalFooter>
                     <button onClick={setModal}>취소</button>
                     <hr />
-                    <button onClick={setModal}>저장</button>
+                    <button onClick={handleSave}>저장</button>
                 </ModalFooter>
             </Modal>
         </CourseSelectModalWrapper>

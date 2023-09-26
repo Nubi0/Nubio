@@ -5,16 +5,16 @@ const SignUpSlice = createSlice({
   initialState: {
     taste: [
       {
-        type: 'drink',
-        detailTypes: [] as string[],
+        type: '마시기',
+        detail_type: [] as string[],
       },
       {
-        type: 'food',
-        detailTypes: [] as string[],
+        type: '먹기',
+        detail_type: [] as string[],
       },
       {
-        type: 'play',
-        detailTypes: [] as string[],
+        type: '놀기',
+        detail_type: [] as string[],
       },
     ],
   },
@@ -25,16 +25,16 @@ const SignUpSlice = createSlice({
 
       // 이미지가 이미 선택되어 있는지 확인
       const existingIndex = state.taste.findIndex(
-        (item) => item.type === type && item.detailTypes.includes(name)
+        (item) => item.type === type && item.detail_type.includes(name)
       );
 
       if (existingIndex === -1) {
         // 이미지가 선택되어 있지 않은 경우 추가
-        state.taste.find((item) => item.type === type)?.detailTypes.push(name);
+        state.taste.find((item) => item.type === type)?.detail_type.push(name);
       } else {
         // 이미지가 이미 선택된 경우 제거
-        state.taste.find((item) => item.type === type)?.detailTypes.splice(
-          state.taste[existingIndex].detailTypes.indexOf(name),
+        state.taste.find((item) => item.type === type)?.detail_type.splice(
+          state.taste[existingIndex].detail_type.indexOf(name),
           1
         );
       }

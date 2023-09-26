@@ -6,11 +6,12 @@ import {
   SearchResultsWrapper,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
-import { setTime } from "../../../redux/slice/EnjoySlice";
+import { useDispatch } from "react-redux"
+import { setPosition, setTime } from "../../../redux/slice/EnjoySlice";
 import axios from "axios";
 import proj4 from "proj4";
 import SearchBar from "../search/SearchBar";
+import { useLocation } from "react-router";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
@@ -20,6 +21,8 @@ import {
   setShortTime,
 } from "../../../redux/slice/MapSlice";
 import NearbyShelter from "../../safeHome/route/safe/NearbyShelter";
+import RootInfo from "../../safeHome/route/RootInfo";
+import { useSelector } from "react-redux";
 
 interface placeType {
   place_name: string;
@@ -116,6 +119,7 @@ const KakaoMap = (props: propsType) => {
           const latLng = new kakao.maps.LatLng(latitude, longitude);
           linePath.push(latLng);
         }
+  const location = useLocation();
 
         // 거리계산 공식
         const calculateLineDistance = (line: any) => {
@@ -554,7 +558,11 @@ const KakaoMap = (props: propsType) => {
       window.endCustomOverlay = customOverlay;
       window.endCustomOverlay.setMap(window.map);
     };
+    const ClickPlace = (place: any) => {
+      dispatch(setPosition(place))
+    }
     if (places.length !== 0) {
+      const isEnjoy = location.pathname.includes('/enjoy');
       let itemStr = `
         <div class="info">
         <div class="name">
@@ -590,6 +598,10 @@ const KakaoMap = (props: propsType) => {
       startButton?.addEventListener("click", onClickStart);
       const endButton = el.querySelector("#end");
       endButton?.addEventListener("click", onClickEnd);
+      if(isEnjoy) {
+        const select = el.querySelector('.place-name');
+        select?.addEventListener('click', () => ClickPlace(places));
+      }
     }
 
     return el;

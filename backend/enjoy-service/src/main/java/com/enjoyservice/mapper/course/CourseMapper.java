@@ -63,6 +63,7 @@ public class CourseMapper {
 
     public static CourseListRes.CourseInfo convertToCourseInfo(Course course, List<Tag> tags, boolean favoriteFlag, int likeCount, boolean likeFlag) {
         return CourseListRes.CourseInfo.builder()
+                .courseId(course.getId())
                 .title(course.getTitle().getValue())
                 .courseTags(tags.stream()
                         .map(t -> t.getName().getValue())
@@ -75,7 +76,7 @@ public class CourseMapper {
                             Place place = coursePlaceSequence.getPlace();
 
                             Long id = place.getId();
-                            Integer kakaoId = place.getKakaoId().getValue();
+                            Long kakaoId = place.getKakaoId().getValue();
                             String placeName = place.getName().getValue();
 //                            String imageUrl = place.getImages().get(0).getUrl().getValue();
 
@@ -114,6 +115,7 @@ public class CourseMapper {
         return CourseDetailRes.builder()
                 .courseInfo(
                         CourseDetailRes.CourseInfo.builder()
+                                .courseId(course.getId())
                                 .title(course.getTitle().getValue())
                                 .content(course.getContent().getValue())
                                 .courseTags(tags.stream().map(tag -> tag.getName().getValue()).toList())

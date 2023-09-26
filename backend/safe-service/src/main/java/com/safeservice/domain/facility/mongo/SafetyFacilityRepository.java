@@ -16,6 +16,7 @@ public interface SafetyFacilityRepository extends MongoRepository<SafetyFacility
     List<SafetyFacility> findByLocationNearAndFacilityTypeIs(Point location, Distance distance, FacilityType facilityType);
 
     Page<SafetyFacility> findByLocationNearAndFacilityTypeIs(Point location, Distance distance, FacilityType facilityType, Pageable pageable);
+    Page<SafetyFacility> findByLocationNear(Point location, Distance distance,  Pageable pageable);
 
     List<SafetyFacility> findByLocationNear(Point location, Distance distance);
 }

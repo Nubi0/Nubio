@@ -2,7 +2,6 @@ package com.authenticationservice.external.auth.controller;
 
 import com.authenticationservice.global.config.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
-import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

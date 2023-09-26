@@ -58,8 +58,8 @@ export const CoursePinWrapper = styled.div`
 export const PinWrapper = styled.div`
   display: flex;
   position: absolute;
-  top: 7rem;
-  left: 2rem;
+  bottom: 7rem;
+  left: 1rem;
 `;
 
 export const CourseSelectModalWrapper = styled.div`
@@ -136,4 +136,15 @@ export const Data = styled.div`
   div {
     margin-top: 0.5rem;
   }
+`;
+
+
+export const CourseLocationSelectWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+`;
+
+export const CourseLocationSelectPageWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
 `;

@@ -19,6 +19,8 @@ public class CourseDetailRes {
     @AllArgsConstructor
     @Builder
     public static class CourseInfo {
+        @JsonProperty("course_id")
+        private long courseId;
         private String title;
         private String content;
         @JsonProperty("course_tags")
@@ -38,7 +40,7 @@ public class CourseDetailRes {
     public static class PlaceInfo {
         private long id;
         @JsonProperty("kakao_id")
-        private int kakaoId;
+        private long kakaoId;
         @JsonProperty("address_name")
         private String addressName;
         @JsonProperty("category_group_code")

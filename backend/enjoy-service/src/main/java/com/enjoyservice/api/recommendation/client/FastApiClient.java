@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "http://0.0.0.0:8003", name = "FastApi")
+@FeignClient(url = "http://13.124.94.38:8003", name = "FastApi")
 public interface FastApiClient {
 
     @PostMapping(value = "/get-list",consumes = "application/json")

@@ -25,14 +25,14 @@ def recommend(model,positiveVal,negativeVal=[], produc_list=[],dataset={}):
 
     # 만약 모든 입력이 존재하지 않는다면 일정한 입력 미리 넣기
     if len(pos) == 0:
-        pos.append("고기")
+        pos.append("한식")
         
     reco_list=[]
-    similar_words = model.most_similar(positive=pos, negative=negativeVal, topn=50, restrict_vocab=None)
-    print(similar_words)
+    similar_words = model.most_similar(positive=pos, negative=negativeVal, topn=200, restrict_vocab=None)
+    # print(similar_words)
     reco_list = [word for word, _ in similar_words]
     result = [s for s in map(str, reco_list) if any(str(x) in s for x in map(str, produc_list))]
-    return result
+    return result[:9]
     
 
 # 추천 학습모델 만들 때 사용
@@ -60,7 +60,7 @@ def makeModel(data:list, region:str):
         shuffle(enjoyList)
         words.append(enjoyList)
         # print(words)
-        print(len(words))
+        # print(len(words))
         
     # 코스 id값 리스트 저장
     with open(f'{region}_course_list', 'wb') as file:

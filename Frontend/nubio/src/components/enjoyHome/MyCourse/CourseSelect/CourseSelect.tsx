@@ -14,45 +14,23 @@ declare global {
 const CourseSelect = ({ setModal }: any) => {
   const timeData = useSelector((state: any) => state.enjoy.time);
   const dispatch = useDispatch();
-  const dummy1 = process.env.PUBLIC_URL + '/assets/dummy/dummy1.jpg';
-  const dummyUrl = process.env.PUBLIC_URL + '/assets/dummy/dummy2.jpg';
   const [manager, setManger] = useState<any>(null);
 
-
-  var positions = [
-    {
-      title: '카카오',
-      lat: 33.450705,
-      lng: 126.570677,
-      img_url: dummy1,
-    },
-    {
-      title: '생태연못',
-      lat: 33.450936,
-      lng: 126.569477,
-      img_url: dummyUrl,
-    },
-    {
-      title: '텃밭',
-      lat: 33.450879,
-      lng: 126.56994,
-      img_url: dummyUrl,
-    },
-    {
-      title: '근린공원',
-      lat: 33.451393,
-      lng: 126.570738,
-      img_url: dummyUrl,
-    },
-  ];
+  var positions = useSelector((state: any) => state.enjoy.positions);
 
   // 커스텀 마커 생성
 
   useEffect(() => {
-    dispatch(setPosition(positions));
     dispatch(setTime(null));
     setManger(window.kakaoManager);
-
+    positions.map((value: any, idx: any) => {
+      const positions = new kakao.maps.LatLng(value.y, value.x);
+      const marker = new kakao.maps.Marker({
+        map: window.map,
+        position: positions,
+      })
+      console.log(marker.getPosition());
+    })
   }, []);
 
   const selectOverlay = () => {

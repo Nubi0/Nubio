@@ -1,7 +1,22 @@
 pipeline {
     agent any
 
+    environment { 
+            SLACK_CHANNEL = '#자동배포' 
+            TEAM_DOMAIN = 'nubiohq' 
+            TOKEN_CREDENTIAL_ID = 'slack-access-token'
+
+        }
+
     stages {
+
+        stage('Start') {
+                    steps {
+                        slackSend (channel: SLACK_CHANNEL, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+                    }
+                }
+
+
         stage('Cleanup Workspace') {
             steps {
                 sh 'rm -rf *'
@@ -146,5 +161,15 @@ pipeline {
                 '''
             }
         }
+    }
+
+    post {
+    success {
+         slackSend (channel: SLACK_CHANNEL, color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+         }
+
+    failure {
+         slackSend (channel: SLACK_CHANNEL, color: '#F01717', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", teamDomain: TEAM_DOMAIN, tokenCredentialId: TOKEN_CREDENTIAL_ID )
+         }
     }
 }

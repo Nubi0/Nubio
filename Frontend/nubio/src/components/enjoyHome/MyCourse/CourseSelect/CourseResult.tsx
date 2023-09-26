@@ -5,6 +5,8 @@ import {
   Data,
   ModalOpen,
 } from '../../../../styles/SCourseSelectPage';
+import { useDispatch } from 'react-redux';
+import { setCoursePoint } from '../../../../redux/slice/EnjoySlice';
 
 const CourseResult = ({ data, setModal }: { data: t_d_DataProps; setModal: any }) => {
   const { time, type, dis } = data;
@@ -14,6 +16,8 @@ const CourseResult = ({ data, setModal }: { data: t_d_DataProps; setModal: any }
     hour: 0,
     min: 0,
   });
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (type === '시') {
       const cal_h = hours + time;
@@ -38,6 +42,12 @@ const CourseResult = ({ data, setModal }: { data: t_d_DataProps; setModal: any }
       }
     }
   }, []);
+
+  const handleSave = () => {
+    setModal();
+    dispatch(setCoursePoint(window.kakaoManager.getData().polyline[0].points))
+  }
+
   return (
     <CourseResultWrapper>
       <Title>나만의 경로</Title>
@@ -51,7 +61,7 @@ const CourseResult = ({ data, setModal }: { data: t_d_DataProps; setModal: any }
         </div>
         <div>{dis}m</div>
       </Data>
-      <ModalOpen onClick={setModal}>저장</ModalOpen>
+      <ModalOpen onClick={handleSave}>저장</ModalOpen>
     </CourseResultWrapper>
   );
 };

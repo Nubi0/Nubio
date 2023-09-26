@@ -1,4 +1,7 @@
-import { useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTaste } from "../../../redux/slice/SignUpSlice";
 import {
   PrefrenceModalBox,
   PrefrenceModalOverlay,
@@ -6,8 +9,6 @@ import {
 import DrinkList from "./DrinkList";
 import EatList from "./EatList";
 import PlayList from "./PlayList";
-import { useDispatch } from "react-redux";
-import { setTaste } from "../../../redux/slice/SignUpSlice";
 
 type SetPrefrenceModalProps = {
   closeModal: () => void;
@@ -18,6 +19,8 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const taste = useSelector((state: any) => state.signup.taste);
+
   const handleImageClick = (name: string, type: string) => {
     const isSelected = selectedImages.includes(name);
     const action = {name, type}
@@ -30,6 +33,28 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
       dispatch(setTaste(action))
     }
   };
+
+  const handleSave = () => {
+    axios.post('https://nubi0.com/enjoy/v1/enjoy/profile/taste', {taste})
+          .then((res) => {
+            console.log(res.data.data)
+            closeModal();
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+  }
+
+  useEffect(() => {
+    axios.get('https://nubi0.com/enjoy/v1/enjoy/profile/taste')
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+  })
+
   return (
     <PrefrenceModalOverlay>
       <PrefrenceModalBox>
@@ -45,7 +70,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
           handleImageClick={handleImageClick}
           selectedImages={selectedImages}
         />
-        <button onClick={closeModal}>닫기</button>
+        <button onClick={handleSave}>닫기</button>
       </PrefrenceModalBox>
     </PrefrenceModalOverlay>
   );

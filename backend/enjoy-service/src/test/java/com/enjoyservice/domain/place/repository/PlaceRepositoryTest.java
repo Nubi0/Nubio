@@ -79,7 +79,7 @@ class PlaceRepositoryTest {
         em.flush();
         em.clear();
         // when
-        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1)).getContent();
         Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);
@@ -114,7 +114,7 @@ class PlaceRepositoryTest {
         em.flush();
         em.clear();
         // when
-        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1));
+        List<Place> result = placeRepository.findOneByIdFetchImage(savedTargetPlace.getId(), PageRequest.of(0, 1)).getContent();
         Place place = result.get(0);
         // then
         assertThat(result).hasSize(1);

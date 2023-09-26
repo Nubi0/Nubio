@@ -12,6 +12,8 @@ import RecommendPage from '../pages/RecommendPage';
 import SafeHomePage from '../pages/SafeHomePage';
 import CourseSelectPage from '../pages/CourseSelectPage';
 import KaKaoLogin from '../pages/KaKaoLogin';
+import CourseLocationSelectPage from '../pages/CourseLocationSelectPage';
+import AllCourseLocationSelectPage from '../pages/AllCourseLocationSelectPage';
 
 const routes = [
   {
@@ -63,12 +65,20 @@ const routes = [
     Component: SafeHomePage,
   },
   {
-    path: '/mycourse/select',
+    path: 'enjoy/mycourse/select',
     Component: CourseSelectPage,
   },
   {
     path: '/oauth/kakao',
     Component: KaKaoLogin,
+  },
+  {
+    path: '/enjoy/mycourse/location/select',
+    Component: CourseLocationSelectPage,
+  },
+  {
+    path: '/enjoy/all/location',
+    Component: AllCourseLocationSelectPage,
   }
 ];
 

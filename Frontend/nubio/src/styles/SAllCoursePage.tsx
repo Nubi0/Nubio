@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const AllCoursePageWrapper = styled.div`
-  margin: 0 1rem;
   display: flex;
   flex-direction: column;
 `;
 
 export const AllCourseWrapper = styled.div`
   padding-bottom: 5.4rem;
+  margin: 0 1rem;
 `;
 
 export const AllCourseHeaderWrapper = styled.div`

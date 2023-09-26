@@ -50,16 +50,11 @@ public class TasteApiServiceImpl implements TasteApiService {
                 TasteApiRes.MemberTasteInfoDto.of("놀기",plays));
     }
 
-    @Override
-    @Transactional
-    public void updateTaste(String memberId, MemberTasteReq memberTasteReq) {
-        memberTasteService.deleteTaste(memberId);
-        saveTaste(memberId, memberTasteReq);
-    }
 
     @Override
     @Transactional
     public void createTaste(String memberId, MemberTasteReq memberTasteReq) {
+        memberTasteService.deleteTaste(memberId);
         saveTaste(memberId, memberTasteReq);
     }
 

@@ -2,6 +2,7 @@ package com.enjoyservice.domain.place.repository;
 
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.place.entity.type.KakaoId;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

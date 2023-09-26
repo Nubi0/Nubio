@@ -4,6 +4,34 @@ import { LoginLogo } from '../styles/SSignUpPage';
 import useInput from '../hooks/useInput';
 import axios from 'axios';
 
+axios.interceptors.response.use(
+  async (response) => {
+    return response;
+  },
+  async (error) => {
+    if (error.response?.status === 401) {
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) {
+        try {
+          const response = await axios.post('https://nubi0.com/start/v1/member/access-token/issue', {}, {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`
+            }
+          });
+          const newAccessToken = response.data.data.accessToken;
+          axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+          error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+          return axios.request(error.config); // 다시 원래 요청을 실행
+        } catch (refreshError) {
+          // 갱신 실패 처리
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 const LoginPage = () => {
   const logoUrl = process.env.PUBLIC_URL + '/assets/nubio.png';
   const navigate = useNavigate();
@@ -21,6 +49,7 @@ const LoginPage = () => {
       .then((res) => {
         const { accessToken, refreshToken, refreshTokenExpireTime } = res.data.data;
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
         navigate('/enjoy');

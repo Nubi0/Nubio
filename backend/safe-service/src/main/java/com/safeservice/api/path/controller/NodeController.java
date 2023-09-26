@@ -5,6 +5,7 @@ import com.safeservice.api.path.dto.request.NearNode;
 import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.response.NearNodeListResponse;
 import com.safeservice.api.path.dto.response.NearNodePageResponse;
+import com.safeservice.api.path.dto.response.RecommendNodeResponse;
 import com.safeservice.api.path.service.NodeServiceInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,8 +44,8 @@ public class NodeController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/recommend/node")
-    public ApiResponseEntity<NearNodeListResponse > recommendNearNode(@Valid @RequestBody NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
-        NearNodeListResponse nodeList = nodeServiceInfo.recommendNearNode(nodeBetweenStartAndEnd);
+    public ApiResponseEntity<RecommendNodeResponse > recommendNearNode(@Valid @RequestBody NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
+        RecommendNodeResponse nodeList = nodeServiceInfo.recommendNearNode(nodeBetweenStartAndEnd);
         return ApiResponseEntity.ok(nodeList);
     }
 

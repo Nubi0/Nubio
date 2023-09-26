@@ -15,7 +15,7 @@ public interface PlaceService {
 
     List<Place> findAllByKakaoId(List<KakaoId> kakaoIds);
 
-    List<Place> findOneByIdFetchImage(Long id);
+    Place findOneByIdFetchImage(Long id);
 
     List<Place> saveAll(List<Place> placeList);
 

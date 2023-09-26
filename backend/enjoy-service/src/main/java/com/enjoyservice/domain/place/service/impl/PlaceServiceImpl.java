@@ -41,10 +41,9 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place findOneByIdFetchImage(Long id) {
-        Page<Place> result = placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
-        List<Place> list = result.getContent();
-        log.info("list: {}, list-size: {}", list, list.size());
-        return list.get(0);
+        List<Place> result = placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
+        log.info("list: {}, list-size: {}", result, result.size());
+        return result.get(0);
     }
 
     @Override

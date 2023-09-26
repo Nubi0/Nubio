@@ -1,10 +1,10 @@
 import { CalamityWrapper } from "../../../styles/SSafeHomePage";
 import CalamityMessage from "./CalamityMessage";
 
-const Calamity = ({ setIsReceiveMessage }: any) => {
+const Calamity = () => {
   return (
     <CalamityWrapper>
-      <CalamityMessage setIsReceiveMessage={setIsReceiveMessage} />
+      <CalamityMessage />
     </CalamityWrapper>
   );
 };

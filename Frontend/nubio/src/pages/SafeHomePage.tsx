@@ -16,16 +16,11 @@ const SafeHomePage = () => {
   const navigate = useNavigate();
   // 이미지
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
-  // 재난문자 수신
-  const [isReceiveMessage, setIsReceiveMessage] = useState(true);
+
   return (
     <SafeHomeWrapper>
       <FirstModal />
-      <GetCalamity></GetCalamity>
-      {isReceiveMessage ? (
-        <Calamity setIsReceiveMessage={setIsReceiveMessage} />
-      ) : null}
-      {/* <Calamity setIsReceiveMessage={setIsReceiveMessage} /> */}
+      <Calamity />
       <Map />
       <LogoIcon src={logo} onClick={() => navigate("/")} />
     </SafeHomeWrapper>

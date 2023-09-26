@@ -269,50 +269,40 @@ export const CalamityMessageWrapper = styled.div`
     font-size: 1rem;
   }
   #title {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin: 1rem;
+    color: red;
   }
   button {
-    width: 5rem;
-    height: 1.5rem;
     font-size: 1.2rem;
     font-weight: 600;
     border: none;
     color: white;
     border-radius: 1rem;
+    margin-left: 1rem;
+    padding: 0.2rem 1rem;
+  }
+  #close {
+    background-color: black;
+  }
+  #safeRoute {
     background-color: red;
   }
 `;
 
-// 첫번째 모달 대피경로
-export const EvacuationInfoWrapper = styled.div`
-  width: 90%;
-  height: 30%;
-  margin: 1rem auto 0 auto;
-`;
 export const EvacuationGuideWrapper = styled.div`
-  width: 90%;
-  height: 45%;
+  width: 80%;
   margin: auto auto 0.5rem auto;
   border-radius: 1rem;
   background: rgb(204, 204, 204, 0.2);
-  display: flex;
-  padding: 0.5rem;
-  #evacuationContent {
-    width: 60%;
-    height: 90%;
-    padding: 1rem;
+  text-align: center;
+  padding: 1rem;
+  #messageTime,
+  #messageCity {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
   }
-`;
-
-export const EvacuationIconWrapper = styled.div`
-width:30%;
-img {
-  width: 80%;
-  height:80%;
-  EvacuationGuideWrapper
-}
-p{
-font-weight:1000;
-}
+  #messageText {
+    margin-top: 0.5rem;
+  }
 `;

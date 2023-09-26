@@ -53,7 +53,7 @@ const KakaoMap = (props: propsType) => {
   const [endY, setEndY] = useState("");
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
-
+  const markerIcon = process.env.PUBLIC_URL + "/assets/marker.svg";
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
@@ -80,7 +80,6 @@ const KakaoMap = (props: propsType) => {
         { headers: headers }
       )
       .then((res) => {
-        console.log(res);
         function flattenArray(arr: any) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {
@@ -148,8 +147,7 @@ const KakaoMap = (props: propsType) => {
           if (linePath.length > 0) {
             const distances: any = calculateLineDistance(linePath);
             const walkTime = (distances / 67) | 0;
-            console.log(distances);
-            console.log(walkTime);
+
             dispatch(
               setShortTime({
                 time: walkTime,
@@ -191,7 +189,6 @@ const KakaoMap = (props: propsType) => {
         },
       })
       .then((res) => {
-        console.log(res);
         var safeLatitude = res.data.data.content[0].location.latitude;
         var safeLongitude = res.data.data.content[0].location.longitude;
         getSafeDirection(safeLatitude, safeLongitude);
@@ -204,8 +201,7 @@ const KakaoMap = (props: propsType) => {
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var safeLatituded = safeLatitude?.toString();
     var safeLongituded = safeLongitude?.toString();
-    console.log(safeLatitude);
-    console.log(safeLongituded);
+
     var data = {
       startX,
       startY,
@@ -218,7 +214,6 @@ const KakaoMap = (props: propsType) => {
       passList: safeLongituded + "," + safeLatituded,
       searchOption: 0,
     };
-    console.log(data);
     axios
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
@@ -226,7 +221,6 @@ const KakaoMap = (props: propsType) => {
         { headers: headers }
       )
       .then((res) => {
-        console.log(res);
         function flattenArray(arr: any) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {
@@ -294,8 +288,7 @@ const KakaoMap = (props: propsType) => {
           if (linePath.length > 0) {
             const distances: any = calculateLineDistance(linePath);
             const walkTime = (distances / 67) | 0;
-            console.log(distances);
-            console.log(walkTime);
+
             dispatch(
               setSafeTime({
                 time: walkTime,
@@ -358,7 +351,6 @@ const KakaoMap = (props: propsType) => {
 
   // 거리계산 공식
   const calculateLineDistance = (line: any) => {
-    console.log(line);
     const path = line["points"];
     const R = 6371;
     let totalDistance = 0;
@@ -367,8 +359,7 @@ const KakaoMap = (props: propsType) => {
       const point2 = path[i + 1];
       const dLat = deg2rad(point1["y"] - point2["y"]);
       const dLon = deg2rad(point1["x"] - point2["x"]);
-      console.log(dLat);
-      console.log(dLon);
+
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(deg2rad(point1["y"])) *
@@ -511,7 +502,8 @@ const KakaoMap = (props: propsType) => {
       window.polyline?.setMap(null);
       window.startCustomOverlay?.setMap(null);
 
-      let content = `<div class ="label"  style="background:#FFC542; font-size:0.8rem; border:0.5px solid black; padding:0.3rem; border-radius:1rem;"></span><span class="center">${places.place_name}</span><span class="right"></span></div>`;
+      let content = `<div class ="label"  style="background:#ffc542; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
+      출발</span><span class="right"></span></div>`;
       // 커스텀 오버레이가 표시될 위치입니다
       let markerPosition = new kakao.maps.LatLng(places.y, places.x);
       // 커스텀 오버레이를 생성합니다
@@ -531,7 +523,7 @@ const KakaoMap = (props: propsType) => {
       window.polyline?.setMap(null);
       window.endCustomOverlay?.setMap(null);
 
-      let content = `<div class ="label" style="background:#F25260; font-size:0.8rem; border:0.5px solid black; padding:0.3rem; border-radius:1rem;"><span class="left"></span><span class="center">${places.place_name}</span><span class="right"></span></div>`;
+      let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"><span class="left"></span><span class="center">도착</span><span class="right"></span></div>`;
       let markerPosition = new kakao.maps.LatLng(places.y, places.x);
       let customOverlay = new kakao.maps.CustomOverlay({
         position: markerPosition,
@@ -684,8 +676,6 @@ const KakaoMap = (props: propsType) => {
               position: new kakao.maps.LatLng(latitude, longitude),
             });
             marker.setMap(map); // 마커를 지도에 표시
-            console.log(latitude);
-            console.log(longitude);
           },
           (error) => {
             console.error("geolocation 에러 발생:", error);

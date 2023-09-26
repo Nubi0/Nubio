@@ -9,8 +9,10 @@ import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.request.NodeDto;
 import com.safeservice.api.path.dto.response.NearNodeListResponse;
 import com.safeservice.api.path.dto.response.NearNodePageResponse;
+import com.safeservice.api.path.dto.response.RecommendNodeResponse;
 import com.safeservice.api.path.service.NodeServiceInfo;
 import com.safeservice.domain.facility.entity.SafetyFacility;
+import com.safeservice.domain.facility.service.SafetyFacilityService;
 import com.safeservice.domain.path.entity.Node;
 import com.safeservice.domain.path.service.NodeService;
 import com.safeservice.global.error.ErrorCode;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 public class NodeServiceInfoImpl implements NodeServiceInfo {
 
     private final NodeService nodeService;
+    private final SafetyFacilityService safetyFacilityService;
 
     private static double EARTH_RADIUS = 6371;  // 지구의 반지름 (킬로미터)
 
@@ -95,13 +98,19 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
     }
 
     @Override
-    public NearNodeListResponse recommendNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
+    public RecommendNodeResponse recommendNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
         Point point = getCenterPoint(nodeBetweenStartAndEnd.getStart_location().getLatitude(), nodeBetweenStartAndEnd.getStart_location().getLongitude()
                 , nodeBetweenStartAndEnd.getEnd_location().getLatitude(), nodeBetweenStartAndEnd.getEnd_location().getLongitude());
         Distance distance = getDistance(nodeBetweenStartAndEnd.getStart_location().getLatitude(), nodeBetweenStartAndEnd.getStart_location().getLongitude()
                 , nodeBetweenStartAndEnd.getEnd_location().getLatitude(), nodeBetweenStartAndEnd.getEnd_location().getLongitude());
         List<Node> nodeList = nodeService.top3NodeNear(point, distance);
-        return NearNodeListResponse.from(nodeList);
+        RecommendNodeResponse recommendNodeResponse = new RecommendNodeResponse();
+
+        for (Node node : nodeList) {
+            List<SafetyFacility> facilityNear = safetyFacilityService.findFacilityNear(node.getLocation(), new Distance(0.1, Metrics.KILOMETERS));
+            recommendNodeResponse.add(node, facilityNear);
+        }
+        return recommendNodeResponse;
     }
 
     @Override

@@ -35,7 +35,6 @@ const CreateModal = () => {
   const [images, setImages] = useState<File[]>([]);
   const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-
     if (files) {
       if (images.length + files.length <= 5) {
         const newImages = Array.from(files);
@@ -47,7 +46,6 @@ const CreateModal = () => {
         });
       }
     }
-
     console.log(images);
   };
   // 테러타입
@@ -63,8 +61,8 @@ const CreateModal = () => {
       longitude,
       latitude,
     };
-    images.forEach((image, index) => {
-      formData.append(`file${index + 1}`, image);
+    images.forEach((image) => {
+      formData.append("file", image);
     });
     formData.append(
       "report",

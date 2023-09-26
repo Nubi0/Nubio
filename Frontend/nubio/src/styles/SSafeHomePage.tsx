@@ -253,7 +253,7 @@ export const CalamityWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: 1;
 `;
 
 export const CalamityMessageWrapper = styled.div`

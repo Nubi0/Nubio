@@ -13,7 +13,7 @@ const GetReport = () => {
   const getReport = () => {
     axios
       .get(
-        `https://nubi0.com/api/v1/safe/report?longitude=${longitude}&latitude=${latitude}`
+        `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`
       )
       .then((res) => {
         console.log(res);
@@ -25,6 +25,6 @@ const GetReport = () => {
   useEffect(() => {
     getReport();
   });
-  return;
+  return null;
 };
 export default GetReport;

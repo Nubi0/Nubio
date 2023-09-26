@@ -7,10 +7,12 @@ import com.authenticationservice.domain.member.exception.DuplicateMemberExceptio
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
 import com.authenticationservice.global.error.ErrorCode;
+import com.authenticationservice.global.error.exception.AuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -38,5 +40,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<Member> findByEmail(Email email) {
         return memberRepository.findByEmail(email);
+    }
+
+    @Override
+    public Member findByRefreshToken(String refreshToken) {
+        Member member = memberRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new AuthenticationException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+        LocalDateTime tokenExpirationTime = member.getRefreshTokenExpirationTime();
+        if(tokenExpirationTime.isBefore(LocalDateTime.now())) {
+            throw new AuthenticationException(ErrorCode.REFRESH_TOKEN_EXPIRED);
+        }
+        return member;
     }
 }

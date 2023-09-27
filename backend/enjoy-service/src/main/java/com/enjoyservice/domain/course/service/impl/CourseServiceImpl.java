@@ -120,6 +120,11 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Page<Course> findFavoriteCourseByMember(String memberId, Pageable pageable) {
+        return courseRepository.findFavoriteCourseByMember(memberId, pageable);
+    }
+
     private boolean createCourseLike(String memberId, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(ErrorCode.COURSE_NOT_FOUND));

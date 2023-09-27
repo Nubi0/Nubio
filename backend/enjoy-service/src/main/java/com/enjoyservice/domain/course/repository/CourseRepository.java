@@ -70,12 +70,12 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
 
     @Query(
             "select c "
-                    + "from Course c "
-                    + "join fetch CourseTag ct on c = ct.course "
-                    + "join fetch Tag t on ct.tag = t "
-                    + "where ct.id IN :courseTagIds "
-                    + "group by c "
-                    + "having count(ct) >= :size"
+            + "from Course c "
+            + "left join fetch CourseTag ct on c = ct.course "
+            + "left join fetch Tag t on ct.tag = t "
+            + "where ct.id IN :courseTagIds "
+            + "group by c "
+            + "having count(ct) >= :size"
     )
     Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
 
@@ -87,4 +87,11 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "left join fetch PlaceImage i on i.place = p " +
             "where c = :course")
     List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
+
+
+    @Query("select c from Course c " +
+            "left join fetch c.courseFavorites cf " +
+            "where cf.memberId = :memberId ")
+    Page<Course> findFavoriteCourseByMember(@Param("memberId") String memberId, Pageable pageable);
+
 }

@@ -15,15 +15,29 @@ import java.util.List;
 public interface CourseService {
 
     Course save(Course course);
+
     Course findById(Long courseId);
+
     List<Course> findAllByRegionFetchPlace(Region region, Pageable pageable);
+
     Long countAllByRegion(Region region);
+
     List<Tag> findTags(Course course);
+
     List<CourseLike> findCourseLikesByCourse(Course course);
+
     Course findCourseAndTagsByCourseId(Long courseId);
+
     List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course);
+
     boolean changeCourseLikeState(Long courseId, String memberId);
+
     List<CourseDto> findAllByRegionToModel(Region region);
+
     Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable);
+
     List<RecommendationPlaceDto> findPlaceByCourse(Course course);
+
+    Page<Course> findFavoriteCourseByMember(String memberId, Pageable pageable);
+
 }

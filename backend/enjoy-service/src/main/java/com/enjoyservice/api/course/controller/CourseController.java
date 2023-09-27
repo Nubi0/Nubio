@@ -74,4 +74,21 @@ public class CourseController {
         CourseListRes response = courseApiService.findAllByCourseTags(courseTagListReq, memberInfoDto.getMemberId(), pageable);
         return ApiResponseEntity.ok(response);
     }
+
+
+    @Operation(summary = "즐겨찾기 코스 목록 조회", description = "enjoy/v1/enjoy/profile/course/favorite\n\n" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description =  "OK"),
+    })
+    @PostMapping("/profile/course/favorite")
+    public ApiResponseEntity<CourseListRes> findFavoriteCourseByMember(
+                                                                        @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
+                                                                        @PageableDefault(size = 100,
+                                                                                sort = "createTime",
+                                                                                direction = Sort.Direction.DESC) Pageable pageable) {
+        CourseListRes response = courseApiService.findFavoriteCourseByMember(memberInfoDto.getMemberId(), pageable);
+        return ApiResponseEntity.ok(response);
+    }
+
+
 }

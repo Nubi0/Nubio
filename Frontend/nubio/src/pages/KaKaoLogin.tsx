@@ -13,7 +13,7 @@ const KaKaoLogin = () => {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
                 localStorage.setItem('refreshToken', refreshToken);
                 localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
-                navigate('/enjoy')
+                navigate('/')
              })
              .catch((err) => {
                 console.error(err);

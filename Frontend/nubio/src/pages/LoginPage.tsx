@@ -47,15 +47,11 @@ const LoginPage = () => {
     await axios
       .post("https://nubi0.com/start/v1/member/login", config)
       .then((res) => {
-        const { accessToken, refreshToken, refreshTokenExpireTime } =
-          res.data.data;
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("refreshTokenExpireTime", refreshTokenExpireTime);
-        navigate("/enjoy");
-
+        const { accessToken, refreshToken, refreshTokenExpireTime } = res.data.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
+        navigate('/enjoy');
       })
       .catch((err) => {
         console.error(err);

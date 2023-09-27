@@ -57,7 +57,7 @@ const LoginPage = () => {
         console.error(err);
       });
   };
-  const redirect_uri = "http://localhost:3000/oauth/kakao";
+  const redirect_uri = window.location.origin + "/oauth/kakao";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_LOGIN}&redirect_uri=${redirect_uri}&response_type=code`;
   const kakaoLogin = () => {
     window.location.href = kakaoURL;

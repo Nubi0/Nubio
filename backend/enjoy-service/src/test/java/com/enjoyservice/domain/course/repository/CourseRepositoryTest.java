@@ -5,6 +5,8 @@ import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.coursefavorite.entity.CourseFavorite;
+import com.enjoyservice.domain.coursefavorite.repository.CourseFavoriteRepository;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
@@ -25,7 +27,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -50,6 +55,8 @@ class CourseRepositoryTest {
     private CourseTagRepository courseTagRepository;
     @Autowired
     private CourseLikeRepository courseLikeRepository;
+    @Autowired
+    private CourseFavoriteRepository courseFavoriteRepository;
     @Autowired
     private EntityManager em;
 
@@ -313,4 +320,43 @@ class CourseRepositoryTest {
         assertThat(opCourseLike.get().getCourse().getId()).isEqualTo(courseId);
         assertThat(opCourseLike.get().getMemberId()).isEqualTo(memberId);
     }
+
+    @DisplayName("회원의 즐겨찾기 코스 가져오기")
+    @Test
+    void findFavoriteCourseByMember() {
+        // given
+
+        // given
+        Course course = savedBeforeCourses.get(0);
+        Long courseId = course.getId();
+        String memberId = "memberId";
+        List<String> memberIds = List.of(memberId, "memberId1", "memberId2", "memberId3");
+        for(String id : memberIds) {
+            CourseFavorite courseFavorite = CourseFavorite.builder()
+                    .course(course)
+                    .memberId(id)
+                    .build();
+
+            courseFavoriteRepository.saveAndFlush(courseFavorite);
+        }
+
+        // when
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Course> coursePage = courseRepository.findFavoriteCourseByMember(memberId, pageable);
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(coursePage.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(coursePage.getNumber()).isEqualTo(0);
+        // 다음 페이지 존재 여부
+        assertThat(coursePage.hasNext()).isFalse();
+        // 시작 페이지(0) 여부
+        assertThat(coursePage.isFirst()).isTrue();
+
+        assertThat(coursePage.getContent()).hasSize(1);
+    }
+
 }

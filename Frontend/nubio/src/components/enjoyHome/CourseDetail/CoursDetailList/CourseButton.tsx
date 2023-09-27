@@ -3,8 +3,8 @@ import { CourseButtonWrapper, ButtonDivider } from '../../../../styles/SCourseDe
 import { useParams } from 'react-router-dom';
 
 const CourseButton = ({ course_info }: { course_info: any }) => {
-  const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';
-  const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/starFill.svg';
+  const bookMarkUrl = process.env.PUBLIC_URL + '/assets/bigStar.svg';
+  const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/bigStarFill.svg';
   const share = process.env.PUBLIC_URL + '/assets/share.svg';
   const { courseId } = useParams();
   const { favorite_flag } = course_info;

@@ -2,7 +2,7 @@ import { LikeHeaderWrapper, Place, Course } from '../../../styles/SLikePage';
 
 type likeProps = {
   active: {
-    place: boolean;
+    mine: boolean;
     course: boolean;
   },
   handleButton: (category: string) => void;
@@ -12,10 +12,10 @@ const LikeHeader = ({active, handleButton}: likeProps) => {
   return (
     <LikeHeaderWrapper>
       <Place
-        onClick={() => handleButton('place')}
-        className={active.place ? 'active' : ''}
+        onClick={() => handleButton('mine')}
+        className={active.mine ? 'active' : ''}
       >
-        장소
+        내 코스
       </Place>
       <Course
         onClick={() => handleButton('course')}

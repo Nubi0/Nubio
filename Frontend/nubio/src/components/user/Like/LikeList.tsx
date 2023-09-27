@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import { LikeListWrapper } from '../../../styles/SLikePage';
 import LikeHeader from './LikeHeader';
-import PlaceList from './place/PlaceList';
 import CourseList from './course/CourseList';
+import MineCourseList from './mine/MineCourseList';
 
 const LikeList = () => {
   const [active, setActive] = useState({
-    place: true,
+    mine: true,
     course: false,
   });
   const handleButton = (category: string) => {
-    if (category === 'place') {
+    if (category === 'mine') {
       setActive({
-        place: true,
+        mine: true,
         course: false,
       });
     } else if (category === 'course') {
       setActive({
-        place: false,
+        mine: false,
         course: true,
       });
     }
@@ -26,8 +26,8 @@ const LikeList = () => {
   return (
     <LikeListWrapper>
       <LikeHeader active={active} handleButton={handleButton} />
-      {active.place ? 
-        <PlaceList /> :
+      {active.mine ? 
+        <MineCourseList /> :
         <CourseList />
       }
     </LikeListWrapper>

@@ -11,6 +11,8 @@ import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
+import com.enjoyservice.global.error.ErrorCode;
+import com.enjoyservice.global.error.exception.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -78,13 +80,15 @@ public class CourseMapper {
                             Long id = place.getId();
                             Long kakaoId = place.getKakaoId().getValue();
                             String placeName = place.getName().getValue();
-//                            String imageUrl = place.getImages().get(0).getUrl().getValue();
+                            String imageUrl = place.getImages().stream().map(image -> image.getUrl().getValue()).findFirst().isPresent()
+                                    ? place.getImages().stream().map(image -> image.getUrl().getValue()).findFirst().get() : "not exist";
+
 
                             return CourseListRes.CourseInfo.PlaceInfo.builder()
                                     .placeId(id)
                                     .kakaoId(kakaoId)
                                     .placeName(placeName)
-//                                    .imageUrl(imageUrl)
+                                    .imageUrl(imageUrl)
                                     .build();
                         })
                         .toList())

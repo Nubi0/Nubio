@@ -49,7 +49,6 @@ const LoginPage = () => {
       .then((res) => {
         const { accessToken, refreshToken, refreshTokenExpireTime } = res.data.data;
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
         navigate('/enjoy');

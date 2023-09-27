@@ -8,5 +8,4 @@ export const FooterWrapper = styled.div`
   grid-template-columns: repeat(3, 1fr);
   place-items: center;
   background-color: white;
-  padding: 1rem 0;
 `;

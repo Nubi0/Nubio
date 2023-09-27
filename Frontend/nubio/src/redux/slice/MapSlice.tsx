@@ -51,7 +51,6 @@ export const {
   setLongitude,
   setShortTime,
   setSafeTime,
-
   setStartName,
   setEndName,
   setStart,

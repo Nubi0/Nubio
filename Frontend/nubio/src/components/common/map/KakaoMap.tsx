@@ -65,26 +65,26 @@ declare global {
 
 const KakaoMap = (props: propsType) => {
   const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start,
+    (state: { map: { start: StartCoordinates } }) => state.map.start
   );
   const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end,
+    (state: { map: { end: EndCoordinates } }) => state.map.end
   );
+  const startName = useSelector(
+    (state: { map: { startName: string } }) => state.map.startName
+  );
+  const endName = useSelector(
+    (state: { map: { endName: string } }) => state.map.endName
+  );
+  const dispatch = useDispatch();
 
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
   const markerIcon = process.env.PUBLIC_URL + "/assets/marker.svg";
   const location = useLocation();
-  const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
-  );
-  const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
-  );
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
-  const dispatch = useDispatch();
 
   // 라인, 마커 삭제
   function clearRoute() {
@@ -115,11 +115,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          }),
+          })
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
         );
       }
     } else {
@@ -450,7 +450,7 @@ const KakaoMap = (props: propsType) => {
           },
           (error) => {
             console.error("geolocation 에러 발생:", error);
-          },
+          }
         );
       } else {
         console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
@@ -488,7 +488,7 @@ const KakaoMap = (props: propsType) => {
 
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options,
+      options
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -506,7 +506,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng,
+          props.position[i].lng
         ),
       });
 
@@ -548,7 +548,6 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-
           <ShortDirection
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}
@@ -557,7 +556,6 @@ const KakaoMap = (props: propsType) => {
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}
           />
-
           <SearchListWrapper className="scroll-wrapper">
             <ul id="places-list"></ul>
           </SearchListWrapper>

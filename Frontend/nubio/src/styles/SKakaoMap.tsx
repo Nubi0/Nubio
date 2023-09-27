@@ -104,5 +104,8 @@ export const DestinationWrapper = styled.div`
   }
 `;
 
-// 최소거리
+// 최소경로
 export const ShortDirectionButton = styled.button``;
+
+// 안전경로
+export const SafeDirectionButton = styled.button``;

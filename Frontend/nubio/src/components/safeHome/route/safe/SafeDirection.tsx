@@ -1,11 +1,10 @@
 import axios from "axios";
-import { ShortDirectionButton } from "../../../../styles/SKakaoMap";
-import { useSelector } from "react-redux";
 import proj4 from "proj4";
-import { setShortTime } from "../../../../redux/slice/MapSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSafeTime } from "../../../../redux/slice/MapSlice";
+import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 
-interface ShortDirectionProps {
+interface SafeDirectionProps {
   clearRoute: () => void;
   setFindRouteOpen: (findRouteOpen: boolean) => void;
 }
@@ -17,12 +16,10 @@ interface EndCoordinates {
   x: number;
   y: number;
 }
-
-const ShortDirection = ({
+const SafeDirection = ({
   clearRoute,
   setFindRouteOpen,
-}: ShortDirectionProps) => {
-  // 도(degree)단위를 라디안(radian)단위로 바꾸는 함수
+}: SafeDirectionProps) => {
   const deg2rad = (deg: any) => {
     return deg * (Math.PI / 180);
   };
@@ -39,10 +36,69 @@ const ShortDirection = ({
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
-  // 최단거리 길찾기
-  const getShortDirection = () => {
+  // 안전경로 길찾기
+  const getSafeLocation = () => {
+    axios
+      .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
+        start_location: {
+          longitude: start.x,
+          latitude: start.y,
+        },
+        end_location: {
+          longitude: end.x,
+          latitude: end.y,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.data.content.length > 0) {
+          var safeLatitude = res.data.data.content[0].location.latitude;
+          var safeLongitude = res.data.data.content[0].location.longitude;
+          var safePlaces = res.data.data.content[0].safety_facilities;
+          if (safePlaces.length > 1) {
+            for (let i = 0; i < safePlaces.length; i++) {
+              let placeName;
+              if (safePlaces[i].facility_type == "CONVENIENCE_STORE") {
+                placeName = "편의점";
+              }
+              if (safePlaces[i].facility_type == "POLICE") {
+                placeName = "경찰서";
+              }
+              if (safePlaces[i].facility_type == "LAMP") {
+                placeName = "가로등";
+              }
+              if (safePlaces[i].facility_type == "SAFETY_BELL") {
+                placeName = "안전벨";
+              }
+              let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
+            ${placeName}</span><span class="right"></span></div>`;
+              // 커스텀 오버레이가 표시될 위치입니다
+              let markerPosition = new kakao.maps.LatLng(
+                safePlaces[i].location.latitude,
+                safePlaces[i].location.longitude,
+              );
+              // 커스텀 오버레이를 생성합니다
+              let customOverlay = new kakao.maps.CustomOverlay({
+                position: markerPosition,
+                content: content,
+              });
+              window.safeCustomOverlay = customOverlay;
+              // 커스텀 오버레이를 지도에 표시합니다
+              window.safeCustomOverlay.setMap(window.map);
+            }
+          }
+        }
+        getSafeDirection(safeLatitude, safeLongitude);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getSafeDirection = (safeLatitude: any, safeLongitude: any) => {
     clearRoute();
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
+    var safeLatituded = safeLatitude?.toString();
+    var safeLongituded = safeLongitude?.toString();
     var data = {
       startX: start.x,
       startY: start.y,
@@ -52,8 +108,9 @@ const ShortDirection = ({
       resCoordType: "EPSG3857",
       startName,
       endName,
+      passList: safeLongituded + "," + safeLatituded,
+      searchOption: 0,
     };
-
     axios
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
@@ -128,8 +185,9 @@ const ShortDirection = ({
           if (linePath.length > 0) {
             const distances: any = calculateLineDistance(linePath);
             const walkTime = (distances / 67) | 0;
+
             dispatch(
-              setShortTime({
+              setSafeTime({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
@@ -142,7 +200,7 @@ const ShortDirection = ({
         var polyline = new kakao.maps.Polyline({
           path: linePath,
           strokeWeight: 5,
-          strokeColor: "red",
+          strokeColor: "#33ff57",
           strokeOpacity: 0.7,
           strokeStyle: "solid",
         });
@@ -155,9 +213,10 @@ const ShortDirection = ({
       });
   };
   return (
-    <ShortDirectionButton onClick={getShortDirection}>
-      빠른 길 찾기
-    </ShortDirectionButton>
+    <SafeDirectionButton onClick={getSafeLocation}>
+      안전한 길 찾기
+    </SafeDirectionButton>
   );
 };
-export default ShortDirection;
+
+export default SafeDirection;

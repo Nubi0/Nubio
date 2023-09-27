@@ -14,7 +14,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -52,7 +54,7 @@ public class Course extends BaseEntity {
     private List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<CourseTag> courseTags = new ArrayList<>();
+    private Set<CourseTag> courseTags = new HashSet<>();
 
     @Builder
     public Course(Title title, Content content, Region region, PublicFlag publicFlag, String memberId) {

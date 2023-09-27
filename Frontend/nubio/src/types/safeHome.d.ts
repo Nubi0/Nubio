@@ -6,6 +6,6 @@ interface DisasterIconInfo {
 }
 
 interface propsType {
-  searchKeyword: string;
+  searchKeyword: string | null;
   position: Array;
 }

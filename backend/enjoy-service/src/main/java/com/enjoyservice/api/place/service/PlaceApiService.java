@@ -1,5 +1,7 @@
 package com.enjoyservice.api.place.service;
 
+import com.enjoyservice.api.place.dto.NearPlaceInfoPageRes;
+import com.enjoyservice.api.place.dto.NearPlaceReq;
 import com.enjoyservice.api.place.dto.PlaceCsvInfoRes;
 import com.enjoyservice.api.place.dto.PlaceInfoRes;
 import com.enjoyservice.domain.place.entity.Place;
@@ -17,6 +19,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -126,6 +132,28 @@ public class PlaceApiService {
                         .build())
                 .active(Active.from(true))
                 .build();
+    }
+
+    // TODO: QueryDsl로 수정예정
+    public NearPlaceInfoPageRes searchNearPlace(NearPlaceReq nearPlaceReq, Pageable pageable, String category, String name) {
+
+        Page<Place> nearPlace;
+
+        if (category != null) {
+            category= GroupCode.from(category).name();
+        }
+
+        if (category == null && name == null) {
+            nearPlace = placeService.findNearPlace(nearPlaceReq.getLongitude(), nearPlaceReq.getLatitude(), nearPlaceReq.getDistance(), pageable);
+        }else if(category != null && name != null){
+            nearPlace = placeService.searchNearPlaceByTypeAndName(nearPlaceReq.getLongitude(), nearPlaceReq.getLatitude(), nearPlaceReq.getDistance(),category, name, pageable);
+        }else if(category != null){
+            nearPlace = placeService.findNearPlaceType(nearPlaceReq.getLongitude(), nearPlaceReq.getLatitude(), nearPlaceReq.getDistance(), category, pageable);
+        } else {
+            nearPlace =placeService.searchNearPlace(nearPlaceReq.getLongitude(), nearPlaceReq.getLatitude(), nearPlaceReq.getDistance(), name, pageable);
+        }
+
+        return NearPlaceInfoPageRes.from(nearPlace);
     }
 
 }

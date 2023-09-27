@@ -17,4 +17,26 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query("select p from Place p where p.kakaoId in :kakaoIds")
     List<Place> findAllByKakaoIds(@Param("kakaoIds") List<KakaoId> kakaoIds);
+
+    @Query(value = "SELECT * FROM place WHERE ST_Distance_Sphere(POINT(:lng, :lat), POINT(longitude, latitude )) <= :dist",
+            nativeQuery = true)
+    Page<Place> findNearPlace(@Param("lng") double lng, @Param("lat") double lat, @Param("dist") int dist, Pageable pageable);
+
+    @Query(value = "SELECT * FROM place WHERE ST_Distance_Sphere(POINT(:lng, :lat), POINT(longitude, latitude )) <= :dist " +
+            "AND category_group_code = :category",
+            nativeQuery = true)
+    Page<Place> findNearPlaceType(@Param("lng") double lng, @Param("lat") double lat, @Param("dist") int dist, @Param("category") String category, Pageable pageable);
+
+    @Query(value = "SELECT * FROM place WHERE ST_Distance_Sphere(POINT(:lng, :lat), POINT(longitude, latitude )) <= :dist " +
+            "AND name Like %:name%",
+            nativeQuery = true)
+    Page<Place> searchNearPlace(@Param("lng") double lng, @Param("lat") double lat, @Param("dist") int dist, @Param("name") String name, Pageable pageable);
+
+    @Query(value = "SELECT * FROM place WHERE ST_Distance_Sphere(POINT(:lng, :lat), POINT(longitude, latitude )) <= :dist " +
+            "AND category_group_code = :category " +
+            "AND name Like %:name% ",
+            nativeQuery = true)
+    Page<Place> searchNearPlaceByTypeAndName(@Param("lng") double lng, @Param("lat") double lat, @Param("dist") int dist, @Param("category") String category, @Param("name") String name, Pageable pageable);
+
+
 }

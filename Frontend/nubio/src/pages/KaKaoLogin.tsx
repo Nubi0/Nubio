@@ -9,7 +9,6 @@ const KaKaoLogin = () => {
         axios.post('https://nubi0.com/start/v1/oauth/kakao/callback', {code,redirectUrl})
              .then((res) => {
                 const {accessToken, refreshToken, refreshTokenExpireTime} = res.data.data;
-                console.log(accessToken);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
                 localStorage.setItem('refreshToken', refreshToken);
                 localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);

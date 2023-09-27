@@ -10,6 +10,7 @@ import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
+import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.global.error.ErrorCode;
@@ -77,7 +78,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course) {
-        List<Place> places = courseRepository.findPlacesByCourse(course);
+        List<Course> courses = courseRepository.findPlacesByCourse(course);
+        List<Place> places = courses.get(0).getCoursePlaceSequences().stream()
+                        .map(CoursePlaceSequence::getPlace)
+                        .toList();
         log.info("Place와 fetch join 된 sequence 조회 완료(CourseServiceImpl)");
         return places.stream()
                 .map(CourseMapper::toPlaceInfoInCourseDto)

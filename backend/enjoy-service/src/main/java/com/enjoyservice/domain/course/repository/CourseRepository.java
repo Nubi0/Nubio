@@ -18,28 +18,28 @@ import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
 
-    @Query("select c, cps, p, pi " +
+    @Query("select c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
-            "left join fetch PlaceImage pi on pi.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "inner join fetch cps.place p " +
+            "left join fetch p.images " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 
-    @Query("select distinct c, cps, p " +
+    @Query("select distinct c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "join fetch cps.place p " +
             "where c.region = :region")
     List<Course> findAllByRegionToModel(@Param("region") Region region);
 
 
-    @Query("select p, cps " +
+    @Query("select c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "join fetch cps.place p " +
             "where c = :course")
-    List<Place> findPlacesByCourse(@Param("course") Course course);
+    List<Course> findPlacesByCourse(@Param("course") Course course);
 
     Long countAllByRegion(Region region);
 

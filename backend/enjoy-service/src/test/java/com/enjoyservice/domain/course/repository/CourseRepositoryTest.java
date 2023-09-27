@@ -143,13 +143,10 @@ class CourseRepositoryTest {
         // when
         List<Course> result = courseRepository.findAllByRegionFetchPlace(Region.from("DAEGU"), PageRequest.of(0, 5));
         // then
-        assertThat(result).hasSize(5)
+        assertThat(result).hasSize(2)
                 .extracting("title.value", "content.value", "region")
                 .containsExactlyInAnyOrder(
                         tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle2", "courseContent2", Region.DAEGU),
                         tuple("courseTitle2", "courseContent2", Region.DAEGU)
                 );
     }
@@ -280,7 +277,10 @@ class CourseRepositoryTest {
         Place place2 = savedBeforePlaces.get(1);
         Place place3 = savedBeforePlaces.get(2);
         // when
-        List<Place> result = courseRepository.findPlacesByCourse(course);
+        List<Course> courses = courseRepository.findPlacesByCourse(course);
+        List<Place> result = courses.get(0).getCoursePlaceSequences().stream()
+                .map(CoursePlaceSequence::getPlace)
+                .toList();
         // then
         assertThat(result.size()).isEqualTo(3);
         assertThat(result.get(0).getName().getValue()).isEqualTo(place1.getName().getValue());

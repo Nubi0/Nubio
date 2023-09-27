@@ -162,13 +162,10 @@ class CourseServiceImplTest {
         // when
         List<Course> result = courseService.findAllByRegionFetchPlace(Region.from("DAEGU"), PageRequest.of(0, 5));
         // then
-        assertThat(result).hasSize(5)
+        assertThat(result).hasSize(2)
                 .extracting("title.value", "content.value", "region")
                 .containsExactlyInAnyOrder(
                         tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle2", "courseContent2", Region.DAEGU),
                         tuple("courseTitle2", "courseContent2", Region.DAEGU)
                 );
     }

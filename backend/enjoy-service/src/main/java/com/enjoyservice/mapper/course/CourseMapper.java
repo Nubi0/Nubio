@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class CourseMapper {
@@ -140,6 +141,7 @@ public class CourseMapper {
                                         .latitude(p.getLatitude())
                                         .sequence(p.getSequence())
                                         .build())
+                                .sorted(Comparator.comparingInt(CourseDetailRes.PlaceInfo::getSequence))
                                 .toList()
                 )
                 .build();

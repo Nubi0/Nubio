@@ -3,8 +3,9 @@ import {
   SafeGuideModalBox,
   SafeGuideIcon,
 } from "../../../styles/SSafeHomePage";
-import Disaster from "./Disaster";
 import EvacuationRouteModal from "./EvacuationRouteModal";
+import Disaster from "./Disaster";
+
 const SafeGuideModal = () => {
   //이미지
   const safeGuide = process.env.PUBLIC_URL + "/assets/safeGuide.png";

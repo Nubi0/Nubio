@@ -37,11 +37,12 @@ export const SafeGuideIcon = styled.img`
   height: 4rem;
   z-index: 1;
 `;
-export const TipOffIcon = styled.img`
+export const ReportIcon = styled.img`
   width: 4rem;
   height: 4rem;
   z-index: 1;
 `;
+
 // 사이렌 모달
 export const FirstModalOverlay = styled.div`
   z-index: 9998;
@@ -75,8 +76,14 @@ export const IconWrapper = styled.div`
   display: flex;
   justify-content: space-around;
 `;
-export const TipOffModalWrapper = styled.div``;
-export const TipOffWrapper = styled.div`
+
+// 제보하기
+export const ReportModalWrapper = styled.div`
+  .swal2-container {
+    z-index: 9999; /* 더 높은 값으로 설정 */
+  }
+`;
+export const ReportWrapper = styled.div`
   position: absolute;
   top: 15%;
   background: white;
@@ -86,6 +93,7 @@ export const TipOffWrapper = styled.div`
   border-radius: 1rem;
   text-align: center;
   z-index: 2;
+
   #title {
     width: 95%;
     height: 2rem;
@@ -127,6 +135,13 @@ export const TypeWrapper = styled.div`
     }
   }
 `;
+export const ImageWrapper = styled.div`
+  
+}
+`;
+
+export const CheckReportWrapper = styled.div``;
+// 재난 대피
 export const SafeGuideModalBox = styled.div`
   position: absolute;
   top: 15%;
@@ -194,7 +209,7 @@ export const EvacuationRouteModalBox = styled.div`
 `;
 
 // 길 찾기 결과
-export const RootInfoWrapper = styled.div`
+export const RouteInfoWrapper = styled.div`
   position: absolute;
   bottom: 2.5rem;
   width: 100%;
@@ -208,7 +223,7 @@ export const RootInfoWrapper = styled.div`
 export const ShortDistanceWrapper = styled.div`
   width: 40%;
   height: 90%;
-  background: #ffc542;
+  background: red;
   border-radius: 1rem;
   padding: 0.5rem;
   p {
@@ -221,10 +236,74 @@ export const SafeDistanceWrapper = styled.div`
   width: 40%;
   height: 90%;
   border-radius: 1rem;
-  background: #f25260;
+  background: #33ff57;
   padding: 0.5rem;
   p {
     margin: 0.5rem;
     color: white;
+  }
+`;
+
+// 재난문자
+export const CalamityWrapper = styled.div`
+  // background: red;
+  width: 100%;
+  height: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+`;
+
+export const CalamityMessageWrapper = styled.div`
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  border: 0.5rem double red;
+  background: white;
+  text-align: center;
+
+  p {
+    margin: 0.5rem 0;
+    margin: 0;
+    font-size: 1rem;
+  }
+  #title {
+    font-size: 1.5rem;
+    margin: 1rem;
+    color: red;
+  }
+  button {
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    color: white;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    padding: 0.2rem 1rem;
+  }
+  #close {
+    background-color: black;
+  }
+  #safeRoute {
+    background-color: red;
+  }
+`;
+
+export const EvacuationGuideWrapper = styled.div`
+  width: 80%;
+  margin: auto auto 0.5rem auto;
+  border-radius: 1rem;
+  background: rgb(204, 204, 204, 0.2);
+  text-align: center;
+  padding: 1rem;
+  #messageTime,
+  #messageCity {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+  }
+  #messageText {
+    margin-top: 0.5rem;
   }
 `;

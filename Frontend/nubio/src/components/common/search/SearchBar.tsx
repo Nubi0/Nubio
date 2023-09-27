@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { inputKeyword } from "../../../redux/slice/KakaoSlice";
+import { setkeyWord } from "../../../redux/slice/MapSlice";
 import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
 
@@ -24,17 +24,17 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   // 제출한 검색어 state에 담아주는 함수
   const submitKeyword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(inputKeyword(Value));
+    dispatch(setkeyWord(Value));
     if (Value == "") {
       Swal.fire({
         title: "검색어를 입력해주세요.",
       });
     }
     searchPlaces(Value);
+    setFindRouteOpen(false);
   };
   const inputClick = () => {
     setListIsOpen(true);
-    // setFindRouteOpen(true);
     searchPlaces(Value);
   };
   return (

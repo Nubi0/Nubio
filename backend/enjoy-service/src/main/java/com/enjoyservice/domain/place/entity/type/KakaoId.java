@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class KakaoId {
 
     @Column(name = "kakao_id")
-    private Integer value;
+    private Long value;
 
-    private KakaoId(final int value) {
+    private KakaoId(final long value) {
         this.value = value;
     }
 
-    public static KakaoId from(final int value) {
+    public static KakaoId from(final long value) {
         return new KakaoId(value);
     }
 }

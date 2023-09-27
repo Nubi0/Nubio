@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,10 +42,9 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place findOneByIdFetchImage(Long id) {
-        Page<Place> result = placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
-        List<Place> list = result.getContent();
-        log.info("list: {}, list-size: {}", list, list.size());
-        return list.get(0);
+        List<Place> result = placeRepository.findOneByIdFetchImage(id, PageRequest.of(0, 1));
+        log.info("list: {}, list-size: {}", result, result.size());
+        return result.get(0);
     }
 
     @Override
@@ -57,5 +57,25 @@ public class PlaceServiceImpl implements PlaceService {
     @Transactional
     public Place register(Place place) {
         return placeRepository.saveAndFlush(place);
+    }
+
+    @Override
+    public Page<Place> findNearPlace(double lng, double lat, int dist, Pageable pageable) {
+        return placeRepository.findNearPlace(lng, lat, dist, pageable);
+    }
+
+    @Override
+    public Page<Place> findNearPlaceType(double lng, double lat, int dist, String category, Pageable pageable) {
+        return placeRepository.findNearPlaceType(lng, lat, dist, category, pageable);
+    }
+
+    @Override
+    public Page<Place> searchNearPlace(double lng, double lat, int dist, String name, Pageable pageable) {
+        return placeRepository.searchNearPlace(lng, lat, dist, name, pageable);
+    }
+
+    @Override
+    public Page<Place> searchNearPlaceByTypeAndName(double lng, double lat, int dist, String category, String name, Pageable pageable) {
+        return placeRepository.searchNearPlaceByTypeAndName(lng, lat, dist, category, name, pageable);
     }
 }

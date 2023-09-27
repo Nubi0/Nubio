@@ -4,9 +4,10 @@ import {
   FirstModalOverlay,
   SafeIcon,
   IconWrapper,
-} from "../../../styles/SSafeHomePage";
-import SafeGuideModal from "./SafeGuideModal";
-import TipOffModal from "./TipOffModal";
+} from "../../styles/SSafeHomePage";
+
+import CreateReportModal from "./report/CreateReportModal";
+import SafeGuideModal from "./disaster/SafeGuideModal";
 const FirstModal = () => {
   const siren = process.env.PUBLIC_URL + "/assets/disaster/siren.png";
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ const FirstModal = () => {
         <FirstModalOverlay>
           <FirstModalBox>
             <IconWrapper>
-              <TipOffModal />
+              <CreateReportModal />
               <SafeGuideModal />
             </IconWrapper>
             <button id="close" onClick={closeModal}>

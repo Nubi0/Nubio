@@ -21,7 +21,7 @@ import {
   setShortTime,
 } from "../../../redux/slice/MapSlice";
 import NearbyShelter from "../../safeHome/route/safe/NearbyShelter";
-import RootInfo from "../../safeHome/route/RootInfo";
+// import RootInfo from "../../safeHome/route/RootInfo";
 import { useSelector } from "react-redux";
 
 interface placeType {
@@ -58,6 +58,7 @@ const KakaoMap = (props: propsType) => {
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
   const markerIcon = process.env.PUBLIC_URL + "/assets/marker.svg";
+  const location = useLocation();
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
@@ -129,7 +130,6 @@ const KakaoMap = (props: propsType) => {
           const latLng = new kakao.maps.LatLng(latitude, longitude);
           linePath.push(latLng);
         }
-  const location = useLocation();
 
         // 거리계산 공식
         const calculateLineDistance = (line: any) => {

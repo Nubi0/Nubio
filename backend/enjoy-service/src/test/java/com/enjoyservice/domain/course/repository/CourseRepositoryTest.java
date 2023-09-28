@@ -367,7 +367,8 @@ class CourseRepositoryTest {
             log.info("courseId : {}", c.getId());
         }
 
-
         assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getId()).isEqualTo(savedCourse.getId());
+        assertThat(result.getContent().get(0).getCourseTags().size()).isEqualTo(2);
     }
 }

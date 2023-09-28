@@ -2,6 +2,7 @@ package com.enjoyservice.api.profile.controller;
 
 import com.enjoyservice.api.ApiResponseEntity;
 import com.enjoyservice.api.profile.dto.MyCourseRes;
+import com.enjoyservice.api.profile.service.ProfileApiService;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfo;
 import com.enjoyservice.global.resolver.memberinfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProfileController {
 
+    private final ProfileApiService profileApiService;
+
     @Operation(summary = "내가 만든 코스 목록 조회", description = "enjoy/v1/enjoy/profile/course\n\n" )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description =  "OK"),
@@ -33,8 +36,8 @@ public class ProfileController {
                                                       @PageableDefault(size = 100,
                                                               sort = "createTime",
                                                               direction = Sort.Direction.DESC) Pageable pageable) {
-
-        return null;
+        MyCourseRes response = profileApiService.getMyCourses(memberInfoDto.getMemberId(), pageable);
+        return ApiResponseEntity.ok(response);
     }
 
 }

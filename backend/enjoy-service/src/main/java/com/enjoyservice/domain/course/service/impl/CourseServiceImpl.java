@@ -10,6 +10,7 @@ import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.course.service.CourseService;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
+import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.global.error.ErrorCode;
@@ -77,7 +78,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<PlaceInCourseInfoDto> findPlacesInfoInCourseByCourse(Course course) {
-        List<Place> places = courseRepository.findPlacesByCourse(course);
+        List<Course> courses = courseRepository.findPlacesByCourse(course);
+        List<Place> places = courses.get(0).getCoursePlaceSequences().stream()
+                        .map(CoursePlaceSequence::getPlace)
+                        .toList();
         log.info("Place와 fetch join 된 sequence 조회 완료(CourseServiceImpl)");
         return places.stream()
                 .map(CourseMapper::toPlaceInfoInCourseDto)
@@ -108,12 +112,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Page<Course> findAllByCourseTagsAndRegion(List<Long> courseTagIds, Region region, Pageable pageable) {
+        return courseRepository.findAllByCourseTagsAndRegion(courseTagIds, courseTagIds.size(), region, pageable);
+    }
+
+    @Override
     public List<RecommendationPlaceDto> findPlaceByCourse(Course course) {
         List<Place> placesAndImageByCourse = courseRepository.findPlacesAndImageByCourse(course);
         log.info("places length = {} " , placesAndImageByCourse.size());
         return placesAndImageByCourse.stream()
                 .map(RecommendationPlaceDto::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Course> findFavoriteCourseByMember(String memberId, Pageable pageable) {
+        return courseRepository.findFavoriteCourseByMember(memberId, pageable);
     }
 
     private boolean createCourseLike(String memberId, Long courseId) {
@@ -126,5 +140,10 @@ public class CourseServiceImpl implements CourseService {
         // 새로 만들어서 결과 반환
         courseLikeRepository.save(courseLike);
         return courseLike.getActive().isValue();
+    }
+
+    @Override
+    public Page<Course> findMyCourses(String memberId, Pageable pageable) {
+        return courseRepository.findMyCourses(memberId, pageable);
     }
 }

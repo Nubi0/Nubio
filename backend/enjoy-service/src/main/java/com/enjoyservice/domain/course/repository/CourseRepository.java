@@ -18,28 +18,28 @@ import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
 
-    @Query("select c, cps, p, pi " +
+    @Query("select c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
-            "left join fetch PlaceImage pi on pi.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "inner join fetch cps.place p " +
+            "left join fetch p.images " +
             "where c.region = :region")
     List<Course> findAllByRegionFetchPlace(@Param("region") Region region, Pageable pageable);
 
-    @Query("select distinct c, cps, p " +
+    @Query("select distinct c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "join fetch cps.place p " +
             "where c.region = :region")
     List<Course> findAllByRegionToModel(@Param("region") Region region);
 
 
-    @Query("select p, cps " +
+    @Query("select c " +
             "from Course c " +
-            "left join fetch CoursePlaceSequence cps on c = cps.course " +
-            "join fetch Place p on cps.place = p " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "join fetch cps.place p " +
             "where c = :course")
-    List<Place> findPlacesByCourse(@Param("course") Course course);
+    List<Course> findPlacesByCourse(@Param("course") Course course);
 
     Long countAllByRegion(Region region);
 
@@ -68,16 +68,26 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "where c.id = :courseId")
     List<Course> findCourseAndTagsByCourseId(@Param("courseId") Long courseId);
 
-    @Query(
-            "select c "
-                    + "from Course c "
-                    + "join fetch CourseTag ct on c = ct.course "
-                    + "join fetch Tag t on ct.tag = t "
-                    + "where ct.id IN :courseTagIds "
-                    + "group by c "
-                    + "having count(ct) >= :size"
+    @Query("select c "
+            + "from Course c "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
+            + "group by c.id "
+            + "having count(c.id) >= :size"
     )
     Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
+
+    @Query("select c "
+            + "from Course c "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
+            + "AND c.region = :region "
+            + "group by c.id "
+            + "having count(c.id) >= :size"
+    )
+    Page<Course> findAllByCourseTagsAndRegion(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, @Param("region") Region region, Pageable pageable);
 
 
     @Query("select p, cps, i " +
@@ -87,4 +97,20 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "left join fetch PlaceImage i on i.place = p " +
             "where c = :course")
     List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
+
+    @Query("select distinct c " +
+            "from Course c " +
+            "left join fetch c.courseTags ct " +
+            "inner join fetch ct.tag t " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "inner join fetch cps.place p " +
+            "left join fetch p.images img " +
+            "where c.memberId = :memberId")
+    Page<Course> findMyCourses(@Param("memberId") String memberId, Pageable pageable);
+
+    @Query("select c from Course c " +
+            "left join fetch c.courseFavorites cf " +
+            "where cf.memberId = :memberId ")
+    Page<Course> findFavoriteCourseByMember(@Param("memberId") String memberId, Pageable pageable);
+
 }

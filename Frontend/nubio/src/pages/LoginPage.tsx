@@ -47,21 +47,17 @@ const LoginPage = () => {
     await axios
       .post("https://nubi0.com/start/v1/member/login", config)
       .then((res) => {
-        const { accessToken, refreshToken, refreshTokenExpireTime } =
-          res.data.data;
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("refreshTokenExpireTime", refreshTokenExpireTime);
-        navigate("/enjoy");
-
+        const { accessToken, refreshToken, refreshTokenExpireTime } = res.data.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
+        navigate('/enjoy');
       })
       .catch((err) => {
         console.error(err);
       });
   };
-  const redirect_uri = "http://localhost:3000/oauth/kakao";
+  const redirect_uri = window.location.origin + "/oauth/kakao";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_LOGIN}&redirect_uri=${redirect_uri}&response_type=code`;
   const kakaoLogin = () => {
     window.location.href = kakaoURL;

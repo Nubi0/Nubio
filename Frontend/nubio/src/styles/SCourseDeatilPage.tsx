@@ -3,13 +3,15 @@ import styled from 'styled-components';
 export const CourseDetailPageWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100vh;
 `;
 
 export const CourseDetailWrapper = styled.div`
     margin: 0 1rem;
     padding-bottom: 5.4rem;
     position: relative;
-    background-color: red;
+    background-color: white;
 
 `;
 
@@ -18,7 +20,7 @@ export const CourseDetailListWrapper = styled.div`
     bottom: 5.4rem;
     width: 100%;
     border-radius: 30px;
-    background-color: red;
+    background-color: rgba(255, 255, 255, 1);
 `;
 
 export const DetailHr = styled.hr`
@@ -40,8 +42,9 @@ export const CourseDetailItemWrapper = styled.div`
     position: relative;
     width: 12.5rem;
     height: 14.25rem;
-    border-radius: 1rem 1rem 0 0;
-    margin: 0 1rem;
+    border-radius: 1rem;
+    margin: 0 1rem 1rem 1rem;
+    border: 1px solid black;
 `;
 
 export const PlaceImg = styled.img`
@@ -118,11 +121,13 @@ export const DetailButton = styled.div`
     margin-top: 0.7rem;
     display: flex;
     justify-content: center;
-    button{
+    a{
         width: 80%;
         border: 1px solid #f9373f;
         background-color: transparent;
         border-radius: 2rem;
         color: #f9373f;
+        text-decoration: none;
+        text-align: center;
     }
 `;

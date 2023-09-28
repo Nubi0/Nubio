@@ -15,8 +15,8 @@ public interface CourseTagRepository extends JpaRepository<CourseTag, Long> {
     @Query(
             "select ct.id "
                     + "from CourseTag ct "
-                    + "join fetch Tag t on ct.tag = t "
-                    + "where t.name.value IN :tagNames "
+                    + "inner join Tag t on ct.tag = t "
+                    + "where ct.tag.name.value IN :tagNames "
     )
     List<Long> findAllByCourseTags(@Param("tagNames") List<String> tagNames);
 

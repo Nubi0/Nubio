@@ -49,11 +49,23 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
     axios.get('https://nubi0.com/enjoy/v1/enjoy/profile/taste')
           .then((res) => {
             console.log(res.data);
+            const taste = res.data.data.taste;
+            const tmp: any[] = []
+            taste.map((value: any) => {
+                const action = {name: value.type, type: value.detail_type};
+                dispatch(setTaste(action));
+                value.detail_type.map((value: any) => {
+                  tmp.push(value);
+                })
+              }
+            ) 
+            setSelectedImages(tmp);
           })
           .catch((err) => {
             console.error(err);
           })
-  })
+    console.log(selectedImages)
+  }, [])
 
   return (
     <PrefrenceModalOverlay>

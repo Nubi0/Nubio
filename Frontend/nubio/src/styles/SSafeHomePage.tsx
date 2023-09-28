@@ -147,8 +147,36 @@ img{
   }
 }
 `;
-
-export const CheckReportWrapper = styled.div``;
+export const ReportInfoOverlay = styled.div`
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+`;
+export const ReportInfoWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  button {
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffc542;
+    margin: 1rem;
+  }
+`;
 // 재난 대피
 export const SafeGuideModalBox = styled.div`
   position: absolute;
@@ -271,7 +299,6 @@ export const CalamityMessageWrapper = styled.div`
   border: 0.5rem double red;
   background: white;
   text-align: center;
-
   p {
     margin: 0.5rem 0;
     margin: 0;

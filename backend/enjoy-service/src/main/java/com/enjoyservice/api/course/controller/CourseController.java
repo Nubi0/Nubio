@@ -66,12 +66,19 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description =  "OK"),
     })
     @PostMapping("/course/filter")
-    public ApiResponseEntity<CourseListRes> getCourseDetailByCourseTags(@RequestBody CourseTagListReq courseTagListReq,
+    public ApiResponseEntity<CourseListRes> getCourseDetailByCourseTags(@RequestParam(value = "region", required = false) String region,
+                                                                        @RequestBody CourseTagListReq courseTagListReq,
                                                                         @MemberInfo @Parameter(hidden = true) MemberInfoDto memberInfoDto,
                                                                         @PageableDefault(size = 100,
                                                             sort = "createTime",
                                                             direction = Sort.Direction.DESC) Pageable pageable) {
-        CourseListRes response = courseApiService.findAllByCourseTags(courseTagListReq, memberInfoDto.getMemberId(), pageable);
+        CourseListRes response;
+        if (region != null) {
+            response = courseApiService.findAllByCourseTagsAndRegion(courseTagListReq, memberInfoDto.getMemberId(), region, pageable);
+        } else {
+            response = courseApiService.findAllByCourseTags(courseTagListReq, memberInfoDto.getMemberId(), pageable);
+        }
+
         return ApiResponseEntity.ok(response);
     }
 

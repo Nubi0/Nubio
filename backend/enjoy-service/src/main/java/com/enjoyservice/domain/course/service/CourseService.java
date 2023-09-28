@@ -36,6 +36,8 @@ public interface CourseService {
 
     Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable);
 
+    Page<Course> findAllByCourseTagsAndRegion(List<Long> courseTagIds, Region region, Pageable pageable);
+
     List<RecommendationPlaceDto> findPlaceByCourse(Course course);
 
     Page<Course> findFavoriteCourseByMember(String memberId, Pageable pageable);

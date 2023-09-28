@@ -132,8 +132,39 @@ public class CourseApiServiceImpl implements CourseApiService {
     public CourseListRes findAllByCourseTags(CourseTagListReq courseTagListReq, String memberId, Pageable pageable) {
         // 코스 - 장소 가져오기
         List<CourseListRes.CourseInfo> courseInfos = new ArrayList<>();
-        List<Long> allByCourseTags = courseTagService.findAllByCourseTags(courseTagListReq.getCourse_tags());
+        List<Long> allByCourseTags = tagService.findAllByTags(courseTagListReq.getCourse_tags());
         Page<Course>  coursePage= courseService.findAllByCourseTags(allByCourseTags, pageable);
+
+        List<Course> courses = coursePage.getContent();
+        for(Course course : courses) {
+            // 코스 태그
+            List<Tag> tags = courseService.findTags(course);
+            log.info("Course에 연관된 Tag 목록 조회 완료(CourseApiServiceImpl)");
+            // 코스 즐겨찾기
+            boolean favoriteFlag = courseFavoriteService.existsByCourseAndMemberId(course, memberId);
+            log.info("Course를 즐겨찾기 했는지 확인 완료(CourseApiServiceImpl)");
+            // 코스 좋아요 - 좋아요 수, 내가 좋아요 했는지
+            List<CourseLike> courseLikes = courseService.findCourseLikesByCourse(course);
+            int likeCount = courseLikes.size();
+            boolean likeFlag = isMemberLikeCourse(memberId, courseLikes);
+            log.info("Course를 좋아요 했는지 확인, 좋아요 수 조회 완료(CourseApiServiceImpl)");
+            CourseListRes.CourseInfo courseInfo = CourseMapper.convertToCourseInfo(course, tags, favoriteFlag, likeCount, likeFlag);
+            courseInfos.add(courseInfo);
+        }
+        // 페이징 meta
+
+        return CourseMapper.courseToCourseListRes(courseInfos,coursePage);
+
+    }
+
+    @Override
+    public CourseListRes findAllByCourseTagsAndRegion(CourseTagListReq courseTagListReq, String memberId, String region, Pageable pageable) {
+
+        // 코스 - 장소 가져오기
+        List<CourseListRes.CourseInfo> courseInfos = new ArrayList<>();
+        List<Long> allByCourseTags = tagService.findAllByTags(courseTagListReq.getCourse_tags());
+        Page<Course>  coursePage= courseService.findAllByCourseTagsAndRegion(allByCourseTags,Region.from(region), pageable);
+
         List<Course> courses = coursePage.getContent();
         for(Course course : courses) {
             // 코스 태그

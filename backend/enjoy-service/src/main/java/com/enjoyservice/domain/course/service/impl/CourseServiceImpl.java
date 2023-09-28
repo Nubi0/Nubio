@@ -112,6 +112,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Page<Course> findAllByCourseTagsAndRegion(List<Long> courseTagIds, Region region, Pageable pageable) {
+        return courseRepository.findAllByCourseTagsAndRegion(courseTagIds, courseTagIds.size(), region, pageable);
+    }
+
+    @Override
     public List<RecommendationPlaceDto> findPlaceByCourse(Course course) {
         List<Place> placesAndImageByCourse = courseRepository.findPlacesAndImageByCourse(course);
         log.info("places length = {} " , placesAndImageByCourse.size());

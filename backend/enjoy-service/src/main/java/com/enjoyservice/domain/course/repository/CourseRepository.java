@@ -68,16 +68,26 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "where c.id = :courseId")
     List<Course> findCourseAndTagsByCourseId(@Param("courseId") Long courseId);
 
-    @Query(
-            "select c "
+    @Query("select c "
             + "from Course c "
-            + "left join fetch CourseTag ct on c = ct.course "
-            + "left join fetch Tag t on ct.tag = t "
-            + "where ct.id IN :courseTagIds "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
             + "group by c "
-            + "having count(ct) >= :size"
+            + "having count(c) >= :size"
     )
     Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
+
+    @Query("select c "
+            + "from Course c "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
+            + "AND c.region = :region "
+            + "group by c "
+            + "having count(c) >= :size"
+    )
+    Page<Course> findAllByCourseTagsAndRegion(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, @Param("region") Region region, Pageable pageable);
 
 
     @Query("select p, cps, i " +

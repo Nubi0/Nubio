@@ -9,6 +9,7 @@ import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.tag.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface CourseService {
     List<CourseDto> findAllByRegionToModel(Region region);
     Page<Course> findAllByCourseTags(List<Long> courseTagIds, Pageable pageable);
     List<RecommendationPlaceDto> findPlaceByCourse(Course course);
+
+    Page<Course> findMyCourses(String memberId, Pageable pageable);
 }

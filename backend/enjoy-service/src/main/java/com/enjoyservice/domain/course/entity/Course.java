@@ -55,7 +55,7 @@ public class Course extends BaseEntity {
     private List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<CourseTag> courseTags = new ArrayList<>();
+    private Set<CourseTag> courseTags = new HashSet<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<CourseFavorite> courseFavorites = new HashSet<>();

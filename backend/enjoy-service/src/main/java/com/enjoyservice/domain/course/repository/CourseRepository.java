@@ -68,16 +68,26 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "where c.id = :courseId")
     List<Course> findCourseAndTagsByCourseId(@Param("courseId") Long courseId);
 
-    @Query(
-            "select c "
-                    + "from Course c "
-                    + "join fetch CourseTag ct on c = ct.course "
-                    + "join fetch Tag t on ct.tag = t "
-                    + "where ct.id IN :courseTagIds "
-                    + "group by c "
-                    + "having count(ct) >= :size"
+    @Query("select c "
+            + "from Course c "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
+            + "group by c.id "
+            + "having count(c.id) >= :size"
     )
     Page<Course> findAllByCourseTags(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, Pageable pageable);
+
+    @Query("select c "
+            + "from Course c "
+            + "left join fetch  c.courseTags ct  "
+            + "inner join  Tag t on ct.tag = t "
+            + "where t.id IN :courseTagIds "
+            + "AND c.region = :region "
+            + "group by c.id "
+            + "having count(c.id) >= :size"
+    )
+    Page<Course> findAllByCourseTagsAndRegion(@Param("courseTagIds") List<Long> courseTagIds, @Param("size") int size, @Param("region") Region region, Pageable pageable);
 
 
     @Query("select p, cps, i " +
@@ -87,4 +97,11 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "left join fetch PlaceImage i on i.place = p " +
             "where c = :course")
     List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
+
+
+    @Query("select c from Course c " +
+            "left join fetch c.courseFavorites cf " +
+            "where cf.memberId = :memberId ")
+    Page<Course> findFavoriteCourseByMember(@Param("memberId") String memberId, Pageable pageable);
+
 }

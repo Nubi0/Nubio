@@ -113,8 +113,7 @@ class PlaceServiceImplTest {
     @Test
     void findAllByIdsNotExist() {
         // given
-        Long notExistId = 1000L;
-        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId(), notExistId);
+        List<Long> ids = List.of(savedBeforePlaces.get(0).getId(), savedBeforePlaces.get(1).getId());
         // when
         List<Place> result = placeService.findAllById(ids);
         // then

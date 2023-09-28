@@ -66,6 +66,8 @@ class CourseServiceImplTest {
     private CourseTagRepository courseTagRepository;
     @Autowired
     private CourseLikeRepository courseLikeRepository;
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private EntityManager em;
@@ -286,7 +288,8 @@ class CourseServiceImplTest {
         int pageNumber = 0;
         int pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
-        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+        List<Long> allByTags = tagService.findAllByTags(tagNameList);
+        Page<Course>  coursePage= courseService.findAllByCourseTags(allByTags, pageable);
 
         // then
         // 페이지당 데이터 개수
@@ -327,7 +330,9 @@ class CourseServiceImplTest {
         int pageNumber = 0;
         int pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
-        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+
+        List<Long> allByTags = tagService.findAllByTags(tagNameList);
+        Page<Course>  coursePage= courseService.findAllByCourseTags(allByTags, pageable);
 
         // then
         // 페이지당 데이터 개수
@@ -375,7 +380,8 @@ class CourseServiceImplTest {
         int pageNumber = 0;
         int pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
-        Page<Course> coursePage = courseService.findAllByCourseTags(allByCourseTags, pageable);
+        List<Long> allByTags = tagService.findAllByTags(tagNameList);
+        Page<Course>  coursePage= courseService.findAllByCourseTags(allByTags, pageable);
 
         // then
         // 페이지당 데이터 개수
@@ -413,15 +419,16 @@ class CourseServiceImplTest {
         }
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
+
         // when
         Course result = courseService.findCourseAndTagsByCourseId(course.getId());
+
         // then
-//        assertThat(result.size()).isEqualTo(tagCount);
-        assertThat(result.getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
-        assertThat(result.getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
-        assertThat(result.getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
-        assertThat(result.getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
-        assertThat(result.getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
+        assertThat(result.getCourseTags()).hasSize(5)
+                .extracting("tag.name.value")
+                .containsExactlyInAnyOrder(
+                        "tag1", "tag2", "tag3", "tag4", "tag5"
+                );
     }
 
     @DisplayName("Course안에 속한 Place 목록 정보 조회(Place 순서 포함)")

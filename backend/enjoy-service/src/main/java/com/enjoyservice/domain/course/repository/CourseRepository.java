@@ -98,6 +98,15 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "where c = :course")
     List<Place> findPlacesAndImageByCourse(@Param("course") Course course);
 
+    @Query("select distinct c " +
+            "from Course c " +
+            "left join fetch c.courseTags ct " +
+            "inner join fetch ct.tag t " +
+            "left join fetch c.coursePlaceSequences cps " +
+            "inner join fetch cps.place p " +
+            "left join fetch p.images img " +
+            "where c.memberId = :memberId")
+    Page<Course> findMyCourses(@Param("memberId") String memberId, Pageable pageable);
 
     @Query("select c from Course c " +
             "left join fetch c.courseFavorites cf " +

@@ -141,4 +141,9 @@ public class CourseServiceImpl implements CourseService {
         courseLikeRepository.save(courseLike);
         return courseLike.getActive().isValue();
     }
+
+    @Override
+    public Page<Course> findMyCourses(String memberId, Pageable pageable) {
+        return courseRepository.findMyCourses(memberId, pageable);
+    }
 }

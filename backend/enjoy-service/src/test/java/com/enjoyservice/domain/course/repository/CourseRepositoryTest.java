@@ -22,6 +22,7 @@ import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.repository.TagRepository;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @Transactional
 class CourseRepositoryTest {
@@ -321,6 +323,61 @@ class CourseRepositoryTest {
         assertThat(opCourseLike).isNotEmpty();
         assertThat(opCourseLike.get().getCourse().getId()).isEqualTo(courseId);
         assertThat(opCourseLike.get().getMemberId()).isEqualTo(memberId);
+    }
+
+    @DisplayName("내가 만든 코스 목록 조회(fetch join)")
+    @Test
+    void findMyCourses() {
+        // given
+        int memberNum = 100;
+        String memberId = "memberId" + memberNum;
+        Course course = generateCourse(memberNum, Region.DAEGU);
+        Course savedCourse = courseRepository.saveAndFlush(course);
+        log.info("코스 저장 완료");
+        em.clear();
+        List<CoursePlaceSequence> savedSequences = new ArrayList<>();
+        int idx = 1;
+        for(Place place : savedBeforePlaces) {
+            CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
+                    .sequenceNumber(SequenceNumber.from(idx++))
+                    .place(place)
+                    .course(savedCourse)
+                    .build();
+            CoursePlaceSequence savedSequence = coursePlaceSequenceRepository.saveAndFlush(coursePlaceSequence);
+            savedSequences.add(savedSequence);
+        }
+        log.info("코스-장소 순서 저장 완료");
+        em.clear();
+        Tag tag1 = Tag.from("tag1");
+        Tag savedTag1 = tagRepository.saveAndFlush(tag1);
+        Tag tag2 = Tag.from("tag2");
+        Tag savedTag2 = tagRepository.saveAndFlush(tag2);
+        em.clear();
+        CourseTag courseTag1 = CourseTag.builder()
+                .course(course)
+                .tag(tag1)
+                .build();
+        CourseTag savedCourseTag1 = courseTagRepository.saveAndFlush(courseTag1);
+        CourseTag courseTag2 = CourseTag.builder()
+                .course(course)
+                .tag(tag2)
+                .build();
+        CourseTag savedCourseTag2 = courseTagRepository.saveAndFlush(courseTag2);
+        log.info("코스 태그 저장 완료");
+        em.clear();
+        // when
+        Page<Course> result = courseRepository.findMyCourses(memberId, PageRequest.of(0, 10));
+        log.info("내가 만든 코스 목록 조회 완료");
+        // then
+        List<Course> courses = result.getContent();
+        log.info("courses 크기 : {}", courses.size());
+        for(Course c : courses) {
+            log.info("courseId : {}", c.getId());
+        }
+
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getId()).isEqualTo(savedCourse.getId());
+        assertThat(result.getContent().get(0).getCourseTags().size()).isEqualTo(2);
     }
 
     @DisplayName("회원의 즐겨찾기 코스 가져오기")

@@ -22,16 +22,17 @@ export const MyLocation = styled.button`
   border-radius: 1rem;
   padding: 0.3rem;
 `;
-// 대피 설명서
-export const SafeIcon = styled.img`
+
+// 제보하기 재난 대피
+export const OptionWrapper = styled.span`
   position: absolute;
-  // top: 47rem;
+  top: 0.5rem;
   right: 0.5rem;
-  width: 3rem;
-  height: 3rem;
+  border: 0.15rem solid black;
+  padding: 0.4rem;
+  border-radius: 1rem;
   z-index: 1;
 `;
-
 export const SafeGuideIcon = styled.img`
   width: 4rem;
   height: 4rem;
@@ -44,7 +45,7 @@ export const ReportIcon = styled.img`
 `;
 
 // 사이렌 모달
-export const FirstModalOverlay = styled.div`
+export const OptionModalOverlay = styled.div`
   z-index: 3;
   width: 100%;
   height: 100%;
@@ -54,7 +55,7 @@ export const FirstModalOverlay = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
 `;
-export const FirstModalBox = styled.div`
+export const OptionModalBox = styled.div`
   background: white;
   width: 80%;
   height: 15%;
@@ -158,6 +159,7 @@ export const ReportInfoOverlay = styled.div`
   background: rgba(0, 0, 0, 0.7);
 `;
 export const ReportInfoWrapper = styled.div`
+  width: 20rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -175,6 +177,14 @@ export const ReportInfoWrapper = styled.div`
     border-radius: 1rem;
     background-color: #ffc542;
     margin: 1rem;
+  }
+`;
+export const ReportPhotoWrapper = styled.div`
+  // background: red;
+  width: 100%;
+  img {
+    width: 100%;
+    height: 100%;
   }
 `;
 // 재난 대피

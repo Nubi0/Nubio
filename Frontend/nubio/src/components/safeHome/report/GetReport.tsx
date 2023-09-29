@@ -5,7 +5,9 @@ import { placements } from "@popperjs/core";
 import {
   ReportInfoOverlay,
   ReportInfoWrapper,
+  ReportPhotoWrapper,
 } from "../../../styles/SSafeHomePage";
+import { Swiper, SwiperSlide } from "swiper/react";
 declare global {
   interface Window {
     reportCustomOverlay: any;
@@ -38,7 +40,6 @@ const GetReport = () => {
       )
       .then((res) => {
         const places = res.data.data.reportList;
-        console.log(places);
         for (let i = 0; i < places.length; i++) {
           let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
           <span href="#" class="show-info" data-index="${i}">${places[i].title}</span>
@@ -80,8 +81,20 @@ const GetReport = () => {
       {selectedPlace && modalOpen && (
         <ReportInfoOverlay>
           <ReportInfoWrapper>
-            <p>제목 : {selectedPlace.title}</p>
-            <p>내용 : {selectedPlace.content}</p>
+            <ReportPhotoWrapper>
+              <Swiper>
+                {selectedPlace.fileList.fileUrls &&
+                  selectedPlace.fileList.fileUrls.map(
+                    (fileUrl: string, index: string) => (
+                      <SwiperSlide key={index}>
+                        <img src={fileUrl} alt="사진" />
+                      </SwiperSlide>
+                    ),
+                  )}
+              </Swiper>
+            </ReportPhotoWrapper>
+            <p>제목: {selectedPlace.title}</p>
+            <p>내용: {selectedPlace.content}</p>
             <button onClick={closeModal}>닫기</button>
           </ReportInfoWrapper>
         </ReportInfoOverlay>

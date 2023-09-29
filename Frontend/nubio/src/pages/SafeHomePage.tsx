@@ -1,6 +1,6 @@
 import { SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
 import Map from "../components/common/map/Map";
-import FirstModal from "../components/safeHome/FirstModal";
+import FirstModal from "../components/safeHome/Option";
 import { useNavigate } from "react-router-dom";
 import GetReport from "../components/safeHome/report/GetReport";
 import Footer from "../components/common/Footer";

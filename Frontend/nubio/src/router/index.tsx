@@ -41,7 +41,7 @@ const routes = [
     Component: ProfilePage,
   },
   {
-    path: '/coursedetail',
+    path: '/coursedetail/:courseId',
     Component: CourseDetailPage,
   },
   {

@@ -21,17 +21,17 @@ public class ReportRepositoryImpl implements ReportRepositoryCustom{
         return jpaQueryFactory.selectFrom(report)
                 .leftJoin(report.reportFiles, reportFile).fetchJoin()
                 .where(
-                        report.position.latitude.between(subtractValue(latitude), plusValue(latitude)),
-                        report.position.longitude.between(subtractValue(longitude),plusValue(longitude))
+                        report.position.latitude.between(subtractValue(latitude), plusValue(latitude)).and(
+                        report.position.longitude.between(subtractValue(longitude),plusValue(longitude)))
                 )
                 .fetch();
     }
 
     private double subtractValue(double value) {
-        return value - 1;
+        return value - 0.01;
     }
 
     private double plusValue(double value) {
-        return value + 1;
+        return value + 0.01;
     }
 }

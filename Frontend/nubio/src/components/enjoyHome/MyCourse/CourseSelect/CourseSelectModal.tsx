@@ -10,6 +10,7 @@ const CourseSelectModal = ({setModal}: any) => {
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
     const [title, setTitle] = useInput('');
     const positions = useSelector((state: any) => state.enjoy.positions);
+    console.log(positions);
     const location = useSelector((state: any) => state.enjoy.location);
 
     const handlePurposeClick = (purpose: string) => {
@@ -27,8 +28,10 @@ const CourseSelectModal = ({setModal}: any) => {
             return { value };
         });
         const positionData = positions.map((value: any) => {
+            console.log(value);
             return {kakao_id: value.id, sequence: value.index}
         })
+        console.log(positionData);
         const config = {
             title,
             content: title,

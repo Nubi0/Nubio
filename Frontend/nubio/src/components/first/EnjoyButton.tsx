@@ -1,13 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { EnjoyButtonWrapper } from "../../styles/SHomePage";
+import Swal from "sweetalert2";
 
-const EnjoyButton = () => {
+const EnjoyButton = ({isTaste, isLogin}: {isTaste: boolean, isLogin: any}) => {
   const navigate = useNavigate();
+  const handleClick = () => {
+    if(isTaste && isLogin) {
+      navigate("/enjoy")
+    } else if(!isLogin) {
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'info',
+        text: 'NUBIO'
+      })
+    } else {
+      Swal.fire({
+        title: '취향을 설정해주세요',
+        icon: 'info',
+        text: 'NUBIO'
+      })
+    }
+  }
   return (
     <EnjoyButtonWrapper 
-      onClick={() => {
-      navigate("/enjoy");
-      }}
+      onClick={handleClick}
     >
       <img src={process.env.PUBLIC_URL + '/assets/enjoy.png'} alt="" />
       <button>

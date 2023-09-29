@@ -1,13 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { SafeButtonWrapper } from "../../styles/SHomePage";
+import Swal from "sweetalert2";
 
-const SafeButton = () => {
+const SafeButton = ({isLogin}: {isLogin: any}) => {
   const navigate = useNavigate();
+  const handleClick = () => {
+    if(isLogin) {
+      navigate('/safe');
+    } else {
+      Swal.fire({
+        title: '로그인이 필요합니다.',
+        icon: 'info',
+        text: 'NUBIO'
+      })
+    }
+  }
   return (
     <SafeButtonWrapper  
-      onClick={() => {
-      navigate("/safe");
-      }}
+      onClick={handleClick}
     >
       <img src={process.env.PUBLIC_URL + '/assets/safe.png'} alt="" />
       <button>

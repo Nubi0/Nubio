@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,8 @@ class EmergencyMessageInfoServiceTest {
 
     @BeforeEach
     void before() {
-        LocalDateTime occurredTime = LocalDateTime.now();
+        LocalDateTime time = LocalDateTime.now();
+        LocalDateTime occurredTime = time.plus(9, ChronoUnit.HOURS);
         for (int i = 0; i < emergencyMessageLength; i++) {
             EMRequestDto request = EMRequestDto.builder()
                     .mdId(123)

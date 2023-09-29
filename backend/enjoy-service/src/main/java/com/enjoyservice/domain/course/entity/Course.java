@@ -3,6 +3,7 @@ package com.enjoyservice.domain.course.entity;
 import com.enjoyservice.domain.common.BaseEntity;
 import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.entity.type.*;
+import com.enjoyservice.domain.coursefavorite.entity.CourseFavorite;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import jakarta.persistence.*;
@@ -14,7 +15,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -52,7 +55,10 @@ public class Course extends BaseEntity {
     private List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<CourseTag> courseTags = new ArrayList<>();
+    private Set<CourseTag> courseTags = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<CourseFavorite> courseFavorites = new HashSet<>();
 
     @Builder
     public Course(Title title, Content content, Region region, PublicFlag publicFlag, String memberId) {

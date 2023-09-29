@@ -46,7 +46,9 @@ export const CustomCouresListWrapper = styled.div`
     place-items: center;
 `;
 
-export const CustomCourseItemWrapper = styled.div``;
+export const CustomCourseItemWrapper = styled.div`
+    margin-bottom: 1.5rem;
+`;
 
 export const RepresentativeImg = styled.img`
     width: 7rem;

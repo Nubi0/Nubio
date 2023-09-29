@@ -9,14 +9,9 @@ public class PlaceMapper {
 
     public static PlaceInfoRes toPlaceInfoRes(Place place, int likeCount, boolean likeFlag, boolean favoriteFlag) {
 
-        String imgUrl = "";
         log.info("여기서 이미지 조회 쿼리 날라가나?");
-        int imageSize = place.getImages().size();
-        if(imageSize >= 1) {
-            imgUrl = place.getImages().get(0).getUrl().getValue();
-        } else {
-            imgUrl = "dummy_img"; // TODO: 나중에 더미 이미지 url 넣기
-        }
+        String imgUrl = place.getImages().stream().map(image -> image.getUrl().getValue()).findFirst().isPresent()
+                ? place.getImages().stream().map(image -> image.getUrl().getValue()).findFirst().get() : "not exist";
 
         return PlaceInfoRes.builder()
                 .placeInfo(PlaceInfoRes.PlaceInfo.builder()

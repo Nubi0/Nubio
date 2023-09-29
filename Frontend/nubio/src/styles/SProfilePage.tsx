@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 
 export const ProfilePageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   position: relative;
 `;
 
@@ -14,13 +17,14 @@ export const SaveButton = styled.button`
 `;
 
 export const ProfileWrapper = styled.div`
-  height: 100%;
+  display:flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 export const MyInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 40%;
   padding: 1rem;
   background-color: white;
   div{

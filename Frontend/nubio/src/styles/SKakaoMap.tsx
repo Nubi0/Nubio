@@ -103,3 +103,9 @@ export const DestinationWrapper = styled.div`
     margin: 0.5rem;
   }
 `;
+
+// 최소경로
+export const ShortDirectionButton = styled.button``;
+
+// 안전경로
+export const SafeDirectionButton = styled.button``;

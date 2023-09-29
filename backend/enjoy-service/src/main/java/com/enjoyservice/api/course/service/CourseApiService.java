@@ -16,4 +16,8 @@ public interface CourseApiService {
     public CourseDetailRes getCourseDetail(Long courseId, String memberId);
 
     CourseListRes findAllByCourseTags(CourseTagListReq courseTagListReq, String memberId, Pageable pageable);
+
+    CourseListRes findAllByCourseTagsAndRegion(CourseTagListReq courseTagListReq, String memberId, String region, Pageable pageable);
+
+    CourseListRes findFavoriteCourseByMember(String memberId, Pageable pageable);
 }

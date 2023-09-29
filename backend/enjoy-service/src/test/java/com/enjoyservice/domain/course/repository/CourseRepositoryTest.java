@@ -5,6 +5,8 @@ import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.coursefavorite.entity.CourseFavorite;
+import com.enjoyservice.domain.coursefavorite.repository.CourseFavoriteRepository;
 import com.enjoyservice.domain.courselike.entity.CourseLike;
 import com.enjoyservice.domain.courselike.repository.CourseLikeRepository;
 import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
@@ -20,12 +22,16 @@ import com.enjoyservice.domain.place.repository.PlaceRepository;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.repository.TagRepository;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -34,6 +40,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @Transactional
 class CourseRepositoryTest {
@@ -51,6 +58,8 @@ class CourseRepositoryTest {
     @Autowired
     private CourseLikeRepository courseLikeRepository;
     @Autowired
+    private CourseFavoriteRepository courseFavoriteRepository;
+    @Autowired
     private EntityManager em;
 
     private List<Course> savedBeforeCourses;
@@ -62,11 +71,11 @@ class CourseRepositoryTest {
         // 코스 저장
         int courseSize = 2;
         List<Course> courses = new ArrayList<>();
-        for(int i = 1; i <= courseSize; i++) {
+        for (int i = 1; i <= courseSize; i++) {
             Course course = generateCourse(i, Region.DAEGU);
             courses.add(course);
         }
-        for(int i = courseSize + 1; i <= courseSize + 3; i++) {
+        for (int i = courseSize + 1; i <= courseSize + 3; i++) {
             Course course = generateCourse(i, Region.BUSAN);
             courses.add(course);
         }
@@ -76,7 +85,7 @@ class CourseRepositoryTest {
         // 장소 저장
         int placeSize = 5;
         List<Place> places = new ArrayList<>();
-        for(int i = 1; i <= placeSize; i++) {
+        for (int i = 1; i <= placeSize; i++) {
             Place place = generatePlace(i, GroupCode.CE7, GroupName.카페);
             places.add(place);
         }
@@ -86,7 +95,7 @@ class CourseRepositoryTest {
         // CoursePlaceSequence 저장
         // 1번 코스에 장소 3개 추가
         List<CoursePlaceSequence> coursePlaceSequences = new ArrayList<>();
-        for(int seq = 1; seq <= 3; seq++) {
+        for (int seq = 1; seq <= 3; seq++) {
             CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
                     .place(savedBeforePlaces.get(seq - 1))
                     .course(savedBeforeCourses.get(0))
@@ -95,7 +104,7 @@ class CourseRepositoryTest {
             coursePlaceSequences.add(coursePlaceSequence);
         }
         // 2번 코스에 장소 2개 추가
-        for(int seq = 1; seq <= 2; seq++) {
+        for (int seq = 1; seq <= 2; seq++) {
             CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
                     .place(savedBeforePlaces.get(seq + 2))
                     .course(savedBeforeCourses.get(1))
@@ -143,13 +152,10 @@ class CourseRepositoryTest {
         // when
         List<Course> result = courseRepository.findAllByRegionFetchPlace(Region.from("DAEGU"), PageRequest.of(0, 5));
         // then
-        assertThat(result).hasSize(5)
+        assertThat(result).hasSize(2)
                 .extracting("title.value", "content.value", "region")
                 .containsExactlyInAnyOrder(
                         tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle1", "courseContent1", Region.DAEGU),
-                        tuple("courseTitle2", "courseContent2", Region.DAEGU),
                         tuple("courseTitle2", "courseContent2", Region.DAEGU)
                 );
     }
@@ -172,7 +178,7 @@ class CourseRepositoryTest {
         Course course = savedBeforeCourses.get(0);
         int tagCount = 5;
         List<Tag> tags = new ArrayList<>();
-        for(int i = 1; i <= tagCount; i++) {
+        for (int i = 1; i <= tagCount; i++) {
             Tag tag = Tag.from("tag" + i);
             tags.add(tag);
         }
@@ -180,7 +186,7 @@ class CourseRepositoryTest {
         em.clear();
 
         List<CourseTag> courseTags = new ArrayList<>();
-        for(Tag tag : savedTags) {
+        for (Tag tag : savedTags) {
             CourseTag courseTag = CourseTag.builder()
                     .course(course)
                     .tag(tag)
@@ -215,7 +221,7 @@ class CourseRepositoryTest {
         Course course = savedBeforeCourses.get(0);
 
         List<CourseLike> courseLikes = new ArrayList<>();
-        for(String memberId : memberIds) {
+        for (String memberId : memberIds) {
             CourseLike courseLike = CourseLike.builder()
                     .course(course)
                     .memberId(memberId)
@@ -243,7 +249,7 @@ class CourseRepositoryTest {
         Course course = savedBeforeCourses.get(0);
         int tagCount = 5;
         List<Tag> tags = new ArrayList<>();
-        for(int i = 1; i <= tagCount; i++) {
+        for (int i = 1; i <= tagCount; i++) {
             Tag tag = Tag.from("tag" + i);
             tags.add(tag);
         }
@@ -251,7 +257,7 @@ class CourseRepositoryTest {
         em.clear();
 
         List<CourseTag> courseTags = new ArrayList<>();
-        for(Tag tag : savedTags) {
+        for (Tag tag : savedTags) {
             CourseTag courseTag = CourseTag.builder()
                     .course(course)
                     .tag(tag)
@@ -260,15 +266,17 @@ class CourseRepositoryTest {
         }
         List<CourseTag> savedCourseTags = courseTagRepository.saveAllAndFlush(courseTags);
         em.clear();
+
         // when
         List<Course> result = courseRepository.findCourseAndTagsByCourseId(course.getId());
+
         // then
         assertThat(result.size()).isEqualTo(tagCount);
-        assertThat(result.get(0).getCourseTags().get(0).getTag().getName().getValue()).isEqualTo("tag1");
-        assertThat(result.get(0).getCourseTags().get(1).getTag().getName().getValue()).isEqualTo("tag2");
-        assertThat(result.get(0).getCourseTags().get(2).getTag().getName().getValue()).isEqualTo("tag3");
-        assertThat(result.get(0).getCourseTags().get(3).getTag().getName().getValue()).isEqualTo("tag4");
-        assertThat(result.get(0).getCourseTags().get(4).getTag().getName().getValue()).isEqualTo("tag5");
+        assertThat(result.get(0).getCourseTags()).hasSize(5)
+                .extracting("tag.name.value")
+                .containsExactlyInAnyOrder(
+                        "tag1", "tag2", "tag3", "tag4", "tag5"
+                );
     }
 
     @DisplayName("Course에 속한 Place 목록 조회")
@@ -280,7 +288,10 @@ class CourseRepositoryTest {
         Place place2 = savedBeforePlaces.get(1);
         Place place3 = savedBeforePlaces.get(2);
         // when
-        List<Place> result = courseRepository.findPlacesByCourse(course);
+        List<Course> courses = courseRepository.findPlacesByCourse(course);
+        List<Place> result = courses.get(0).getCoursePlaceSequences().stream()
+                .map(CoursePlaceSequence::getPlace)
+                .toList();
         // then
         assertThat(result.size()).isEqualTo(3);
         assertThat(result.get(0).getName().getValue()).isEqualTo(place1.getName().getValue());
@@ -299,7 +310,7 @@ class CourseRepositoryTest {
         Long courseId = course.getId();
         String memberId = "memberId";
         List<String> memberIds = List.of(memberId, "memberId1", "memberId2", "memberId3");
-        for(String id : memberIds) {
+        for (String id : memberIds) {
             CourseLike courseLike = CourseLike.builder()
                     .course(course)
                     .memberId(id)
@@ -313,4 +324,98 @@ class CourseRepositoryTest {
         assertThat(opCourseLike.get().getCourse().getId()).isEqualTo(courseId);
         assertThat(opCourseLike.get().getMemberId()).isEqualTo(memberId);
     }
+
+    @DisplayName("내가 만든 코스 목록 조회(fetch join)")
+    @Test
+    void findMyCourses() {
+        // given
+        int memberNum = 100;
+        String memberId = "memberId" + memberNum;
+        Course course = generateCourse(memberNum, Region.DAEGU);
+        Course savedCourse = courseRepository.saveAndFlush(course);
+        log.info("코스 저장 완료");
+        em.clear();
+        List<CoursePlaceSequence> savedSequences = new ArrayList<>();
+        int idx = 1;
+        for(Place place : savedBeforePlaces) {
+            CoursePlaceSequence coursePlaceSequence = CoursePlaceSequence.builder()
+                    .sequenceNumber(SequenceNumber.from(idx++))
+                    .place(place)
+                    .course(savedCourse)
+                    .build();
+            CoursePlaceSequence savedSequence = coursePlaceSequenceRepository.saveAndFlush(coursePlaceSequence);
+            savedSequences.add(savedSequence);
+        }
+        log.info("코스-장소 순서 저장 완료");
+        em.clear();
+        Tag tag1 = Tag.from("tag1");
+        Tag savedTag1 = tagRepository.saveAndFlush(tag1);
+        Tag tag2 = Tag.from("tag2");
+        Tag savedTag2 = tagRepository.saveAndFlush(tag2);
+        em.clear();
+        CourseTag courseTag1 = CourseTag.builder()
+                .course(course)
+                .tag(tag1)
+                .build();
+        CourseTag savedCourseTag1 = courseTagRepository.saveAndFlush(courseTag1);
+        CourseTag courseTag2 = CourseTag.builder()
+                .course(course)
+                .tag(tag2)
+                .build();
+        CourseTag savedCourseTag2 = courseTagRepository.saveAndFlush(courseTag2);
+        log.info("코스 태그 저장 완료");
+        em.clear();
+        // when
+        Page<Course> result = courseRepository.findMyCourses(memberId, PageRequest.of(0, 10));
+        log.info("내가 만든 코스 목록 조회 완료");
+        // then
+        List<Course> courses = result.getContent();
+        log.info("courses 크기 : {}", courses.size());
+        for(Course c : courses) {
+            log.info("courseId : {}", c.getId());
+        }
+
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getId()).isEqualTo(savedCourse.getId());
+        assertThat(result.getContent().get(0).getCourseTags().size()).isEqualTo(2);
+    }
+
+    @DisplayName("회원의 즐겨찾기 코스 가져오기")
+    @Test
+    void findFavoriteCourseByMember() {
+        // given
+
+        // given
+        Course course = savedBeforeCourses.get(0);
+        Long courseId = course.getId();
+        String memberId = "memberId";
+        List<String> memberIds = List.of(memberId, "memberId1", "memberId2", "memberId3");
+        for (String id : memberIds) {
+            CourseFavorite courseFavorite = CourseFavorite.builder()
+                    .course(course)
+                    .memberId(id)
+                    .build();
+
+            courseFavoriteRepository.saveAndFlush(courseFavorite);
+        }
+
+        // when
+        int pageNumber = 0;
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "id");
+        Page<Course> coursePage = courseRepository.findFavoriteCourseByMember(memberId, pageable);
+
+        // then
+        // 페이지당 데이터 개수
+        assertThat(coursePage.getSize()).isEqualTo(pageSize);
+        // 현재 페이지 번호 0부터 시작
+        assertThat(coursePage.getNumber()).isEqualTo(0);
+        // 다음 페이지 존재 여부
+        assertThat(coursePage.hasNext()).isFalse();
+        // 시작 페이지(0) 여부
+        assertThat(coursePage.isFirst()).isTrue();
+
+        assertThat(coursePage.getContent()).hasSize(1);
+    }
+
 }

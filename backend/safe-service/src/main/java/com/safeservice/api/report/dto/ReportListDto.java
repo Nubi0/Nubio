@@ -1,10 +1,15 @@
 package com.safeservice.api.report.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.safeservice.domain.report.entity.Report;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Builder
@@ -24,6 +29,10 @@ public class ReportListDto {
 
     private double longitude;
 
+    @JsonProperty("create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
     private ReportFileResponseDto fileList;
 
     public static ReportListDto of(Report report, String identification) {
@@ -34,6 +43,7 @@ public class ReportListDto {
                 .reportType(report.getReportType().getDescription())
                 .latitude(report.getPosition().getLatitude())
                 .longitude(report.getPosition().getLongitude())
+                .createTime(report.getCreateTime().plus(9, ChronoUnit.HOURS))
                 .fileList(ReportFileResponseDto.from(report.getReportFiles())).build();
     }
 

@@ -47,7 +47,7 @@ class PlaceMapperTest {
         // then
         assertThat(placeInfoRes.getPlaceInfo().getAddressName()).isEqualTo(place.getAddress().getName());
         assertThat(placeInfoRes.getPlaceInfo().getCategoryGroupCode()).isEqualTo(place.getCategory().getGroupCode().toString());
-        assertThat(placeInfoRes.getPlaceInfo().getImgUrl()).isEqualTo("dummy_img");
+        assertThat(placeInfoRes.getPlaceInfo().getImgUrl()).isEqualTo("not exist");
         // TODO: 나중에 필드 다 해야됨
         assertThat(placeInfoRes.getMeta().getLikeCount()).isEqualTo(likeCount);
         assertThat(placeInfoRes.getMeta().isLikeFlag()).isTrue();

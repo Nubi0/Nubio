@@ -11,7 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -48,7 +50,7 @@ public class Place extends BaseTimeEntity {
     private Active active;
 
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<PlaceImage> images = new ArrayList<>();
+    private Set<PlaceImage> images = new HashSet<>();
 
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CoursePlaceSequence> sequences = new ArrayList<>();

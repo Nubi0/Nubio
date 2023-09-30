@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,6 +122,27 @@ class ReportInfoServiceTest {
         List<MultipartFile> files = new ArrayList<>();
         // when then
         assertThatThrownBy(() -> reportInfoService.updateReport(request,files,failIdentification))
+                .isInstanceOf(MisMatchIdentification.class);
+    }
+
+    @Test
+    @DisplayName("제보 삭제 성공 케이스")
+    void deleteReport() {
+        // given
+        Report report = reportRepository.findById(firstReport.getId()).get();
+        // when
+        reportInfoService.deleteReport("kim",report.getId());
+        // then
+        assertThat(report.getActive().isValue()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("제보 삭제 실패 케이스")
+    void failDeleteReport() {
+        // given
+        Report report = reportRepository.findById(firstReport.getId()).get();
+        // when then
+        assertThatThrownBy(() -> reportInfoService.deleteReport("not kim",report.getId()))
                 .isInstanceOf(MisMatchIdentification.class);
     }
 

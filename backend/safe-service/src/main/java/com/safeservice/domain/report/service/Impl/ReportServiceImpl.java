@@ -33,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
     @Transactional
     public Report update(Report report, Long reportId, String identification) {
         Report newReport = reportRepository.findById(reportId).get();
-        validateIdentification(identification, newReport);
+        validateUpdateIdentification(identification, newReport);
         newReport.update(report);
         em.flush();
         return newReport;
@@ -41,14 +41,21 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(String identification,Long id) {
         Report report = reportRepository.findById(id).get();
+        validateDeleteIdentification(identification, report);
         report.updateActive();
     }
 
-    private void validateIdentification(String identification, Report report) {
+    private void validateUpdateIdentification(String identification, Report report) {
         if (!report.getIdentification().equals(identification)) {
-            throw new MisMatchIdentification(ErrorCode.MISMATCH_IDENTIFICATION);
+            throw new MisMatchIdentification(ErrorCode.MISMATCH_UPDATE_IDENTIFICATION);
+        }
+    }
+
+    private void validateDeleteIdentification(String identification, Report report) {
+        if (!report.getIdentification().equals(identification)) {
+            throw new MisMatchIdentification(ErrorCode.MISMATCH_DELETE_IDENTIFICATION);
         }
     }
 

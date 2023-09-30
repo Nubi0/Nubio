@@ -65,4 +65,14 @@ public class ReportController {
         return ApiResponseEntity.ok(responseReport);
     }
 
+    @Operation(summary = "제보 삭제", description = "safe/v1/safe/report/{reportId}\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @DeleteMapping("/report/{reportId}")
+    public ApiResponseEntity<String> deleteReport(@Identification IdentificationDto identificationDto,
+                                                  @PathVariable("reportId") Long reportId) {
+        reportInfoService.deleteReport(identificationDto.getIdentification(),reportId);
+        return ApiResponseEntity.ok("삭제 완료");
+    }
 }

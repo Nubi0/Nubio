@@ -1,5 +1,6 @@
 package com.authenticationservice.api.member.service;
 
+import com.authenticationservice.api.member.dto.request.NicknameCheckDto;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.domain.member.entity.Member;
 import com.authenticationservice.domain.member.entity.type.Email;
@@ -17,4 +18,6 @@ public interface MemberInfoService {
     Member findByIdentification(Identification identification);
     void updateMemberInfo(MemberInfoDto memberInfo, MultipartFile profileImg, String nickName, String gender, String birth);
     void deleteMember(MemberInfoDto memberInfo);
+
+    boolean checkNickname(NicknameCheckDto nicknameCheckDto);
 }

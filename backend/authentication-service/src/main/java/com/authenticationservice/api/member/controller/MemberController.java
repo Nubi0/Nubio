@@ -1,6 +1,7 @@
 package com.authenticationservice.api.member.controller;
 
 import com.authenticationservice.api.ApiResponseEntity;
+import com.authenticationservice.api.member.dto.request.NicknameCheckDto;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,15 @@ public class MemberController {
     public ApiResponseEntity<MemberResDto> info(@PathVariable(name = "identification") String identification) {
 
         return ApiResponseEntity.ok(memberInfoService.getMemberByIdentification(identification));
+    }
+
+    @Operation(summary = "닉네임 중복 확인", description = "/start/v1/member/nickname\n\n 닉네임 사용 가능 시 true 반환 \n\n 닉네임 중복 시 false 반환" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description =  "OK"),
+    })
+    @PostMapping("/nickname")
+    public ApiResponseEntity<Boolean> checkNickname(@Valid @RequestBody NicknameCheckDto nicknameCheckDto) {
+        return ApiResponseEntity.ok(memberInfoService.checkNickname(nicknameCheckDto));
     }
 
     @Operation(summary = "프로필 수정", description = "auth/v1/member/me\n\n" )

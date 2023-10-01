@@ -27,7 +27,6 @@ public class ProfileServiceImpl implements ProfileService {
         Profile accuseFile = Profile.builder()
                 .fileName(FileName.from(fileName))
                 .fileUrl(FileUrl.from(url))
-                .member(member)
                 .fileSize(FileSize.from(fileSize))
                 .active(Active.from(true))
                 .build();

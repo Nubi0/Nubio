@@ -14,6 +14,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "member")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,7 +41,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "oauth_type", nullable = false)
     private OAuthType oAuthType;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @Enumerated(EnumType.STRING)
@@ -66,7 +68,7 @@ public class Member extends BaseTimeEntity {
 
     @Builder
     public Member(Long id, Identification identification, Email email, Nickname nickname,
-                  Password password, OAuthType oAuthType, Role role,
+                  Password password, OAuthType oAuthType, Profile profile, Role role,
                   Gender gender, Birth birth, String refreshToken, LocalDateTime refreshTokenExpirationTime) {
         this.id = id;
         this.identification = identification;
@@ -74,6 +76,7 @@ public class Member extends BaseTimeEntity {
         this.nickname = nickname;
         this.password = password;
         this.oAuthType = oAuthType;
+        this.profile = profile;
         this.role = role;
         this.gender = gender;
         this.birth = birth;

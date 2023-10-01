@@ -1,9 +1,11 @@
 import { useState, ChangeEvent } from "react";
 import {
-  ReportIcon,
+  ReportButton,
   ReportWrapper,
   TypeWrapper,
   ImageWrapper,
+  ReportIcon,
+  ReportButtonWrapper,
 } from "../../../styles/SSafeHomePage";
 import useInput from "../../../hooks/useInput";
 import axios from "axios";
@@ -33,7 +35,7 @@ const CreateModal = () => {
     null;
   const longitude =
     useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude
+      (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
 
   // 이미지
@@ -71,7 +73,7 @@ const CreateModal = () => {
     });
     formData.append(
       "report",
-      new Blob([JSON.stringify(report)], { type: "application/json" })
+      new Blob([JSON.stringify(report)], { type: "application/json" }),
     );
     if (
       title == "" ||
@@ -105,8 +107,10 @@ const CreateModal = () => {
   };
   return (
     <>
-      <ReportIcon src={loudSpeaker} alt="가이드북" onClick={openModal} />
-      <h2>제보하기</h2>
+      <ReportButtonWrapper>
+        <ReportIcon src={loudSpeaker} alt="가이드북" onClick={openModal} />
+        <ReportButton onClick={openModal}>제보하기</ReportButton>
+      </ReportButtonWrapper>
       {isOpen ? (
         <ReportWrapper>
           <h2>제보하기</h2>

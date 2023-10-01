@@ -12,6 +12,17 @@ export const LogoIcon = styled.img`
   width: 4rem;
   height: 2rem;
 `;
+export const ShelterButton = styled.span`
+  position: absolute;
+  // top: 0.5rem;
+  bottom: 0.5rem;
+  right: 10.5rem;
+  color: white;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  background: #ffc542;
+  z-index: 1;
+`;
 // 내 위치
 export const MyLocation = styled.button`
   position: absolute;
@@ -35,11 +46,6 @@ export const OptionButtonWrapper = styled.span`
   z-index: 1;
 `;
 export const SafeGuideIcon = styled.img`
-  width: 4rem;
-  height: 4rem;
-  z-index: 1;
-`;
-export const ReportIcon = styled.img`
   width: 4rem;
   height: 4rem;
   z-index: 1;
@@ -80,7 +86,37 @@ export const IconWrapper = styled.div`
 `;
 
 // 제보하기
-export const ReportModalWrapper = styled.div``;
+export const ReportButtonWrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+  bottom: 1.5rem;
+  right: 1rem;
+  color: #f25260;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  background: rgb(255, 255, 255, 80%);
+  // margin: 0 auto;
+`;
+export const ReportButton = styled.span`
+  // position: absolute;
+  // bottom: 1.5rem;
+  // right: 1.5rem;
+  // z-index: 1;
+`;
+export const ReportIcon = styled.img`
+  width: 2rem;
+  height: 1rem;
+  // position: absolute;
+  // bottom: 5rem;
+  // right: 1rem;
+  // width: 3rem;
+  // height: 3rem;
+  // color: white;
+  // padding: 0.4rem;
+  // border-radius: 1rem;
+  // background: #ffc542;
+  // z-index: 1;
+`;
 export const ReportWrapper = styled.div`
   position: absolute;
   top: 15%;
@@ -90,7 +126,7 @@ export const ReportWrapper = styled.div`
   border-radius: 1rem;
   text-align: center;
   z-index: 2;
-
+  margin: 0 5%;
   #title {
     width: 95%;
     height: 2rem;
@@ -121,6 +157,17 @@ export const ReportWrapper = styled.div`
     border-radius: 1rem;
     background-color: #f25260;
     margin-top: 1rem;
+  }
+  #close {
+    position: relative;
+    top: 1rem;
+    width: 20rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffc542;
   }
 `;
 export const TypeWrapper = styled.div`

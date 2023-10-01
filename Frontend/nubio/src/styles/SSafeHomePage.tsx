@@ -15,8 +15,8 @@ export const LogoIcon = styled.img`
 // 내 위치
 export const MyLocation = styled.button`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 10rem;
+  right: 10rem;
   background: #ffc542;
   border: none;
   border-radius: 1rem;

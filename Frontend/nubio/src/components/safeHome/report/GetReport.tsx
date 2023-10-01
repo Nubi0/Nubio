@@ -39,6 +39,7 @@ const GetReport = () => {
         `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`,
       )
       .then((res) => {
+        console.log(res);
         const places = res.data.data.reportList;
         for (let i = 0; i < places.length; i++) {
           let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">

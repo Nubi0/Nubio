@@ -31,24 +31,6 @@ export const SearchResultsWrapper = styled.div`
       margin: 10px;
     }
   }
-  #short {
-    float: right;
-    border: 0.1rem solid black;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    padding: 0.2rem 0.5rem;
-    background: transparent;
-    margin-right: 0.5rem;
-  }
-  #safe {
-    float: right;
-    border: 0.1rem solid black;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    padding: 0.2rem 0.5rem;
-    background: transparent;
-    margin-right: 0.5rem;
-  }
 `;
 
 export const SearchListWrapper = styled.div`
@@ -105,7 +87,23 @@ export const DestinationWrapper = styled.div`
 `;
 
 // 최소경로
-export const ShortDirectionButton = styled.button``;
+export const ShortDirectionButton = styled.button`
+  float: right;
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+  margin-right: 0.5rem;
+`;
 
 // 안전경로
-export const SafeDirectionButton = styled.button``;
+export const SafeDirectionButton = styled.button`
+  float: right;
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+  margin-right: 0.5rem;
+`;

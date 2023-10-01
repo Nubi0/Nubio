@@ -29,7 +29,7 @@ public class MemberController {
 
     @Operation(summary = "프로필 조회", description = "auth/v1/member/me\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "A-001", description =  "TOKEN_EXPIRED", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-001\", \"errorMessage\": \"토큰이 만료되었습니다.\"}"))),
             @ApiResponse(responseCode = "A-002", description =  "NOT_VALID_TOKEN", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-002\", \"errorMessage\": \"해당 토큰은 유효한 토큰이 아닙니다.\"}"))),
             @ApiResponse(responseCode = "M-007", description =  "MEMBER_NOT_EXISTS", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-007\", \"errorMessage\": \"해당 회원은 존재하지 않습니다.\"}"))),
@@ -41,7 +41,7 @@ public class MemberController {
 
     @Operation(summary = "identification으로 조회", description = "start/v1/member/me/{identification}\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "M-007", description =  "MEMBER_NOT_EXISTS", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-007\", \"errorMessage\": \"해당 회원은 존재하지 않습니다.\"}"))),
     })
     @GetMapping("/me/{identification}")
@@ -80,7 +80,7 @@ public class MemberController {
 
     @Operation(summary = "회원 탈퇴", description = "auth/v1/member/delete\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "A-001", description =  "TOKEN_EXPIRED", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-001\", \"errorMessage\": \"토큰이 만료되었습니다.\"}"))),
             @ApiResponse(responseCode = "A-002", description =  "NOT_VALID_TOKEN", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-002\", \"errorMessage\": \"해당 토큰은 유효한 토큰이 아닙니다.\"}"))),
     })

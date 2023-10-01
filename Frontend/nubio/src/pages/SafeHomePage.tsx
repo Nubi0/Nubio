@@ -1,6 +1,6 @@
 import { SafeHomeWrapper, LogoIcon } from "../styles/SSafeHomePage";
 import Map from "../components/common/map/Map";
-import FirstModal from "../components/safeHome/Option";
+import Option from "../components/safeHome/Option";
 import { useNavigate } from "react-router-dom";
 import GetReport from "../components/safeHome/report/GetReport";
 import Footer from "../components/common/Footer";
@@ -11,7 +11,7 @@ const SafeHomePage = () => {
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
   return (
     <SafeHomeWrapper>
-      <FirstModal />
+      <Option />
       <CalamityMessage />
       <GetReport />
       <Map />

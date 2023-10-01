@@ -24,13 +24,14 @@ export const MyLocation = styled.button`
 `;
 
 // 제보하기 재난 대피
-export const OptionWrapper = styled.span`
+export const OptionButtonWrapper = styled.span`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  border: 0.15rem solid black;
+  color: white;
   padding: 0.4rem;
   border-radius: 1rem;
+  background: #ffc542;
   z-index: 1;
 `;
 export const SafeGuideIcon = styled.img`
@@ -168,6 +169,7 @@ export const ReportInfoWrapper = styled.div`
   background: white;
   padding: 1rem;
   border-radius: 1rem;
+  text-align: center;
   button {
     width: 10rem;
     height: 2.5rem;
@@ -180,7 +182,6 @@ export const ReportInfoWrapper = styled.div`
   }
 `;
 export const ReportPhotoWrapper = styled.div`
-  // background: red;
   width: 100%;
   img {
     width: 100%;

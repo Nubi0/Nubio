@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   OptionModalBox,
   OptionModalOverlay,
-  OptionWrapper,
+  OptionButtonWrapper,
   IconWrapper,
 } from "../../styles/SSafeHomePage";
 
@@ -18,7 +18,7 @@ const Option = () => {
   };
   return (
     <>
-      <OptionWrapper onClick={openModal}>제보/대피</OptionWrapper>
+      <OptionButtonWrapper onClick={openModal}>제보/대피</OptionButtonWrapper>
       {isOpen ? (
         <OptionModalOverlay>
           <OptionModalBox>

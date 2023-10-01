@@ -144,7 +144,7 @@ class ReportServiceImplTest {
         Report savedReport = reportRepository.save(report);
 
         // when
-        reportService.delete(savedReport.getId());
+        reportService.delete("kim",savedReport.getId());
         // then
         assertThat(savedReport.getActive().isValue()).isEqualTo(false);
     }

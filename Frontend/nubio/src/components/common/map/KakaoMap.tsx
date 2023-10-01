@@ -59,12 +59,6 @@ declare global {
 }
 
 const KakaoMap = (props: propsType) => {
-  const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start,
-  );
-  const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end,
-  );
   const startName = useSelector(
     (state: { map: { startName: string } }) => state.map.startName,
   );
@@ -75,7 +69,6 @@ const KakaoMap = (props: propsType) => {
 
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
-  const markerIcon = process.env.PUBLIC_URL + "/assets/marker.svg";
   const location = useLocation();
   // 마커를 담는 배열
   let markers: any[] = [];
@@ -430,8 +423,6 @@ const KakaoMap = (props: propsType) => {
         (position) => {
           window.myLatitude = position.coords.latitude;
           window.myLongitude = position.coords.longitude;
-          dispatch(setLatitude(window.myLatitude));
-          dispatch(setLongitude(window.myLongitude));
           const map = window.map;
           map.setCenter(
             new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),

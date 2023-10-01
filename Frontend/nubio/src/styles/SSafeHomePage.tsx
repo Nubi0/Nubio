@@ -20,7 +20,7 @@ export const ShelterButton = styled.span`
   color: white;
   padding: 0.4rem;
   border-radius: 1rem;
-  background: #ffc542;
+  background: #f25260;
   z-index: 1;
 `;
 // 내 위치
@@ -91,10 +91,10 @@ export const ReportButtonWrapper = styled.div`
   z-index: 2;
   bottom: 1.5rem;
   right: 1rem;
-  color: #f25260;
+  color: white;
   padding: 0.4rem;
   border-radius: 1rem;
-  background: rgb(255, 255, 255, 80%);
+  background: #f25260;
   // margin: 0 auto;
 `;
 export const ReportButton = styled.span`

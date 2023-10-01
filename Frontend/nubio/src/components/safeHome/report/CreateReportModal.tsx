@@ -4,17 +4,13 @@ import {
   ReportWrapper,
   TypeWrapper,
   ImageWrapper,
-  ReportIcon,
   ReportButtonWrapper,
 } from "../../../styles/SSafeHomePage";
 import useInput from "../../../hooks/useInput";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
 
 const CreateModal = () => {
-  const loudSpeaker =
-    process.env.PUBLIC_URL + "/assets/disaster/loudSpeaker.svg";
   // 모달
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -30,13 +26,6 @@ const CreateModal = () => {
   // 이미지 제외 data
   const [title, onChangeTitle, setTitle] = useInput("");
   const [content, setContent] = useState("");
-  const latitude =
-    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
-    null;
-  const longitude =
-    useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude,
-    ) || null;
 
   // 이미지
   const reportImage = process.env.PUBLIC_URL + "/assets/reportImage.svg";
@@ -65,8 +54,8 @@ const CreateModal = () => {
       title,
       content,
       reportType,
-      longitude,
-      latitude,
+      longitude: window.myLongitude,
+      latitude: window.myLatitude,
     };
     images.forEach((image) => {
       formData.append("file", image);
@@ -79,8 +68,8 @@ const CreateModal = () => {
       title == "" ||
       content == "" ||
       reportType == "" ||
-      longitude == "" ||
-      latitude == ""
+      window.myLongitude == "" ||
+      window.myLatitude == ""
     ) {
       Swal.fire({
         title: "제보 사진을 제외한 부분은 필수값입니다.",
@@ -108,7 +97,6 @@ const CreateModal = () => {
   return (
     <>
       <ReportButtonWrapper>
-        <ReportIcon src={loudSpeaker} alt="가이드북" onClick={openModal} />
         <ReportButton onClick={openModal}>제보하기</ReportButton>
       </ReportButtonWrapper>
       {isOpen ? (

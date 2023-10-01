@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { placements } from "@popperjs/core";
 import {
   ReportInfoOverlay,
   ReportInfoWrapper,
@@ -15,13 +13,6 @@ declare global {
 }
 
 const GetReport = () => {
-  const latitude =
-    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
-    null;
-  const longitude =
-    useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude,
-    ) || null;
   const [selectedPlace, setSelectedPlace] = useState<any>(null); // 선택된 장소 정보 상태 추가
   const [modalOpen, setModalOpen] = useState(false); // 모달 상태 추가
 
@@ -36,7 +27,7 @@ const GetReport = () => {
   const getReport = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`,
+        `https://nubi0.com/safe/v1/safe/report?longitude=${window.myLongitude}&latitude=${window.myLatitude}`,
       )
       .then((res) => {
         console.log(res);

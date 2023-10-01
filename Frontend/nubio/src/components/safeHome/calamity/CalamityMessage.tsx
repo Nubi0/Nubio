@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   CalamityMessageWrapper,
+  CalamityWrapper,
   EvacuationGuideWrapper,
 } from "../../../styles/SSafeHomePage";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ type EmergencyMessage = {
   message: string;
   md_id: number;
   emer_type: string;
+  occurred_time: string;
 };
 const CalamityMessage = () => {
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
@@ -27,7 +29,7 @@ const CalamityMessage = () => {
     null;
   const longitude =
     useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude
+      (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
   const getCalamity = () => {
     axios
@@ -36,7 +38,7 @@ const CalamityMessage = () => {
         {
           longitude: 128.5934,
           latitude: 35.8556,
-        }
+        },
         // {
         //   latitude,
         //   longitude,
@@ -60,37 +62,32 @@ const CalamityMessage = () => {
     getCalamity();
     // setInterval(getCalamity, 60000);
   }, []);
-  // 시간
-  const time = new Date();
-  const year = time.getFullYear();
-  const month = String(time.getMonth() + 1).padStart(2, "0");
-  const day = String(time.getDate()).padStart(2, "0");
-  const hours = String(time.getHours()).padStart(2, "0");
-  const minutes = String(time.getMinutes()).padStart(2, "0");
-  const formattedTime = `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`;
+
   return (
     <>
       {isReceiveMessage ? (
-        <CalamityMessageWrapper>
-          <p id="title">재난문자{messageList.length}개가 수신되었습니다.</p>
-          <Swiper>
-            {messageList.map((message, index) => (
-              <SwiperSlide key={index}>
-                <EvacuationGuideWrapper>
-                  <p id="messageTime">{formattedTime}</p>
-                  <p id="messageCity">
-                    {message.city} {message.county}
-                  </p>
-                  <p id="messageText">{message.message}</p>
-                </EvacuationGuideWrapper>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <button id="safeRoute">대피경로</button>
-          <button id="close" onClick={closeWrapper}>
-            닫기
-          </button>
-        </CalamityMessageWrapper>
+        <CalamityWrapper>
+          <CalamityMessageWrapper>
+            <p id="title">재난문자{messageList.length}개가 수신되었습니다.</p>
+            <Swiper>
+              {messageList.map((message, index) => (
+                <SwiperSlide key={index}>
+                  <EvacuationGuideWrapper>
+                    <p id="messageTime">{message.occurred_time}</p>
+                    <p id="messageCity">
+                      {message.city} {message.county}
+                    </p>
+                    <p id="messageText">{message.message}</p>
+                  </EvacuationGuideWrapper>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <button id="safeRoute">대피소 찾기</button>
+            <button id="close" onClick={closeWrapper}>
+              닫기
+            </button>
+          </CalamityMessageWrapper>
+        </CalamityWrapper>
       ) : null}
     </>
   );

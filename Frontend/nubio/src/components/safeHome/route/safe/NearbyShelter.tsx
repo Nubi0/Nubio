@@ -8,15 +8,15 @@ const NearbyShelter = () => {
     null;
   const longitude =
     useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude
+      (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
   const getNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter?longitude=${longitude}&latitude=${latitude}&distance=5&type=school`
+        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter?longitude=${longitude}&latitude=${latitude}&distance=1&type=school`,
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);

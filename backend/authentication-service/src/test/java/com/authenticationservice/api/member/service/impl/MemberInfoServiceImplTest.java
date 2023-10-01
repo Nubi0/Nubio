@@ -1,5 +1,6 @@
 package com.authenticationservice.api.member.service.impl;
 
+import com.authenticationservice.api.member.dto.request.NicknameCheckDto;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.domain.member.entity.Member;
@@ -8,7 +9,6 @@ import com.authenticationservice.domain.member.entity.constant.OAuthType;
 import com.authenticationservice.domain.member.entity.constant.Role;
 import com.authenticationservice.domain.member.entity.type.*;
 import com.authenticationservice.domain.member.repository.MemberRepository;
-import com.authenticationservice.global.jwt.service.JwtManager;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
@@ -36,8 +36,6 @@ class MemberInfoServiceImplTest {
     private MemberRepository memberRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtManager jwtManager;
     @Autowired
     private EntityManager em;
 
@@ -106,6 +104,32 @@ class MemberInfoServiceImplTest {
         Member member = memberInfoService.findByIdentification(identification);
         // then
         assertThat(member).isEqualTo(savedBeforeMember);
+    }
+
+    @DisplayName("중복되지 않는 닉네임을 입력시 true를 반환한다.")
+    @Test
+    void checkNewNicknameReturnTrue() {
+        //given
+        NicknameCheckDto nicknameCheckDto = NicknameCheckDto.builder()
+                .nickname("possibleNickname")
+                .build();
+        //when
+        Boolean res = memberInfoService.checkNickname(nicknameCheckDto);
+        //then
+        assertThat(res).isTrue();
+    }
+
+    @DisplayName("중복되는 닉네임을 입력시 false를 반환한다.")
+    @Test
+    void checkDuplicateNicknameReturnFalse() {
+        //given
+        NicknameCheckDto nicknameCheckDto = NicknameCheckDto.builder()
+                .nickname("memberNickname")
+                .build();
+        //when
+        Boolean res = memberInfoService.checkNickname(nicknameCheckDto);
+        //then
+        assertThat(res).isFalse();
     }
 
 

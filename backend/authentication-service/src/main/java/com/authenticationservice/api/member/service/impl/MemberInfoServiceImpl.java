@@ -1,5 +1,6 @@
 package com.authenticationservice.api.member.service.impl;
 
+import com.authenticationservice.api.member.dto.request.NicknameCheckDto;
 import com.authenticationservice.api.member.dto.response.MemberResDto;
 import com.authenticationservice.api.member.service.MemberInfoService;
 import com.authenticationservice.api.profile.service.ProfileUploadService;
@@ -60,6 +61,11 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     @Override
+    public boolean checkNickname(NicknameCheckDto nicknameCheckDto) {
+        return findByNickname(Nickname.from(nicknameCheckDto.getNickname())).isEmpty();
+    }
+
+    @Override
     @Transactional
     public void updateMemberInfo(MemberInfoDto memberInfo, MultipartFile profileImg, String nickname, String gender, String birth) {
         Identification identification = Identification.from(memberInfo.getIdentification());
@@ -68,9 +74,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         if(profileImg != null) {
             profileUploadService.uploadProfile(category, member, profileImg);
         }
-        if(!nickname.isEmpty()) member.setNickname(Nickname.from(nickname));
-        if(!gender.isEmpty()) member.setGender(Gender.from(gender));
-        if(!birth.isEmpty()) member.setBirth(Birth.from(birth));
+        if(nickname!= null) member.setNickname(Nickname.from(nickname));
+        if(gender!= null) member.setGender(Gender.from(gender));
+        if(birth!= null) member.setBirth(Birth.from(birth));
         memberRepository.save(member);
     }
 
@@ -82,5 +88,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
         member.withdraw();
         memberRepository.save(member);
+    }
+
+    private Optional<Member> findByNickname(Nickname nickname) {
+        return memberRepository.findFirstByNickname(nickname);
     }
 }

@@ -20,10 +20,14 @@ const CreateModal = () => {
   };
   const closeModal = () => {
     setIsOpen(false);
+    setImages([]);
+    setTitle("");
+    setContent("");
+    setReportType("");
   };
   // 이미지 제외 data
-  const [title, onChangeTitle] = useInput("");
-  const [content, onChangeContent] = useInput("");
+  const [title, onChangeTitle, setTitle] = useInput("");
+  const [content, setContent] = useState("");
   const latitude =
     useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
     null;
@@ -31,11 +35,12 @@ const CreateModal = () => {
     useSelector(
       (state: { map: { longitude: string } }) => state.map.longitude
     ) || null;
+
   // 이미지
+  const reportImage = process.env.PUBLIC_URL + "/assets/reportImage.svg";
   const [images, setImages] = useState<File[]>([]);
   const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-
     if (files) {
       if (images.length + files.length <= 5) {
         const newImages = Array.from(files);
@@ -47,11 +52,9 @@ const CreateModal = () => {
         });
       }
     }
-
-    console.log(images);
   };
   // 테러타입
-  const [reportType, onChangeReportType] = useInput("");
+  const [reportType, onChangeReportType, setReportType] = useInput("");
 
   const submitForm = (e: any) => {
     e.preventDefault();
@@ -63,30 +66,42 @@ const CreateModal = () => {
       longitude,
       latitude,
     };
-    images.forEach((image, index) => {
-      formData.append(`file${index + 1}`, image);
+    images.forEach((image) => {
+      formData.append("file", image);
     });
     formData.append(
       "report",
       new Blob([JSON.stringify(report)], { type: "application/json" })
     );
-
-    axios
-      .post("https://nubi0.com/safe/v1/safe/report", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        Swal.fire({
-          title: "제보해주셔서 감사합니다.",
-          text: "NUBIO",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    if (
+      title == "" ||
+      content == "" ||
+      reportType == "" ||
+      longitude == "" ||
+      latitude == ""
+    ) {
+      Swal.fire({
+        title: "제보 사진을 제외한 부분은 필수값입니다.",
+        text: "NUBIO",
       });
+    } else {
+      axios
+        .post("https://nubi0.com/safe/v1/safe/report", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          Swal.fire({
+            title: "제보해주셔서 감사합니다.",
+            text: "NUBIO",
+          });
+          closeModal();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   return (
     <>
@@ -103,12 +118,17 @@ const CreateModal = () => {
               onChange={onChangeTitle}
               placeholder="제보 제목을 입력해주세요."
             />
-            <input
-              type="text"
+            <textarea
               id="content"
               placeholder="제보 내용을 입력해주세요."
-              onChange={onChangeContent}
+              onChange={(e) => setContent(e.target.value)}
               value={content}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  setContent((prevContent) => prevContent + "\n");
+                }
+              }}
             />
             <TypeWrapper>
               <label>
@@ -140,8 +160,17 @@ const CreateModal = () => {
               </label>
             </TypeWrapper>
             <ImageWrapper>
-              <label htmlFor="image">제보 사진</label>
-              <input type="file" accept="image/*" onChange={onChangeImage} />
+              <label htmlFor="image">
+                제보 사진(최대 5개)
+                <img src={reportImage} alt="제보 사진" />
+              </label>
+              <p>{images.map((image, index) => image.name).join(", ")}</p>
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={onChangeImage}
+              />
             </ImageWrapper>
             <button type="submit" id="submit" onSubmit={submitForm}>
               제보

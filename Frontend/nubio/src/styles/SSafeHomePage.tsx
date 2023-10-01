@@ -7,8 +7,8 @@ export const SafeHomeWrapper = styled.div`
 
 export const LogoIcon = styled.img`
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0.5rem;
+  left: 0.5rem;
   width: 4rem;
   height: 2rem;
 `;
@@ -22,16 +22,18 @@ export const MyLocation = styled.button`
   border-radius: 1rem;
   padding: 0.3rem;
 `;
-// 대피 설명서
-export const SafeIcon = styled.img`
+
+// 제보하기 재난 대피
+export const OptionButtonWrapper = styled.span`
   position: absolute;
-  top: 47rem;
-  right: 1rem;
-  width: 4rem;
-  height: 4rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: white;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  background: #ffc542;
   z-index: 1;
 `;
-
 export const SafeGuideIcon = styled.img`
   width: 4rem;
   height: 4rem;
@@ -44,8 +46,8 @@ export const ReportIcon = styled.img`
 `;
 
 // 사이렌 모달
-export const FirstModalOverlay = styled.div`
-  z-index: 9998;
+export const OptionModalOverlay = styled.div`
+  z-index: 3;
   width: 100%;
   height: 100%;
   display: flex;
@@ -54,7 +56,7 @@ export const FirstModalOverlay = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
 `;
-export const FirstModalBox = styled.div`
+export const OptionModalBox = styled.div`
   background: white;
   width: 80%;
   height: 15%;
@@ -78,17 +80,12 @@ export const IconWrapper = styled.div`
 `;
 
 // 제보하기
-export const ReportModalWrapper = styled.div`
-  .swal2-container {
-    z-index: 9999; /* 더 높은 값으로 설정 */
-  }
-`;
+export const ReportModalWrapper = styled.div``;
 export const ReportWrapper = styled.div`
   position: absolute;
   top: 15%;
   background: white;
   width: 80%;
-  height: 60%;
   padding: 1.5rem;
   border-radius: 1rem;
   text-align: center;
@@ -111,6 +108,7 @@ export const ReportWrapper = styled.div`
     border: 0.15rem solid black;
     border-radius: 0.5rem;
     padding: 0.5rem;
+    resize: vertical;
   }
 
   #submit {
@@ -136,11 +134,60 @@ export const TypeWrapper = styled.div`
   }
 `;
 export const ImageWrapper = styled.div`
-  
+text-align:center;
+margin-top:1rem;
+label{
+  font-size:1.5rem;
+}
+img{
+  width:2em;
+  height:1.5rem;
+  margin-left:0.5rem;
+}
+  input{
+    display:none;
+  }
 }
 `;
-
-export const CheckReportWrapper = styled.div``;
+export const ReportInfoOverlay = styled.div`
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+`;
+export const ReportInfoWrapper = styled.div`
+  width: 20rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  button {
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffc542;
+    margin: 1rem;
+  }
+`;
+export const ReportPhotoWrapper = styled.div`
+  width: 100%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
 // 재난 대피
 export const SafeGuideModalBox = styled.div`
   position: absolute;
@@ -211,7 +258,7 @@ export const EvacuationRouteModalBox = styled.div`
 // 길 찾기 결과
 export const RouteInfoWrapper = styled.div`
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 5rem;
   width: 100%;
   height: 15%;
   // background: red;
@@ -253,7 +300,7 @@ export const CalamityWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: 1;
 `;
 
 export const CalamityMessageWrapper = styled.div`
@@ -263,7 +310,6 @@ export const CalamityMessageWrapper = styled.div`
   border: 0.5rem double red;
   background: white;
   text-align: center;
-
   p {
     margin: 0.5rem 0;
     margin: 0;

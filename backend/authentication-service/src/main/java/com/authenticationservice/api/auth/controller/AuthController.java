@@ -52,7 +52,7 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "start/v1/member/login\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "M-001", description =  "INVALID_EMAIL_FORMAT", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-001\", \"errorMessage\": \"이메일 형식이 잘못됐습니다.\"}"))),
             @ApiResponse(responseCode = "M-007", description =  "MEMBER_NOT_EXISTS", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-007\", \"errorMessage\": \"해당 회원은 존재하지 않습니다.\"}"))),
             @ApiResponse(responseCode = "M-008", description =  "INVALID_PASSWORD_CHECK", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-008\", \"errorMessage\": \"비밀번호가 일치하지 않습니다.\"}"))),
@@ -64,7 +64,7 @@ public class AuthController {
 
     @Operation(summary = "로그아웃", description = "start/v1/member/logout\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "A-001", description =  "TOKEN_EXPIRED", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-001\", \"errorMessage\": \"토큰이 만료되었습니다.\"}"))),
             @ApiResponse(responseCode = "A-002", description =  "NOT_VALID_TOKEN", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-002\", \"errorMessage\": \"해당 토큰은 유효한 토큰이 아닙니다.\"}"))),
             @ApiResponse(responseCode = "M-007", description =  "MEMBER_NOT_EXISTS", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"M-007\", \"errorMessage\": \"해당 회원은 존재하지 않습니다.\"}")))
@@ -78,7 +78,7 @@ public class AuthController {
 
     @Operation(summary = "refresh-token으로 access-token 재발급", description = "start/v1/member/access-token/issue\n\n" )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description =  "CREATED"),
+            @ApiResponse(responseCode = "200", description =  "OK"),
             @ApiResponse(responseCode = "A-004", description =  "NOT_EXISTS_AUTHORIZATION", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-004\", \"errorMessage\": \"Authorization Header가 빈값입니다.\"}"))),
             @ApiResponse(responseCode = "A-005", description =  "NOT_VALID_BEARER_GRANT_TYPE", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-005\", \"errorMessage\": \"인증 타입이 Bearer 타입이 아닙니다.\"}"))),
             @ApiResponse(responseCode = "A-006", description =  "REFRESH_TOKEN_NOT_FOUND", content = @Content(examples = @ExampleObject(value = "{\"errorCode\": \"A-006\", \"errorMessage\": \"해당 refresh token은 존재하지 않습니다.\"}"))),

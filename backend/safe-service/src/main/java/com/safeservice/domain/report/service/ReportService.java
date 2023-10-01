@@ -9,6 +9,6 @@ public interface ReportService {
     Report save(Report report);
     Report update(Report report, Long reportId, String identification);
 
-    void delete(Long id);
+    void delete(String identification, Long id);
     List<Report> searchReport(double longitude, double latitude);
 }

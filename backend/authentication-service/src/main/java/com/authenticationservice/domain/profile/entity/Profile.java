@@ -22,8 +22,7 @@ public class Profile extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Member member;
 
     @Embedded
@@ -39,8 +38,7 @@ public class Profile extends BaseEntity {
     private Active active = Active.from(true);
 
     @Builder
-    public Profile(Member member, FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
-        this.member = member;
+    public Profile(FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
         this.fileName = fileName;
         this.fileUrl = fileUrl;
         this.fileSize = fileSize;

@@ -1,12 +1,12 @@
 import { RouteInfoWrapper } from "../../../styles/SSafeHomePage";
-import SafeDistance from "./safe/SafeDistance";
-import ShortDistance from "./short/ShortDistance";
+import SafeDistanceInfo from "./safe/SafeDistanceInfo";
+import ShortDirectionInfo from "./short/ShortDirectionInfo";
 
 const RouteInfo = () => {
   return (
     <RouteInfoWrapper>
-      <ShortDistance />
-      <SafeDistance />
+      <ShortDirectionInfo />
+      <SafeDistanceInfo />
     </RouteInfoWrapper>
   );
 };

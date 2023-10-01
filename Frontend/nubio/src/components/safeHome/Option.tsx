@@ -1,15 +1,14 @@
 import { useState } from "react";
 import {
-  FirstModalBox,
-  FirstModalOverlay,
-  SafeIcon,
+  OptionModalBox,
+  OptionModalOverlay,
+  OptionButtonWrapper,
   IconWrapper,
 } from "../../styles/SSafeHomePage";
 
 import CreateReportModal from "./report/CreateReportModal";
 import SafeGuideModal from "./disaster/SafeGuideModal";
-const FirstModal = () => {
-  const siren = process.env.PUBLIC_URL + "/assets/disaster/siren.png";
+const Option = () => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -19,10 +18,10 @@ const FirstModal = () => {
   };
   return (
     <>
-      <SafeIcon src={siren} alt="가이드북" onClick={openModal} />
+      <OptionButtonWrapper onClick={openModal}>제보/대피</OptionButtonWrapper>
       {isOpen ? (
-        <FirstModalOverlay>
-          <FirstModalBox>
+        <OptionModalOverlay>
+          <OptionModalBox>
             <IconWrapper>
               <CreateReportModal />
               <SafeGuideModal />
@@ -30,11 +29,11 @@ const FirstModal = () => {
             <button id="close" onClick={closeModal}>
               닫기
             </button>
-          </FirstModalBox>
-        </FirstModalOverlay>
+          </OptionModalBox>
+        </OptionModalOverlay>
       ) : null}
     </>
   );
 };
 
-export default FirstModal;
+export default Option;

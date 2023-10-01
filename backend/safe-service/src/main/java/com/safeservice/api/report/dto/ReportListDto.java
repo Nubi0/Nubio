@@ -17,6 +17,8 @@ import java.time.temporal.ChronoUnit;
 @NoArgsConstructor
 public class ReportListDto {
 
+    private Long reportId;
+
     private boolean identificationFlag;
 
     private String title;
@@ -37,6 +39,7 @@ public class ReportListDto {
 
     public static ReportListDto of(Report report, String identification) {
         return ReportListDto.builder()
+                .reportId(report.getId())
                 .identificationFlag(isMatchIdentification(report, identification))
                 .title(report.getTitle().getValue())
                 .content(report.getContent().getValue())

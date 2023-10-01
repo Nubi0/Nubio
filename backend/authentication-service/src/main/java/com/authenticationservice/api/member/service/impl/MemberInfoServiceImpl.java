@@ -91,6 +91,6 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     private Optional<Member> findByNickname(Nickname nickname) {
-        return memberRepository.findByNickname(nickname);
+        return memberRepository.findFirstByNickname(nickname);
     }
 }

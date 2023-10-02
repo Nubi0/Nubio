@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { placements } from "@popperjs/core";
 import {
   ReportInfoOverlay,
   ReportInfoWrapper,
@@ -15,15 +13,8 @@ declare global {
 }
 
 const GetReport = () => {
-  const latitude =
-    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
-    null;
-  const longitude =
-    useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude,
-    ) || null;
-  const [selectedPlace, setSelectedPlace] = useState<any>(null); // 선택된 장소 정보 상태 추가
-  const [modalOpen, setModalOpen] = useState(false); // 모달 상태 추가
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -32,13 +23,13 @@ const GetReport = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  console.log(selectedPlace);
   const getReport = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/report?longitude=${longitude}&latitude=${latitude}`,
+        `https://nubi0.com/safe/v1/safe/report?longitude=${window.myLongitude}&latitude=${window.myLatitude}`,
       )
       .then((res) => {
+        console.log(res);
         const places = res.data.data.reportList;
         for (let i = 0; i < places.length; i++) {
           let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
@@ -75,7 +66,7 @@ const GetReport = () => {
   };
   useEffect(() => {
     getReport();
-  });
+  }, [window.myLongitude, window.myLatitude]);
   return (
     <>
       {selectedPlace && modalOpen && (

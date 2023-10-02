@@ -24,13 +24,6 @@ const CalamityMessage = () => {
     setIsReceiveMessage(false);
   };
 
-  const latitude =
-    useSelector((state: { map: { latitude: string } }) => state.map.latitude) ||
-    null;
-  const longitude =
-    useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude,
-    ) || null;
   const getCalamity = () => {
     axios
       .post(
@@ -40,8 +33,8 @@ const CalamityMessage = () => {
           latitude: 35.8556,
         },
         // {
-        //   latitude,
-        //   longitude,
+        //   window.myLatitude,
+        //   window.myLongitude,
         // }
       )
       .then((res) => {

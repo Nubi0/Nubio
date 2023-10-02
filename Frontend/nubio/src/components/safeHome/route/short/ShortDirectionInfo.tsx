@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { ShortDistanceWrapper } from "../../../../styles/SSafeHomePage";
 
 const ShortDistance = () => {
-  const timeData = useSelector((state: any) => state.map.safeTime);
+  const timeData = useSelector((state: any) => state.map.shortTime);
   const nowTime = new Date();
   const nowHours = nowTime.getHours();
   const nowMinutes = nowTime.getMinutes();

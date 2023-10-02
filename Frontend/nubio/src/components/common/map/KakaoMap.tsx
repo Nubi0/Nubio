@@ -22,6 +22,7 @@ import {
 import { useSelector } from "react-redux";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
+import { MyLocation } from "../../../styles/SSafeHomePage";
 
 interface placeType {
   place_name: string;
@@ -516,6 +517,7 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
+      <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}

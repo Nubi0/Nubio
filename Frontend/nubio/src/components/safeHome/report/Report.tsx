@@ -13,8 +13,8 @@ declare global {
 }
 
 const GetReport = () => {
-  const [selectedPlace, setSelectedPlace] = useState<any>(null); // 선택된 장소 정보 상태 추가
-  const [modalOpen, setModalOpen] = useState(false); // 모달 상태 추가
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -23,7 +23,6 @@ const GetReport = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  console.log(selectedPlace);
   const getReport = () => {
     axios
       .get(
@@ -67,7 +66,7 @@ const GetReport = () => {
   };
   useEffect(() => {
     getReport();
-  });
+  }, [window.myLongitude, window.myLatitude]);
   return (
     <>
       {selectedPlace && modalOpen && (

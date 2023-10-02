@@ -23,10 +23,7 @@ const Shelter = () => {
         console.log(res.data.data.content);
         setShowShelters(true);
         const shelter = res.data.data.content;
-        setMarkerList(shelter);
-
         const newmarkerList: any = [];
-
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
               ${shelter[i].name}</span><span class="right"></span></div>`;

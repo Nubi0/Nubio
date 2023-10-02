@@ -14,9 +14,8 @@ export const LogoIcon = styled.img`
 `;
 export const ShelterButton = styled.span`
   position: absolute;
-  // top: 0.5rem;
   bottom: 0.5rem;
-  right: 10.5rem;
+  right: 13rem;
   color: white;
   padding: 0.4rem;
   border-radius: 1rem;
@@ -26,8 +25,8 @@ export const ShelterButton = styled.span`
 // 내 위치
 export const MyLocation = styled.button`
   position: absolute;
-  top: 10rem;
-  right: 10rem;
+  top: 1rem;
+  right: 1rem;
   background: #ffc542;
   border: none;
   border-radius: 1rem;
@@ -89,8 +88,8 @@ export const IconWrapper = styled.div`
 export const ReportButtonWrapper = styled.div`
   position: absolute;
   z-index: 2;
-  bottom: 1.5rem;
-  right: 1rem;
+  bottom: 0.5rem;
+  right: 8rem;
   color: white;
   padding: 0.4rem;
   border-radius: 1rem;

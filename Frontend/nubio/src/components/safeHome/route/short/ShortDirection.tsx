@@ -39,6 +39,9 @@ const ShortDirection = ({
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
+  const safePlaces = useSelector(
+    (state: { map: { safePlace: any } }) => state.map.safePlace,
+  );
   // 최단거리 길찾기
   const getShortDirection = () => {
     clearRoute();
@@ -61,6 +64,22 @@ const ShortDirection = ({
         { headers: headers },
       )
       .then((res) => {
+        for (let i = 0; i < safePlaces.length; i++) {
+          window.safeCustomOverlay.setMap(null);
+        }
+        for (let i = 0; i < safePlaces.length; i++) {
+          let content = ``;
+          let markerPosition = new kakao.maps.LatLng(
+            safePlaces[i].location.latitude,
+            safePlaces[i].location.longitude,
+          );
+          let customOverlay = new kakao.maps.CustomOverlay({
+            position: markerPosition,
+            content: content,
+          });
+          window.safeCustomOverlay = customOverlay;
+          window.safeCustomOverlay.setMap(null);
+        }
         function flattenArray(arr: any) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {

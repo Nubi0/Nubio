@@ -1,7 +1,7 @@
 import axios from "axios";
 import proj4 from "proj4";
 import { useDispatch, useSelector } from "react-redux";
-import { setSafeTime } from "../../../../redux/slice/MapSlice";
+import { setSafeTime, setSafePlace } from "../../../../redux/slice/MapSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 
 interface SafeDirectionProps {
@@ -55,6 +55,7 @@ const SafeDirection = ({
           var safeLatitude = res.data.data.content[0].location.latitude;
           var safeLongitude = res.data.data.content[0].location.longitude;
           var safePlaces = res.data.data.content[0].safety_facilities;
+          dispatch(setSafePlace(safePlaces));
           if (safePlaces.length > 1) {
             for (let i = 0; i < safePlaces.length; i++) {
               let placeName;
@@ -72,19 +73,16 @@ const SafeDirection = ({
               }
               let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
             ${placeName}</span><span class="right"></span></div>`;
-              // 커스텀 오버레이가 표시될 위치입니다
               let markerPosition = new kakao.maps.LatLng(
                 safePlaces[i].location.latitude,
                 safePlaces[i].location.longitude,
               );
-              // 커스텀 오버레이를 생성합니다
               let customOverlay = new kakao.maps.CustomOverlay({
                 position: markerPosition,
                 content: content,
               });
               window.safeCustomOverlay = customOverlay;
-              // 커스텀 오버레이를 지도에 표시합니다
-              window.safeCustomOverlay.setMap(window.map);
+              customOverlay.setMap(window.map);
             }
           }
         }
@@ -185,7 +183,6 @@ const SafeDirection = ({
           if (linePath.length > 0) {
             const distances: any = calculateLineDistance(linePath);
             const walkTime = (distances / 67) | 0;
-
             dispatch(
               setSafeTime({
                 time: walkTime,

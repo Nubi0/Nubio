@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { CourseListWrapper } from '../../../../styles/SLikePage';
 import AllCourseItem from '../../../enjoyHome/AllCourse/AllCourseList/AllCourseItem';
 
-const CourseList = () => {
+const MyCourseList = () => {
   const [course, setCourse] = useState<object[]>([]);
   console.log(course);
   useEffect(() => {
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/course/favorite')
+      .get(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/course')
       .then((res) => {
         setCourse(res.data.data.course_list);
       })
@@ -26,4 +26,4 @@ const CourseList = () => {
   );
 };
 
-export default CourseList;
+export default MyCourseList;

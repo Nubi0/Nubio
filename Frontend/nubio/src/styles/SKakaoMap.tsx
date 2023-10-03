@@ -32,6 +32,15 @@ export const SearchResultsWrapper = styled.div`
     }
   }
 `;
+export const ClearRouteButton = styled.button`
+  float: right;
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+  margin-right: 0.5rem;
+`;
 
 export const SearchListWrapper = styled.div`
   margin-top: 3rem;

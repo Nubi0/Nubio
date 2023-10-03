@@ -4,6 +4,7 @@ import {
   MapWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
+  ClearRouteButton,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
@@ -424,8 +425,8 @@ const KakaoMap = (props: propsType) => {
         (position) => {
           window.myLatitude = position.coords.latitude;
           window.myLongitude = position.coords.longitude;
-          const map = window.map;
-          map.setCenter(
+
+          window.map.setCenter(
             new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
           );
           // 현재 위치에 마커를 표시
@@ -435,7 +436,7 @@ const KakaoMap = (props: propsType) => {
               window.myLongitude,
             ),
           });
-          marker.setMap(map); // 마커를 지도에 표시
+          marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
@@ -444,6 +445,16 @@ const KakaoMap = (props: propsType) => {
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
     }
+  };
+  const moveMyLocation = () => {
+    window.map.setCenter(
+      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+    );
+    // 현재 위치에 마커를 표시
+    const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+    });
+    marker.setMap(window.map); // 마커를 지도에 표시
   };
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
@@ -517,7 +528,7 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
+      <MyLocation onClick={moveMyLocation}>내 위치</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}
@@ -534,6 +545,7 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
+          <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}

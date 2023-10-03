@@ -52,16 +52,26 @@ public class ReportController {
         return ApiResponseEntity.ok("수정 완료");
     }
 
-    @Operation(summary = "제보 조회", description = "safe/v1/safe/report\n\n")
+    @Operation(summary = "현재 위치 기반 제보 조회", description = "safe/v1/safe/report/region\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @GetMapping("/report/region")
+    public ApiResponseEntity<ReportResponseDto> searchAllByRegion(@Identification IdentificationDto identificationDto,
+                                                          @RequestParam("longitude") double longitude,
+                                                          @RequestParam("latitude") double latitude) {
+        ReportResponseDto responseReport = reportInfoService.searchAllByRegion(
+                identificationDto.getIdentification(),longitude,latitude);
+        return ApiResponseEntity.ok(responseReport);
+    }
+
+    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @GetMapping("/report")
-    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto,
-                                                          @RequestParam("longitude") double longitude,
-                                                          @RequestParam("latitude") double latitude) {
-        ReportResponseDto responseReport = reportInfoService.searchAll(
-                identificationDto.getIdentification(),longitude,latitude);
+    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
+        ReportResponseDto responseReport = reportInfoService.searchAll(identificationDto.getIdentification());
         return ApiResponseEntity.ok(responseReport);
     }
 

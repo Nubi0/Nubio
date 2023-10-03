@@ -4,8 +4,10 @@ import {
   ReportInfoOverlay,
   ReportInfoWrapper,
   ReportPhotoWrapper,
+  ReportInfoButtonWrapper,
 } from "../../../styles/SSafeHomePage";
 import { Swiper, SwiperSlide } from "swiper/react";
+import DeleteReport from "./DeleteReport";
 declare global {
   interface Window {
     reportCustomOverlay: any;
@@ -15,7 +17,7 @@ declare global {
 const GetReport = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [identificationFlag, setIdentificationFlag] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -25,9 +27,7 @@ const GetReport = () => {
   };
   const getReport = () => {
     axios
-      .get(
-        `https://nubi0.com/safe/v1/safe/report?longitude=${window.myLongitude}&latitude=${window.myLatitude}`,
-      )
+      .get(`https://nubi0.com/safe/v1/safe/report`)
       .then((res) => {
         console.log(res);
         const places = res.data.data.reportList;
@@ -56,6 +56,10 @@ const GetReport = () => {
               const selectedPlace = places[index];
               setSelectedPlace(selectedPlace);
               openModal();
+              // console.log(places[index]);
+              if (places[index].identificationFlag === true) {
+                setIdentificationFlag(true);
+              }
             }
           });
         });
@@ -66,7 +70,7 @@ const GetReport = () => {
   };
   useEffect(() => {
     getReport();
-  }, [window.myLongitude, window.myLatitude]);
+  }, [selectedPlace]);
   return (
     <>
       {selectedPlace && modalOpen && (
@@ -86,7 +90,15 @@ const GetReport = () => {
             </ReportPhotoWrapper>
             <p>제목: {selectedPlace.title}</p>
             <p>내용: {selectedPlace.content}</p>
-            <button onClick={closeModal}>닫기</button>
+            <ReportInfoButtonWrapper className="buttonWrapper">
+              {identificationFlag ? (
+                <DeleteReport
+                  reportId={selectedPlace.reportId}
+                  closeModal={closeModal}
+                />
+              ) : null}
+              <button onClick={closeModal}>닫기</button>
+            </ReportInfoButtonWrapper>
           </ReportInfoWrapper>
         </ReportInfoOverlay>
       )}

@@ -6,6 +6,7 @@ import CourseDetailList from '../components/enjoyHome/CourseDetail/CoursDetailLi
 import { useParams } from 'react-router';
 import axios from 'axios';
 import Map from '../components/common/map/Map';
+import CourseButton from '../components/enjoyHome/CourseDetail/CoursDetailList/CourseButton';
 
 const CourseDetailPage = () => {
   const [place_list, setPlaceList] = useState<any[]>([]);
@@ -31,8 +32,7 @@ const CourseDetailPage = () => {
     // Check if place_list is not empty before accessing its elements
     if (place_list.length > 0) {
       const { x, y } = place_list[0];
-      console.log(x, y);
-      window.map.setCenter(new kakao.maps.LatLng(Number(y), Number(x)));
+      window.map.setCenter(new kakao.maps.LatLng(Number(y) - 0.002, Number(x)));
     }
   }, [place_list]);
   return (
@@ -40,6 +40,7 @@ const CourseDetailPage = () => {
       <EnjoyHeader pageName="코스 이름" />
       <Map />
       <CourseDetailList place_list={place_list} course_info={course_info} />
+      <CourseButton course_info={course_info} />
       <Footer />
     </CourseDetailPageWrapper>
   );

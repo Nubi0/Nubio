@@ -5,7 +5,7 @@ import {
 } from '../../../../styles/SCourseDeatilPage';
 import CourseButton from './CourseButton';
 import CourseDetailItem from './CourseDetailItem';
-import { useEffect } from 'react';
+import CourseReview from './CourseReview';
 
 const CourseDetailList = ({
   place_list,
@@ -22,7 +22,7 @@ const CourseDetailList = ({
           return <CourseDetailItem key={index} place={place} />;
         })}
       </ItemWrapper>
-      <CourseButton course_info={course_info} />
+      <CourseReview />
     </CourseDetailListWrapper>
   );
 };

@@ -12,6 +12,7 @@ const MapSlice = createSlice({
     end: {},
     startName: null,
     endName: null,
+    safePlace: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -29,7 +30,6 @@ const MapSlice = createSlice({
     setSafeTime: (state, action) => {
       state.safeTime = action.payload;
     },
-
     setStart: (state, action) => {
       state.start = action.payload;
     },
@@ -41,6 +41,9 @@ const MapSlice = createSlice({
     },
     setEndName: (state, action) => {
       state.endName = action.payload;
+    },
+    setSafePlace: (state, action) => {
+      state.safePlace = action.payload;
     },
   },
 });
@@ -55,5 +58,6 @@ export const {
   setEndName,
   setStart,
   setEnd,
+  setSafePlace,
 } = MapSlice.actions;
 export default MapSlice.reducer;

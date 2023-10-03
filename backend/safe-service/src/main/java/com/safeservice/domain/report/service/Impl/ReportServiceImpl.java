@@ -64,4 +64,9 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.searchAllReport(longitude, latitude);
     }
 
+    @Override
+    public List<Report> searchAllReport() {
+        return reportRepository.searchAll();
+    }
+
 }

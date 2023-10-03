@@ -169,7 +169,7 @@ class ReportInfoServiceTest {
                     .active(Active.from(true)).build());
         }
         // when
-        ReportResponseDto reportResponseDto = reportInfoService.searchAll(identification,longitude,latitude);
+        ReportResponseDto reportResponseDto = reportInfoService.searchAllByRegion(identification,longitude,latitude);
         // then
         assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
     }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    Member register(Member member);
+    Member register(Member member, String profileUrl);
 
     Optional<Member> findByEmail(Email email);
 

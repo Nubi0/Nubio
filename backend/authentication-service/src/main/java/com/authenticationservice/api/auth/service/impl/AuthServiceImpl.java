@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
                 .birth(Birth.from(signupReqDto.getBirth()))
                 .build();
 
-        Member savedMember = memberService.register(member);
+        Member savedMember = memberService.register(member, "not exist");
         JwtDto jwtDto = jwtManager.createJwtDto(String.valueOf(savedMember.getIdentification().getValue()), savedMember.getRole());
 
         return new SignResDto().of(jwtDto, savedMember.getRole());

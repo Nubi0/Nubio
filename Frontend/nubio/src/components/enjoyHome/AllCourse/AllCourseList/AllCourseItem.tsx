@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router';
 
 const AllCourseItem = ({ value }: { value: any }) => {
   const { title, favorite_flag, course_tags, place_list } = value;
-  const starFill = process.env.PUBLIC_URL + '/assets/starFill.svg';
-  const star = process.env.PUBLIC_URL + '/assets/star.svg';
+  const starFill = process.env.PUBLIC_URL + '/assets/smallStarFill.svg';
+  const star = process.env.PUBLIC_URL + '/assets/smallStar.svg';
   const noImage = process.env.PUBLIC_URL + '/assets/noImage.png';
   const navigate = useNavigate();
   const handleFav = () => {

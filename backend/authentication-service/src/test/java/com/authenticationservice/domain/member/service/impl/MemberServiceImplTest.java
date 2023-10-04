@@ -71,7 +71,7 @@ class MemberServiceImplTest {
                 .birth(Birth.from("1996-05-08"))
                 .build();
         // when
-        Member registeredMember = memberService.register(member);
+        Member registeredMember = memberService.register(member, null);
         // then
         assertThat(member).isEqualTo(registeredMember);
         assertThat(member.getEmail()).isEqualTo(registeredMember.getEmail());
@@ -100,7 +100,7 @@ class MemberServiceImplTest {
                 .birth(Birth.from("1996-05-08"))
                 .build();
         // when then
-        assertThatThrownBy(() -> memberService.register(member))
+        assertThatThrownBy(() -> memberService.register(member, null))
                 .isInstanceOf(DuplicateMemberException.class);
     }
 

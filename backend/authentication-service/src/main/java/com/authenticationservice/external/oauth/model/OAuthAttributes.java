@@ -37,7 +37,7 @@ public class OAuthAttributes { // 회원 정보 가져올 때 통일시킴
                 .nickname(Nickname.from(nickname))
                 .email(Email.from(email))
                 .oAuthType(oauthType)
-                .profile(toProfileEntity())
+//                .profile(toProfileEntity())
                 .role(role)
                 .build();
     }

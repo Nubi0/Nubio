@@ -2,11 +2,13 @@ package com.authenticationservice.domain.member.entity.constant;
 
 import com.authenticationservice.domain.member.exception.InvalidGenderException;
 import com.authenticationservice.global.error.ErrorCode;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public enum Gender {
 
     MALE("male"),

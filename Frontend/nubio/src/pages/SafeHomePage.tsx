@@ -6,8 +6,6 @@ import {
 import Map from "../components/common/map/Map";
 import CreateReportModal from "../components/safeHome/report/CreateReportModal";
 import { useNavigate } from "react-router-dom";
-import Report from "../components/safeHome/report/Report";
-import CalamityMessage from "../components/safeHome/calamity/CalamityMessage";
 
 import Shelter from "../components/safeHome/calamity/Shelter";
 
@@ -16,8 +14,6 @@ const SafeHomePage = () => {
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
   return (
     <SafeHomeWrapper>
-      <CalamityMessage />
-      <Report />
       <BottomButtonWrapper>
         <Shelter />
         <CreateReportModal />

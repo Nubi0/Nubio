@@ -5,7 +5,7 @@ import { store } from "./redux/store";
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="App" style={{ width: "430px", height: "932px" }}>
         <BrowserRouter>
           <Routes>
             {routes.map((e) => {

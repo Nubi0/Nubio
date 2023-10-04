@@ -2,6 +2,8 @@ import { styled } from "styled-components";
 
 export const SignUpWrapper = styled.div`
   text-align: center;
+  width: 430px;
+  height: 932px;
 `;
 export const SignUpLogo = styled.img`
   width: 20rem;
@@ -27,18 +29,26 @@ export const Form = styled.form`
     border-radius: 0.5rem;
     margin: 0.5rem 0;
   }
-  #check {
-    width: auto;
+  #checkEmail {
+    position: absolute;
+    left: 16.5rem;
     border: none;
     border-radius: 1rem;
     font-weight: 600;
-    position: absolute;
-    right: 3em;
     margin: 1.5rem;
     background-color: #ffc542;
   }
-  #check:disabled{
-    background-color: transparent!important;
+  #checkNickname {
+    position: absolute;
+    left: 17.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-weight: 600;
+    margin: 1.5rem;
+    background-color: #ffc542;
+  }
+  #check:disabled {
+    background-color: transparent !important;
     color: #14ca48;
     font-weight: 600;
   }
@@ -60,19 +70,19 @@ export const Form = styled.form`
 
 export const GenderWrapper = styled.div`
   display: flex;
-  text-align:center;
-  justify-content:space-around;
-  margin:2rem 2rem 1rem 2rem;
+  text-align: center;
+  justify-content: space-around;
+  margin: 2rem 2rem 1rem 2rem;
   #man,
   #woman {
     display: none;
   }
   #manCheck {
-    border-radius:1rem;
-    background-color: #2E9AFE;
+    border-radius: 1rem;
+    background-color: #2e9afe;
   }
   #womanCheck {
-    border-radius:1rem;
+    border-radius: 1rem;
     background-color: pink;
   }
 `;
@@ -125,7 +135,6 @@ export const PrefrenceModalOverlay = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
 `;
-
 
 export const PrefrenceModalBox = styled.div`
   background: white;

@@ -6,14 +6,14 @@ export const MapWrapper = styled.div`
   z-index: 0;
 `;
 export const SearchResultsWrapper = styled.div`
-  position: absolute;
-  top: 7rem;
-  left: 1rem;
-  width: 85%;
+  position: relative;
+  z-index: 3;
+  top: -106%;
+  left: 2%;
+  width: 90%;
   height: 15rem;
   padding: 0.5rem;
   background: white;
-  margin-top: 1rem;
   border: 0.1rem solid black;
   border-radius: 1rem;
   overflow-y: scroll;

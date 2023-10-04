@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const GetReport = () => {
+const Report = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
@@ -105,4 +105,4 @@ const GetReport = () => {
   );
 };
 
-export default GetReport;
+export default Report;

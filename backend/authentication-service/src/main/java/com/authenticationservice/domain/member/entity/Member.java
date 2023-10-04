@@ -41,8 +41,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "oauth_type", nullable = false)
     private OAuthType oAuthType;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 
     @Enumerated(EnumType.STRING)

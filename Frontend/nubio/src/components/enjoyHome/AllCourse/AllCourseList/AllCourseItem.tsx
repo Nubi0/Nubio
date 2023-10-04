@@ -32,10 +32,14 @@ const AllCourseItem = ({ value }: { value: any }) => {
   };
   return (
     <AllCourseItemWrapper>
-      <BigImg src={place_list[0].img_url === 'not exist' ? noImage : place_list[0].img_url} />
+      <BigImg
+        src={place_list[0].img_url === 'not exist' ? noImage : place_list[0].img_url}
+      />
       <DetailWrapper>
         <HeadContent>
-          <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>{title}</Title>
+          <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>
+            {title}
+          </Title>
           {course_tags.map((value: string, index: number) => {
             return <CourseTag key={index}>{value}</CourseTag>;
           })}

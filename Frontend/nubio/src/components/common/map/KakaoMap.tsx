@@ -19,9 +19,11 @@ import {
   setEndName,
 } from "../../../redux/slice/MapSlice";
 import { useSelector } from "react-redux";
+
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
+import SelectMyLocation from "./SelectMyLocation";
 
 interface placeType {
   place_name: string;
@@ -215,7 +217,7 @@ const KakaoMap = (props: propsType) => {
           window.infowindow.close();
         });
 
-        itemEl.onmouseover = function () {
+        itemEl.onclick = function () {
           displayInfowindow(marker, title);
         };
 
@@ -447,6 +449,7 @@ const KakaoMap = (props: propsType) => {
     });
     marker.setMap(window.map); // 마커를 지도에 표시
   };
+
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     startCurPosition();
@@ -531,11 +534,13 @@ const KakaoMap = (props: propsType) => {
           <p className="result-text">
             {props.searchKeyword}
             검색 결과
+            <SelectMyLocation removeMarker={removeMarker} />
           </p>
           <DestinationWrapper>
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
+
           <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}

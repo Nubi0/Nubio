@@ -37,7 +37,6 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
   const handleSave = () => {
     axios.post('https://nubi0.com/enjoy/v1/enjoy/profile/taste', {taste})
           .then((res) => {
-            console.log(res.data.data)
             closeModal();
           })
           .catch((err) => {
@@ -82,7 +81,8 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
           handleImageClick={handleImageClick}
           selectedImages={selectedImages}
         />
-        <button onClick={handleSave}>닫기</button>
+        <button onClick={closeModal}>닫기</button>
+        <button onClick={handleSave}>저장</button>
       </PrefrenceModalBox>
     </PrefrenceModalOverlay>
   );

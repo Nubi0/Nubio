@@ -215,7 +215,7 @@ const KakaoMap = (props: propsType) => {
           window.infowindow.close();
         });
 
-        itemEl.onmouseover = function () {
+        itemEl.onclick = function () {
           displayInfowindow(marker, title);
         };
 

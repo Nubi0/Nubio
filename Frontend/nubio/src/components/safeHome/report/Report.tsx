@@ -37,7 +37,7 @@ const GetReport = () => {
         </div>`;
           let markerPosition = new kakao.maps.LatLng(
             places[i].latitude,
-            places[i].longitude,
+            places[i].longitude
           );
           let customOverlay = new kakao.maps.CustomOverlay({
             position: markerPosition,
@@ -55,11 +55,10 @@ const GetReport = () => {
             if (index !== null) {
               const selectedPlace = places[index];
               setSelectedPlace(selectedPlace);
-              openModal();
-              // console.log(places[index]);
               if (places[index].identificationFlag === true) {
                 setIdentificationFlag(true);
               }
+              openModal();
             }
           });
         });
@@ -84,7 +83,7 @@ const GetReport = () => {
                       <SwiperSlide key={index}>
                         <img src={fileUrl} alt="사진" />
                       </SwiperSlide>
-                    ),
+                    )
                   )}
               </Swiper>
             </ReportPhotoWrapper>

@@ -4,7 +4,16 @@ export const SafeHomeWrapper = styled.div`
   width: 100vw;
   height: 100vh;
 `;
-
+export const BottomButtonWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 0.5rem;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+`;
 export const LogoIcon = styled.img`
   position: absolute;
   top: 0.5rem;
@@ -13,9 +22,6 @@ export const LogoIcon = styled.img`
   height: 2rem;
 `;
 export const ShelterButton = styled.span`
-  position: absolute;
-  bottom: 0.5rem;
-  right: 13rem;
   color: white;
   padding: 0.4rem;
   border-radius: 1rem;
@@ -86,14 +92,12 @@ export const IconWrapper = styled.div`
 
 // 제보하기
 export const ReportButtonWrapper = styled.div`
-  position: absolute;
   z-index: 2;
-  bottom: 0.5rem;
-  right: 8rem;
   color: white;
   padding: 0.4rem;
   border-radius: 1rem;
   background: #f25260;
+
   // margin: 0 auto;
 `;
 export const ReportButton = styled.span`
@@ -118,7 +122,7 @@ export const ReportIcon = styled.img`
 `;
 export const ReportWrapper = styled.div`
   position: absolute;
-  top: 15%;
+  top: -45rem;
   background: white;
   width: 80%;
   padding: 1.5rem;
@@ -234,6 +238,13 @@ export const ReportPhotoWrapper = styled.div`
     height: 100%;
   }
 `;
+
+export const ReportInfoButtonWrapper = styled.div`
+  display: flex;
+  button {
+    margin: 0.5rem;
+  }
+`;
 // 재난 대피
 export const SafeGuideModalBox = styled.div`
   position: absolute;
@@ -306,7 +317,7 @@ export const RouteInfoWrapper = styled.div`
   position: absolute;
   bottom: 5rem;
   width: 100%;
-  height: 15%;
+  // height: 15%;
   // background: red;
   display: flex;
   justify-content: space-around;
@@ -341,17 +352,18 @@ export const SafeDistanceWrapper = styled.div`
 export const CalamityWrapper = styled.div`
   // background: red;
   width: 100%;
-  height: 30%;
+  // height: 30%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+  padding: 2rem 0;
 `;
 
 export const CalamityMessageWrapper = styled.div`
   width: 80%;
-  height: 100%;
+  // height: 100%;
   margin: auto;
   border: 0.5rem double red;
   background: white;
@@ -373,6 +385,7 @@ export const CalamityMessageWrapper = styled.div`
     color: white;
     border-radius: 1rem;
     margin-left: 1rem;
+    margin-bottom: 1rem;
     padding: 0.2rem 1rem;
   }
   #close {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { LikeListWrapper } from '../../../styles/SLikePage';
 import LikeHeader from './LikeHeader';
-import PlaceList from './place/PlaceList';
 import CourseList from './course/CourseList';
+import MyCourseList from './mycourse/MyCourseList';
 
 const LikeList = () => {
   const [active, setActive] = useState({
@@ -26,10 +26,7 @@ const LikeList = () => {
   return (
     <LikeListWrapper>
       <LikeHeader active={active} handleButton={handleButton} />
-      {active.place ? 
-        <PlaceList /> :
-        <CourseList />
-      }
+      {active.place ? <MyCourseList /> : <CourseList />}
     </LikeListWrapper>
   );
 };

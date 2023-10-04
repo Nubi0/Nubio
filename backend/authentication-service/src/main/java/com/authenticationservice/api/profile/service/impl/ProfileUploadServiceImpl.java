@@ -32,6 +32,7 @@ public class ProfileUploadServiceImpl implements ProfileUploadService {
     private String bucketName;
 
 
+    @Transactional
     @Override
     public void uploadProfile(String category, Member member, MultipartFile file) {
         if (file != null) {

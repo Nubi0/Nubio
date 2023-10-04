@@ -25,21 +25,22 @@ const SafeDirection = ({
   };
   const dispatch = useDispatch();
   const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start,
+    (state: { map: { start: StartCoordinates } }) => state.map.start
   );
   const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end,
+    (state: { map: { end: EndCoordinates } }) => state.map.end
   );
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { map: { startName: string } }) => state.map.startName
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
+    (state: { map: { endName: string } }) => state.map.endName
   );
+
   // 안전경로 길찾기
   const getSafeLocation = () => {
     axios
-      .post("https:/nubi0.com/safe/v1/safe/recommend/node", {
+      .post("https://nubi0.com/safe/v1/safe/recommend/node", {
         start_location: {
           longitude: start.x,
           latitude: start.y,
@@ -75,7 +76,7 @@ const SafeDirection = ({
             ${placeName}</span><span class="right"></span></div>`;
               let markerPosition = new kakao.maps.LatLng(
                 safePlaces[i].location.latitude,
-                safePlaces[i].location.longitude,
+                safePlaces[i].location.longitude
               );
               let customOverlay = new kakao.maps.CustomOverlay({
                 position: markerPosition,
@@ -113,7 +114,7 @@ const SafeDirection = ({
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers },
+        { headers: headers }
       )
       .then((res) => {
         function flattenArray(arr: any) {
@@ -127,7 +128,7 @@ const SafeDirection = ({
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates),
+          flattenArray(feature.geometry.coordinates)
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -188,7 +189,7 @@ const SafeDirection = ({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
-              }),
+              })
             );
           }
         };

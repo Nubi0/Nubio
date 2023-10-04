@@ -4,24 +4,24 @@ type likeProps = {
   active: {
     place: boolean;
     course: boolean;
-  },
+  };
   handleButton: (category: string) => void;
-}
+};
 
-const LikeHeader = ({active, handleButton}: likeProps) => {
+const LikeHeader = ({ active, handleButton }: likeProps) => {
   return (
     <LikeHeaderWrapper>
       <Place
         onClick={() => handleButton('place')}
         className={active.place ? 'active' : ''}
       >
-        장소
+        내가 만든 코스
       </Place>
       <Course
         onClick={() => handleButton('course')}
         className={active.course ? 'active' : ''}
       >
-        코스
+        내가 찜한 코스
       </Course>
     </LikeHeaderWrapper>
   );

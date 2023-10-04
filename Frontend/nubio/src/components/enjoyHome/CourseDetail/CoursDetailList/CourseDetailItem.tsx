@@ -9,7 +9,6 @@ import {
   CategoryName,
   DetailButton,
 } from '../../../../styles/SCourseDeatilPage';
-import { useEffect } from 'react';
 
 type placeProps = {
   place: {
@@ -29,13 +28,22 @@ type placeProps = {
 };
 
 const CourseDetailItem = ({ place }: placeProps) => {
-  const { sequence, address_name, category_group_name, place_name, img_url, place_url, x, y } = place;
+  const {
+    sequence,
+    address_name,
+    category_group_name,
+    place_name,
+    img_url,
+    place_url,
+    x,
+    y,
+  } = place;
   const place_pin = process.env.PUBLIC_URL + '/assets/place_pin.svg';
   const noImage = process.env.PUBLIC_URL + '/assets/noImage.png';
   const marker = new kakao.maps.Marker({
     map: window.map,
     position: new kakao.maps.LatLng(Number(y), Number(x)),
-  })
+  });
 
   return (
     <CourseDetailItemWrapper>

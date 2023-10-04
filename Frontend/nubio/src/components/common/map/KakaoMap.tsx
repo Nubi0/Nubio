@@ -4,6 +4,7 @@ import {
   MapWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
+  ClearRouteButton,
 } from "../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
@@ -12,8 +13,6 @@ import SearchBar from "../search/SearchBar";
 import { useLocation } from "react-router";
 import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
-  setLatitude,
-  setLongitude,
   setStart,
   setEnd,
   setStartName,
@@ -34,14 +33,7 @@ interface placeType {
   x: string;
   y: string;
 }
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
+
 const { kakao } = window as any;
 
 declare global {
@@ -61,10 +53,10 @@ declare global {
 
 const KakaoMap = (props: propsType) => {
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { map: { startName: string } }) => state.map.startName
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
+    (state: { map: { endName: string } }) => state.map.endName
   );
   const dispatch = useDispatch();
 
@@ -104,11 +96,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          }),
+          })
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
         );
       }
     } else {
@@ -424,26 +416,36 @@ const KakaoMap = (props: propsType) => {
         (position) => {
           window.myLatitude = position.coords.latitude;
           window.myLongitude = position.coords.longitude;
-          const map = window.map;
-          map.setCenter(
-            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+
+          window.map.setCenter(
+            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
           );
           // 현재 위치에 마커를 표시
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(
               window.myLatitude,
-              window.myLongitude,
+              window.myLongitude
             ),
           });
-          marker.setMap(map); // 마커를 지도에 표시
+          marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
-        },
+        }
       );
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
     }
+  };
+  const moveMyLocation = () => {
+    window.map.setCenter(
+      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
+    );
+    // 현재 위치에 마커를 표시
+    const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+    });
+    marker.setMap(window.map); // 마커를 지도에 표시
   };
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
@@ -477,7 +479,7 @@ const KakaoMap = (props: propsType) => {
 
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options,
+      options
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -495,7 +497,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng,
+          props.position[i].lng
         ),
       });
 
@@ -517,13 +519,13 @@ const KakaoMap = (props: propsType) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <MyLocation onClick={startCurPosition}>내 위치</MyLocation>
+      <MyLocation onClick={moveMyLocation}>내 위치</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}
         setFindRouteOpen={setFindRouteOpen}
       />
-      {findRouteOpen ? <RouteInfo /> : null}
+      {findRouteOpen && listIsOpen ? <RouteInfo /> : null}
       {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">
@@ -534,6 +536,7 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
+          <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}

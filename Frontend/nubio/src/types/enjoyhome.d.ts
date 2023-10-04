@@ -1,23 +1,24 @@
 interface CourseItem {
-    title: string
-    course_tags: Array
-    favorite_flag: boolean
-    like_count: number
-    place_list: Array
-    course_id: string
-};
+  title: string;
+  course_tags: any[];
+  favorite_flag: boolean;
+  like_count: number;
+  place_list: any[];
+  course_id: string;
+  course_id: number;
+}
 
 interface CourseProps {
-    value: CourseItem
+  value: CourseItem;
 }
 
 interface PlaceItem {
-    place_id: number
-    kakao_id: number
-    place_name: string
-    img_url: string
+  place_id: number;
+  kakao_id: number;
+  place_name: string;
+  img_url: string;
 }
 
 interface PageName {
-    pageName: string
+  pageName: string;
 }

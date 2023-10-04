@@ -15,7 +15,7 @@ export const BottomButtonWrapper = styled.div`
 `;
 export const LogoIcon = styled.img`
   position: absolute;
-  top: 0.5rem;
+  top: 2rem;
   left: 0.5rem;
   width: 4rem;
   height: 2rem;
@@ -348,8 +348,8 @@ export const SafeDistanceWrapper = styled.div`
 // 재난문자
 export const CalamityWrapper = styled.div`
   width: 100%;
-  position: absolute;
-  top: 50%;
+  position: relative;
+  top: -50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;

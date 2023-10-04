@@ -4,7 +4,7 @@ export const SearchWrapper = styled.div``;
 export const SearchBarWrapper = styled.div`
   position: absolute;
   width: 83%;
-  top: 60px;
+  top: 70px;
   left: 30px;
   z-index: 2;
   input {

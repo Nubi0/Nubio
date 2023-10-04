@@ -39,7 +39,8 @@ public class Profile extends BaseEntity {
     private Active active = Active.from(true);
 
     @Builder
-    public Profile(FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
+    public Profile(Member member, FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
+        this.member = member;
         this.fileName = fileName;
         this.fileUrl = fileUrl;
         this.fileSize = fileSize;

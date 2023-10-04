@@ -43,7 +43,7 @@ public class OauthLoginService {
             log.info("kakao 신규 유저 회원가입");
             oauthMember = userInfo.toMemberEntity(oauthType, Role.ROLE_USER);
             oauthMember.setPassword(Password.of("random", passwordEncoder));
-            oauthMember = memberService.register(oauthMember);
+            oauthMember = memberService.register(oauthMember, userInfo.getProfileUrl());
         } else { // 기존 회원일 경우
             log.info("kakao 기존 유저 로그인");
             oauthMember = optionalMember.get();

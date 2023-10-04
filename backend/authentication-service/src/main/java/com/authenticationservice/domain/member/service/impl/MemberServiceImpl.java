@@ -6,6 +6,12 @@ import com.authenticationservice.domain.member.entity.type.Identification;
 import com.authenticationservice.domain.member.exception.DuplicateMemberException;
 import com.authenticationservice.domain.member.repository.MemberRepository;
 import com.authenticationservice.domain.member.service.MemberService;
+import com.authenticationservice.domain.profile.entity.Profile;
+import com.authenticationservice.domain.profile.entity.type.Active;
+import com.authenticationservice.domain.profile.entity.type.FileName;
+import com.authenticationservice.domain.profile.entity.type.FileSize;
+import com.authenticationservice.domain.profile.entity.type.FileUrl;
+import com.authenticationservice.domain.profile.repository.ProfileRepository;
 import com.authenticationservice.global.error.ErrorCode;
 import com.authenticationservice.global.error.exception.AuthenticationException;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +27,21 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final ProfileRepository profileRepository;
 
     @Override
     @Transactional
-    public Member register(Member member) {
+    public Member register(Member member, String profileUrl) {
         validateDuplicateMember(member);
         member.setIdentification(Identification.createIdentification());
+        Profile profile = Profile.builder()
+                .member(member)
+                .fileUrl(FileUrl.from(profileUrl))
+                .fileSize(FileSize.from(1L))
+                .active(Active.from(true))
+                .build();
+        member.setProfile(profile);
+//        Profile savedProfile = profileRepository.save(profile);
         return memberRepository.save(member);
     }
 

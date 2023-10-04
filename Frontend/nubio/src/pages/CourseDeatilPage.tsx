@@ -40,7 +40,7 @@ const CourseDetailPage = () => {
       <EnjoyHeader pageName="코스 이름" />
       <Map />
       <CourseDetailList place_list={place_list} course_info={course_info} />
-      <CourseButton course_info={course_info} />
+      <CourseButton course_info={course_info} setCourseInfo={setCourseInfo} setPlaceList={setPlaceList} />
       <Footer />
     </CourseDetailPageWrapper>
   );

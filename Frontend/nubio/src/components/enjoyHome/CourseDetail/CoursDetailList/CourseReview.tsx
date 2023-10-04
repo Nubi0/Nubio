@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import {
@@ -8,13 +8,18 @@ import {
 } from '../../../../styles/SCourseDeatilPage';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import useInput from '../../../../hooks/useInput';
 import CourseReviewList from './CourseReviewList';
 
 const CourseReview = () => {
   const [value, setValue] = useState<number | null>(0);
+  const [reviewList, setReviewList] = useState<any[]>([]);
   const { courseId } = useParams();
-  const [review, onReview] = useInput('');
+  const [review, setReview] = useState<any>('');
+
+  const handleReview = (e: any) => {
+    setReview(e.target.value)
+  }
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await axios
@@ -23,12 +28,32 @@ const CourseReview = () => {
         { point: value, content: review }
       )
       .then((res) => {
-        console.log(res);
+        axios
+        .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`)
+        .then((res) => {
+            setReviewList(res.data.data.review_list);
+            setValue(0);
+            setReview('');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`)
+      .then((res) => {
+        setReviewList(res.data.data.review_list);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <CourseReviewWrapper>
@@ -37,7 +62,8 @@ const CourseReview = () => {
         <input
           type="text"
           placeholder="이 코스의 후기를 남겨주세요."
-          onChange={onReview}
+          onChange={handleReview}
+          value={review}
         />
         <Box>
           <Rating
@@ -51,7 +77,7 @@ const CourseReview = () => {
       </ReviewForm>
       <hr />
       <br />
-      <CourseReviewList />
+      <CourseReviewList reviewList={reviewList} setReviewList={setReviewList} />
     </CourseReviewWrapper>
   );
 };

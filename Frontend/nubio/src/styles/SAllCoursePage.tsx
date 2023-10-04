@@ -79,7 +79,7 @@ export const CourseTag = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 0.25rem;
-  padding: 0 0.5rem;
+  padding: 0 0.25rem;
 `;
 
 export const FavImg = styled.img`

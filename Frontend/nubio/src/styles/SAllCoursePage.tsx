@@ -90,7 +90,7 @@ export const PlaceItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 0.5rem;
+  margin-right: 0.7rem;
 `;
 
 export const PlaceImg = styled.img`
@@ -101,6 +101,8 @@ export const PlaceImg = styled.img`
 
 export const PlaceName = styled.div`
   font-size: 0.5rem;
+  width: 3.5rem;
+  word-break: keep-all;
 `;
 
 export const PlaceListWrapper = styled.div`

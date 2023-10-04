@@ -21,9 +21,12 @@ public enum DetailType {
     THEME_PARK("테마파크"),
     BEACH("해수욕장"),
     CULTURAL_HERITAGE("문화재"),
-    ISLAND("섬"),
+    WORKSHOP("공방"),
 
-    ALCOHOL("술"),
+    BEER("맥주"),
+    SOJU("소주"),
+    WINE("와인"),
+    COCKTAIL("칵테일"),
     COFFEE("커피"),
     ICE_CREAM("아이스크림")
     ;

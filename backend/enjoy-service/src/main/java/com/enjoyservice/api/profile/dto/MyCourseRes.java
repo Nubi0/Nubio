@@ -24,6 +24,8 @@ public class MyCourseRes {
     @Builder
     public static class CourseInfo {
 
+        @JsonProperty("course_id")
+        private long courseId;
         private String title;
         @JsonProperty("course_tags")
         private List<String> tagInfos;

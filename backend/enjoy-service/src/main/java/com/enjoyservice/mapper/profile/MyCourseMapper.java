@@ -33,6 +33,7 @@ public class MyCourseMapper {
                             .toList();
 
                     return MyCourseRes.CourseInfo.builder()
+                            .courseId(course.getId())
                             .title(course.getTitle().getValue())
                             .tagInfos(course.getCourseTags().stream()
                                     .map(ct -> ct.getTag().getName().getValue())

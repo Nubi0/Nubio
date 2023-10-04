@@ -73,13 +73,13 @@ export const CourseTag = styled.div`
   border: 0.5px solid #f9373f;
   border-radius: 10px;
   font-size: 0.5rem;
-  width: 2rem;
   height: 1rem;
   color: #f9373f;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 0.25rem;
+  padding: 0 0.5rem;
 `;
 
 export const FavImg = styled.img`

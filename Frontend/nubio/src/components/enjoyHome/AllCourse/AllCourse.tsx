@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AllCourseWrapper } from '../../../styles/SAllCoursePage';
 import AllCourseHeader from './AllCourseHeader';
 import AllCourseList from './AllCourseList/AllCourseList';
 import Category from './Category';
+import { resetCourseTag } from '../../../redux/slice/EnjoySlice';
+import { useDispatch } from 'react-redux';
 
 const AllCourse = ({ handleModal }: AllCourseProps) => {
   const [active, setActive] = useState({
     all: true,
     popular: false,
   })
+  const dispatch = useDispatch();
+
   const handleButton = (category: string) => {
       if(category === 'all'){
           setActive({
@@ -22,6 +26,10 @@ const AllCourse = ({ handleModal }: AllCourseProps) => {
           })
       }
   }
+  useEffect(() => {
+    dispatch(resetCourseTag());
+  })
+
   return (
     <AllCourseWrapper>
       <AllCourseHeader handleModal={handleModal} />

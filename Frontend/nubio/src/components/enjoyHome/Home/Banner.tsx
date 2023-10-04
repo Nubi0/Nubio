@@ -13,7 +13,7 @@ const Banner = () => {
             url: process.env.PUBLIC_URL + '/assets/banner/banner1.png'
         },
         {
-            url: process.env.PUBLIC_URL + '/assets/banner/banner2.png',
+            url: process.env.PUBLIC_URL + '/assets/banner/Banner3.svg',
         }    
     ]
     return (

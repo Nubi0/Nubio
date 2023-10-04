@@ -5,7 +5,6 @@ import AllCourseItem from '../../../enjoyHome/AllCourse/AllCourseList/AllCourseI
 
 const MyCourseList = () => {
   const [course, setCourse] = useState<object[]>([]);
-  console.log(course);
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/course')

@@ -73,13 +73,13 @@ export const CourseTag = styled.div`
   border: 0.5px solid #f9373f;
   border-radius: 10px;
   font-size: 0.5rem;
-  width: 2rem;
   height: 1rem;
   color: #f9373f;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 0.25rem;
+  padding: 0 0.25rem;
 `;
 
 export const FavImg = styled.img`
@@ -90,7 +90,7 @@ export const PlaceItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 0.5rem;
+  margin-right: 0.7rem;
 `;
 
 export const PlaceImg = styled.img`
@@ -101,6 +101,8 @@ export const PlaceImg = styled.img`
 
 export const PlaceName = styled.div`
   font-size: 0.5rem;
+  width: 3.5rem;
+  word-break: keep-all;
 `;
 
 export const PlaceListWrapper = styled.div`

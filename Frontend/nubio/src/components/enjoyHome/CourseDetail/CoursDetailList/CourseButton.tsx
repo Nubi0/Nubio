@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CourseButtonWrapper, ButtonDivider } from '../../../../styles/SCourseDeatilPage';
 import { useParams } from 'react-router-dom';
 
-const CourseButton = ({ course_info }: { course_info: any }) => {
+const CourseButton = ({ course_info, setPlaceList, setCourseInfo }: { course_info: any, setPlaceList: any, setCourseInfo: any }) => {
   const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';
   const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/starFill.svg';
   const share = process.env.PUBLIC_URL + '/assets/share.svg';
@@ -15,6 +15,16 @@ const CourseButton = ({ course_info }: { course_info: any }) => {
       )
       .then((res) => {
         console.log(res.data);
+        axios.get(
+          `https://nubi0.com/enjoy/v1/enjoy/course/${courseId}`
+        )
+        .then((res) => {
+          setPlaceList(res.data.data.place_list);
+          setCourseInfo(res.data.data.course_info);
+        })
+       .catch ((err) => {
+        console.error(err);
+      })
       })
       .catch((err) => {
         console.error(err);

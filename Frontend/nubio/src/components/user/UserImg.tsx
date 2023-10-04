@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { ImgPlus, MyImg, ProfileImg } from "../../styles/SProfilePage";
 import { useDispatch, useSelector } from 'react-redux';
+import { setProfileUrl } from '../../redux/slice/Profileslice';
 
 const UserImg = ({setIsChange}: any) => {
     const user = process.env.PUBLIC_URL + "/assets/user.png";
@@ -17,10 +18,10 @@ const UserImg = ({setIsChange}: any) => {
             console.log(e.target.files.length)
             const file = e.target.files[0];
             const imgUrl = URL.createObjectURL(file);
-            setImage(imgUrl);
+            dispatch(setProfileUrl(imgUrl));
             
         } else {
-            setImage(prevImage);
+            dispatch(setProfileUrl(prevImage));
         }
     }
 

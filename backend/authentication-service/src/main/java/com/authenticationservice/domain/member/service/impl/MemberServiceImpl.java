@@ -36,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
         member.setIdentification(Identification.createIdentification());
         Profile profile = Profile.builder()
                 .member(member)
+                .fileName(FileName.from(member.getNickname().getValue()))
                 .fileUrl(FileUrl.from(profileUrl))
                 .fileSize(FileSize.from(1L))
                 .active(Active.from(true))

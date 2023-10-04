@@ -28,19 +28,19 @@ const ShortDirection = ({
   };
   const dispatch = useDispatch();
   const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start,
+    (state: { map: { start: StartCoordinates } }) => state.map.start
   );
   const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end,
+    (state: { map: { end: EndCoordinates } }) => state.map.end
   );
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { map: { startName: string } }) => state.map.startName
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
+    (state: { map: { endName: string } }) => state.map.endName
   );
   const safePlaces = useSelector(
-    (state: { map: { safePlace: any } }) => state.map.safePlace,
+    (state: { map: { safePlace: any } }) => state.map.safePlace
   );
   // 최단거리 길찾기
   const getShortDirection = () => {
@@ -61,25 +61,9 @@ const ShortDirection = ({
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers },
+        { headers: headers }
       )
       .then((res) => {
-        for (let i = 0; i < safePlaces.length; i++) {
-          window.safeCustomOverlay.setMap(null);
-        }
-        for (let i = 0; i < safePlaces.length; i++) {
-          let content = ``;
-          let markerPosition = new kakao.maps.LatLng(
-            safePlaces[i].location.latitude,
-            safePlaces[i].location.longitude,
-          );
-          let customOverlay = new kakao.maps.CustomOverlay({
-            position: markerPosition,
-            content: content,
-          });
-          window.safeCustomOverlay = customOverlay;
-          window.safeCustomOverlay.setMap(null);
-        }
         function flattenArray(arr: any) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {
@@ -90,8 +74,9 @@ const ShortDirection = ({
             return acc;
           }, []);
         }
+        console.log(res.data.features);
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates),
+          flattenArray(feature.geometry.coordinates)
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -99,6 +84,7 @@ const ShortDirection = ({
             coordinatesList.push([coordinates[i], coordinates[i + 1]]);
           }
         }
+        console.log(coordinatesList);
         const convertedCoordinatesList = coordinatesList.map((coord: any) => {
           const fromProjection = "EPSG:3857";
           const toProjection = "EPSG:4326";
@@ -152,7 +138,7 @@ const ShortDirection = ({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
-              }),
+              })
             );
           }
         };

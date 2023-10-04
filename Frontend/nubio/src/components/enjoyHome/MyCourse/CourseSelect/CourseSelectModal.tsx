@@ -4,13 +4,15 @@ import PurposeItem from "../../common/PurposeItem";
 import axios from 'axios';
 import useInput from '../../../../hooks/useInput';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 const CourseSelectModal = ({setModal}: any) => {
     const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
     const [title, setTitle] = useInput('');
     const positions = useSelector((state: any) => state.enjoy.positions);
-    console.log(positions);
+    const navigate = useNavigate();
     const location = useSelector((state: any) => state.enjoy.location);
 
     const handlePurposeClick = (purpose: string) => {
@@ -42,8 +44,16 @@ const CourseSelectModal = ({setModal}: any) => {
         }
         await axios.post('https://nubi0.com/enjoy/v1/enjoy/course', config)
                 .then((res) => {
-                console.log(res.data.data);
-                setModal();
+                    setModal();
+                    Swal.fire({
+                        title: '코스 저장 완료',
+                        icon: 'success',
+                        text: '저장한 코스는 프로필-내 코스 에서 확인하실 수 있습니다.'
+                    })
+                    .then(() =>
+                        navigate('/enjoy')
+                    )
+                    
                 })
                 .catch((err) => {
                 console.error(err);

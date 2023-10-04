@@ -67,6 +67,9 @@ const EnjoySlice = createSlice({
         state.course_tag.push(name);
       }
     },
+    resetCourseTag: (state) => {
+      state.course_tag = [];
+    },
     setCourseList: (state, action) => {
       state.courseList = action.payload;
     },
@@ -82,5 +85,5 @@ const EnjoySlice = createSlice({
   },
 });
 
-export const { setManager, setTime, setPosition, setTag, setCourseList, setLocation, setCoursePoint, resetPosition, setRegion } = EnjoySlice.actions;
+export const { setManager, setTime, setPosition, setTag, setCourseList, setLocation, setCoursePoint, resetPosition, setRegion, resetCourseTag } = EnjoySlice.actions;
 export default EnjoySlice.reducer;

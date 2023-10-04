@@ -13,8 +13,6 @@ import SearchBar from "../search/SearchBar";
 import { useLocation } from "react-router";
 import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
-  setLatitude,
-  setLongitude,
   setStart,
   setEnd,
   setStartName,
@@ -35,14 +33,7 @@ interface placeType {
   x: string;
   y: string;
 }
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
+
 const { kakao } = window as any;
 
 declare global {
@@ -62,10 +53,10 @@ declare global {
 
 const KakaoMap = (props: propsType) => {
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { map: { startName: string } }) => state.map.startName
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
+    (state: { map: { endName: string } }) => state.map.endName
   );
   const dispatch = useDispatch();
 
@@ -105,11 +96,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          }),
+          })
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
         );
       }
     } else {
@@ -427,20 +418,20 @@ const KakaoMap = (props: propsType) => {
           window.myLongitude = position.coords.longitude;
 
           window.map.setCenter(
-            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
           );
           // 현재 위치에 마커를 표시
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(
               window.myLatitude,
-              window.myLongitude,
+              window.myLongitude
             ),
           });
           marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
-        },
+        }
       );
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
@@ -448,7 +439,7 @@ const KakaoMap = (props: propsType) => {
   };
   const moveMyLocation = () => {
     window.map.setCenter(
-      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
+      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
     );
     // 현재 위치에 마커를 표시
     const marker = new kakao.maps.Marker({
@@ -488,7 +479,7 @@ const KakaoMap = (props: propsType) => {
 
     // Drawing Manager 객체 생성
     const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options,
+      options
     );
     managerInstance.addListener("drawend", () => {
       drawnData = managerInstance.getData();
@@ -506,7 +497,7 @@ const KakaoMap = (props: propsType) => {
         `,
         position: new window.kakao.maps.LatLng(
           props.position[i].lat,
-          props.position[i].lng,
+          props.position[i].lng
         ),
       });
 
@@ -534,7 +525,7 @@ const KakaoMap = (props: propsType) => {
         setListIsOpen={setListIsOpen}
         setFindRouteOpen={setFindRouteOpen}
       />
-      {findRouteOpen ? <RouteInfo /> : null}
+      {findRouteOpen && listIsOpen ? <RouteInfo /> : null}
       {props.searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">

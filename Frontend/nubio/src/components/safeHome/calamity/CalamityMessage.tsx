@@ -31,7 +31,7 @@ const CalamityMessage = () => {
         {
           longitude: 128.5934,
           latitude: 35.8556,
-        },
+        }
         // {
         //   window.myLatitude,
         //   window.myLongitude,
@@ -53,7 +53,6 @@ const CalamityMessage = () => {
 
   useEffect(() => {
     getCalamity();
-    // setInterval(getCalamity, 60000);
   }, []);
 
   return (

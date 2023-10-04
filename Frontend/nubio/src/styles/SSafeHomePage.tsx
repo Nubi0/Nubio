@@ -363,7 +363,7 @@ export const CalamityWrapper = styled.div`
 
 export const CalamityMessageWrapper = styled.div`
   width: 80%;
-  height: 100%;
+  // height: 100%;
   margin: auto;
   border: 0.5rem double red;
   background: white;
@@ -385,6 +385,7 @@ export const CalamityMessageWrapper = styled.div`
     color: white;
     border-radius: 1rem;
     margin-left: 1rem;
+    margin-bottom: 1rem;
     padding: 0.2rem 1rem;
   }
   #close {

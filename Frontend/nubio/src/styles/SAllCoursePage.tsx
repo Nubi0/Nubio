@@ -3,11 +3,14 @@ import styled from 'styled-components';
 export const AllCoursePageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  position: relative;
 `;
 
 export const AllCourseWrapper = styled.div`
   padding-bottom: 5.4rem;
   margin: 0 1rem;
+  overflow-y: hidden;
 `;
 
 export const AllCourseHeaderWrapper = styled.div`
@@ -41,6 +44,8 @@ export const CategoryWrapper = styled.div`
 
 export const AllCourseListWrapper = styled.div`
   margin-top: 1rem;
+  overflow-y: scroll;
+  height: calc(100% - 3.4rem);
 `;
 
 export const AllCourseItemWrapper = styled.div`

@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const CourseDetailPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: calc(100vh - 6.4rem);
+  width: 430px;
+  height: 100%;
+  position: relative;
 `;
 
 export const CourseDetailWrapper = styled.div`

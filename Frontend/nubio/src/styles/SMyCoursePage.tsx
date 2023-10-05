@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const MyCoursePageWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
+    height: 100%;
 `;
 
 export const MyCourseWrapper = styled.div`

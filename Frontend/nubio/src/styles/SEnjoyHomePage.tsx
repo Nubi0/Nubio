@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const EnjoyHomePageWrapper = styled.div`
-    height: 100vh;
+    height: 100%;
+    position: relative;
 `;
 
 export const AllButtonWrapper = styled.div`
@@ -70,6 +71,6 @@ export const TitleWrapper = styled.div`
 
 export const CourseMakerIconWrapper = styled.div`
     position: absolute;
-    bottom: 5.4rem;
+    bottom: 3.4rem;
     right: 1rem;
 `;

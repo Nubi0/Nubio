@@ -33,6 +33,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
     searchPlaces(Value);
     setFindRouteOpen(false);
   };
+
   const inputClick = () => {
     setListIsOpen(true);
     searchPlaces(Value);

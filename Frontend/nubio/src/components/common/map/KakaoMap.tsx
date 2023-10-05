@@ -17,6 +17,9 @@ import {
   setEnd,
   setStartName,
   setEndName,
+  setShortTime,
+  setSafeTime,
+  setkeyWord,
 } from "../../../redux/slice/MapSlice";
 import { useSelector } from "react-redux";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
@@ -25,6 +28,7 @@ import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
 import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
 import Report from "../../safeHome/report/Report";
+import RootState from "../../../types/RootState";
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -50,6 +54,7 @@ declare global {
     safeCustomOverlay: any;
     myLatitude: any;
     myLongitude: any;
+    shelterCustomOverlay: any;
   }
 }
 
@@ -57,11 +62,13 @@ const KakaoMap = (props: propsType) => {
   const mapRef = useRef(null);
 
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName
+    (state: { map: { startName: string } }) => state.map.startName,
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName
+    (state: { map: { endName: string } }) => state.map.endName,
   );
+  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
+
   const dispatch = useDispatch();
 
   const [listIsOpen, setListIsOpen] = useState(false);
@@ -72,11 +79,24 @@ const KakaoMap = (props: propsType) => {
   let drawnData: any[] = [];
 
   // 라인, 마커 삭제
-  function clearRoute() {
+  const clearRoute = () => {
     window.polyline?.setMap(null);
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
-  }
+  };
+  const clearAllRoute = () => {
+    window.polyline?.setMap(null);
+    window.safeCustomOverlay?.setMap(null);
+    window.endCustomOverlay?.setMap(null);
+    window.startCustomOverlay?.setMap(null);
+    dispatch(setStartName(""));
+    dispatch(setEndName(""));
+    dispatch(setShortTime(null));
+    dispatch(setSafeTime(null));
+    setFindRouteOpen(false);
+    removeSafeMarker();
+    removeMarker();
+  };
 
   const getDrawnLines = () => {
     const drawnPolylines =
@@ -100,11 +120,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          })
+          }),
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {
@@ -147,7 +167,6 @@ const KakaoMap = (props: propsType) => {
       console.log("키워드를 입력해주세요!");
       return false;
     }
-
     // 장소검색 객체를 통해 키워드로 장소검색을 요청
     window.ps.keywordSearch(keyword, placesSearchCB);
   }
@@ -201,7 +220,7 @@ const KakaoMap = (props: propsType) => {
       // 마커를 생성하고 지도에 표시
       let placePosition = new window.kakao.maps.LatLng(
           places[i].y,
-          places[i].x
+          places[i].x,
         ),
         marker = addMarker(placePosition, i, undefined),
         itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
@@ -345,7 +364,7 @@ const KakaoMap = (props: propsType) => {
       markerImage = new window.kakao.maps.MarkerImage(
         imageSrc,
         imageSize,
-        imgOptions
+        imgOptions,
       ),
       marker = new window.kakao.maps.Marker({
         position: position, // 마커의 위치
@@ -359,13 +378,20 @@ const KakaoMap = (props: propsType) => {
   }
 
   // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-  function removeMarker() {
+  const removeMarker = () => {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
     markers = [];
-  }
-
+  };
+  const safePlaces = useSelector(
+    (state: { map: { safePlace: any } }) => state.map.safePlace,
+  );
+  const removeSafeMarker = () => {
+    for (let i = 0; i < safePlaces.length; i++) {
+      window.safeCustomOverlay.setMap(null);
+    }
+  };
   // 검색결과 목록 하단에 페이지번호를 표시는 함수
   function displayPagination(pagination: {
     last: number;
@@ -429,20 +455,20 @@ const KakaoMap = (props: propsType) => {
           window.myLongitude = position.coords.longitude;
 
           window.map.setCenter(
-            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
+            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
           );
           // 현재 위치에 마커를 표시
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(
               window.myLatitude,
-              window.myLongitude
+              window.myLongitude,
             ),
           });
           marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
-        }
+        },
       );
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
@@ -451,7 +477,7 @@ const KakaoMap = (props: propsType) => {
 
   const moveMyLocation = () => {
     window.map.setCenter(
-      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
+      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
     );
     // 현재 위치에 마커를 표시
     const marker = new kakao.maps.Marker({
@@ -494,7 +520,7 @@ const KakaoMap = (props: propsType) => {
 
       // Drawing Manager 객체 생성
       const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-        options
+        options,
       );
       managerInstance.addListener("drawend", () => {
         drawnData = managerInstance.getData();
@@ -512,10 +538,9 @@ const KakaoMap = (props: propsType) => {
         `,
           position: new window.kakao.maps.LatLng(
             props.position[i].lat,
-            props.position[i].lng
+            props.position[i].lng,
           ),
         });
-
         customOverlay.setMap(map);
       }
 
@@ -547,10 +572,10 @@ const KakaoMap = (props: propsType) => {
         setFindRouteOpen={setFindRouteOpen}
       />
       {findRouteOpen && listIsOpen ? <RouteInfo /> : null}
-      {props.searchKeyword !== "" && listIsOpen ? (
+      {searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">
-            {props.searchKeyword}
+            {searchKeyword}
             검색 결과
             <SelectMyLocation removeMarker={removeMarker} />
           </p>
@@ -558,7 +583,9 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-          <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
+          <ClearRouteButton onClick={clearAllRoute}>
+            경로 지우기
+          </ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}

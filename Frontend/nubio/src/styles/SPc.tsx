@@ -14,7 +14,9 @@ export const Wrapper = styled.div`
 `;
 
 export const PcWrapper = styled.div`
-  width: 70%;
+  width: 65%;
+  height: 50%;
+  // background: red;
 `;
 
 // 제목
@@ -48,7 +50,7 @@ export const ContentWrapper = styled.div`
   div {
     display: flex;
     justify-content: center;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
   img {
     width: 8%;

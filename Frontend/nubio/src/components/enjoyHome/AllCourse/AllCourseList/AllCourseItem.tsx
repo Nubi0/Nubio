@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router';
 
 const AllCourseItem = ({ value }: { value: any }) => {
   const { title, favorite_flag, course_tags, place_list } = value;
-  const starFill = process.env.PUBLIC_URL + '/assets/starFill.svg';
-  const star = process.env.PUBLIC_URL + '/assets/star.svg';
+  const starFill = process.env.PUBLIC_URL + '/assets/smallStarFill.svg';
+  const star = process.env.PUBLIC_URL + '/assets/smallStar.svg';
   const noImage = process.env.PUBLIC_URL + '/assets/noImage.png';
   const navigate = useNavigate();
   const handleFav = () => {
@@ -32,10 +32,20 @@ const AllCourseItem = ({ value }: { value: any }) => {
   };
   return (
     <AllCourseItemWrapper>
-      <BigImg src={place_list[0].img_url === 'not exist' ? noImage : place_list[0].img_url} />
+      <BigImg
+        src={
+          place_list.length > 0 && place_list[0].img_url === 'not exist'
+            ? noImage
+            : place_list.length > 0
+            ? place_list[0].img_url
+            : noImage
+        }
+      />
       <DetailWrapper>
         <HeadContent>
-          <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>{title}</Title>
+          <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>
+            {title}
+          </Title>
           {course_tags.map((value: string, index: number) => {
             return <CourseTag key={index}>{value}</CourseTag>;
           })}

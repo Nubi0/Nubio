@@ -15,7 +15,8 @@ const ProfilePage = () => {
   const newNickName = useSelector((state: any) => state.profile.newNickName);
   const gender = useSelector((state: any) => state.profile.gender);
   const birth = useSelector((state: any) => state.profile.birth);
-  const profileUrl = useSelector((state: any) => state.profile.profileUrl);
+  const [file, setFile] = useState<any>(null);
+  const [nickCheck, setNickCheck] = useState(false);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -26,43 +27,51 @@ const ProfilePage = () => {
   };
 
   const save = () => {
-    Swal.fire({
-      position: "center",
-      title: "변경사항을 \n저장하시겠습니까?",
-      text: "NUBIO",
-      showConfirmButton: true,
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니요",
-      color: "black",
-  }).then((res) => {
-    if(res.isConfirmed){
-      const config = {
-        birth: birth,
-        gender: gender,
-        nickname: newNickName,
-        profileUrl: profileUrl,
-      }
-      console.log(config);
-      axios.patch(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/me', config,
-        {
-          headers: {
-            "Content-Type": `multipart/form-data`,
-            }
-        })
-          .then((res) => {
-            console.log(res);
-            Swal.fire({
-              title: '회원정보 수정 완료',
-              text: 'NUBIO',
-              icon: 'success',
-            })
-          })
-          .catch((err) => {
-            console.error(err);
-          })
-        }
+    if(!nickCheck) {
+      Swal.fire({
+        title: '중복된 닉네임입니다.',
+        icon: 'error',
+        text: 'NUBIO',
       })
+    } else {
+        Swal.fire({
+          position: "center",
+          title: "변경사항을 \n저장하시겠습니까?",
+          text: "NUBIO",
+          showConfirmButton: true,
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니요",
+          color: "black",
+      }).then((res) => {
+        if(res.isConfirmed){
+          const config = {
+            birth: birth,
+            gender: gender,
+            nickname: newNickName,
+            profileUrl: file,
+          }
+          console.log(config);
+          axios.patch(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/me', config,
+            {
+              headers: {
+                "content-type": `multipart/form-data`,
+                }
+            })
+              .then((res) => {
+                console.log(res);
+                Swal.fire({
+                  title: '회원정보 수정 완료',
+                  text: 'NUBIO',
+                  icon: 'success',
+                })
+              })
+              .catch((err) => {
+                console.error(err);
+              })
+            }
+          })
+    }
   }
 
   useEffect(() => {
@@ -74,7 +83,7 @@ const ProfilePage = () => {
     <ProfilePageWrapper>
       {isModalOpen ? <SetPrefrenceModal closeModal={closeModal} /> : null}
       <EnjoyHeader pageName="마이페이지" />
-      <Profile openModal={openModal} />
+      <Profile openModal={openModal} setFile={setFile} setNickCheck={setNickCheck} />
       {isChange && <SaveButton onClick={save}>저장</SaveButton>}
       <Footer />
     </ProfilePageWrapper>

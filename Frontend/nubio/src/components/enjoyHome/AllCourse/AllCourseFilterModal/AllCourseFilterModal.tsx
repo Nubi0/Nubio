@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTag } from '../../../../redux/slice/EnjoySlice';
+import { setCourseList, setTag } from '../../../../redux/slice/EnjoySlice';
 import {
   Modal,
   ModalBody,
@@ -19,7 +19,7 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
   handleModal,
 }) => {
   const dispatch = useDispatch();
-  const course_tag = useSelector((state: any) => state.enjoy.course_tag);
+  const course_tags = useSelector((state: any) => state.enjoy.course_tag);
   const purposes = [
     '인생샷 찍기',
     '산책',
@@ -45,10 +45,9 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
   };
 
   const handleSave = async () => {
-    const config = course_tag
-    await axios.post('https://nubi0.com/enjoy/v1/enjoy/course/filter', {config})
+    await axios.post('https://nubi0.com/enjoy/v1/enjoy/course/filter', {course_tags})
           .then((res) => {
-            console.log(res.data);
+            dispatch(setCourseList(res.data.data.course_list));
             handleModal();
           })
           .catch((err) => {
@@ -61,7 +60,7 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
         <ModalHeader>목적</ModalHeader>
         <ModalBody>
           {purposes.map((purpose: string, index: number) => {
-            const isSelected = course_tag.includes(purpose);
+            const isSelected = course_tags.includes(purpose);
             return (
               <PurposeItem
                 purpose={purpose}

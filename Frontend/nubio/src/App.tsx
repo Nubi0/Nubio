@@ -11,23 +11,44 @@ import {
 } from "./styles/SPc";
 function App() {
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
+  const background = process.env.PUBLIC_URL + "/assets/pc/background.jpg";
+  const safeIcon = process.env.PUBLIC_URL + "/assets/pc/safeIcon.png";
+  const customIcon = process.env.PUBLIC_URL + "/assets/pc/customIcon.png";
+  const recommendIcon = process.env.PUBLIC_URL + "/assets/pc/recommendIcon.png";
+  const reportIcon = process.env.PUBLIC_URL + "/assets/pc/reportIcon.png";
   return (
     <Wrapper>
+      <img src={background} alt="배경" id="background" />
       <PcWrapper>
-        <TitleWrapper>
-          <img src={logo} alt="로고" id="logo" />
-          <TitleTextWrapper>
-            <h1 id="safe">안전하고</h1>
-            <h1 id="mapp">즐거운</h1>
-            <h1 id="share">데이트를 위한</h1>
-          </TitleTextWrapper>
-          <h1>지도 공유 서비스</h1>
-        </TitleWrapper>
-        {/* <ContentWrapper>
-          <h1 id="recommend">취향을 바탕으로 맞춤형 코스 추천</h1>
-          <h1 id="custom">코스를 직접 커스텀</h1>
-          <h1 id="safe">목적지까지 안전한 길 추천!</h1>
-        </ContentWrapper> */}
+        <div id="check">
+          <TitleWrapper>
+            <img src={logo} alt="로고" id="logo" />
+            <TitleTextWrapper>
+              <h1 id="safeTitle">안전하고</h1>
+              <h1 id="happyTitle">즐거운</h1>
+              <h1 id="shareTitle">데이트를 위한</h1>
+            </TitleTextWrapper>
+            <h1>지도 공유 서비스</h1>
+          </TitleWrapper>
+          <ContentWrapper>
+            <div>
+              <img src={recommendIcon} alt="" />
+              <h1 id="recommendContent">취향을 바탕으로 맞춤형 코스 추천</h1>
+            </div>
+            <div>
+              <img src={customIcon} alt="" />
+              <h1 id="customContent">코스를 직접 커스텀</h1>
+            </div>
+            <div>
+              <img src={safeIcon} alt="" />
+              <h1 id="safeContent">목적지까지 안전한 길 추천</h1>
+            </div>
+            <div>
+              <img src={reportIcon} alt="" />
+              <h1 id="safeContent">위험구역 제보 공유</h1>
+            </div>
+          </ContentWrapper>
+        </div>
       </PcWrapper>
       <Provider store={store}>
         <div
@@ -37,6 +58,7 @@ function App() {
             height: "932px",
             border: "0.3rem solid black",
             marginTop: "1rem",
+            background: "white",
           }}
         >
           <BrowserRouter>

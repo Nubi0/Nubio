@@ -3,6 +3,14 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.div`
   width: 100vw;
   display: flex;
+  #background{
+    position:absolute;
+    z-index:-9999;
+    width:100%;
+    height:100%;
+    opacity: 0.3;
+  }
+  }
 `;
 
 export const PcWrapper = styled.div`
@@ -11,23 +19,24 @@ export const PcWrapper = styled.div`
 
 // 제목
 export const TitleWrapper = styled.div`
+  margin-top: 5%;
   text-align: center;
   img {
     width: 30rem;
   }
   h1 {
-    margin: 0;
     font-size: 3rem;
+    margin: 0 0.5rem;
   }
 `;
 
 export const TitleTextWrapper = styled.div`
   display: flex;
   justify-content: center;
-  #safe {
+  #safeTitle {
     color: #41d992;
   }
-  #map {
+  #happyTitle {
     color: #ffc542;
   }
 `;
@@ -35,16 +44,23 @@ export const TitleTextWrapper = styled.div`
 // 내용
 
 export const ContentWrapper = styled.div`
-  #recommend {
-    position: absolute;
-    top: 30%;
-    font-size: 2.5rem;
-    transform: rotate(-10deg);
+  margin: 5%;
+  div {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
   }
-  #custom {
-    position: absolute;
-    top: 40%;
+  img {
+    width: 8%;
+    margin: 0 5%;
+  }
+  #recommendContent {
     font-size: 2.5rem;
-    transform: rotate(-10deg);
+  }
+  #customContent {
+    font-size: 2.5rem;
+  }
+  #safeContent {
+    font-size: 2.5rem;
   }
 `;

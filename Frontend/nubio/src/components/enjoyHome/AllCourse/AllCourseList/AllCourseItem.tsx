@@ -33,7 +33,13 @@ const AllCourseItem = ({ value }: { value: any }) => {
   return (
     <AllCourseItemWrapper>
       <BigImg
-        src={place_list[0].img_url === 'not exist' ? noImage : place_list[0].img_url}
+        src={
+          place_list.length > 0 && place_list[0].img_url === 'not exist'
+            ? noImage
+            : place_list.length > 0
+            ? place_list[0].img_url
+            : noImage
+        }
       />
       <DetailWrapper>
         <HeadContent>

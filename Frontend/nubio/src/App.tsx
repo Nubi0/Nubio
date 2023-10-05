@@ -100,7 +100,7 @@ function App() {
                 width: "430px",
                 height: "932px",
                 border: "0.3rem solid black",
-                marginTop: "3rem",
+                marginTop: "1%",
                 background: "white",
               }}
             >

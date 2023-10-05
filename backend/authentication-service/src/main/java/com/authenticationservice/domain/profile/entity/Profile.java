@@ -55,6 +55,11 @@ public class Profile extends BaseEntity {
         this.member = member;
     }
 
+    public void updateProfile(FileUrl fileUrl, FileSize fileSize) {
+        this.fileUrl = fileUrl;
+        this.fileSize = fileSize;
+    }
+
     public void withdrawProfile() {
         this.fileName.withdrawName();
         this.fileUrl.withdrawUrl();

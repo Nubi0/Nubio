@@ -8,6 +8,8 @@ import com.authenticationservice.domain.profile.entity.type.FileUrl;
 import com.authenticationservice.domain.profile.repository.ProfileRepository;
 import com.authenticationservice.domain.profile.service.ProfileService;
 import com.authenticationservice.domain.member.entity.Member;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,17 +23,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
 
+
     @Override
     @Transactional
     public Profile saveAccuseFile(String fileName, String url, Long fileSize, Member member) {
-        Profile accuseFile = Profile.builder()
-                .fileName(FileName.from(fileName))
-                .fileUrl(FileUrl.from(url))
-                .fileSize(FileSize.from(fileSize))
-                .active(Active.from(true))
-                .build();
-        Profile savedProfile = profileRepository.save(accuseFile);
-        member.updateImage(savedProfile);
-        return savedProfile;
+        Profile profile = profileRepository.findByMember(member);
+        profile.updateProfile(FileUrl.from(url), FileSize.from(fileSize));
+        return profile;
     }
 }

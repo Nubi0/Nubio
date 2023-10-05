@@ -542,7 +542,6 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-
           <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}

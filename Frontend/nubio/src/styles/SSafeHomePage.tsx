@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 export const SafeHomeWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
 `;
 export const BottomButtonWrapper = styled.div`
-  position: relative;
+  position: absolute;
   width: 100%;
-  top: 98%;
+  bottom: 2%;
   z-index: 1;
   text-align: center;
   display: flex;
@@ -15,8 +16,8 @@ export const BottomButtonWrapper = styled.div`
 `;
 export const LogoIcon = styled.img`
   position: absolute;
-  top: 2rem;
-  left: 0.5rem;
+  top: 0.5%;
+  left: 0.5%;
   width: 4rem;
   height: 2rem;
 `;
@@ -29,11 +30,9 @@ export const ShelterButton = styled.span`
 `;
 // 내 위치
 export const MyLocation = styled.button`
-  position: relative;
-
-  top: -96%;
-  right: -73%;
-
+  position: absolute;
+  top: 5.9%;
+  right: 9%;
   border: none;
   border-radius: 1rem;
   padding: 0.3rem;
@@ -98,29 +97,9 @@ export const ReportButtonWrapper = styled.div`
   padding: 0.4rem;
   border-radius: 1rem;
   background: #f25260;
+`;
+export const ReportButton = styled.span``;
 
-  // margin: 0 auto;
-`;
-export const ReportButton = styled.span`
-  // position: absolute;
-  // bottom: 1.5rem;
-  // right: 1.5rem;
-  // z-index: 1;
-`;
-export const ReportIcon = styled.img`
-  width: 2rem;
-  height: 1rem;
-  // position: absolute;
-  // bottom: 5rem;
-  // right: 1rem;
-  // width: 3rem;
-  // height: 3rem;
-  // color: white;
-  // padding: 0.4rem;
-  // border-radius: 1rem;
-  // background: #ffc542;
-  // z-index: 1;
-`;
 export const ReportWrapper = styled.div`
   position: absolute;
   top: -45rem;
@@ -128,6 +107,7 @@ export const ReportWrapper = styled.div`
   width: 80%;
   padding: 1.5rem;
   border-radius: 1rem;
+  border: 0.15rem black solid;
   text-align: center;
   z-index: 2;
   margin: 0 5%;
@@ -136,6 +116,7 @@ export const ReportWrapper = styled.div`
     height: 2rem;
     font-size: 1rem;
     margin: 0.5rem 0;
+    border: 0.15rem solid black;
     border-radius: 0.5rem;
     padding: 0.5rem;
   }
@@ -208,6 +189,7 @@ export const ReportInfoOverlay = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: 0;
   background: rgba(0, 0, 0, 0.7);
 `;
 export const ReportInfoWrapper = styled.div`
@@ -236,7 +218,6 @@ export const ReportPhotoWrapper = styled.div`
   width: 100%;
   img {
     width: 100%;
-    height: 100%;
   }
 `;
 
@@ -315,8 +296,8 @@ export const EvacuationRouteModalBox = styled.div`
 
 // 길 찾기 결과
 export const RouteInfoWrapper = styled.div`
-  position: relative;
-  top: -25%;
+  position: absolute;
+  bottom: 7%;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -348,8 +329,8 @@ export const SafeDistanceWrapper = styled.div`
 // 재난문자
 export const CalamityWrapper = styled.div`
   width: 100%;
-  position: relative;
-  top: -50%;
+  position: absolute;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -358,7 +339,6 @@ export const CalamityWrapper = styled.div`
 
 export const CalamityMessageWrapper = styled.div`
   width: 80%;
-  // height: 100%;
   margin: auto;
   border: 0.5rem double red;
   background: white;

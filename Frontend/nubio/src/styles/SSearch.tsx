@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const SearchWrapper = styled.div``;
 export const SearchBarWrapper = styled.div`
   position: absolute;
-  width: 83%;
-  top: 70px;
-  left: 30px;
+  top: 5%;
+  left: 5%;
   z-index: 2;
+  width: 80%;
   input {
-    width: 20rem;
+    width: 100%;
     height: 2.5rem;
     border: 0.1rem solid black;
     border-radius: 1rem;

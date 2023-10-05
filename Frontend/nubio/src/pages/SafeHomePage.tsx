@@ -4,7 +4,7 @@ import {
   BottomButtonWrapper,
 } from "../styles/SSafeHomePage";
 import Map from "../components/common/map/Map";
-import CreateReportModal from "../components/safeHome/report/CreateReportModal";
+import CreateReport from "../components/safeHome/report/CreateReport";
 import { useNavigate } from "react-router-dom";
 
 import Shelter from "../components/safeHome/calamity/Shelter";
@@ -14,11 +14,11 @@ const SafeHomePage = () => {
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
   return (
     <SafeHomeWrapper>
+      <Map />
       <BottomButtonWrapper>
         <Shelter />
-        <CreateReportModal />
+        <CreateReport />
       </BottomButtonWrapper>
-      <Map />
       <LogoIcon src={logo} onClick={() => navigate("/")} />
     </SafeHomeWrapper>
   );

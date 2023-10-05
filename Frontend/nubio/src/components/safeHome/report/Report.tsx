@@ -94,6 +94,7 @@ const Report = () => {
                 <DeleteReport
                   reportId={selectedPlace.reportId}
                   closeModal={closeModal}
+                  getReport={getReport}
                 />
               ) : null}
               <button onClick={closeModal}>닫기</button>

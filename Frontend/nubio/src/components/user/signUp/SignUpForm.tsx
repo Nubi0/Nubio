@@ -13,12 +13,12 @@ import Swal from "sweetalert2";
 import { useEffect } from 'react';
 
 const SignUpForm = () => {
-  const [email, onChangeEmail] = useInput('');
-  const [pwd, onChangePwd] = useInput('');
-  const [pwdc, onChangePwdc] = useInput('');
-  const [nickName, onChangeNickName] = useInput('');
-  const [birth, onChangeBirth] = useInput('');
-  const [gender, setGender] = useState<string>('MALE');
+  const [email, onChangeEmail] = useInput("");
+  const [pwd, onChangePwd] = useInput("");
+  const [pwdc, onChangePwdc] = useInput("");
+  const [nickName, onChangeNickName] = useInput("");
+  const [birth, onChangeBirth] = useInput("");
+  const [gender, setGender] = useState<string>("MALE");
   const [emailConfirm, setEmailConfirm] = useState(false);
   const [nickNameCofirm, setNickNameConfirm] = useState(false);
   const [pwdSame, setPwdSame] = useState(false);
@@ -114,29 +114,31 @@ const SignUpForm = () => {
   }
   // 닉네임 중복 확인
   const checkNickname = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/nickname', {nickname: nickName})
+      .post(process.env.REACT_APP_SERVER_URL + "/start/v1/member/nickname", {
+        nickname: nickName,
+      })
       .then((res) => {
-        if(res.data.data) {
+        if (res.data.data) {
           Swal.fire({
-            title: '사용가능한 닉네임입니다.',
-            icon: 'success',
-            text: 'NUBIO',
-          })
+            title: "사용가능한 닉네임입니다.",
+            icon: "success",
+            text: "NUBIO",
+          });
           setNickNameConfirm(true);
         } else {
           Swal.fire({
-            title: '이미 사용 중인 닉네임입니다.',
-            icon: 'error',
-            text: 'NUBIO',
-          })
+            title: "이미 사용 중인 닉네임입니다.",
+            icon: "error",
+            text: "NUBIO",
+          });
         }
       })
       .catch((err) => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   // 남자 아이콘
   const manUrl = process.env.PUBLIC_URL + "/assets/man.png";
@@ -190,7 +192,9 @@ const SignUpForm = () => {
           onChange={onChangeNickName}
           disabled={emailConfirm ? false : true}
         />
-        <button id="check" onClick={(e) => checkNickname(e)}>중복확인</button>
+        <button id="checkNickname" onClick={(e) => checkNickname(e)}>
+          중복확인
+        </button>
       </span>
       <span>
         <input
@@ -212,7 +216,13 @@ const SignUpForm = () => {
       </span>
       {!pwdc ? null : pwdSame ? <p style={{color: 'green'}}>비밀번호가 일치합니다.</p> :  <p style={{color: 'red'}}>비밀번호가 일치하지 않습니다.</p>}
       <span>
-        <input type="date" id="date" value={birth} onChange={onChangeBirth} disabled={emailConfirm && nickNameCofirm ? false : true} />
+        <input
+          type="date"
+          id="date"
+          value={birth}
+          onChange={onChangeBirth}
+          disabled={emailConfirm && nickNameCofirm ? false : true}
+        />
       </span>
       <GenderWrapper>
         <ManIcon src={manUrl} onClick={handleManIconClick} id={manId} />

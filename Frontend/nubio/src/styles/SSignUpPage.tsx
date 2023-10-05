@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 export const SignUpWrapper = styled.div`
+  position: relative;
   text-align: center;
   width: 430px;
   height: 932px;

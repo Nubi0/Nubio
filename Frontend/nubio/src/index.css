@@ -1,27 +1,33 @@
 @font-face {
-    font-family: "NanumSquare";
-    src: url("./fonts/NANUMSQUAREROUNDOTFR.OTF");
+  font-family: 'NanumSquare';
+  src: url('./fonts/NANUMSQUAREROUNDOTFR.OTF');
 }
 
 @font-face {
-    font-family: "NanumSquareLight";
-    src: url("./fonts/NANUMSQUAREROUNDOTFL.OTF");
+  font-family: 'NanumSquareLight';
+  src: url('./fonts/NANUMSQUAREROUNDOTFL.OTF');
 }
 
 @font-face {
-    font-family: "NanumSquareBold";
-    src: url("./fonts/NANUMSQUAREROUNDOTFB.OTF");
+  font-family: 'NanumSquareBold';
+  src: url('./fonts/NANUMSQUAREROUNDOTFB.OTF');
 }
 
 @font-face {
-    font-family: "NanumSquareExtraBold";
-    src: url("./fonts/NANUMSQUAREROUNDOTFEB.OTF");
+  font-family: 'NanumSquareExtraBold';
+  src: url('./fonts/NANUMSQUAREROUNDOTFEB.OTF');
 }
 
-body{
-    margin: 0;
+body {
+  margin: 0;
 }
 
-*,*::after,*::before{
-    font-family: "NanumSquareExtraBold";
+*,
+*::after,
+*::before {
+  font-family: 'NanumSquareExtraBold';
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

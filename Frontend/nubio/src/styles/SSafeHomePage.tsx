@@ -31,7 +31,7 @@ export const ShelterButton = styled.span`
 // 내 위치
 export const MyLocation = styled.button`
   position: absolute;
-  top: 5.9%;
+  top: 7.8%;
   right: 9%;
   border: none;
   border-radius: 1rem;

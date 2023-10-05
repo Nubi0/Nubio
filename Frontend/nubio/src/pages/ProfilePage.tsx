@@ -16,7 +16,7 @@ const ProfilePage = () => {
   const gender = useSelector((state: any) => state.profile.gender);
   const birth = useSelector((state: any) => state.profile.birth);
   const [file, setFile] = useState<any>(null);
-  const [nickCheck, setNickCheck] = useState(false);
+  const [nickCheck, setNickCheck] = useState(true);
   const dispatch = useDispatch();
 
   const openModal = () => {

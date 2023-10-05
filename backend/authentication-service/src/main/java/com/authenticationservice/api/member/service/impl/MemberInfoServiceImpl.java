@@ -77,7 +77,6 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         if(nickname!= null) member.setNickname(Nickname.from(nickname));
         if(gender!= null) member.setGender(Gender.from(gender));
         if(birth!= null) member.setBirth(Birth.from(birth));
-        memberRepository.save(member);
     }
 
     @Override
@@ -87,7 +86,6 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         Member member = findByIdentification(identification);
 
         member.withdraw();
-        memberRepository.save(member);
     }
 
     private Optional<Member> findByNickname(Nickname nickname) {

@@ -12,14 +12,17 @@ import {
   PlaceName,
   Title,
 } from '../../../../styles/SAllCoursePage';
+import { useNavigate } from 'react-router';
 
 const AllCourseItem = ({ value }: { value: any }) => {
   const { title, favorite_flag, course_tags, place_list } = value;
-  const starFill = process.env.PUBLIC_URL + '/assets/starFill.svg';
-  const star = process.env.PUBLIC_URL + '/assets/star.svg';
+  const starFill = process.env.PUBLIC_URL + '/assets/smallStarFill.svg';
+  const star = process.env.PUBLIC_URL + '/assets/smallStar.svg';
+  const noImage = process.env.PUBLIC_URL + '/assets/noImage.png';
+  const navigate = useNavigate();
   const handleFav = () => {
     axios
-      .post(`https://nubi0.com/enjoy/v1/enjoy/course/like/${value.course_id}`)
+      .post(`https://nubi0.com/enjoy/v1/enjoy/course/favorite/${value.course_id}`)
       .then((res) => {
         console.log(res.data);
       })
@@ -29,10 +32,20 @@ const AllCourseItem = ({ value }: { value: any }) => {
   };
   return (
     <AllCourseItemWrapper>
-      <BigImg src={place_list[0].img_url} />
+      <BigImg
+        src={
+          place_list.length > 0 && place_list[0].img_url === 'not exist'
+            ? noImage
+            : place_list.length > 0
+            ? place_list[0].img_url
+            : noImage
+        }
+      />
       <DetailWrapper>
         <HeadContent>
-          <Title>{title}</Title>
+          <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>
+            {title}
+          </Title>
           {course_tags.map((value: string, index: number) => {
             return <CourseTag key={index}>{value}</CourseTag>;
           })}
@@ -42,7 +55,7 @@ const AllCourseItem = ({ value }: { value: any }) => {
           {place_list.slice(1).map((value: PlaceItem, index: number) => {
             return (
               <PlaceItem key={index}>
-                <PlaceImg src={value.img_url} />
+                <PlaceImg src={value.img_url === 'not exist' ? noImage : value.img_url} />
                 <PlaceName>{value.place_name}</PlaceName>
               </PlaceItem>
             );

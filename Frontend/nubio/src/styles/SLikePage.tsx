@@ -26,6 +26,7 @@ export const Course = styled.div`
 
 export const LikeListWrapper = styled.div`
   margin: 0 1rem;
+  height: calc(100vh - 9rem);
 `;
 
 export const PlaceItemWrapper = styled.div`
@@ -83,4 +84,7 @@ export const Score = styled.div``;
 
 export const ReviewCount = styled.div``;
 
-export const CourseListWrapper = styled.div``;
+export const CourseListWrapper = styled.div`
+  overflow-y: scroll;
+  height: 100%;
+`;

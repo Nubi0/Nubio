@@ -37,7 +37,9 @@ export const AllButtonImg = styled.img``;
 
 export const BannerWrapper = styled.div``;
 
-export const BannerImg = styled.img``;
+export const BannerImg = styled.img`
+    width: 100%;
+`;
 
 export const CustomCouresListWrapper = styled.div`
     display: grid;

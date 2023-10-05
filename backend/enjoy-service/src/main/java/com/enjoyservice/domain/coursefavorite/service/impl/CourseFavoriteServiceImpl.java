@@ -2,6 +2,7 @@ package com.enjoyservice.domain.coursefavorite.service.impl;
 
 import com.enjoyservice.domain.course.entity.Course;
 import com.enjoyservice.domain.coursefavorite.entity.CourseFavorite;
+import com.enjoyservice.domain.coursefavorite.entity.type.Active;
 import com.enjoyservice.domain.coursefavorite.repository.CourseFavoriteRepository;
 import com.enjoyservice.domain.coursefavorite.service.CourseFavoriteService;
 import com.enjoyservice.domain.place.entity.Place;
@@ -21,7 +22,7 @@ public class CourseFavoriteServiceImpl implements CourseFavoriteService {
 
     @Override
     public boolean existsByCourseAndMemberId(Course course, String memberId) {
-        return courseFavoriteRepository.existsByCourseAndMemberId(course, memberId);
+        return courseFavoriteRepository.existsByCourseAndMemberIdAndActive(course, memberId, Active.from(true));
     }
 
     @Transactional

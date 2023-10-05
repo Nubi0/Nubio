@@ -7,6 +7,7 @@ import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
 import com.enjoyservice.domain.course.repository.CourseRepository;
 import com.enjoyservice.domain.coursefavorite.entity.CourseFavorite;
+import com.enjoyservice.domain.coursefavorite.entity.type.Active;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +62,7 @@ class CourseFavoriteRepositoryTest {
         CourseFavorite savedCourseFavorite = courseFavoriteRepository.saveAndFlush(courseFavorite);
         em.clear();
         // when
-        boolean result = courseFavoriteRepository.existsByCourseAndMemberId(savedBeforeCourse, memberId);
+        boolean result = courseFavoriteRepository.existsByCourseAndMemberIdAndActive(savedBeforeCourse, memberId, Active.from(true));
         // then
         assertTrue(result);
     }
@@ -72,7 +73,7 @@ class CourseFavoriteRepositoryTest {
         // given
         String memberId = "memberId";
         // when
-        boolean result = courseFavoriteRepository.existsByCourseAndMemberId(savedBeforeCourse, memberId);
+        boolean result = courseFavoriteRepository.existsByCourseAndMemberIdAndActive(savedBeforeCourse, memberId, Active.from(true));
         // then
         assertFalse(result);
     }

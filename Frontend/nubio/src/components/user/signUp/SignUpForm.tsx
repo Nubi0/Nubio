@@ -7,10 +7,10 @@ import {
 } from "../../../styles/SSignUpPage";
 import { useRef, MouseEvent, useState } from "react";
 import useInput from "../../../hooks/useInput";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect } from 'react';
 
 const SignUpForm = () => {
   const [email, onChangeEmail] = useInput("");
@@ -24,6 +24,14 @@ const SignUpForm = () => {
   const [pwdSame, setPwdSame] = useState(false);
   const navigate = useNavigate();
   const [isConfirm, setIsConfirm] = useState(false);
+
+  useEffect(() => {
+    if(pwd === pwdc){
+      setPwdSame(true);
+    } else {
+      setPwdSame(false);
+    }
+  }, [pwdc])
 
   const data = {
     email,
@@ -58,51 +66,52 @@ const SignUpForm = () => {
   // 이메일 인증
   const EmailCertification = (e: any) => {
     e.preventDefault();
-    axios
-      .post(process.env.REACT_APP_SERVER_URL + "/start/v1/email", { email })
-      .then((res) => {
-        Swal.fire({
-          title: "이메일 인증",
-          input: "text",
-          inputAttributes: {
-            autocapitalize: "off",
-          },
-          showCancelButton: true,
-          confirmButtonText: "확인",
-          showLoaderOnConfirm: true,
-          preConfirm: async (code) => {
-            return await axios
-              .post(
-                process.env.REACT_APP_SERVER_URL + "/start/v1/email/confirms",
-                { email, code }
-              )
-              .then((res) => {
-                console.log(res.data);
-                setIsConfirm(true);
+    axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email', {email})
+          .then((res) => {
+              Swal.fire({
+                title: '이메일 인증',
+                input: 'text',
+                inputAttributes: {
+                  autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                showLoaderOnConfirm: true,
+                preConfirm: async (code) => {
+                  return await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email/confirms', {email, code})
+                                    .then((res) => {
+                                      console.log(res.data);
+                                      setIsConfirm(true);
+                                    })
+                                    .catch((err) => {
+                                      if(err.response.data.errorCode === 'A-003'){
+                                        Swal.fire({
+                                          title: '인증 실패',
+                                          icon: 'error',
+                                          text: 'NUBIO'
+                                        })
+                                      }
+                                    })
+                },
+              }).then((res) => {
+                  Swal.fire({
+                    title: '인증 성공',
+                    icon: 'success',
+                    text: 'NUBIO',
+                  })
+                  setEmailConfirm(true);
               })
-              .catch((err) => {
-                console.error(err);
-              });
-          },
-        }).then((res) => {
-          Swal.fire({
-            title: "인증 성공",
-            icon: "success",
-            text: "NUBIO",
-          });
-          setEmailConfirm(true);
-        });
-      })
-      .catch((err) => {
-        if (err.response.data.errorCode === "M-009") {
-          Swal.fire({
-            title: "이미 존재하는 이메일입니다.",
-            icon: "error",
-            text: "NUBIO",
-          });
-        }
-      });
-  };
+        })
+        .catch((err) => {
+            if(err.response.data.errorCode === 'M-009') {
+              Swal.fire({
+                title: '이미 존재하는 이메일입니다.',
+                icon: 'error',
+                text: 'NUBIO',
+              })
+            }
+        })
+  }
   // 닉네임 중복 확인
   const checkNickname = (e: any) => {
     e.preventDefault();
@@ -205,11 +214,7 @@ const SignUpForm = () => {
           disabled={emailConfirm && nickNameCofirm ? false : true}
         />
       </span>
-      {!emailConfirm && !nickNameCofirm ? null : pwdSame ? (
-        <p style={{ color: "green" }}>비밀번호가 일치합니다.</p>
-      ) : (
-        <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
-      )}
+      {!pwdc ? null : pwdSame ? <p style={{color: 'green'}}>비밀번호가 일치합니다.</p> :  <p style={{color: 'red'}}>비밀번호가 일치하지 않습니다.</p>}
       <span>
         <input
           type="date"

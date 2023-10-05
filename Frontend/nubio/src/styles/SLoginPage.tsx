@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 // 로그인 페이지
 export const LoginPageWrapper = styled.div`
-  margin: 4rem 2rem 2rem 2rem;
   width: 430px;
   height: 932px;
   display: flex;

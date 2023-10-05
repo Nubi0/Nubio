@@ -6,6 +6,7 @@ export const HomePageWrapper = styled.div`
   flex-direction: column;
   width: 430px;
   height: 932px;
+  position: relative;
 `;
 
 export const Logo = styled.img`

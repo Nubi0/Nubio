@@ -4,12 +4,13 @@ import UserImg from './UserImg';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNewNickName, setIsInputDisabled, setIsChange, setBirth, setGender } from '../../redux/slice/Profileslice';
 
-const UserInfo = () => {
+const UserInfo = ({setFile}: any) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const newNickName = useSelector((state: any) => state.profile.newNickName);
     const isInputDisabled = useSelector((state: any) => state.profile.isInputDisabled);
     const email = useSelector((state: any) => state.profile.email);
     const birth = useSelector((state: any) => state.profile.birth);
+    const gender = useSelector((state: any) => state.profile.gender);
     const dispatch = useDispatch();
 
     const handleChange = (value: string) => {
@@ -26,9 +27,11 @@ const UserInfo = () => {
         dispatch(setIsChange(true));
     }
 
+  const [manCheck, setManCheck] = useState<boolean>(false);
+  const [womanCheck, setWomanCheck] = useState<boolean>(false);
+
   // 남자 아이콘
   const manUrl = process.env.PUBLIC_URL + '/assets/man.png';
-  const [manCheck, setManCheck] = useState<boolean>(true);
   const manInputRef = useRef<HTMLInputElement | null>(null);
   const manId = manCheck ? 'manCheck' : 'manUncheck';
   const handleManIconClick = () => {
@@ -36,15 +39,13 @@ const UserInfo = () => {
       manInputRef.current.click();
       setManCheck(true);
       setWomanCheck(false);
-      dispatch(setGender('MALE'));
+      dispatch(setGender('male'));
       dispatch(setIsChange(true));
-
     }
   };
 
   // 여자 아이콘
   const womanUrl = process.env.PUBLIC_URL + '/assets/woman.png';
-  const [womanCheck, setWomanCheck] = useState<boolean>(false);
   const womanInputRef = useRef<HTMLInputElement | null>(null);
   const womanId = womanCheck ? 'womanCheck' : 'womanUncheck';
   const handleWomanIconClick = () => {
@@ -52,7 +53,7 @@ const UserInfo = () => {
       womanInputRef.current.click();
       setWomanCheck(true);
       setManCheck(false);
-      dispatch(setGender('FEMALE'));
+      dispatch(setGender('female'));
       dispatch(setIsChange(true));
 
     }
@@ -64,11 +65,16 @@ const UserInfo = () => {
         if (!isInputDisabled && inputRef.current) {
             inputRef.current.focus();
         }
+        if(gender === 'male') {
+            setManCheck(true);
+          } else {
+            setWomanCheck(true);
+          }
     }, [isInputDisabled]);
 
     return (
         <MyInfoWrapper>
-            <UserImg setIsChange={setIsChange} />
+            <UserImg setIsChange={setIsChange} setFile={setFile} />
             <div>
                 <Title>이메일</Title>
                 <Content>{email}</Content>

@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const newNickName = useSelector((state: any) => state.profile.newNickName);
   const gender = useSelector((state: any) => state.profile.gender);
   const birth = useSelector((state: any) => state.profile.birth);
-  const profileUrl = useSelector((state: any) => state.profile.profileUrl);
+  const [file, setFile] = useState<any>(null);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -41,13 +41,13 @@ const ProfilePage = () => {
         birth: birth,
         gender: gender,
         nickname: newNickName,
-        profileUrl: profileUrl,
+        profileUrl: file,
       }
       console.log(config);
       axios.patch(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/me', config,
         {
           headers: {
-            "Content-Type": `multipart/form-data`,
+            "content-type": `multipart/form-data`,
             }
         })
           .then((res) => {
@@ -74,7 +74,7 @@ const ProfilePage = () => {
     <ProfilePageWrapper>
       {isModalOpen ? <SetPrefrenceModal closeModal={closeModal} /> : null}
       <EnjoyHeader pageName="마이페이지" />
-      <Profile openModal={openModal} />
+      <Profile openModal={openModal} setFile={setFile} />
       {isChange && <SaveButton onClick={save}>저장</SaveButton>}
       <Footer />
     </ProfilePageWrapper>

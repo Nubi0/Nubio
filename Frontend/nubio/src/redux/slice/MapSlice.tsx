@@ -13,6 +13,8 @@ const MapSlice = createSlice({
     startName: null,
     endName: null,
     safePlace: [],
+    showShelters: false,
+    markerList: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -45,6 +47,12 @@ const MapSlice = createSlice({
     setSafePlace: (state, action) => {
       state.safePlace = action.payload;
     },
+    setShowShelters: (state, action) => {
+      state.showShelters = action.payload;
+    },
+    setMarkerList: (state, action) => {
+      state.markerList = action.payload;
+    },
   },
 });
 
@@ -59,5 +67,7 @@ export const {
   setStart,
   setEnd,
   setSafePlace,
+  setShowShelters,
+  setMarkerList,
 } = MapSlice.actions;
 export default MapSlice.reducer;

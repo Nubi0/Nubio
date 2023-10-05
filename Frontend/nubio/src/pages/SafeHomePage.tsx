@@ -6,7 +6,6 @@ import {
 import Map from "../components/common/map/Map";
 import CreateReport from "../components/safeHome/report/CreateReport";
 import { useNavigate } from "react-router-dom";
-
 import Shelter from "../components/safeHome/calamity/Shelter";
 
 const SafeHomePage = () => {

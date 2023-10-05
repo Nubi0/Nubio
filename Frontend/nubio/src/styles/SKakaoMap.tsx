@@ -8,7 +8,7 @@ export const MapWrapper = styled.div`
 export const SearchResultsWrapper = styled.div`
   position: absolute;
   z-index: 3;
-  top: 11%;
+  top: 13%;
   left: 2%;
   width: 90%;
   height: 15rem;

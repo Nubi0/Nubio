@@ -19,12 +19,12 @@ import {
   setEndName,
 } from "../../../redux/slice/MapSlice";
 import { useSelector } from "react-redux";
-
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
-
+import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
+import Report from "../../safeHome/report/Report";
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -518,11 +518,13 @@ const KakaoMap = (props: propsType) => {
     window.map.addListener("click", () => {
       setListIsOpen(false);
     });
-  }, []);
+  }, [window.myLatitude, window.myLongitude]);
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <MyLocation onClick={moveMyLocation}>내 위치</MyLocation>
+      <CalamityMessage />
+      <Report />
+      <MyLocation onClick={moveMyLocation}>내 위치로</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}
@@ -540,7 +542,6 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-
           <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}

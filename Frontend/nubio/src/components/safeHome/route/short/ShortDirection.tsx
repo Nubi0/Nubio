@@ -74,7 +74,6 @@ const ShortDirection = ({
             return acc;
           }, []);
         }
-        console.log(res.data.features);
         const coordinates = res.data.features.flatMap((feature: any) =>
           flattenArray(feature.geometry.coordinates)
         );
@@ -84,7 +83,6 @@ const ShortDirection = ({
             coordinatesList.push([coordinates[i], coordinates[i + 1]]);
           }
         }
-        console.log(coordinatesList);
         const convertedCoordinatesList = coordinatesList.map((coord: any) => {
           const fromProjection = "EPSG:3857";
           const toProjection = "EPSG:4326";

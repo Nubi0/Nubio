@@ -7,7 +7,7 @@ const SafeDistance = () => {
   const nowHours = nowTime.getHours();
   const nowMinutes = nowTime.getMinutes();
   let arriveTimeHours = nowHours + Math.floor(timeData?.time / 60);
-  if (arriveTimeHours >= 60) {
+  if (arriveTimeHours >= 24) {
     arriveTimeHours = Math.abs(arriveTimeHours - 24);
   }
   let arriveTimeMinutes = nowMinutes + (timeData?.time % 60);

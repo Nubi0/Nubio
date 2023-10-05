@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const GetReport = () => {
+const Report = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
@@ -94,6 +94,7 @@ const GetReport = () => {
                 <DeleteReport
                   reportId={selectedPlace.reportId}
                   closeModal={closeModal}
+                  getReport={getReport}
                 />
               ) : null}
               <button onClick={closeModal}>닫기</button>
@@ -105,4 +106,4 @@ const GetReport = () => {
   );
 };
 
-export default GetReport;
+export default Report;

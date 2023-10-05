@@ -26,19 +26,11 @@ const CalamityMessage = () => {
 
   const getCalamity = () => {
     axios
-      .post(
-        "https://nubi0.com/safe/v1/safe/check",
-        {
-          longitude: 128.5934,
-          latitude: 35.8556,
-        }
-        // {
-        //   window.myLatitude,
-        //   window.myLongitude,
-        // }
-      )
+      .post("https://nubi0.com/safe/v1/safe/check", {
+        longitude: window.myLongitude,
+        latitude: window.myLatitude,
+      })
       .then((res) => {
-        console.log(res);
         if (res.data.data.emergency_message_flag == true) {
           setMessageList(res.data.data.emergency_messages);
           setIsReceiveMessage(true);
@@ -56,7 +48,6 @@ const CalamityMessage = () => {
         `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`
       )
       .then((res) => {
-        console.log(res.data.data.content);
         const shelter = res.data.data.content;
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
@@ -82,7 +73,7 @@ const CalamityMessage = () => {
   };
   useEffect(() => {
     getCalamity();
-  }, []);
+  }, [window.myLongitude, window.myLatitude]);
 
   return (
     <>

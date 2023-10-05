@@ -139,7 +139,6 @@ export const PrefrenceModalOverlay = styled.div`
 export const PrefrenceModalBox = styled.div`
   background: white;
   width: 80%;
-  height: 70%;
   padding: 1rem;
   border-radius: 1rem;
   text-align: center;

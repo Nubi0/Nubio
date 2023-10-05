@@ -219,7 +219,6 @@ const SignUpForm = () => {
           onChange={onChangeBirth}
           disabled={emailConfirm && nickNameCofirm ? false : true}
         />
-<<<<<<< Updated upstream
         {!emailConfirm && !nickNameCofirm ? null : pwdSame ? (
           <p style={{ color: "green" }}>비밀번호가 일치합니다.</p>
         ) : (
@@ -234,8 +233,6 @@ const SignUpForm = () => {
           onChange={onChangeBirth}
           disabled={emailConfirm && nickNameCofirm ? false : true}
         />
-=======
->>>>>>> Stashed changes
       </span>
       <GenderWrapper>
         <ManIcon src={manUrl} onClick={handleManIconClick} id={manId} />

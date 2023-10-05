@@ -22,7 +22,6 @@ const UserImg = ({setIsChange, setFile}: any) => {
                 dispatch(setProfileUrl(dataURL));
                 dispatch(setIsChange(true));
             };
-    
             reader.readAsDataURL(file);
         } else {
             dispatch(setProfileUrl(prevImage));

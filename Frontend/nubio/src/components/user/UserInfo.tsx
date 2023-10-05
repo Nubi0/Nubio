@@ -3,8 +3,10 @@ import { Content, MyInfoWrapper, Title, GenderWrapper, ManIcon, WomanIcon } from
 import UserImg from './UserImg';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNewNickName, setIsInputDisabled, setIsChange, setBirth, setGender } from '../../redux/slice/Profileslice';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const UserInfo = ({setFile}: any) => {
+const UserInfo = ({setFile, setNickCheck}: any) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const newNickName = useSelector((state: any) => state.profile.newNickName);
     const isInputDisabled = useSelector((state: any) => state.profile.isInputDisabled);
@@ -55,9 +57,33 @@ const UserInfo = ({setFile}: any) => {
       setManCheck(false);
       dispatch(setGender('female'));
       dispatch(setIsChange(true));
-
     }
   };
+
+  const doubleCheck = () => {
+    axios
+        .post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/nickname', {nickname: newNickName})
+        .then((res) => {
+            if(res.data.data){
+                Swal.fire({
+                    title: '사용가능한 닉네임입니다.',
+                    icon: 'success',
+                    text: 'NUBIO',
+                })
+                setNickCheck(true);
+            } else {
+                Swal.fire({
+                    title: '중복된 닉네임입니다.',
+                    icon: 'error',
+                    text: 'NUBIO',
+                })
+                setNickCheck(false);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+  }
 
 
     useEffect(() => {
@@ -89,7 +115,7 @@ const UserInfo = ({setFile}: any) => {
                         onChange={(e) => (handleChange(e.target.value))}
                         disabled={isInputDisabled}
                     />
-                    <button onClick={isInputDisabled ? enableInput : () => {}}>{isInputDisabled ? '수정' : '중복확인'}</button>
+                    <button onClick={isInputDisabled ? enableInput :doubleCheck}>{isInputDisabled ? '수정' : '중복확인'}</button>
                 </div>
             </div>
             <div>

@@ -13,21 +13,25 @@ const CustomCourseList = () => {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                setPos({
+                const currentPosition = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
-                })
+                };
+                axios.post('https://nubi0.com/enjoy/v1/enjoy', currentPosition)
+                    .then((res) => {
+                        dispatch(setCourseList(res.data.data.course_list));
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+                
+                setPos(currentPosition);
+            },
+            (error) => {
+                console.error('Error getting geolocation:', error);
             }
-        )
-        axios.post('https://nubi0.com/enjoy/v1/enjoy', {latitude: pos.latitude, longitude: pos.longitude})
-            .then((res) => {
-                dispatch(setCourseList(res.data.data.course_list));
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-        
-    }, [])
+        );
+    }, []);
     return(
         <CustomCouresListWrapper>
             {itemList.map((value: CourseItem, index: number) => (

@@ -18,7 +18,7 @@ function App() {
           <img src={logo} alt="로고" id="logo" />
           <TitleTextWrapper>
             <h1 id="safe">안전하고</h1>
-            <h1 id="map">즐거운</h1>
+            <h1 id="mapp">즐거운</h1>
             <h1 id="share">데이트를 위한</h1>
           </TitleTextWrapper>
           <h1>지도 공유 서비스</h1>

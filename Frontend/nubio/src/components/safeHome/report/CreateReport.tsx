@@ -82,16 +82,16 @@ const CreateReport = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
+        .then(() => {
           closeModal();
           Swal.fire({
             title: "제보해주셔서 감사합니다.",
             text: "NUBIO",
+          }).then(() => {
+            window.location.reload();
           });
         })
-        .then(() => {
-          window.location.reload();
-        })
+
         .catch((err) => {
           console.log(err);
         });

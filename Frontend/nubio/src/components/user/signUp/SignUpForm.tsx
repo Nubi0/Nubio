@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 
-const SignUpForm = () => {
+const SignUpForm = ({setIsLoading}: any) => {
   const [email, onChangeEmail] = useInput('');
   const [pwd, onChangePwd] = useInput('');
   const [pwdc, onChangePwdc] = useInput('');
@@ -66,9 +66,11 @@ const SignUpForm = () => {
   // 이메일 인증
   const EmailCertification = (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     axios
       .post(process.env.REACT_APP_SERVER_URL + '/start/v1/email', { email })
       .then((res) => {
+      setIsLoading(false);
         Swal.fire({
           title: '이메일 인증',
           input: 'text',

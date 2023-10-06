@@ -36,7 +36,7 @@ export const MyLocation = styled.button`
   border: none;
   border-radius: 1rem;
   padding: 0.3rem;
-  z-index: 2;
+  z-index: 3;
 `;
 
 // 제보하기 재난 대피
@@ -182,7 +182,7 @@ img{
 }
 `;
 export const ReportInfoOverlay = styled.div`
-  z-index: 3;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   display: flex;

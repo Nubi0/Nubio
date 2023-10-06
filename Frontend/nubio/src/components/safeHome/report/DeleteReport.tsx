@@ -9,7 +9,7 @@ const DeleteReport = (props: {
   const deleteReport = () => {
     axios
       .delete(`https://nubi0.com/safe/v1/safe/report/${props.reportId}`)
-      .then((res) => {
+      .then(() => {
         props.closeModal();
         Swal.fire({
           title: "제보 삭제 완료",

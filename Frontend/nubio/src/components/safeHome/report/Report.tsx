@@ -58,8 +58,8 @@ const Report = () => {
               if (places[index].identificationFlag === true) {
                 setIdentificationFlag(true);
               }
-              openModal();
             }
+            openModal();
           });
         });
       })

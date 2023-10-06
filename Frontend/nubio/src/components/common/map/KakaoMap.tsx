@@ -68,7 +68,9 @@ const KakaoMap = (props: propsType) => {
     (state: { map: { endName: string } }) => state.map.endName,
   );
   const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
-
+  const safeMarkerList = useSelector(
+    (state: { map: { safeMarkerList: any } }) => state.map.safeMarkerList,
+  );
   const dispatch = useDispatch();
 
   const [listIsOpen, setListIsOpen] = useState(false);
@@ -80,13 +82,15 @@ const KakaoMap = (props: propsType) => {
 
   // 라인, 마커 삭제
   const clearRoute = () => {
+    for (let j = 0; j < safeMarkerList.length; j++) {
+      safeMarkerList[j].setMap(null);
+    }
     window.polyline?.setMap(null);
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
   };
   const clearAllRoute = () => {
-    window.polyline?.setMap(null);
-    window.safeCustomOverlay?.setMap(null);
+    clearRoute();
     window.endCustomOverlay?.setMap(null);
     window.startCustomOverlay?.setMap(null);
     dispatch(setStartName(""));
@@ -95,7 +99,6 @@ const KakaoMap = (props: propsType) => {
     dispatch(setSafeTime(null));
     setFindRouteOpen(false);
     removeSafeMarker();
-    removeMarker();
   };
 
   const getDrawnLines = () => {

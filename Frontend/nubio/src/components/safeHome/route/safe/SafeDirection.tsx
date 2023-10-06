@@ -1,7 +1,11 @@
 import axios from "axios";
 import proj4 from "proj4";
 import { useDispatch, useSelector } from "react-redux";
-import { setSafeTime, setSafePlace } from "../../../../redux/slice/MapSlice";
+import {
+  setSafeTime,
+  setSafePlace,
+  setSafeMarkerList,
+} from "../../../../redux/slice/MapSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 
 interface SafeDirectionProps {
@@ -84,6 +88,7 @@ const SafeDirection = ({
               });
               window.safeCustomOverlay = customOverlay;
               window.safeCustomOverlay.setMap(window.map);
+              dispatch(setSafeMarkerList(customOverlay));
             }
           }
         }

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   CalamityMessageWrapper,
   CalamityWrapper,
@@ -7,6 +7,10 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  setMessageMarkerList,
+  setShowShelters,
+} from "../../../redux/slice/MapSlice";
 
 type EmergencyMessage = {
   city: string;
@@ -17,6 +21,8 @@ type EmergencyMessage = {
   occurred_time: string;
 };
 const CalamityMessage = () => {
+  const dispatch = useDispatch();
+
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
   // 재난문자 수신
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
@@ -26,19 +32,11 @@ const CalamityMessage = () => {
 
   const getCalamity = () => {
     axios
-      .post(
-        "https://nubi0.com/safe/v1/safe/check",
-        {
-          longitude: 128.5934,
-          latitude: 35.8556,
-        }
-        // {
-        //   window.myLatitude,
-        //   window.myLongitude,
-        // }
-      )
+      .post("https://nubi0.com/safe/v1/safe/check", {
+        longitude: window.myLongitude,
+        latitude: window.myLatitude,
+      })
       .then((res) => {
-        console.log(res);
         if (res.data.data.emergency_message_flag == true) {
           setMessageList(res.data.data.emergency_messages);
           setIsReceiveMessage(true);
@@ -53,28 +51,28 @@ const CalamityMessage = () => {
   const getNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`
+        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
-        console.log(res.data.data.content);
         const shelter = res.data.data.content;
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
               ${shelter[i].name}</span><span class="right"></span></div>`;
-          // 커스텀 오버레이가 표시될 위치입니다
+
           let markerPosition = new kakao.maps.LatLng(
             shelter[i].location.latitude,
-            shelter[i].location.longitude
+            shelter[i].location.longitude,
           );
-          // 커스텀 오버레이를 생성합니다
+
           let customOverlay = new kakao.maps.CustomOverlay({
             position: markerPosition,
             content: content,
           });
-          window.safeCustomOverlay = customOverlay;
-          // 커스텀 오버레이를 지도에 표시합니다
-          window.safeCustomOverlay.setMap(window.map);
+          window.shelterCustomOverlay = customOverlay;
+          window.shelterCustomOverlay.setMap(window.map);
+          dispatch(setMessageMarkerList(customOverlay));
         }
+        dispatch(setShowShelters(true));
       })
       .catch((err) => {
         console.log(err);
@@ -82,7 +80,7 @@ const CalamityMessage = () => {
   };
   useEffect(() => {
     getCalamity();
-  }, []);
+  }, [window.myLongitude, window.myLatitude]);
 
   return (
     <>

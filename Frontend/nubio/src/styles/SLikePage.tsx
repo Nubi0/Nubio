@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const LikePageWrapper = styled.div``;
+export const LikePageWrapper = styled.div`
+  height: 100%;
+  position: relative;
+`;
 
 export const PlaceListWrapper = styled.div``;
 
@@ -26,7 +29,7 @@ export const Course = styled.div`
 
 export const LikeListWrapper = styled.div`
   margin: 0 1rem;
-  height: calc(100vh - 9rem);
+  height: calc(100% - 5rem);
 `;
 
 export const PlaceItemWrapper = styled.div`
@@ -86,5 +89,5 @@ export const ReviewCount = styled.div``;
 
 export const CourseListWrapper = styled.div`
   overflow-y: scroll;
-  height: 100%;
+  height: calc(100% - 3.4rem);
 `;

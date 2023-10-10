@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import axios from "axios";
 import { setEmail, setNewNickName, setProfileUrl, setBirth, setGender } from "../../redux/slice/Profileslice";
 
-const Profile = ({openModal}: any) => {
+const Profile = ({openModal, setFile, setNickCheck}: any) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const Profile = ({openModal}: any) => {
     }, []);
     return(
         <ProfileWrapper>
-            <UserInfo  />
+            <UserInfo setFile={setFile} setNickCheck={setNickCheck}  />
             <Setting openModal={openModal} />
         </ProfileWrapper>
     );

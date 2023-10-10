@@ -3,27 +3,31 @@ import { ImgPlus, MyImg, ProfileImg } from "../../styles/SProfilePage";
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileUrl } from '../../redux/slice/Profileslice';
 
-const UserImg = ({setIsChange}: any) => {
+const UserImg = ({setIsChange, setFile}: any) => {
     const user = process.env.PUBLIC_URL + "/assets/user.png";
     const plus = process.env.PUBLIC_URL + '/assets/camera.svg';
-    const profileUrl = useSelector((state: any) => state.profile.profileUrl);
+    const profile = useSelector((state: any) => state.profile.profileUrl);
     const [image, setImage] = useState(user);
     const [prevImage, setPrevImage] = useState(user);
     const dispatch = useDispatch();
 
     const fileInput = useRef<any>(null);
     const onChange = (e: any) => {
-        console.log(e.target.files);
-        if(e.target.files.length > 0){
-            console.log(e.target.files.length)
+        if (e.target.files.length > 0) {
             const file = e.target.files[0];
-            const imgUrl = URL.createObjectURL(file);
-            dispatch(setProfileUrl(imgUrl));
-            
+            const reader = new FileReader();
+            setFile(file);
+            reader.onload = () => {
+                const dataURL = reader.result as string;
+                dispatch(setProfileUrl(dataURL));
+                dispatch(setIsChange(true));
+            };
+            reader.readAsDataURL(file);
         } else {
             dispatch(setProfileUrl(prevImage));
+            dispatch(setIsChange(false));
         }
-    }
+    };
 
     // 이미지 클릭으로 input 태그 클릭
     const handlePlus = () => {
@@ -41,7 +45,7 @@ const UserImg = ({setIsChange}: any) => {
 
     return(
         <ProfileImg>
-            <MyImg src={profileUrl} alt="" />
+            <MyImg src={profile} alt="" />
             <ImgPlus src={plus} onClick={handlePlus} />
             <input 
                 type="file" 

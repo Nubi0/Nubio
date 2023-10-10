@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const CourseDetailPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: calc(100vh - 6.4rem);
+  width: 430px;
+  height: 100%;
+  position: relative;
 `;
 
 export const CourseDetailWrapper = styled.div`
@@ -92,7 +93,7 @@ export const Address = styled.div`
 export const CourseButtonWrapper = styled.div`
   background-color: #ffc542;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   z-index: 1;
   position: absolute;
   bottom: 3.46rem;
@@ -102,6 +103,9 @@ export const CourseButtonWrapper = styled.div`
     background-color: transparent;
     align-items: center;
     padding: 0.5rem 2rem;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    width: 35%;
   }
   button {
     background-color: transparent;

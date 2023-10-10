@@ -7,13 +7,13 @@ export const MapWrapper = styled.div`
 `;
 export const SearchResultsWrapper = styled.div`
   position: absolute;
-  top: 7rem;
-  left: 1rem;
-  width: 85%;
+  z-index: 3;
+  top: 13%;
+  left: 2%;
+  width: 90%;
   height: 15rem;
   padding: 0.5rem;
   background: white;
-  margin-top: 1rem;
   border: 0.1rem solid black;
   border-radius: 1rem;
   overflow-y: scroll;

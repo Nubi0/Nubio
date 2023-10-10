@@ -3,6 +3,7 @@ import { LoginPageWrapper, LoginForm, KakaoLogin } from "../styles/SLoginPage";
 import { LoginLogo } from "../styles/SSignUpPage";
 import useInput from "../hooks/useInput";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 axios.interceptors.response.use(
   async (response) => {
@@ -51,10 +52,14 @@ const LoginPage = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
-        navigate('/enjoy');
+        navigate('/');
       })
       .catch((err) => {
-        console.error(err);
+        Swal.fire({
+          title: '이메일 또는 비밀번호가 일치하지 않습니다.',
+          icon: 'error',
+          text: 'NUBIO'
+        })
       });
   };
   const redirect_uri = window.location.origin + "/oauth/kakao";

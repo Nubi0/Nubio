@@ -10,7 +10,7 @@ import useInput from "../../../hooks/useInput";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const CreateModal = () => {
+const CreateReport = () => {
   // 모달
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -62,7 +62,7 @@ const CreateModal = () => {
     });
     formData.append(
       "report",
-      new Blob([JSON.stringify(report)], { type: "application/json" }),
+      new Blob([JSON.stringify(report)], { type: "application/json" })
     );
     if (
       title == "" ||
@@ -82,13 +82,16 @@ const CreateModal = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
+        .then(() => {
+          closeModal();
           Swal.fire({
             title: "제보해주셔서 감사합니다.",
             text: "NUBIO",
+          }).then(() => {
+            window.location.reload();
           });
-          closeModal();
         })
+
         .catch((err) => {
           console.log(err);
         });
@@ -176,4 +179,4 @@ const CreateModal = () => {
     </>
   );
 };
-export default CreateModal;
+export default CreateReport;

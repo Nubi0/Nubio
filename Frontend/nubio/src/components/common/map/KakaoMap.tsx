@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   DestinationWrapper,
   MapWrapper,
@@ -17,14 +17,18 @@ import {
   setEnd,
   setStartName,
   setEndName,
+  setShortTime,
+  setSafeTime,
+  setkeyWord,
 } from "../../../redux/slice/MapSlice";
 import { useSelector } from "react-redux";
-
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
-
+import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
+import Report from "../../safeHome/report/Report";
+import RootState from "../../../types/RootState";
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -50,15 +54,22 @@ declare global {
     safeCustomOverlay: any;
     myLatitude: any;
     myLongitude: any;
+    shelterCustomOverlay: any;
   }
 }
 
 const KakaoMap = (props: propsType) => {
+  const mapRef = useRef(null);
+
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName
+    (state: { map: { startName: string } }) => state.map.startName,
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName
+    (state: { map: { endName: string } }) => state.map.endName,
+  );
+  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
+  const safeMarkerList = useSelector(
+    (state: { map: { safeMarkerList: any } }) => state.map.safeMarkerList,
   );
   const dispatch = useDispatch();
 
@@ -70,11 +81,25 @@ const KakaoMap = (props: propsType) => {
   let drawnData: any[] = [];
 
   // 라인, 마커 삭제
-  function clearRoute() {
+  const clearRoute = () => {
+    for (let j = 0; j < safeMarkerList.length; j++) {
+      safeMarkerList[j].setMap(null);
+    }
     window.polyline?.setMap(null);
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
-  }
+  };
+  const clearAllRoute = () => {
+    clearRoute();
+    window.endCustomOverlay?.setMap(null);
+    window.startCustomOverlay?.setMap(null);
+    dispatch(setStartName(""));
+    dispatch(setEndName(""));
+    dispatch(setShortTime(null));
+    dispatch(setSafeTime(null));
+    setFindRouteOpen(false);
+    removeSafeMarker();
+  };
 
   const getDrawnLines = () => {
     const drawnPolylines =
@@ -98,11 +123,11 @@ const KakaoMap = (props: propsType) => {
             time: Math.ceil(walkTime / 60),
             type: "시간",
             dis: distances[0],
-          })
+          }),
         );
       } else {
         dispatch(
-          setTime({ time: walkTime % 60, type: "분", dis: distances[0] })
+          setTime({ time: walkTime % 60, type: "분", dis: distances[0] }),
         );
       }
     } else {
@@ -145,7 +170,6 @@ const KakaoMap = (props: propsType) => {
       console.log("키워드를 입력해주세요!");
       return false;
     }
-
     // 장소검색 객체를 통해 키워드로 장소검색을 요청
     window.ps.keywordSearch(keyword, placesSearchCB);
   }
@@ -188,7 +212,7 @@ const KakaoMap = (props: propsType) => {
     const listEl = document.getElementById("places-list"),
       resultEl = document.getElementById("search-result"),
       fragment = document.createDocumentFragment(),
-      bounds = new kakao.maps.LatLngBounds();
+      bounds = new window.kakao.maps.LatLngBounds();
 
     // 검색 결과 목록에 추가된 항목들을 제거
     listEl && removeAllChildNods(listEl);
@@ -197,7 +221,10 @@ const KakaoMap = (props: propsType) => {
     removeMarker();
     for (var i = 0; i < places.length; i++) {
       // 마커를 생성하고 지도에 표시
-      let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+      let placePosition = new window.kakao.maps.LatLng(
+          places[i].y,
+          places[i].x,
+        ),
         marker = addMarker(placePosition, i, undefined),
         itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성
 
@@ -209,11 +236,11 @@ const KakaoMap = (props: propsType) => {
       // 해당 장소에 인포윈도우에 장소명을 표시
       // mouseout 했을 때는 인포윈도우를 닫기
       (function (marker, title) {
-        kakao.maps.event.addListener(marker, "mouseover", function () {
+        window.kakao.maps.event.addListener(marker, "mouseover", function () {
           displayInfowindow(marker, title);
         });
 
-        kakao.maps.event.addListener(marker, "mouseout", function () {
+        window.kakao.maps.event.addListener(marker, "mouseout", function () {
           window.infowindow.close();
         });
 
@@ -252,9 +279,9 @@ const KakaoMap = (props: propsType) => {
       let content = `<div class ="label"  style="background:#ffc542; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
       출발</span><span class="right"></span></div>`;
       // 커스텀 오버레이가 표시될 위치입니다
-      let markerPosition = new kakao.maps.LatLng(places.y, places.x);
+      let markerPosition = new window.kakao.maps.LatLng(places.y, places.x);
       // 커스텀 오버레이를 생성합니다
-      let customOverlay = new kakao.maps.CustomOverlay({
+      let customOverlay = new window.kakao.maps.CustomOverlay({
         position: markerPosition,
         content: content,
       });
@@ -270,8 +297,8 @@ const KakaoMap = (props: propsType) => {
       window.endCustomOverlay?.setMap(null);
 
       let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"><span class="left"></span><span class="center">도착</span><span class="right"></span></div>`;
-      let markerPosition = new kakao.maps.LatLng(places.y, places.x);
-      let customOverlay = new kakao.maps.CustomOverlay({
+      let markerPosition = new window.kakao.maps.LatLng(places.y, places.x);
+      let customOverlay = new window.kakao.maps.CustomOverlay({
         position: markerPosition,
         content: content,
       });
@@ -331,14 +358,18 @@ const KakaoMap = (props: propsType) => {
   function addMarker(position: any, idx: number, title: undefined) {
     var imageSrc =
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지
-      imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
+      imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
       imgOptions = {
-        spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-        spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-        offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        spriteSize: new window.kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+        spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+        offset: new window.kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
       },
-      markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-      marker = new kakao.maps.Marker({
+      markerImage = new window.kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imgOptions,
+      ),
+      marker = new window.kakao.maps.Marker({
         position: position, // 마커의 위치
         image: markerImage,
       });
@@ -350,13 +381,20 @@ const KakaoMap = (props: propsType) => {
   }
 
   // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-  function removeMarker() {
+  const removeMarker = () => {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
     markers = [];
-  }
-
+  };
+  const safePlaces = useSelector(
+    (state: { map: { safePlace: any } }) => state.map.safePlace,
+  );
+  const removeSafeMarker = () => {
+    for (let i = 0; i < safePlaces.length; i++) {
+      window.safeCustomOverlay.setMap(null);
+    }
+  };
   // 검색결과 목록 하단에 페이지번호를 표시는 함수
   function displayPagination(pagination: {
     last: number;
@@ -420,28 +458,29 @@ const KakaoMap = (props: propsType) => {
           window.myLongitude = position.coords.longitude;
 
           window.map.setCenter(
-            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
+            new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
           );
           // 현재 위치에 마커를 표시
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(
               window.myLatitude,
-              window.myLongitude
+              window.myLongitude,
             ),
           });
           marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
           console.error("geolocation 에러 발생:", error);
-        }
+        },
       );
     } else {
       console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
     }
   };
+
   const moveMyLocation = () => {
     window.map.setCenter(
-      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude)
+      new window.kakao.maps.LatLng(window.myLatitude, window.myLongitude),
     );
     // 현재 위치에 마커를 표시
     const marker = new kakao.maps.Marker({
@@ -449,7 +488,6 @@ const KakaoMap = (props: propsType) => {
     });
     marker.setMap(window.map); // 마커를 지도에 표시
   };
-
   // 검색어가 바뀔 때마다 재렌더링되도록 useEffect 사용
   useEffect(() => {
     startCurPosition();
@@ -458,81 +496,89 @@ const KakaoMap = (props: propsType) => {
       center: new kakao.maps.LatLng(0, 0),
       level: 3, // 지도의 확대 레벨
     };
-    // 지도를 생성
-    const map = new kakao.maps.Map(mapContainer, mapOption);
-    window.map = map;
-    // Drawing Manger Option 설정
-    const options = {
-      map: map,
-      drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
-      guideTooltip: ["draw", "drag"],
-      markerOptions: {
-        draggable: true,
-        removable: true,
-      },
-      polylineOptions: {
-        draggable: true,
-        editable: true,
-        strokeColor: "#FFC542",
-        hintStrokeStyle: "solid",
-        hintStrokeOpacity: 1,
-        zIndex: 1000,
-      },
-    };
+    // mapRef가 초기화되지 않았다면 지도 인스턴스를 생성하고 참조합니다.
+    if (!mapRef.current) {
+      const map = new kakao.maps.Map(mapContainer, mapOption);
+      mapRef.current = map;
+      window.map = map;
 
-    // Drawing Manager 객체 생성
-    const managerInstance = new window.kakao.maps.drawing.DrawingManager(
-      options
-    );
-    managerInstance.addListener("drawend", () => {
-      drawnData = managerInstance.getData();
-      calculateAndDisplayLineDistances();
-    });
-    window.kakaoManager = managerInstance;
+      // Drawing Manger Option 설정
+      const options = {
+        map: map,
+        drawingMode: [window.kakao.maps.drawing.OverlayType.POLYLINE],
+        guideTooltip: ["draw", "drag"],
+        markerOptions: {
+          draggable: true,
+          removable: true,
+        },
+        polylineOptions: {
+          draggable: true,
+          editable: true,
+          strokeColor: "#FFC542",
+          hintStrokeStyle: "solid",
+          hintStrokeOpacity: 1,
+          zIndex: 1000,
+        },
+      };
 
-    // 커스텀 마커 표시
-    for (var i = 0; i < props.position.length; i++) {
-      const customOverlay = new window.kakao.maps.CustomOverlay({
-        content: `
+      // Drawing Manager 객체 생성
+      const managerInstance = new window.kakao.maps.drawing.DrawingManager(
+        options,
+      );
+      managerInstance.addListener("drawend", () => {
+        drawnData = managerInstance.getData();
+        calculateAndDisplayLineDistances();
+      });
+      window.kakaoManager = managerInstance;
+
+      // 커스텀 마커 표시
+      for (var i = 0; i < props.position.length; i++) {
+        const customOverlay = new window.kakao.maps.CustomOverlay({
+          content: `
           <div>
             <img class="custom-marker" src="${props.position[i].img_url}" alt="Custom Marker" />
           </div>
         `,
-        position: new window.kakao.maps.LatLng(
-          props.position[i].lat,
-          props.position[i].lng
-        ),
-      });
+          position: new window.kakao.maps.LatLng(
+            props.position[i].lat,
+            props.position[i].lng,
+          ),
+        });
+        customOverlay.setMap(map);
+      }
 
-      customOverlay.setMap(map);
+      // 장소 검색 객체를 생성
+      const ps = new kakao.maps.services.Places();
+      window.ps = ps;
+
+      // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
+      const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+      window.infowindow = infowindow;
+
+      // 맵 클릭 시 검색리스트 안보임
+      window.map.addListener("click", () => {
+        setListIsOpen(false);
+      });
     }
 
-    // 장소 검색 객체를 생성
-    const ps = new kakao.maps.services.Places();
-    window.ps = ps;
-    // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
-    const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-    window.infowindow = infowindow;
-
-    // 맵 클릭 시 검색리스트 안보임
-    window.map.addListener("click", () => {
-      setListIsOpen(false);
-    });
-  }, []);
+    // 나머지 useEffect 로직...
+  }, [window.myLatitude, window.myLongitude]);
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <MyLocation onClick={moveMyLocation}>내 위치</MyLocation>
+      <CalamityMessage />
+      <Report />
+      <MyLocation onClick={moveMyLocation}>내 위치로</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}
         setFindRouteOpen={setFindRouteOpen}
       />
       {findRouteOpen && listIsOpen ? <RouteInfo /> : null}
-      {props.searchKeyword !== "" && listIsOpen ? (
+      {searchKeyword !== "" && listIsOpen ? (
         <SearchResultsWrapper id="search-result">
           <p className="result-text">
-            {props.searchKeyword}
+            {searchKeyword}
             검색 결과
             <SelectMyLocation removeMarker={removeMarker} />
           </p>
@@ -540,8 +586,9 @@ const KakaoMap = (props: propsType) => {
             <h4>출발지 : {startName}</h4>
             <h4>도착지 : {endName}</h4>
           </DestinationWrapper>
-
-          <ClearRouteButton onClick={clearRoute}>경로 지우기</ClearRouteButton>
+          <ClearRouteButton onClick={clearAllRoute}>
+            경로 지우기
+          </ClearRouteButton>
           <ShortDirection
             clearRoute={clearRoute}
             setFindRouteOpen={setFindRouteOpen}

@@ -3,11 +3,10 @@ import RootState from "../../../types/RootState";
 import KakaoMap from "./KakaoMap";
 
 const Map = () => {
-  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
   const position = useSelector((state: RootState) => state.enjoy.positions);
   return (
     <>
-      <KakaoMap searchKeyword={searchKeyword} position={position} />
+      <KakaoMap position={position} />
     </>
   );
 };

@@ -22,6 +22,8 @@ import com.authenticationservice.global.jwt.dto.JwtDto;
 import com.authenticationservice.global.jwt.service.JwtManager;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import com.authenticationservice.global.util.RedisUtil;
+import com.authenticationservice.web.dto.OauthLoginResDto;
+import com.authenticationservice.web.service.OauthLoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtManager jwtManager;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
+    private final OauthLoginService oauthLoginService;
 
     @Override
     @Transactional
@@ -74,6 +77,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public SignResDto login(LoginReqDto loginReqDto) {
         Optional<Member> findMember = memberInfoService.findByEmail(Email.from(loginReqDto.getEmail()));
         if(findMember.isEmpty()) throw new InvalidEmailException(ErrorCode.MEMBER_NOT_EXISTS);
@@ -81,6 +85,7 @@ public class AuthServiceImpl implements AuthService {
         if(!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword().getValue()))
             throw new BusinessException(ErrorCode.INVALID_PASSWORD_CHECK);
         JwtDto jwtDto = jwtManager.createJwtDto(String.valueOf(member.getIdentification().getValue()), member.getRole());
+        member.updateRefreshToken(jwtDto);
 
         return new SignResDto().of(jwtDto, member.getRole());
     }

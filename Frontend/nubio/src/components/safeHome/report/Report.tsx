@@ -8,6 +8,8 @@ import {
 } from "../../../styles/SSafeHomePage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import DeleteReport from "./DeleteReport";
+import { useDispatch } from "react-redux";
+import { setReportPlaces } from "../../../redux/slice/MapSlice";
 declare global {
   interface Window {
     reportCustomOverlay: any;
@@ -18,6 +20,7 @@ const Report = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
+  const dispatch = useDispatch();
   const openModal = () => {
     setModalOpen(true);
   };
@@ -29,15 +32,16 @@ const Report = () => {
     axios
       .get(`https://nubi0.com/safe/v1/safe/report`)
       .then((res) => {
-        console.log(res);
         const places = res.data.data.reportList;
+        dispatch(setReportPlaces(places));
+        console.log(places);
         for (let i = 0; i < places.length; i++) {
           let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
-          <span href="#" class="show-info" data-index="${i}">${places[i].title}</span>
+          <span href="#" class="show-info" >${places[i].title}</span>
         </div>`;
           let markerPosition = new kakao.maps.LatLng(
             places[i].latitude,
-            places[i].longitude
+            places[i].longitude,
           );
           let customOverlay = new kakao.maps.CustomOverlay({
             position: markerPosition,
@@ -47,21 +51,21 @@ const Report = () => {
           window.reportCustomOverlay.setMap(window.map);
         }
 
-        const showInfoLinks = document.querySelectorAll(".show-info");
-        showInfoLinks.forEach((link) => {
-          link.addEventListener("click", (e: any) => {
-            e.preventDefault();
-            const index = e.target?.getAttribute("data-index");
-            if (index !== null) {
-              const selectedPlace = places[index];
-              setSelectedPlace(selectedPlace);
-              if (places[index].identificationFlag === true) {
-                setIdentificationFlag(true);
-              }
-            }
-            openModal();
-          });
-        });
+        // const showInfoLinks = document.querySelectorAll(".show-info");
+        // showInfoLinks.forEach((link) => {
+        //   link.addEventListener("click", (e: any) => {
+        //     e.preventDefault();
+        //     const index = e.target?.getAttribute("data-index");
+        //     if (index !== null) {
+        //       const selectedPlace = places[index];
+        //       setSelectedPlace(selectedPlace);
+        //       if (places[index].identificationFlag === true) {
+        //         setIdentificationFlag(true);
+        //       }
+        //     }
+        //     openModal();
+        //   });
+        // });
       })
       .catch((err) => {
         console.log(err);
@@ -83,7 +87,7 @@ const Report = () => {
                       <SwiperSlide key={index}>
                         <img src={fileUrl} alt="사진" />
                       </SwiperSlide>
-                    )
+                    ),
                   )}
               </Swiper>
             </ReportPhotoWrapper>

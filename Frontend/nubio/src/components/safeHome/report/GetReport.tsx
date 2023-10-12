@@ -8,19 +8,16 @@ import {
 } from "../../../styles/SSafeHomePage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import DeleteReport from "./DeleteReport";
-import { useDispatch } from "react-redux";
-import { setReportPlaces } from "../../../redux/slice/MapSlice";
 declare global {
   interface Window {
     reportCustomOverlay: any;
   }
 }
-
-const Report = () => {
+const GetReport = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
-  const dispatch = useDispatch();
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -28,52 +25,51 @@ const Report = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
   const getReport = () => {
     axios
       .get(`https://nubi0.com/safe/v1/safe/report`)
       .then((res) => {
         const places = res.data.data.reportList;
-        dispatch(setReportPlaces(places));
-        console.log(places);
-        for (let i = 0; i < places.length; i++) {
-          let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
-          <span href="#" class="show-info" >${places[i].title}</span>
-        </div>`;
+        places.forEach((place: any) => {
+          //   let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
+          //   <span href="#" class="show-info" id="place" >${place.title}</span>
+          // </div>`;
           let markerPosition = new kakao.maps.LatLng(
-            places[i].latitude,
-            places[i].longitude,
+            place.latitude,
+            place.longitude,
           );
-          let customOverlay = new kakao.maps.CustomOverlay({
+          let maker = new kakao.maps.Marker({
             position: markerPosition,
-            content: content,
           });
-          window.reportCustomOverlay = customOverlay;
-          window.reportCustomOverlay.setMap(window.map);
-        }
-
-        // const showInfoLinks = document.querySelectorAll(".show-info");
-        // showInfoLinks.forEach((link) => {
-        //   link.addEventListener("click", (e: any) => {
-        //     e.preventDefault();
-        //     const index = e.target?.getAttribute("data-index");
-        //     if (index !== null) {
-        //       const selectedPlace = places[index];
-        //       setSelectedPlace(selectedPlace);
-        //       if (places[index].identificationFlag === true) {
-        //         setIdentificationFlag(true);
-        //       }
-        //     }
-        //     openModal();
-        //   });
-        // });
+          maker.setMap(window.map);
+          kakao.maps.event.addListener(maker, "click", () => {
+            setSelectedPlace(place);
+            if (place.identificationFlag === true) {
+              setIdentificationFlag(true);
+            }
+            openModal();
+          });
+          // const placeEle = document.getElementById("place");
+          // console.log(placeEle);
+          // placeEle?.addEventListener("click", () => {
+          //   setSelectedPlace(place);
+          //   if (place.identificationFlag === true) {
+          //     setIdentificationFlag(true);
+          //   }
+          //   openModal();
+          // });
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     getReport();
-  }, [selectedPlace]);
+  }, []);
+
   return (
     <>
       {selectedPlace && modalOpen && (
@@ -98,7 +94,6 @@ const Report = () => {
                 <DeleteReport
                   reportId={selectedPlace.reportId}
                   closeModal={closeModal}
-                  getReport={getReport}
                 />
               ) : null}
               <button onClick={closeModal}>닫기</button>
@@ -110,4 +105,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default GetReport;

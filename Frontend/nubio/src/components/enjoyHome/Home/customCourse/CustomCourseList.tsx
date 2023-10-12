@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import axios from "axios";
 import { CustomCouresListWrapper } from "../../../../styles/SEnjoyHomePage";
 import CustomCourseItem from "./CustomCourseItem";
@@ -8,8 +7,7 @@ import { setCourseList } from "../../../../redux/slice/EnjoySlice";
 
 const CustomCourseList = () => {
     const dispatch = useDispatch();
-    const itemList = useSelector((state: any) => state.enjoy.courseList);
-    const [pos, setPos] = useState<any>(null);
+    const itemList = useSelector((state: {enjoy : {courseList : CourseItem[]}}) => state.enjoy.courseList);
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -24,8 +22,6 @@ const CustomCourseList = () => {
                     .catch((err) => {
                         console.error(err);
                     });
-                
-                setPos(currentPosition);
             },
             (error) => {
                 console.error('Error getting geolocation:', error);

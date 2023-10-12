@@ -9,7 +9,7 @@ import Map from '../components/common/map/Map';
 import CourseButton from '../components/enjoyHome/CourseDetail/CoursDetailList/CourseButton';
 
 const CourseDetailPage = () => {
-  const [place_list, setPlaceList] = useState<any[]>([]);
+  const [place_list, setPlaceList] = useState<placeProps[]>([]);
   const [course_info, setCourseInfo] = useState<any>({});
   const { courseId } = useParams();
   useEffect(() => {

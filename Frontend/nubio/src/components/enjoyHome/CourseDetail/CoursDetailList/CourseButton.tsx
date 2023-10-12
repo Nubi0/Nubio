@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import axios from 'axios';
 import { CourseButtonWrapper } from '../../../../styles/SCourseDeatilPage';
 import { useParams } from 'react-router-dom';
@@ -8,8 +7,8 @@ const CourseButton = ({
   setPlaceList,
   setCourseInfo,
 }: {
-  course_info: any;
-  setPlaceList: any;
+  course_info: CourseItem;
+  setPlaceList: React.Dispatch<React.SetStateAction<placeProps[]>>;
   setCourseInfo: any;
 }) => {
   const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';

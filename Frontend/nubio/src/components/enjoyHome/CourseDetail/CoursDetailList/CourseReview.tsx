@@ -12,15 +12,15 @@ import CourseReviewList from './CourseReviewList';
 
 const CourseReview = () => {
   const [value, setValue] = useState<number | null>(0);
-  const [reviewList, setReviewList] = useState<any[]>([]);
+  const [reviewList, setReviewList] = useState<reviewProps[]>([]);
   const { courseId } = useParams();
-  const [review, setReview] = useState<any>('');
+  const [review, setReview] = useState<string>('');
 
-  const handleReview = (e: any) => {
+  const handleReview = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReview(e.target.value)
   }
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     await axios
       .post(
@@ -62,7 +62,7 @@ const CourseReview = () => {
         <input
           type="text"
           placeholder="이 코스의 후기를 남겨주세요."
-          onChange={handleReview}
+          onChange={(e) => handleReview(e)}
           value={review}
         />
         <Box>

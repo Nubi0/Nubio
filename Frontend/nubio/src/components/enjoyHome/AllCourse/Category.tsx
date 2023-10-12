@@ -1,6 +1,6 @@
 import { CategoryWrapper } from "../../../styles/SAllCoursePage";
 
-const Category = ({active, handleButton} : {active: any, handleButton: any}) => {
+const Category = ({active, handleButton} : {active: activeProps, handleButton: (category: string) => void}) => {
     return(
         <CategoryWrapper>
             <div onClick={() => handleButton('all')} className={active.all ? 'active' : ''}>전체</div>

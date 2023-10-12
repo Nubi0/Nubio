@@ -4,14 +4,14 @@ import Rating from '@mui/material/Rating';
 import axios from 'axios';
 import { useParams } from 'react-router';
 
-const CourseReviewItem = ({ value, setReviewList }: { value: any, setReviewList: any }) => {
-  const { content, point, nickname, course_reivew_id } = value;
+const CourseReviewItem = ({ value, setReviewList }: { value: reviewProps, setReviewList: React.Dispatch<React.SetStateAction<reviewProps[]>> }) => {
+  const { content, point, nickname, course_review_id } = value;
   const { courseId } = useParams();
   const deleteButton = async () => {
     await axios
       .delete(
         process.env.REACT_APP_SERVER_URL +
-          `/enjoy/v1/enjoy/course/review/${course_reivew_id}`
+          `/enjoy/v1/enjoy/course/review/${course_review_id}`
       )
       .then((res) => {
         axios.get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`)

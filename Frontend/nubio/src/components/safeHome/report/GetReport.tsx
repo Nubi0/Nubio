@@ -17,6 +17,11 @@ const GetReport = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
+  const accidentIcon =
+    process.env.PUBLIC_URL + "/assets/markerIcon/accident.png";
+  const constructionIcon =
+    process.env.PUBLIC_URL + "/assets/markerIcon/construction.png";
+  const terrorIcon = process.env.PUBLIC_URL + "/assets/markerIcon/terror.png";
 
   const openModal = () => {
     setModalOpen(true);
@@ -31,16 +36,46 @@ const GetReport = () => {
       .get(`https://nubi0.com/safe/v1/safe/report`)
       .then((res) => {
         const places = res.data.data.reportList;
+        console.log(places);
         places.forEach((place: any) => {
-          //   let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
-          //   <span href="#" class="show-info" id="place" >${place.title}</span>
-          // </div>`;
+          let imageSrc = "";
+
+          if (place.reportType === "accident") {
+            imageSrc = accidentIcon;
+          } else if (place.reportType === "construction") {
+            imageSrc = constructionIcon;
+          } else if (place.reportType === "terror") {
+            imageSrc = terrorIcon;
+          }
+
+          const imageSize = new kakao.maps.Size(64, 69);
+          const imageOption = { offset: new kakao.maps.Point(27, 69) };
+          var markerImage = new kakao.maps.MarkerImage(
+            imageSrc,
+            imageSize,
+            imageOption,
+          );
           let markerPosition = new kakao.maps.LatLng(
             place.latitude,
             place.longitude,
           );
+          const customOverlaySize = {
+            width: `${window.innerWidth * 0.05}px`,
+            height: `${window.innerWidth * 0.05}px`,
+          };
+
+          var content = `
+            <div class="customoverlay" style="width: ${customOverlaySize.width}; height: ${customOverlaySize.height}; zIndex:-1; background: rgba(255, 0, 0, 0.5); border-radius: 50%;"></div>
+          `;
+          var customOverlay = new kakao.maps.CustomOverlay({
+            map: window.map,
+            position: markerPosition,
+            content: content,
+            yAnchor: 1,
+          });
           let maker = new kakao.maps.Marker({
             position: markerPosition,
+            image: markerImage,
           });
           maker.setMap(window.map);
           kakao.maps.event.addListener(maker, "click", () => {
@@ -50,15 +85,6 @@ const GetReport = () => {
             }
             openModal();
           });
-          // const placeEle = document.getElementById("place");
-          // console.log(placeEle);
-          // placeEle?.addEventListener("click", () => {
-          //   setSelectedPlace(place);
-          //   if (place.identificationFlag === true) {
-          //     setIdentificationFlag(true);
-          //   }
-          //   openModal();
-          // });
         });
       })
       .catch((err) => {

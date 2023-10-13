@@ -8,8 +8,8 @@ import Swal from 'sweetalert2';
 
 const UserInfo = ({setFile, setNickCheck}: any) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const newNickName = useSelector((state: any) => state.profile.newNickName);
-    const isInputDisabled = useSelector((state: any) => state.profile.isInputDisabled);
+    const newNickName = useSelector((state: {profile: {newNickName: string}}) => state.profile.newNickName);
+    const isInputDisabled = useSelector((state: {profile: {isInputDisabled: boolean}}) => state.profile.isInputDisabled);
     const email = useSelector((state: any) => state.profile.email);
     const birth = useSelector((state: any) => state.profile.birth);
     const gender = useSelector((state: any) => state.profile.gender);

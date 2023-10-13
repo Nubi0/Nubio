@@ -6,7 +6,7 @@ import { setProfileUrl } from '../../redux/slice/Profileslice';
 const UserImg = ({setIsChange, setFile}: any) => {
     const user = process.env.PUBLIC_URL + "/assets/user.png";
     const plus = process.env.PUBLIC_URL + '/assets/camera.svg';
-    const profile = useSelector((state: any) => state.profile.profileUrl);
+    const profile = useSelector((state: {profile: {profileUrl: string}}) => state.profile.profileUrl);
     const [image, setImage] = useState(user);
     const [prevImage, setPrevImage] = useState(user);
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 
-const CoursePin = ({value}: {value: any}) => {
+const CoursePin = ({value}: {value: placeItem}) => {
     const url: Record<string, string> = {
         FD6 : process.env.PUBLIC_URL + '/assets/marker/eatM.png',
         CT1 : process.env.PUBLIC_URL + '/assets/marker/movieM.png',

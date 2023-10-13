@@ -8,10 +8,8 @@ import CourseReview from './CourseReview';
 
 const CourseDetailList = ({
   place_list,
-  course_info,
 }: {
   place_list: placeProps[];
-  course_info: CourseItem;
 }) => {
   return (
     <CourseDetailListWrapper>

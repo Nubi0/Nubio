@@ -10,7 +10,13 @@ import CourseButton from '../components/enjoyHome/CourseDetail/CoursDetailList/C
 
 const CourseDetailPage = () => {
   const [place_list, setPlaceList] = useState<placeProps[]>([]);
-  const [course_info, setCourseInfo] = useState<any>({});
+  const [course_info, setCourseInfo] = useState<courseInfo>({
+    course_id: "",
+    course_tags: [],
+    favorite_flag: false,
+    like_count: 0,
+    like_flag: false,
+  });
   const { courseId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +45,7 @@ const CourseDetailPage = () => {
     <CourseDetailPageWrapper>
       <EnjoyHeader pageName="코스 이름" />
       <Map />
-      <CourseDetailList place_list={place_list} course_info={course_info} />
+      <CourseDetailList place_list={place_list} />
       <CourseButton course_info={course_info} setCourseInfo={setCourseInfo} setPlaceList={setPlaceList} />
       <Footer />
     </CourseDetailPageWrapper>

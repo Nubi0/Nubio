@@ -11,9 +11,9 @@ const CourseSelectModal = ({setModal}: any) => {
     const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
     const [title, setTitle] = useInput('');
-    const positions = useSelector((state: any) => state.enjoy.positions);
+    const positions = useSelector((state: {enjoy: {positions: placeItem[]}}) => state.enjoy.positions);
     const navigate = useNavigate();
-    const location = useSelector((state: any) => state.enjoy.location);
+    const location = useSelector((state: {enjoy: {location: string}}) => state.enjoy.location);
 
     const handlePurposeClick = (purpose: string) => {
         if (!selectedPurposes.includes(purpose)) {

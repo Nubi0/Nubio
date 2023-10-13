@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 import { CourseLocationSelectWrapper, CourseMaker } from "../../../../styles/SCourseSelectPage";
 import Map from "../../../common/map/Map";
-import CoursePinList from "./CourseList";
+import CourseList from "./CourseList";
 import { useSelector } from "react-redux";
 
-const CourseLocationSelect = ({setModal}: {setModal: any}) => {
-    const positions = useSelector((state: any) => state.enjoy.positions);
+const CourseLocationSelect = ({setModal}: {setModal:  () => void}) => {
+    const positions = useSelector((state: {enjoy: {positions: placeItem[]}}) => state.enjoy.positions);
     const handleSave = () => {
         if(positions.length < 3){
             Swal.fire({
@@ -23,7 +23,7 @@ const CourseLocationSelect = ({setModal}: {setModal: any}) => {
             <CourseMaker onClick={handleSave}>
                 코스 저장 
             </CourseMaker>
-            <CoursePinList positions={positions} />
+            <CourseList positions={positions} />
         </CourseLocationSelectWrapper>
     )
 }

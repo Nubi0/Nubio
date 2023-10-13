@@ -7,9 +7,9 @@ const CourseButton = ({
   setPlaceList,
   setCourseInfo,
 }: {
-  course_info: CourseItem;
+  course_info: courseInfo;
   setPlaceList: React.Dispatch<React.SetStateAction<placeProps[]>>;
-  setCourseInfo: any;
+  setCourseInfo: React.Dispatch<React.SetStateAction<courseInfo>>;
 }) => {
   const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';
   const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/starFill.svg';
@@ -43,11 +43,6 @@ const CourseButton = ({
         <img src={favorite_flag ? bookMarkFillUrl : bookMarkUrl} alt="" />
         <button>찜하기</button>
       </div>
-      {/* <ButtonDivider />
-      <div>
-        <img src={share} alt="" />
-        <button>공유하기</button>
-      </div> */}
     </CourseButtonWrapper>
   );
 };

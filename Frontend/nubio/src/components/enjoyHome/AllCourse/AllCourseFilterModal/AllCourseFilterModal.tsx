@@ -19,7 +19,7 @@ const AllCourseFilterModal: React.FC<SetAllCourseFilterModalProps> = ({
   handleModal,
 }) => {
   const dispatch = useDispatch();
-  const course_tags = useSelector((state: any) => state.enjoy.course_tag);
+  const course_tags = useSelector((state: {enjoy: {course_tag: string[]}}) => state.enjoy.course_tag);
   const purposes = [
     '인생샷 찍기',
     '산책',

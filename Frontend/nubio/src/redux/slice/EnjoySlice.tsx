@@ -5,10 +5,10 @@ const EnjoySlice = createSlice({
   initialState: {
     manager: null,
     time: null,
-    positions: [] as any[],
+    positions: [] as placeItem[],
     location: null,
     course_tag: [] as string[],
-    courseList: [],
+    courseList: [] as CourseItem[],
     coursePoint: [],
     region: null,
   },

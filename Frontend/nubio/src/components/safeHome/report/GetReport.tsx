@@ -48,14 +48,14 @@ const GetReport = () => {
             imageSrc = terrorIcon;
           }
 
-          const imageSize = new kakao.maps.Size(64, 69);
-          const imageOption = { offset: new kakao.maps.Point(27, 69) };
-          var markerImage = new kakao.maps.MarkerImage(
+          const imageSize = new window.kakao.maps.Size(64, 69);
+          const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+          var markerImage = new window.kakao.maps.MarkerImage(
             imageSrc,
             imageSize,
             imageOption,
           );
-          let markerPosition = new kakao.maps.LatLng(
+          let markerPosition = new window.kakao.maps.LatLng(
             place.latitude,
             place.longitude,
           );
@@ -67,18 +67,18 @@ const GetReport = () => {
           var content = `
             <div class="customoverlay" style="width: ${customOverlaySize.width}; height: ${customOverlaySize.height}; zIndex:-1; background: rgba(255, 0, 0, 0.5); border-radius: 50%;"></div>
           `;
-          var customOverlay = new kakao.maps.CustomOverlay({
+          var customOverlay = new window.kakao.maps.CustomOverlay({
             map: window.map,
             position: markerPosition,
             content: content,
             yAnchor: 1,
           });
-          let maker = new kakao.maps.Marker({
+          let maker = new window.kakao.maps.Marker({
             position: markerPosition,
             image: markerImage,
           });
           maker.setMap(window.map);
-          kakao.maps.event.addListener(maker, "click", () => {
+          window.kakao.maps.event.addListener(maker, "click", () => {
             setSelectedPlace(place);
             if (place.identificationFlag === true) {
               setIdentificationFlag(true);

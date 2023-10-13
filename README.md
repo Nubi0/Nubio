@@ -13,7 +13,8 @@
 - safe-service : http://ec2-13-124-94-38.ap-northeast-2.compute.amazonaws.com:8082/swagger-ui/index.html </br>
 - recommandation-service : http://ec2-13-124-94-38.ap-northeast-2.compute.amazonaws.com:8003/docs
 
- 개발 기간 : 2023.08.21 ~ </br>  
+ 개발 기간 : 2023.08.21 ~ 2023.10.06 (기능 구현 완료)</br>  
+ 리팩토링 : 2023.10.10 ~ 진행 중
  개발 인원 : 6명
 
 
@@ -24,18 +25,7 @@
 | 0.1.0 | · 인증 서버 구축 </br> · enjoy 서버 구축 </br> · safe 서버 구축| 2023.09.24 |
 | 1.0.0 | · FrontEnd 서버 구축 | 2023.09.27 |
 
-
-## 📌 프로젝트 소개
-
-맞춤형 안전 지도 공유 서비스
-
-## 🔎주요 기능 설명
-- 취향을 바탕으로 맞춤형 코스 추천  
-- 코스 커스텀 및 공유
-- 위치기반 재난 솔루션
-- 위험구역 제보 및 안전한 길 추천
-
-<br>
+<br/>
 
 ## 🧑‍💻 팀원 소개
 
@@ -51,6 +41,23 @@
 |  | <img src="https://avatars.githubusercontent.com/u/91011682?v=4" width="150"/> | <img src="https://avatars.githubusercontent.com/u/110621233?v=4" width="150"/> | 
 | 깃허브 | [@twoong01](https://github.com/twoong01) | [@Jinga02](https://github.com/Jinga02) | 
 | 역할 | FRONT-END | FRONT-END | 
+
+
+## 📌 프로젝트 소개
+
+### 프로젝트 기획 배경
+오송지하차도 침수 사고, 늘어나는 칼부림 등 자연재해나 인재와같은 재난 상황이 발생 하더라도 실시간 현황과 대처 방법을 알지 못해 피해가 발생합니다. <br/>
+이러한 피해를 줄이고자 재난 발생 현황과 발생 시 대처할 수 있는 솔루션을 제공하고자 '맞춤형 안전 지도 공유 서비스' 프로젝트를 기획하게 되었습니다.
+
+
+## 🔎주요 기능 설명
+- 취향을 바탕으로 맞춤형 코스 추천
+- 코스 커스텀 및 공유
+- 재난상활 별 재난 솔루션
+- 위험구역 제보 및 안전한 길 추천
+
+<br>
+
 
 
 
@@ -134,12 +141,16 @@
 </table>
 
 ## 🗂주요기능 
-![자체-로그인-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/3b4eb770-c8a0-473b-a46e-2536a444e349)
-![카카로 로그인 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/8f6907fb-2dd5-4a24-bd80-08224ede8291)
-![취향 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/4536ede6-8563-40ff-94ff-76d082807b7f)
-![코스-조회-영상_1](https://github.com/Jinga02/ChallengePJT/assets/110621233/ba032750-c858-4e84-9424-d38ac177fb8b)
-![대피소_-제보-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/8e3372d0-0b79-4821-bf28-3cd9ba061ae1)
-![대피소_-길찾기-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/4bdaaff4-8200-4345-91b3-66d7b0cda174)
+|||
+|---|---|
+|자체 로그인 기능|소셜 로그인 기능|
+|![자체-로그인-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/75e6a49b-b8b7-463f-b919-19e3868b992a)|![카카로 로그인 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/d8472f5e-2f80-4cf4-b694-16b6c51d0487)|
+|취향 설정 기능|코스 조회 기능|
+|![취향 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/720c800b-660c-44f2-bc46-cfd42e803501)|![코스-조회-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/98fad0d3-346e-465c-b3dd-9ad542e9fa52)|
+|코스 만들기 기능|대피소 제보 기능|
+|![코스 만들기 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/02f330ef-3d06-4c0a-8ffd-736bf8f7faab)|![대피소_-제보-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/a4eb28ef-c709-47ac-bdf3-bc262569b566)|
+|길찾기 기능|
+|![길찾기-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/d2bd72e3-505f-4cc6-8038-a67c7d141cff)|
 
 
 ## 🧱아키텍처
@@ -155,4 +166,5 @@
 
 - SAFE ERD
 ![v1erd-safe.PNG](./nubio/v1erd-safe.PNG)
+
 

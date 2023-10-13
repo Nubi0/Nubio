@@ -133,16 +133,14 @@
 </tr>
 </table>
 
-## 🗂프로토타입
-<img src="./nubio/main.png" width="350"/>
+## 🗂주요기능 
+![자체-로그인-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/3b4eb770-c8a0-473b-a46e-2536a444e349)
+![카카로 로그인 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/8f6907fb-2dd5-4a24-bd80-08224ede8291)
+![취향 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/4536ede6-8563-40ff-94ff-76d082807b7f)
+![코스-조회-영상_1](https://github.com/Jinga02/ChallengePJT/assets/110621233/ba032750-c858-4e84-9424-d38ac177fb8b)
+![대피소_-제보-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/8e3372d0-0b79-4821-bf28-3cd9ba061ae1)
+![대피소_-길찾기-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/4bdaaff4-8200-4345-91b3-66d7b0cda174)
 
-![enjoy.png](./nubio/enjoy1.JPG)
-
-![enjoy.png](./nubio/enjoy2.JPG)
-
-![enjoy.png](./nubio/enjoy3.JPG)
-
-![safe.PNG](./nubio/safe.PNG)
 
 ## 🧱아키텍처
 ![v1architecture.PNG](./nubio/v1architecture.PNG)

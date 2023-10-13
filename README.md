@@ -133,16 +133,14 @@
 </tr>
 </table>
 
-## 🗂프로토타입
-<img src="./nubio/main.png" width="350"/>
-
-![enjoy.png](./nubio/enjoy1.JPG)
-
-![enjoy.png](./nubio/enjoy2.JPG)
-
-![enjoy.png](./nubio/enjoy3.JPG)
-
-![safe.PNG](./nubio/safe.PNG)
+## 🗂주요 기능
+![길찾기-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/659bb60e-3520-4984-abb8-4eac549d79d3)
+![대피소_-길찾기-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/e9db08fd-be14-4dd1-aec2-3d1c5c9eed16)
+![대피소_-제보-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/5d9ac45c-8d23-4e01-8ea4-0080d625128c)
+![자체-로그인-영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/5e803a95-7add-4da1-9f6f-91af479a4a2b)
+![취향 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/79585a5e-71f4-41a5-adc9-5ac53b534927)
+![카카로 로그인 영상](https://github.com/Jinga02/ChallengePJT/assets/110621233/035eb63c-6e2d-4a4e-8ee9-2caaa6cae9ff)
+![코스-조회-영상_1](https://github.com/Jinga02/ChallengePJT/assets/110621233/cbc54b26-5557-4202-9071-9432d24ab1ed)
 
 ## 🧱아키텍처
 ![v1architecture.PNG](./nubio/v1architecture.PNG)

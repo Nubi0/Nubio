@@ -27,7 +27,6 @@ import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
 import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
-import Report from "../../safeHome/report/Report";
 import RootState from "../../../types/RootState";
 interface placeType {
   place_name: string;
@@ -39,7 +38,6 @@ interface placeType {
   x: string;
   y: string;
 }
-
 const { kakao } = window as any;
 
 declare global {
@@ -567,7 +565,6 @@ const KakaoMap = (props: propsType) => {
     <>
       <MapWrapper id="map" className="map" />
       <CalamityMessage />
-      <Report />
       <MyLocation onClick={moveMyLocation}>내 위치로</MyLocation>
       <SearchBar
         searchPlaces={searchPlaces}

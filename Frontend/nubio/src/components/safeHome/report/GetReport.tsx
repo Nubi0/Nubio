@@ -13,11 +13,16 @@ declare global {
     reportCustomOverlay: any;
   }
 }
-
-const Report = () => {
+const GetReport = () => {
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
+  const accidentIcon =
+    process.env.PUBLIC_URL + "/assets/markerIcon/accident.png";
+  const constructionIcon =
+    process.env.PUBLIC_URL + "/assets/markerIcon/construction.png";
+  const terrorIcon = process.env.PUBLIC_URL + "/assets/markerIcon/terror.png";
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -25,39 +30,58 @@ const Report = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
   const getReport = () => {
     axios
       .get(`https://nubi0.com/safe/v1/safe/report`)
       .then((res) => {
-        console.log(res);
         const places = res.data.data.reportList;
-        for (let i = 0; i < places.length; i++) {
-          let content = `<div class ="label" style="background:#f9373f; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;">
-          <span href="#" class="show-info" data-index="${i}">${places[i].title}</span>
-        </div>`;
-          let markerPosition = new kakao.maps.LatLng(
-            places[i].latitude,
-            places[i].longitude
+        console.log(places);
+        places.forEach((place: any) => {
+          let imageSrc = "";
+
+          if (place.reportType === "accident") {
+            imageSrc = accidentIcon;
+          } else if (place.reportType === "construction") {
+            imageSrc = constructionIcon;
+          } else if (place.reportType === "terror") {
+            imageSrc = terrorIcon;
+          }
+
+          const imageSize = new window.kakao.maps.Size(64, 69);
+          const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+          var markerImage = new window.kakao.maps.MarkerImage(
+            imageSrc,
+            imageSize,
+            imageOption,
           );
-          let customOverlay = new kakao.maps.CustomOverlay({
+          let markerPosition = new window.kakao.maps.LatLng(
+            place.latitude,
+            place.longitude,
+          );
+          const customOverlaySize = {
+            width: `${window.innerWidth * 0.05}px`,
+            height: `${window.innerWidth * 0.05}px`,
+          };
+
+          var content = `
+            <div class="customoverlay" style="width: ${customOverlaySize.width}; height: ${customOverlaySize.height}; zIndex:-1; background: rgba(255, 0, 0, 0.5); border-radius: 50%;"></div>
+          `;
+          var customOverlay = new window.kakao.maps.CustomOverlay({
+            map: window.map,
             position: markerPosition,
             content: content,
+            yAnchor: 1,
           });
-          window.reportCustomOverlay = customOverlay;
-          window.reportCustomOverlay.setMap(window.map);
-        }
-
-        const showInfoLinks = document.querySelectorAll(".show-info");
-        showInfoLinks.forEach((link) => {
-          link.addEventListener("click", (e: any) => {
-            e.preventDefault();
-            const index = e.target?.getAttribute("data-index");
-            if (index !== null) {
-              const selectedPlace = places[index];
-              setSelectedPlace(selectedPlace);
-              if (places[index].identificationFlag === true) {
-                setIdentificationFlag(true);
-              }
+          let maker = new window.kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage,
+          });
+          maker.setMap(window.map);
+          window.kakao.maps.event.addListener(maker, "click", () => {
+            setSelectedPlace(place);
+            if (place.identificationFlag === true) {
+              setIdentificationFlag(true);
             }
             openModal();
           });
@@ -67,9 +91,11 @@ const Report = () => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     getReport();
-  }, [selectedPlace]);
+  }, []);
+
   return (
     <>
       {selectedPlace && modalOpen && (
@@ -83,7 +109,7 @@ const Report = () => {
                       <SwiperSlide key={index}>
                         <img src={fileUrl} alt="사진" />
                       </SwiperSlide>
-                    )
+                    ),
                   )}
               </Swiper>
             </ReportPhotoWrapper>
@@ -94,7 +120,6 @@ const Report = () => {
                 <DeleteReport
                   reportId={selectedPlace.reportId}
                   closeModal={closeModal}
-                  getReport={getReport}
                 />
               ) : null}
               <button onClick={closeModal}>닫기</button>
@@ -106,4 +131,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default GetReport;

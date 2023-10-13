@@ -17,6 +17,7 @@ const MapSlice = createSlice({
     markerList: [],
     messageMarkerList: [] as any,
     safeMarkerList: [] as any,
+    reportPlaces: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -67,6 +68,9 @@ const MapSlice = createSlice({
         : [action.payload];
       state.safeMarkerList.push(...payloads);
     },
+    setReportPlaces: (state, action) => {
+      state.reportPlaces = action.payload;
+    },
   },
 });
 
@@ -85,5 +89,6 @@ export const {
   setMarkerList,
   setMessageMarkerList,
   setSafeMarkerList,
+  setReportPlaces,
 } = MapSlice.actions;
 export default MapSlice.reducer;

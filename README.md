@@ -145,10 +145,16 @@
 ![safe.PNG](./nubio/safe.PNG)
 
 ## 🧱아키텍처
-![architecture.png](./nubio/architecture.png)
+![v1architecture.PNG](./nubio/v1architecture.PNG)
 
 
 ## 🗂ERD
+- MEMBER ERD
+![v1erdmember.PNG](./nubio/v1erdmember.PNG)
 
-![erd.png](./nubio/erd.png)
+- ENJOY ERD
+![v1erd-enjoy.PNG](./nubio/v1erd-enjoy.PNG)
+
+- SAFE ERD
+![v1erd-safe.PNG](./nubio/v1erd-safe.PNG)
 

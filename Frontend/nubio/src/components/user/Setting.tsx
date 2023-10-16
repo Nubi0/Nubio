@@ -3,7 +3,7 @@ import { SettingWrapper, MyRefrenceWrapper, MyListWrapper, LogOutWrapper, Delete
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const Setting = ({openModal}: any) => {
+const Setting = ({openModal}: {openModal: () => void}) => {
     const navigate = useNavigate();
 
 

@@ -6,13 +6,13 @@ import { setNewNickName, setIsInputDisabled, setIsChange, setBirth, setGender } 
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const UserInfo = ({setFile, setNickCheck}: any) => {
+const UserInfo = ({setFile, setNickCheck}: {setFile: React.Dispatch<React.SetStateAction<File | null>>, setNickCheck: React.Dispatch<React.SetStateAction<boolean>>}) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const newNickName = useSelector((state: {profile: {newNickName: string}}) => state.profile.newNickName);
     const isInputDisabled = useSelector((state: {profile: {isInputDisabled: boolean}}) => state.profile.isInputDisabled);
-    const email = useSelector((state: any) => state.profile.email);
-    const birth = useSelector((state: any) => state.profile.birth);
-    const gender = useSelector((state: any) => state.profile.gender);
+    const email = useSelector((state: {profile: {email: string}}) => state.profile.email);
+    const birth = useSelector((state: {profile: {birth: string}}) => state.profile.birth);
+    const gender = useSelector((state: {profile: {gender: string}}) => state.profile.gender);
     const dispatch = useDispatch();
 
     const handleChange = (value: string) => {
@@ -24,7 +24,7 @@ const UserInfo = ({setFile, setNickCheck}: any) => {
         dispatch(setIsChange(true));
     }
 
-    const handleBirth = (e: any) => {
+    const handleBirth = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setBirth(e.target.value));
         dispatch(setIsChange(true));
     }
@@ -100,7 +100,7 @@ const UserInfo = ({setFile, setNickCheck}: any) => {
 
     return (
         <MyInfoWrapper>
-            <UserImg setIsChange={setIsChange} setFile={setFile} />
+            <UserImg setFile={setFile} />
             <div>
                 <Title>이메일</Title>
                 <Content>{email}</Content>
@@ -120,7 +120,7 @@ const UserInfo = ({setFile, setNickCheck}: any) => {
             </div>
             <div>
                 <Title>생년월일</Title>
-                <input type="date" value={birth} onChange={handleBirth} />
+                <input type="date" value={birth} onChange={(e) => handleBirth(e)} />
             </div>
             <GenderWrapper>
                 <Title>성별</Title>

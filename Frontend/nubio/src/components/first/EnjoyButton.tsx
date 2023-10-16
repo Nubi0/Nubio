@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { EnjoyButtonWrapper } from "../../styles/SHomePage";
 import Swal from "sweetalert2";
 
-const EnjoyButton = ({isTaste, isLogin}: {isTaste: boolean, isLogin: any}) => {
+const EnjoyButton = ({isTaste, isLogin}: {isTaste: boolean, isLogin: string | null}) => {
   const navigate = useNavigate();
   const handleClick = () => {
     if(isTaste && isLogin) {

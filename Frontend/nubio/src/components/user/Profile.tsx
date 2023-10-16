@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import axios from "axios";
 import { setEmail, setNewNickName, setProfileUrl, setBirth, setGender } from "../../redux/slice/Profileslice";
 
-const Profile = ({openModal, setFile, setNickCheck}: any) => {
+const Profile = ({openModal, setFile, setNickCheck}: {openModal: () => void, setFile: React.Dispatch<React.SetStateAction<File | null>>, setNickCheck: React.Dispatch<React.SetStateAction<boolean>>}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
-const CourseSelectModal = ({setModal}: any) => {
+const CourseSelectModal = ({setModal}: {setModal: () => void}) => {
     const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
     const purposes = ['드라이빙', '인생샷 찍기', '산책', '데이트', '맛집탐방', '음주가무', '여행']
     const [title, setTitle] = useInput('');

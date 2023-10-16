@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {
   setMessageMarkerList,
   setShowShelters,
-} from "../../../redux/slice/MapSlice";
+} from "../../../redux/slice/SafeSlice";
 
 type EmergencyMessage = {
   city: string;

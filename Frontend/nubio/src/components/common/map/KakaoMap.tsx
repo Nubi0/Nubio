@@ -19,7 +19,6 @@ import {
   setEndName,
   setShortTime,
   setSafeTime,
-  setkeyWord,
 } from "../../../redux/slice/MapSlice";
 import { useSelector } from "react-redux";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
@@ -27,19 +26,9 @@ import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
 import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
-import RootState from "../../../types/RootState";
-interface placeType {
-  place_name: string;
-  road_address_name: string;
-  address_name: string;
-  phone: string;
-  place_url: string;
-  length: number;
-  x: string;
-  y: string;
-}
-const { kakao } = window as any;
+import { placeType } from "../../../types/kakaoMap";
 
+const { kakao } = window as any;
 declare global {
   interface Window {
     kakaoManager: any;
@@ -51,7 +40,7 @@ declare global {
     endCustomOverlay: any;
     safeCustomOverlay: any;
     myLatitude: any;
-    myLongitude: any;
+    myLongitude: number;
     shelterCustomOverlay: any;
   }
 }
@@ -60,17 +49,16 @@ const KakaoMap = (props: propsType) => {
   const mapRef = useRef(null);
 
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { startName: string }) => state.startName,
   );
-  const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
+  const endName = useSelector((state: { endName: string }) => state.endName);
+  const searchKeyword = useSelector(
+    (state: { keyWord: string }) => state.keyWord,
   );
-  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
   const safeMarkerList = useSelector(
-    (state: { map: { safeMarkerList: any } }) => state.map.safeMarkerList,
+    (state: { safeMarkerList: any }) => state.safeMarkerList,
   );
   const dispatch = useDispatch();
-
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
   const location = useLocation();
@@ -158,7 +146,7 @@ const KakaoMap = (props: propsType) => {
   };
 
   // 도(degree)단위를 라디안(radian)단위로 바꾸는 함수
-  const deg2rad = (deg: any) => {
+  const deg2rad = (deg: number) => {
     return deg * (Math.PI / 180);
   };
 
@@ -181,7 +169,15 @@ const KakaoMap = (props: propsType) => {
   }
 
   // 장소검색이 완료됐을 때 호출되는 콜백함수
-  function placesSearchCB(data: any, status: any, pagination: any) {
+  function placesSearchCB(
+    data: string,
+    status: string,
+    pagination: {
+      last: number;
+      current: number;
+      gotoPage: (arg0: number) => void;
+    },
+  ) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출
@@ -304,7 +300,7 @@ const KakaoMap = (props: propsType) => {
       window.endCustomOverlay = customOverlay;
       window.endCustomOverlay.setMap(window.map);
     };
-    const ClickPlace = (place: any) => {
+    const ClickPlace = (place: placeType) => {
       dispatch(setPosition(place));
     };
     if (places.length !== 0) {

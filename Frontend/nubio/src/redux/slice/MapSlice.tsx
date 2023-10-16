@@ -12,12 +12,6 @@ const MapSlice = createSlice({
     end: {},
     startName: null,
     endName: null,
-    safePlace: [],
-    showShelters: false,
-    markerList: [],
-    messageMarkerList: [] as any,
-    safeMarkerList: [] as any,
-    reportPlaces: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -47,30 +41,6 @@ const MapSlice = createSlice({
     setEndName: (state, action) => {
       state.endName = action.payload;
     },
-    setSafePlace: (state, action) => {
-      state.safePlace = action.payload;
-    },
-    setShowShelters: (state, action) => {
-      state.showShelters = action.payload;
-    },
-    setMarkerList: (state, action) => {
-      state.markerList = action.payload;
-    },
-    setMessageMarkerList: (state, action) => {
-      const payloads = Array.isArray(action.payload)
-        ? action.payload
-        : [action.payload];
-      state.messageMarkerList.push(...payloads);
-    },
-    setSafeMarkerList: (state, action) => {
-      const payloads = Array.isArray(action.payload)
-        ? action.payload
-        : [action.payload];
-      state.safeMarkerList.push(...payloads);
-    },
-    setReportPlaces: (state, action) => {
-      state.reportPlaces = action.payload;
-    },
   },
 });
 
@@ -84,11 +54,5 @@ export const {
   setEndName,
   setStart,
   setEnd,
-  setSafePlace,
-  setShowShelters,
-  setMarkerList,
-  setMessageMarkerList,
-  setSafeMarkerList,
-  setReportPlaces,
 } = MapSlice.actions;
 export default MapSlice.reducer;

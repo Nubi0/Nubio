@@ -1,6 +1,6 @@
 import { ShelterButton } from "../../../styles/SSafeHomePage";
 import { useDispatch, useSelector } from "react-redux";
-import { setMarkerList, setShowShelters } from "../../../redux/slice/MapSlice";
+import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
 import axios from "axios";
 
 const Shelter = () => {

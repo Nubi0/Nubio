@@ -62,14 +62,14 @@ const CreateReport = () => {
     });
     formData.append(
       "report",
-      new Blob([JSON.stringify(report)], { type: "application/json" })
+      new Blob([JSON.stringify(report)], { type: "application/json" }),
     );
     if (
       title == "" ||
       content == "" ||
       reportType == "" ||
-      window.myLongitude == "" ||
-      window.myLatitude == ""
+      window.myLongitude == null ||
+      window.myLatitude == null
     ) {
       Swal.fire({
         title: "제보 사진을 제외한 부분은 필수값입니다.",

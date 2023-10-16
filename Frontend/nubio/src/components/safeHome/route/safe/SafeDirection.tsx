@@ -1,11 +1,11 @@
 import axios from "axios";
 import proj4 from "proj4";
 import { useDispatch, useSelector } from "react-redux";
+import { setSafeTime } from "../../../../redux/slice/MapSlice";
 import {
-  setSafeTime,
   setSafePlace,
   setSafeMarkerList,
-} from "../../../../redux/slice/MapSlice";
+} from "../../../../redux/slice/SafeSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 
 interface SafeDirectionProps {

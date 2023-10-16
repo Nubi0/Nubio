@@ -6,7 +6,7 @@ const KaKaoLogin = () => {
     useEffect(() => {
         const code = new URL(window.location.href).searchParams.get('code');
         const redirectUrl = window.location.origin + '/oauth/kakao'
-        axios.post('https://nubi0.com/start/v1/oauth/kakao/callback', {code,redirectUrl})
+        axios.post('https://nubi0.com/api/start/v1/oauth/kakao/callback', {code,redirectUrl})
              .then((res) => {
                 const {accessToken, refreshToken, refreshTokenExpireTime} = res.data.data;
                 axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;

@@ -5,10 +5,10 @@ import { setCourseList } from "../../../../redux/slice/EnjoySlice";
 import { AllCourseListWrapper } from "../../../../styles/SAllCoursePage";
 import AllCourseItem from "./AllCourseItem";
 
-const AllCourseList = ({active}: {active: any}) => {
+const AllCourseList = ({active}: {active: activeProps}) => {
     const dispatch = useDispatch();
-    const courseList = useSelector((state: any) => state.enjoy.courseList);
-    const region = useSelector((state: any) => state.enjoy.region);
+    const courseList = useSelector((state: {enjoy: {courseList: CourseItem[]}}) => state.enjoy.courseList);
+    const region = useSelector((state: {enjoy: {region: string}}) => state.enjoy.region);
     useEffect(() => {
         if (active.all === true) {
           axios

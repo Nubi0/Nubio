@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import axios from 'axios';
 import { CourseButtonWrapper } from '../../../../styles/SCourseDeatilPage';
 import { useParams } from 'react-router-dom';
@@ -8,9 +7,9 @@ const CourseButton = ({
   setPlaceList,
   setCourseInfo,
 }: {
-  course_info: any;
-  setPlaceList: any;
-  setCourseInfo: any;
+  course_info: courseInfo;
+  setPlaceList: React.Dispatch<React.SetStateAction<placeProps[]>>;
+  setCourseInfo: React.Dispatch<React.SetStateAction<courseInfo>>;
 }) => {
   const bookMarkUrl = process.env.PUBLIC_URL + '/assets/star.svg';
   const bookMarkFillUrl = process.env.PUBLIC_URL + '/assets/starFill.svg';
@@ -44,11 +43,6 @@ const CourseButton = ({
         <img src={favorite_flag ? bookMarkFillUrl : bookMarkUrl} alt="" />
         <button>찜하기</button>
       </div>
-      {/* <ButtonDivider />
-      <div>
-        <img src={share} alt="" />
-        <button>공유하기</button>
-      </div> */}
     </CourseButtonWrapper>
   );
 };

@@ -1,24 +1,82 @@
-interface CourseItem {
+type CourseItem = {
   title: string;
-  course_tags: any[];
+  course_tags: string[];
   favorite_flag: boolean;
   like_count: number;
-  place_list: any[];
+  place_list: PlaceList[];
   course_id: string;
   course_id: number;
 }
 
-interface CourseProps {
-  value: CourseItem;
-}
-
-interface PlaceItem {
+type PlaceList = {
   place_id: number;
   kakao_id: number;
   place_name: string;
   img_url: string;
 }
 
-interface PageName {
+type CourseProps = {
+  value: CourseItem;
+}
+
+type PlaceItem = {
+  place_id: number;
+  kakao_id: number;
+  place_name: string;
+  img_url: string;
+}
+
+type PageName = {
   pageName: string;
 }
+
+type placeProps = {
+    id: string;
+    address_name: string;
+    category_group_code: string;
+    category_group_name: string;
+    phone: string;
+    place_name: string;
+    place_url: string;
+    img_url: string;
+    road_address_name: string;
+    x: string;
+    y: string;
+    sequence: number;
+};
+
+type reviewProps = {
+  content: string;
+  course_review_id: number;
+  member_id: string;
+  nickname: string;
+  point: number;
+}
+
+type activeProps = {
+  all: boolean;
+  popular: boolean;
+}
+
+type courseInfo = {
+  course_id: string;
+  course_tags: string[];
+  favorite_flag: boolean;
+  like_count: number;
+  like_flag: boolean;
+}
+
+type placeItem = {
+  id: string;
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  img_url: string;
+  road_address_name: string;
+  x: number;
+  y: number;
+  index: number;
+};

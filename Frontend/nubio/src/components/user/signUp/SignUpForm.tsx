@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 
-const SignUpForm = ({setIsLoading}: any) => {
+const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetStateAction<boolean>>}) => {
   const [email, onChangeEmail] = useInput('');
   const [pwd, onChangePwd] = useInput('');
   const [pwdc, onChangePwdc] = useInput('');

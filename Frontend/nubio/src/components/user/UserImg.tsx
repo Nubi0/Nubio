@@ -1,19 +1,19 @@
 import { useRef, useState, useEffect } from 'react';
 import { ImgPlus, MyImg, ProfileImg } from "../../styles/SProfilePage";
 import { useDispatch, useSelector } from 'react-redux';
-import { setProfileUrl } from '../../redux/slice/Profileslice';
+import { setProfileUrl, setIsChange } from '../../redux/slice/Profileslice';
 
-const UserImg = ({setIsChange, setFile}: any) => {
+const UserImg = ({setFile}: { setFile: React.Dispatch<React.SetStateAction<File | null>>}) => {
     const user = process.env.PUBLIC_URL + "/assets/user.png";
     const plus = process.env.PUBLIC_URL + '/assets/camera.svg';
-    const profile = useSelector((state: any) => state.profile.profileUrl);
+    const profile = useSelector((state: {profile: {profileUrl: string}}) => state.profile.profileUrl);
     const [image, setImage] = useState(user);
     const [prevImage, setPrevImage] = useState(user);
     const dispatch = useDispatch();
 
-    const fileInput = useRef<any>(null);
-    const onChange = (e: any) => {
-        if (e.target.files.length > 0) {
+    const fileInput = useRef<HTMLInputElement | null>(null);
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
             const reader = new FileReader();
             setFile(file);

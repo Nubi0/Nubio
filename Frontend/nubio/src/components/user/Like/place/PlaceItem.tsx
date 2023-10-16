@@ -1,7 +1,6 @@
 import { PlaceItemWrapper } from '../../../../styles/SLikePage';
 import PlaceInfo from './PlaceInfo';
 import PlacePhoto from './PlacePhoto';
-import PlaceReview from './PlaceReview';
 
 type placeProps = {
   place: {
@@ -38,7 +37,6 @@ const PlaceItem = ({ place }: placeProps) => {
       <PlaceInfo info={info} />
       <div>
         <PlacePhoto photo={photo} />
-        <PlaceReview review={review} />
       </div>
     </PlaceItemWrapper>
   );

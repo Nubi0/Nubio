@@ -14,7 +14,7 @@ import {
 } from '../../../../styles/SAllCoursePage';
 import { useNavigate } from 'react-router';
 
-const AllCourseItem = ({ value }: { value: any }) => {
+const AllCourseItem = ({ value }: { value: CourseItem }) => {
   const { title, favorite_flag, course_tags, place_list } = value;
   const starFill = process.env.PUBLIC_URL + '/assets/smallStarFill.svg';
   const star = process.env.PUBLIC_URL + '/assets/smallStar.svg';

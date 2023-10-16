@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSelectPage';
-import CoursePinList from './CourseList';
-import CourseResult from './CourseResult';
+import CourseList from './CourseList';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosition, setTime } from '../../../../redux/slice/EnjoySlice';
+import { setTime } from '../../../../redux/slice/EnjoySlice';
 import Map from '../../../common/map/Map';
 declare global {
   interface Window {
@@ -11,19 +10,18 @@ declare global {
   }
 }
 
-const CourseSelect = ({ setModal }: any) => {
-  const timeData = useSelector((state: any) => state.enjoy.time);
+const CourseSelect = () => {
   const dispatch = useDispatch();
   const [manager, setManger] = useState<any>(null);
 
-  var positions = useSelector((state: any) => state.enjoy.positions);
+  var positions = useSelector((state: {enjoy: {positions: placeItem[]}}) => state.enjoy.positions);
 
   // 커스텀 마커 생성
 
   useEffect(() => {
     dispatch(setTime(null));
     setManger(window.kakaoManager);
-    positions.map((value: any, idx: any) => {
+    positions.map((value: placeItem, idx: number) => {
       const positions = new kakao.maps.LatLng(value.y, value.x);
       const marker = new kakao.maps.Marker({
         map: window.map,
@@ -52,8 +50,7 @@ const CourseSelect = ({ setModal }: any) => {
       <CourseMaker onClick={() => selectOverlay()} id="courseMaker">
         코스 그리기
       </CourseMaker>
-      <CoursePinList positions={positions} />
-      {timeData && <CourseResult data={timeData} setModal={setModal} />}
+      <CourseList positions={positions} />
     </CourseSelectWrapper>
   );
 };

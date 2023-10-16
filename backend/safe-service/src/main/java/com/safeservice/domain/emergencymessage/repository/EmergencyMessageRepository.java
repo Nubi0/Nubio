@@ -1,6 +1,7 @@
 package com.safeservice.domain.emergencymessage.repository;
 
 import com.safeservice.domain.emergencymessage.entity.EmergencyMessage;
+import com.safeservice.domain.emergencymessage.entity.type.MdId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +15,6 @@ public interface EmergencyMessageRepository extends JpaRepository<EmergencyMessa
             "and em.address.city like :city ORDER BY em.occurredTime.value DESC")
     List<EmergencyMessage> findLatestEmergencyMessage(@Param("fifteenMinutesAgo") LocalDateTime fifteenMinutesAgo,
                                                       @Param("city") String city);
+
+    boolean existsByMdId(MdId mdId);
 }

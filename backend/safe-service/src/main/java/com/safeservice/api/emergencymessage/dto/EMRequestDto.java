@@ -2,6 +2,7 @@ package com.safeservice.api.emergencymessage.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.safeservice.api.emergencymessage.dto.client.DataApiDto;
 import com.safeservice.domain.emergencymessage.entity.EmergencyMessage;
 import com.safeservice.domain.emergencymessage.entity.constant.EmerStage;
 import com.safeservice.domain.emergencymessage.entity.constant.EmerType;
@@ -51,6 +52,17 @@ public class EMRequestDto {
                 .address(Address.of(emRequestDto.getCity(), emRequestDto.getCounty()))
                 .message(Message.from(emRequestDto.getMessage()))
                 .occurredTime(OccurredTime.from(toUTCTime(emRequestDto.getOccurredTime()))).build();
+    }
+
+    public static EmergencyMessage toEntityByApi(DataApiDto.DisasterMsg.Row row) {
+        String[] locations = row.getLocationName().split(" ");
+        return EmergencyMessage.builder()
+                .mdId(MdId.from(row.getMd101Sn()))
+                .emerType(EmerType.ETC)
+                .emerStage(EmerStage.INFORMATION)
+                .address(Address.of(locations[0], locations[1]))
+                .message(Message.from(row.getMsg()))
+                .occurredTime(OccurredTime.from(toUTCTime(row.getCreateDate()))).build();
     }
 
     private static LocalDateTime toUTCTime(LocalDateTime time) {

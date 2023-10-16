@@ -32,6 +32,16 @@ public class EmergencyMessageController {
         return ApiResponseEntity.ok("생성 완료");
     }
 
+    @Operation(summary = "API 요청을 통한 재난 문자 생성", description = "safe/v1/safe/emergency/call\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED")
+    })
+    @GetMapping("/emergency/call")
+    public ApiResponseEntity<String> createEmergencyMessageByApi() {
+        emergencyMessageInfoService.createEmergencyMessageByApi();
+        return ApiResponseEntity.create("생성 완료");
+    }
+
     @Operation(summary = "재난 여부 및 정보 조회", description = "safe/v1/safe/check\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")

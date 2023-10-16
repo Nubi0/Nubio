@@ -19,3 +19,8 @@ export interface placeType {
 export interface searchType {
   keyword: string;
 }
+interface SearchBarProps {
+  searchPlaces: (query: string) => void;
+  setListIsOpen: (isOpen: boolean) => void;
+  setFindRouteOpen: (isOpen: boolean) => void;
+}

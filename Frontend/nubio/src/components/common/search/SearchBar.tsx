@@ -3,8 +3,13 @@ import { useDispatch } from "react-redux";
 import { setkeyWord } from "../../../redux/slice/MapSlice";
 import Swal from "sweetalert2";
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
+import { SearchBarProps } from "../../../types/kakaoMap";
 
-const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
+const SearchBar = ({
+  searchPlaces,
+  setListIsOpen,
+  setFindRouteOpen,
+}: SearchBarProps) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();

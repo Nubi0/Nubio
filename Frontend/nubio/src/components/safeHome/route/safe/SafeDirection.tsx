@@ -8,18 +8,6 @@ import {
 } from "../../../../redux/slice/SafeSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 
-interface SafeDirectionProps {
-  clearRoute: () => void;
-  setFindRouteOpen: (findRouteOpen: boolean) => void;
-}
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
 const SafeDirection = ({
   clearRoute,
   setFindRouteOpen,
@@ -29,17 +17,13 @@ const SafeDirection = ({
   };
   const dispatch = useDispatch();
   const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start,
+    (state: { start: StartCoordinates }) => state.start,
   );
-  const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end,
-  );
+  const end = useSelector((state: { end: EndCoordinates }) => state.end);
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName,
+    (state: { startName: string }) => state.startName,
   );
-  const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName,
-  );
+  const endName = useSelector((state: { endName: string }) => state.endName);
 
   // 안전경로 길찾기
   const getSafeLocation = () => {
@@ -98,7 +82,7 @@ const SafeDirection = ({
         console.log(err);
       });
   };
-  const getSafeDirection = (safeLatitude: any, safeLongitude: any) => {
+  const getSafeDirection = (safeLatitude: string, safeLongitude: string) => {
     clearRoute();
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
     var safeLatituded = safeLatitude?.toString();
@@ -122,7 +106,7 @@ const SafeDirection = ({
         { headers: headers },
       )
       .then((res) => {
-        function flattenArray(arr: any) {
+        function flattenArray(arr: Array<string>) {
           return arr.reduce((acc: any, val: any) => {
             if (Array.isArray(val)) {
               acc.push(...flattenArray(val));

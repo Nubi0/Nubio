@@ -7,6 +7,7 @@ import {
   setSafeMarkerList,
 } from "../../../../redux/slice/MapSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
+import Swal from "sweetalert2";
 
 interface SafeDirectionProps {
   clearRoute: () => void;
@@ -44,7 +45,7 @@ const SafeDirection = ({
   // 안전경로 길찾기
   const getSafeLocation = () => {
     axios
-      .post("https://nubi0.com/safe/v1/safe/recommend/node", {
+      .post(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/recommend/node`, {
         start_location: {
           longitude: start.x,
           latitude: start.y,
@@ -55,7 +56,7 @@ const SafeDirection = ({
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.data.content.length > 0) {
           var safeLatitude = res.data.data.content[0].location.latitude;
           var safeLongitude = res.data.data.content[0].location.longitude;
@@ -95,7 +96,7 @@ const SafeDirection = ({
         getSafeDirection(safeLatitude, safeLongitude);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const getSafeDirection = (safeLatitude: any, safeLongitude: any) => {
@@ -212,7 +213,11 @@ const SafeDirection = ({
         setFindRouteOpen(true);
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          title: "조회할 수 없는 장소입니다.",
+          text: "NUBIO",
+        });
+        // console.log(err);
       });
   };
   return (

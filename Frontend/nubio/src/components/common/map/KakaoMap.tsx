@@ -56,7 +56,7 @@ declare global {
   }
 }
 
-const KakaoMap = ({position}: {position: placeItem[]}) => {
+const KakaoMap = ({ position }: { position: placeItem[] }) => {
   const mapRef = useRef(null);
 
   const startName = useSelector(
@@ -129,7 +129,10 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
         );
       }
     } else {
-      console.log("라인이 그려지지 않았습니다.");
+      Swal.fire({
+        title: "라인이 그려지지 않았습니다.",
+        text: "NUBIO",
+      });
     }
   };
 
@@ -165,7 +168,11 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
   // 키워드 검색을 요청하는 함수
   function searchPlaces(keyword: string) {
     if (!keyword.replace(/^\s+|\s+$/g, "")) {
-      console.log("키워드를 입력해주세요!");
+      Swal.fire({
+        title: `키워드를 입력해주세요.`,
+        text: "NUBIO",
+      });
+      // console.log("키워드를 입력해주세요!");
       return false;
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청
@@ -468,11 +475,19 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
           marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
-          console.error("geolocation 에러 발생:", error);
+          Swal.fire({
+            title: `geolocation ${error} 발생.`,
+            text: "NUBIO",
+          });
+          // console.error("geolocation 에러 발생:", error);
         },
       );
     } else {
-      console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
+      Swal.fire({
+        title: "지금 브라우저에서는 geolocation를 지원하지 않습니다.",
+        text: "NUBIO",
+      });
+      // console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
     }
   };
 
@@ -537,10 +552,7 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
             <img class="custom-marker" src="${position[i].img_url}" alt="Custom Marker" />
           </div>
         `,
-          position: new window.kakao.maps.LatLng(
-            position[i].x,
-            position[i].y,
-          ),
+          position: new window.kakao.maps.LatLng(position[i].x, position[i].y),
         });
         customOverlay.setMap(map);
       }

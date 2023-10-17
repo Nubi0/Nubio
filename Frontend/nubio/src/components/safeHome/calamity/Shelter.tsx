@@ -17,10 +17,10 @@ const Shelter = () => {
   const GetNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
-        console.log(res.data.data.content);
+        // console.log(res.data.data.content);
         dispatch(setShowShelters(true));
         const shelter = res.data.data.content;
         const newmarkerList: any = [];
@@ -42,7 +42,7 @@ const Shelter = () => {
         dispatch(setMarkerList(newmarkerList));
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const DeleteShelter = () => {

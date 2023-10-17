@@ -33,7 +33,7 @@ const GetReport = () => {
 
   const getReport = () => {
     axios
-      .get(`https://nubi0.com/safe/v1/safe/report`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`)
       .then((res) => {
         const places = res.data.data.reportList;
         console.log(places);

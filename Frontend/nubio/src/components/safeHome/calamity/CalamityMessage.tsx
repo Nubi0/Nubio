@@ -32,7 +32,7 @@ const CalamityMessage = () => {
 
   const getCalamity = () => {
     axios
-      .post("https://nubi0.com/safe/v1/safe/check", {
+      .post(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/check`, {
         longitude: window.myLongitude,
         latitude: window.myLatitude,
       })
@@ -51,7 +51,7 @@ const CalamityMessage = () => {
   const getNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
         const shelter = res.data.data.content;

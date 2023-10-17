@@ -28,7 +28,7 @@ const SafeDirection = ({
   // 안전경로 길찾기
   const getSafeLocation = () => {
     axios
-      .post("https://nubi0.com/safe/v1/safe/recommend/node", {
+      .post(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/recommend/node`, {
         start_location: {
           longitude: start.x,
           latitude: start.y,

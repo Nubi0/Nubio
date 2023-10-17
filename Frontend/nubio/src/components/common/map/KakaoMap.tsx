@@ -47,7 +47,6 @@ declare global {
 
 const KakaoMap = (props: propsType) => {
   const mapRef = useRef(null);
-
   const startName = useSelector(
     (state: { startName: string }) => state.startName,
   );

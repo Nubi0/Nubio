@@ -77,11 +77,15 @@ const CreateReport = () => {
       });
     } else {
       axios
-        .post("https://nubi0.com/safe/v1/safe/report", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        .post(
+          `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
-        })
+        )
         .then(() => {
           closeModal();
           Swal.fire({

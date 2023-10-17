@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { setStart, setStartName } from "../../../redux/slice/MapSlice";
-import { MyLocationButton } from "../../../styles/SKakaoMap";
+import { MyLocationButton } from "../../../styles/SMap";
 
 const SelectMyLocation = ({ removeMarker }: { removeMarker: () => void }) => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const SelectMyLocation = ({ removeMarker }: { removeMarker: () => void }) => {
     // 커스텀 오버레이가 표시될 위치입니다
     let markerPosition = new kakao.maps.LatLng(
       window.myLatitude,
-      window.myLongitude
+      window.myLongitude,
     );
     // 커스텀 오버레이를 생성합니다
     let customOverlay = new kakao.maps.CustomOverlay({

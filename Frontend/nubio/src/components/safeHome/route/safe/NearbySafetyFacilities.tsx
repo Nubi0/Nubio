@@ -14,13 +14,13 @@ const NearbySafetyFacilities = () => {
   const getNearbySafetyFacilities = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-facility/all?longitude=${longitude}&latitude=${latitude}&distance=1`,
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-facility/all?longitude=${longitude}&latitude=${latitude}&distance=1`,
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   useEffect(() => {

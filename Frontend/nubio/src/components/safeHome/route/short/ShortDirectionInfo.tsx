@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { ShortDistanceWrapper } from "../../../../styles/SSafeHomePage";
+import { ShortDistanceWrapper } from "../../../../styles/SRoute";
 
 const ShortDistance = () => {
-  const timeData = useSelector((state: any) => state.map.shortTime);
+  const timeData = useSelector((state: any) => state.safe.shortTime);
   const nowTime = new Date();
   const nowHours = nowTime.getHours();
   const nowMinutes = nowTime.getMinutes();
@@ -15,7 +15,6 @@ const ShortDistance = () => {
     arriveTimeHours += 1;
     arriveTimeMinutes = Math.abs(arriveTimeMinutes - 60);
   }
-  console.log(arriveTimeHours);
   const formattedArriveTimeHours = arriveTimeHours.toString().padStart(2, "0");
   const formattedArriveTimeMinutes = arriveTimeMinutes
     .toString()

@@ -8,15 +8,15 @@ const NearbyShelter = () => {
     null;
   const longitude =
     useSelector(
-      (state: { map: { longitude: string } }) => state.map.longitude
+      (state: { map: { longitude: string } }) => state.map.longitude,
     ) || null;
   const getNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${longitude}&latitude=${latitude}&distance=1`
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${longitude}&latitude=${latitude}&distance=1`,
       )
       .then((res) => {
-        console.log(res.data.data.content);
+        // console.log(res.data.data.content);
         const shelter = res.data.data.content;
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
@@ -24,7 +24,7 @@ const NearbyShelter = () => {
           // 커스텀 오버레이가 표시될 위치입니다
           let markerPosition = new kakao.maps.LatLng(
             shelter[i].location.latitude,
-            shelter[i].location.longitude
+            shelter[i].location.longitude,
           );
           // 커스텀 오버레이를 생성합니다
           let customOverlay = new kakao.maps.CustomOverlay({
@@ -37,7 +37,7 @@ const NearbyShelter = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   useEffect(() => {

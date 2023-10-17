@@ -1,33 +1,27 @@
+// Hook
+import { useDispatch, useSelector } from "react-redux";
+// 라이브러리
 import axios from "axios";
 import proj4 from "proj4";
-import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
+import { SafeDirectionButton } from "../../../../styles/SRoute";
+// redux
 import {
   setSafeTime,
   setSafePlace,
   setSafeMarkerList,
-} from "../../../../redux/slice/MapSlice";
-import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
+} from "../../../../redux/slice/SafeSlice";
 
-interface SafeDirectionProps {
-  clearRoute: () => void;
-  setFindRouteOpen: (findRouteOpen: boolean) => void;
-}
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
 const SafeDirection = ({
   clearRoute,
   setFindRouteOpen,
 }: SafeDirectionProps) => {
-  const deg2rad = (deg: any) => {
+  const dispatch = useDispatch();
+  const deg2rad = (deg: number) => {
     return deg * (Math.PI / 180);
   };
-  const dispatch = useDispatch();
   const start = useSelector(
     (state: { map: { start: StartCoordinates } }) => state.map.start,
   );
@@ -44,7 +38,7 @@ const SafeDirection = ({
   // 안전경로 길찾기
   const getSafeLocation = () => {
     axios
-      .post("https://nubi0.com/safe/v1/safe/recommend/node", {
+      .post(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/recommend/node`, {
         start_location: {
           longitude: start.x,
           latitude: start.y,
@@ -55,7 +49,6 @@ const SafeDirection = ({
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.data.content.length > 0) {
           var safeLatitude = res.data.data.content[0].location.latitude;
           var safeLongitude = res.data.data.content[0].location.longitude;
@@ -94,10 +87,9 @@ const SafeDirection = ({
         }
         getSafeDirection(safeLatitude, safeLongitude);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
+  // 안전한길 노드
   const getSafeDirection = (safeLatitude: any, safeLongitude: any) => {
     clearRoute();
     var headers = { appKey: "prZbuvPsM53ADwzJMIxl13StkVuNvAG86O6n4YhF" };
@@ -211,8 +203,11 @@ const SafeDirection = ({
         polyline.setMap(window.map);
         setFindRouteOpen(true);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        Swal.fire({
+          title: "조회할 수 없는 장소입니다.",
+          text: "NUBIO",
+        });
       });
   };
   return (

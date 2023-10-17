@@ -1,38 +1,34 @@
-import { useDispatch, useSelector } from "react-redux";
+// Hook
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+// 라이브러리
+import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
+// 컴포넌트
+// 스타일
 import {
   CalamityMessageWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
-} from "../../../styles/SSafeHomePage";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Swiper, SwiperSlide } from "swiper/react";
+} from "../../../styles/SCalamity";
+// redux
 import {
   setMessageMarkerList,
   setShowShelters,
-} from "../../../redux/slice/MapSlice";
+} from "../../../redux/slice/SafeSlice";
 
-type EmergencyMessage = {
-  city: string;
-  county: string;
-  message: string;
-  md_id: number;
-  emer_type: string;
-  occurred_time: string;
-};
 const CalamityMessage = () => {
   const dispatch = useDispatch();
-
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
-  // 재난문자 수신
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
+  // 재난문자 모달 닫기
   const closeWrapper = () => {
     setIsReceiveMessage(false);
   };
-
+  // 재난문자 불러오기
   const getCalamity = () => {
     axios
-      .post("https://nubi0.com/safe/v1/safe/check", {
+      .post(`${process.env.PUREACT_APP_SERVER_URL}/safe/v1/safe/check`, {
         longitude: window.myLongitude,
         latitude: window.myLatitude,
       })
@@ -44,21 +40,19 @@ const CalamityMessage = () => {
           setIsReceiveMessage(false);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
+  // 가까운 대피소 찾기
   const getNearbyShelter = () => {
     axios
       .get(
-        `https://nubi0.com/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
         const shelter = res.data.data.content;
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
               ${shelter[i].name}</span><span class="right"></span></div>`;
-
           let markerPosition = new kakao.maps.LatLng(
             shelter[i].location.latitude,
             shelter[i].location.longitude,
@@ -74,9 +68,7 @@ const CalamityMessage = () => {
         }
         dispatch(setShowShelters(true));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
   useEffect(() => {
     getCalamity();

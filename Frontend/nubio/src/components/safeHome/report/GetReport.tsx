@@ -1,13 +1,18 @@
-import axios from "axios";
+// Hook
 import { useEffect, useState } from "react";
+// 라이브러리
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+// 컴포넌트
+import DeleteReport from "./DeleteReport";
+// 스타일
 import {
   ReportInfoOverlay,
   ReportInfoWrapper,
   ReportPhotoWrapper,
   ReportInfoButtonWrapper,
-} from "../../../styles/SSafeHomePage";
-import { Swiper, SwiperSlide } from "swiper/react";
-import DeleteReport from "./DeleteReport";
+} from "../../../styles/SReport";
+// redux
 declare global {
   interface Window {
     reportCustomOverlay: any;
@@ -30,13 +35,12 @@ const GetReport = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  // 제보 조회하기
   const getReport = () => {
     axios
-      .get(`https://nubi0.com/safe/v1/safe/report`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`)
       .then((res) => {
         const places = res.data.data.reportList;
-        console.log(places);
         places.forEach((place: any) => {
           let imageSrc = "";
 
@@ -65,14 +69,14 @@ const GetReport = () => {
           };
 
           var content = `
-            <div class="customoverlay" style="width: ${customOverlaySize.width}; height: ${customOverlaySize.height}; zIndex:-1; background: rgba(255, 0, 0, 0.5); border-radius: 50%;"></div>
+            <div style="width: ${customOverlaySize.width}; height: ${customOverlaySize.height}; zIndex:0; background: rgba(255, 0, 0, 0.5); border-radius: 50%;"></div>
           `;
-          var customOverlay = new window.kakao.maps.CustomOverlay({
-            map: window.map,
-            position: markerPosition,
-            content: content,
-            yAnchor: 1,
-          });
+          // var customOverlay = new window.kakao.maps.CustomOverlay({
+          //   map: window.map,
+          //   position: markerPosition,
+          //   content: content,
+          //   yAnchor: 1,
+          // });
           let maker = new window.kakao.maps.Marker({
             position: markerPosition,
             image: markerImage,
@@ -88,7 +92,7 @@ const GetReport = () => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

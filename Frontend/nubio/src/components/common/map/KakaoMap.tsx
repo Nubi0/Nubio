@@ -1,45 +1,38 @@
+// Hook
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+// 라이브러리
+import Swal from "sweetalert2";
+// 컴포넌트
+import SearchBar from "../search/SearchBar";
+import RouteInfo from "../../safeHome/route/RouteInfo";
+import ShortDirection from "../../safeHome/route/short/ShortDirection";
+import SafeDirection from "../../safeHome/route/safe/SafeDirection";
+import SelectMyLocation from "./SelectMyLocation";
+import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
+// 스타일
 import {
   DestinationWrapper,
   MapWrapper,
   SearchListWrapper,
-  SearchResultsWrapper,
   ClearRouteButton,
-} from "../../../styles/SKakaoMap";
-import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+  MoveMyLocation,
+  SearchResultsWrapper,
+} from "../../../styles/SMap";
+
+// redux
 import { setPosition, setTime } from "../../../redux/slice/EnjoySlice";
-import SearchBar from "../search/SearchBar";
-import { useLocation } from "react-router";
-import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
   setStart,
   setEnd,
   setStartName,
   setEndName,
-  setShortTime,
-  setSafeTime,
-  setkeyWord,
 } from "../../../redux/slice/MapSlice";
-import { useSelector } from "react-redux";
-import ShortDirection from "../../safeHome/route/short/ShortDirection";
-import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import { MyLocation } from "../../../styles/SSafeHomePage";
-import SelectMyLocation from "./SelectMyLocation";
-import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
-import RootState from "../../../types/RootState";
-interface placeType {
-  place_name: string;
-  road_address_name: string;
-  address_name: string;
-  phone: string;
-  place_url: string;
-  length: number;
-  x: string;
-  y: string;
-}
-const { kakao } = window as any;
+import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
 
+// 카카오맵 관련
+const { kakao } = window as any;
 declare global {
   interface Window {
     kakaoManager: any;
@@ -56,37 +49,45 @@ declare global {
   }
 }
 
-const KakaoMap = ({position}: {position: placeItem[]}) => {
+const KakaoMap = ({ position }: { position: placeItem[] }) => {
+  const dispatch = useDispatch();
   const mapRef = useRef(null);
+  const location = useLocation();
 
+  // 검색 reudx
   const startName = useSelector(
     (state: { map: { startName: string } }) => state.map.startName,
   );
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
-  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
-  const safeMarkerList = useSelector(
-    (state: { map: { safeMarkerList: any } }) => state.map.safeMarkerList,
+  const searchKeyword = useSelector(
+    (state: { map: { keyWord: string } }) => state.map.keyWord,
   );
-  const dispatch = useDispatch();
-
+  const safeMarkerList = useSelector(
+    (state: { safe: { safeMarkerList: Array<any> } }) =>
+      state.safe.safeMarkerList,
+  );
+  // state
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
-  const location = useLocation();
+
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
 
   // 라인, 마커 삭제
   const clearRoute = () => {
+    // if (safeMarkerList.length > 0) {
     for (let j = 0; j < safeMarkerList.length; j++) {
       safeMarkerList[j].setMap(null);
     }
     window.polyline?.setMap(null);
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
+    // }
   };
+  // 맵에 표시된 경로 관련 삭제
   const clearAllRoute = () => {
     clearRoute();
     window.endCustomOverlay?.setMap(null);
@@ -129,7 +130,10 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
         );
       }
     } else {
-      console.log("라인이 그려지지 않았습니다.");
+      Swal.fire({
+        title: "라인이 그려지지 않았습니다.",
+        text: "NUBIO",
+      });
     }
   };
 
@@ -164,10 +168,14 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
 
   // 키워드 검색을 요청하는 함수
   function searchPlaces(keyword: string) {
-    if (!keyword.replace(/^\s+|\s+$/g, "")) {
-      console.log("키워드를 입력해주세요!");
-      return false;
-    }
+    // if (!keyword.replace(/^\s+|\s+$/g, "")) {
+    //   Swal.fire({
+    //     title: `키워드를 입력해주세요.`,
+    //     text: "NUBIO",
+    //   });
+    //   // console.log("키워드를 입력해주세요!");
+    //   return false;
+    // }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청
     window.ps.keywordSearch(keyword, placesSearchCB);
   }
@@ -181,7 +189,7 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
   }
 
   // 장소검색이 완료됐을 때 호출되는 콜백함수
-  function placesSearchCB(data: any, status: any, pagination: any) {
+  function placesSearchCB(data: string, status: any, pagination: any) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출
@@ -386,7 +394,7 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
     markers = [];
   };
   const safePlaces = useSelector(
-    (state: { map: { safePlace: any } }) => state.map.safePlace,
+    (state: { safe: { safePlace: any } }) => state.safe.safePlace,
   );
   const removeSafeMarker = () => {
     for (let i = 0; i < safePlaces.length; i++) {
@@ -468,11 +476,19 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
           marker.setMap(window.map); // 마커를 지도에 표시
         },
         (error) => {
-          console.error("geolocation 에러 발생:", error);
+          Swal.fire({
+            title: `geolocation ${error} 발생.`,
+            text: "NUBIO",
+          });
+          // console.error("geolocation 에러 발생:", error);
         },
       );
     } else {
-      console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
+      Swal.fire({
+        title: "지금 브라우저에서는 geolocation를 지원하지 않습니다.",
+        text: "NUBIO",
+      });
+      // console.error("지금 브라우저에서는 geolocation를 지원하지 않습니다.");
     }
   };
 
@@ -537,10 +553,7 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
             <img class="custom-marker" src="${position[i].img_url}" alt="Custom Marker" />
           </div>
         `,
-          position: new window.kakao.maps.LatLng(
-            position[i].x,
-            position[i].y,
-          ),
+          position: new window.kakao.maps.LatLng(position[i].x, position[i].y),
         });
         customOverlay.setMap(map);
       }
@@ -565,7 +578,7 @@ const KakaoMap = ({position}: {position: placeItem[]}) => {
     <>
       <MapWrapper id="map" className="map" />
       <CalamityMessage />
-      <MyLocation onClick={moveMyLocation}>내 위치로</MyLocation>
+      <MoveMyLocation onClick={moveMyLocation}>내 위치로</MoveMyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}

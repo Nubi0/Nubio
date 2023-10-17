@@ -1,4 +1,4 @@
-import { RouteInfoWrapper } from "../../../styles/SSafeHomePage";
+import { RouteInfoWrapper } from "../../../styles/SRoute";
 import SafeDistanceInfo from "./safe/SafeDistanceInfo";
 import ShortDirectionInfo from "./short/ShortDirectionInfo";
 

@@ -20,7 +20,7 @@ const Setting = ({openModal}: {openModal: () => void}) => {
         color: "black",
         }).then((res) => {
           if(res.isConfirmed){
-            axios.post('https://nubi0.com/auth/v1/member/logout')
+            axios.post(process.env.REACT_APP_SERVER_URL + '/auth/v1/member/logout')
                   .then((res) => {
                     navigate('/');
                     localStorage.clear();

@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 @Getter
@@ -54,15 +55,17 @@ public class EMRequestDto {
                 .occurredTime(OccurredTime.from(toUTCTime(emRequestDto.getOccurredTime()))).build();
     }
 
-    public static EmergencyMessage toEntityByApi(DataApiDto.DisasterMsg.Row row) {
+    public static EmergencyMessage toEntityByApi(DataApiDto.Row row) {
         String[] locations = row.getLocationName().split(" ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(row.getCreateDate(), formatter);
         return EmergencyMessage.builder()
                 .mdId(MdId.from(row.getMd101Sn()))
                 .emerType(EmerType.ETC)
                 .emerStage(EmerStage.INFORMATION)
                 .address(Address.of(locations[0], locations[1]))
                 .message(Message.from(row.getMsg()))
-                .occurredTime(OccurredTime.from(toUTCTime(row.getCreateDate()))).build();
+                .occurredTime(OccurredTime.from(toUTCTime(localDateTime))).build();
     }
 
     private static LocalDateTime toUTCTime(LocalDateTime time) {

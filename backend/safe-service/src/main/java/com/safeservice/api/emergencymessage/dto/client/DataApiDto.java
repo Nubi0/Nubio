@@ -2,6 +2,11 @@ package com.safeservice.api.emergencymessage.dto.client;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,77 +19,30 @@ import java.util.List;
 @AllArgsConstructor
 public class DataApiDto {
 
-    @JsonProperty("DisasterMsg")
-    private List<DisasterMsg> disasterMsg;
+    @JsonProperty("row")
+    private List<Row> row;
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class DisasterMsg {
+    public static class Row {
 
-        @JsonProperty("head")
-        private Head head;
+        @SerializedName("create_date")
+        private String createDate;
 
+        @SerializedName("location_id")
+        private String locationId;
 
-        @JsonProperty("row")
-        private List<Row> row;
+        @SerializedName("location_name")
+        private String locationName;
 
-        @Getter
-        @NoArgsConstructor
-        @AllArgsConstructor
-        public static class Head {
-            @JsonProperty("totalCount")
-            private int totalCount;
+        @SerializedName("md101_sn")
+        private Integer md101Sn;
 
-            @JsonProperty("numOfRows")
-            private String numOfRows;
+        @SerializedName("msg")
+        private String msg;
 
-            @JsonProperty("pageNo")
-            private String pageNo;
-
-            @JsonProperty("type")
-            private String type;
-
-            @JsonProperty("RESULT")
-            private Result result;
-
-            @Getter
-            @NoArgsConstructor
-            @AllArgsConstructor
-            public static class Result {
-
-                @JsonProperty("resultCode")
-                private String resultCode;
-
-                @JsonProperty("resultMsg")
-                private String resultMsg;
-            }
-
-        }
-
-
-        @Getter
-        @NoArgsConstructor
-        @AllArgsConstructor
-        public static class Row {
-            @JsonProperty("create_date")
-            @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Asia/Seoul")
-            private LocalDateTime createDate;
-
-            @JsonProperty("location_id")
-            private String locationId;
-
-            @JsonProperty("location_name")
-            private String locationName;
-
-            @JsonProperty("md101_sn")
-            private Integer md101Sn;
-
-            @JsonProperty("msg")
-            private String msg;
-
-            @JsonProperty("send_platform")
-            private String sendPlatform;
-        }
+        @SerializedName("send_platform")
+        private String sendPlatform;
     }
 }

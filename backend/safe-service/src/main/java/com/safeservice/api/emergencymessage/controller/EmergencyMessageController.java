@@ -1,5 +1,6 @@
 package com.safeservice.api.emergencymessage.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.safeservice.api.ApiResponseEntity;
 import com.safeservice.api.emergencymessage.dto.EMReq;
 import com.safeservice.api.emergencymessage.dto.EMResponseDto;
@@ -29,7 +30,7 @@ public class EmergencyMessageController {
     @PostMapping("/emergency")
     public ApiResponseEntity<String> createEmergencyMessage(@RequestBody EMReq emReq) {
         emergencyMessageInfoService.createEmergencyMessage(emReq);
-        return ApiResponseEntity.ok("생성 완료");
+        return ApiResponseEntity.create("생성 완료");
     }
 
     @Operation(summary = "API 요청을 통한 재난 문자 생성", description = "safe/v1/safe/emergency/call\n\n")
@@ -37,7 +38,7 @@ public class EmergencyMessageController {
             @ApiResponse(responseCode = "201", description = "CREATED")
     })
     @GetMapping("/emergency/call")
-    public ApiResponseEntity<String> createEmergencyMessageByApi() {
+    public ApiResponseEntity<String> createEmergencyMessageByApi() throws JsonProcessingException {
         emergencyMessageInfoService.createEmergencyMessageByApi();
         return ApiResponseEntity.create("생성 완료");
     }

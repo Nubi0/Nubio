@@ -1,8 +1,13 @@
+// Hook
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setkeyWord } from "../../../redux/slice/MapSlice";
+// 라이브러리
 import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
 import { SearchBarWrapper, SearchForm } from "../../../styles/SSearch";
+// redux
+import { setkeyWord } from "../../../redux/slice/MapSlice";
 
 const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
@@ -33,7 +38,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
     searchPlaces(Value);
     setFindRouteOpen(false);
   };
-
+  // 검색리스트 보기
   const inputClick = () => {
     setListIsOpen(true);
     searchPlaces(Value);

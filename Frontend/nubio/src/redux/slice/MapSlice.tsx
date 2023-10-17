@@ -6,7 +6,6 @@ const MapSlice = createSlice({
     keyWord: null,
     latitude: null,
     longitude: null,
-
     start: {},
     end: {},
     startName: null,

@@ -1,4 +1,11 @@
+// Hook
 import { useState, ChangeEvent } from "react";
+import useInput from "../../../hooks/useInput";
+// 라이브러리
+import axios from "axios";
+import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
 import {
   ReportButton,
   ReportWrapper,
@@ -6,9 +13,7 @@ import {
   ImageWrapper,
   ReportButtonWrapper,
 } from "../../../styles/SSafeHomePage";
-import useInput from "../../../hooks/useInput";
-import axios from "axios";
-import Swal from "sweetalert2";
+// redux
 
 const CreateReport = () => {
   // 모달

@@ -1,10 +1,15 @@
-import axios from "axios";
-import { ShortDirectionButton } from "../../../../styles/SKakaoMap";
+// Hook
 import { useSelector } from "react-redux";
-import proj4 from "proj4";
-import { setShortTime } from "../../../../redux/slice/SafeSlice";
 import { useDispatch } from "react-redux";
+// 라이브러리
+import axios from "axios";
+import proj4 from "proj4";
 import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
+import { ShortDirectionButton } from "../../../../styles/SKakaoMap";
+// redux
+import { setShortTime } from "../../../../redux/slice/SafeSlice";
 
 const ShortDirection = ({
   clearRoute,

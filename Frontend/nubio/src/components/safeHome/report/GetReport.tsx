@@ -1,13 +1,18 @@
-import axios from "axios";
+// Hook
 import { useEffect, useState } from "react";
+// 라이브러리
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+// 컴포넌트
+import DeleteReport from "./DeleteReport";
+// 스타일
 import {
   ReportInfoOverlay,
   ReportInfoWrapper,
   ReportPhotoWrapper,
   ReportInfoButtonWrapper,
 } from "../../../styles/SSafeHomePage";
-import { Swiper, SwiperSlide } from "swiper/react";
-import DeleteReport from "./DeleteReport";
+// redux
 declare global {
   interface Window {
     reportCustomOverlay: any;
@@ -30,7 +35,7 @@ const GetReport = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  // 제보 조회하기
   const getReport = () => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`)

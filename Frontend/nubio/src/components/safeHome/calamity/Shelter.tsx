@@ -1,7 +1,12 @@
-import { ShelterButton } from "../../../styles/SSafeHomePage";
+// Hook
 import { useDispatch, useSelector } from "react-redux";
-import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
+// 라이브러리
 import axios from "axios";
+// 컴포넌트
+// 스타일
+import { ShelterButton } from "../../../styles/SSafeHomePage";
+// redux
+import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
 
 const Shelter = () => {
   const dispatch = useDispatch();
@@ -15,13 +20,13 @@ const Shelter = () => {
     (state: { map: { messageMarkerList: Array<any> } }) =>
       state.map.messageMarkerList,
   );
+  // 가까운 대피소 찾기
   const GetNearbyShelter = () => {
     axios
       .get(
         `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
-        // console.log(res.data.data.content);
         dispatch(setShowShelters(true));
         const shelter = res.data.data.content;
         const newmarkerList: any = [];
@@ -42,10 +47,9 @@ const Shelter = () => {
         }
         dispatch(setMarkerList(newmarkerList));
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch(() => {});
   };
+  // 대피소 가리기
   const DeleteShelter = () => {
     dispatch(setShowShelters(false));
     for (let i = 0; i < markerList.length; i++) {

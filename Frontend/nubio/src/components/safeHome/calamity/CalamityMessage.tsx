@@ -1,12 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
+// Hook
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+// 라이브러리
 import { Swiper, SwiperSlide } from "swiper/react";
 import axios from "axios";
+// 컴포넌트
+// 스타일
 import {
   CalamityMessageWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
 } from "../../../styles/SSafeHomePage";
+// redux
 import {
   setMessageMarkerList,
   setShowShelters,
@@ -48,7 +53,6 @@ const CalamityMessage = () => {
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
               ${shelter[i].name}</span><span class="right"></span></div>`;
-
           let markerPosition = new kakao.maps.LatLng(
             shelter[i].location.latitude,
             shelter[i].location.longitude,

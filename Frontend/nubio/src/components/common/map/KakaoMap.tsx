@@ -1,4 +1,17 @@
+// Hook
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+// 라이브러리
+import Swal from "sweetalert2";
+// 컴포넌트
+import SearchBar from "../search/SearchBar";
+import RouteInfo from "../../safeHome/route/RouteInfo";
+import ShortDirection from "../../safeHome/route/short/ShortDirection";
+import SafeDirection from "../../safeHome/route/safe/SafeDirection";
+import SelectMyLocation from "./SelectMyLocation";
+import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
+// 스타일
 import {
   DestinationWrapper,
   MapWrapper,
@@ -6,29 +19,19 @@ import {
   SearchResultsWrapper,
   ClearRouteButton,
 } from "../../../styles/SKakaoMap";
-import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+import { MyLocation } from "../../../styles/SSafeHomePage";
+// redux
 import { setPosition, setTime } from "../../../redux/slice/EnjoySlice";
-import SearchBar from "../search/SearchBar";
-import { useLocation } from "react-router";
-import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
   setStart,
   setEnd,
   setStartName,
   setEndName,
 } from "../../../redux/slice/MapSlice";
-
-import { useSelector } from "react-redux";
-import ShortDirection from "../../safeHome/route/short/ShortDirection";
-import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import { MyLocation } from "../../../styles/SSafeHomePage";
-import SelectMyLocation from "./SelectMyLocation";
-import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
 import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
 
+// 카카오맵 관련
 const { kakao } = window as any;
-
 declare global {
   interface Window {
     kakaoManager: any;
@@ -48,7 +51,9 @@ declare global {
 const KakaoMap = ({ position }: { position: placeItem[] }) => {
   const dispatch = useDispatch();
   const mapRef = useRef(null);
+  const location = useLocation();
 
+  // 검색 reudx
   const startName = useSelector(
     (state: { map: { startName: string } }) => state.map.startName,
   );
@@ -62,10 +67,10 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     (state: { map: { safeMarkerList: Array<any> } }) =>
       state.map.safeMarkerList,
   );
-
+  // state
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
-  const location = useLocation();
+
   // 마커를 담는 배열
   let markers: any[] = [];
   let drawnData: any[] = [];
@@ -79,6 +84,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
   };
+  // 맵에 표시된 경로 관련 삭제
   const clearAllRoute = () => {
     clearRoute();
     window.endCustomOverlay?.setMap(null);

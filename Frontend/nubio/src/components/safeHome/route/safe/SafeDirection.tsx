@@ -6,7 +6,7 @@ import proj4 from "proj4";
 import Swal from "sweetalert2";
 // 컴포넌트
 // 스타일
-import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
+import { SafeDirectionButton } from "../../../../styles/SRoute";
 // redux
 import {
   setSafeTime,

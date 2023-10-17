@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { SafeDistanceWrapper } from "../../../../styles/SSafeHomePage";
+import { SafeDistanceWrapper } from "../../../../styles/SRoute";
 
 const SafeDistance = () => {
-  const timeData = useSelector((state: any) => state.map.safeTime);
+  const timeData = useSelector((state: any) => state.safe.safeTime);
   const nowTime = new Date();
   const nowHours = nowTime.getHours();
   const nowMinutes = nowTime.getMinutes();

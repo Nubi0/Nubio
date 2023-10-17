@@ -12,7 +12,7 @@ import {
   TypeWrapper,
   ImageWrapper,
   ReportButtonWrapper,
-} from "../../../styles/SSafeHomePage";
+} from "../../../styles/SReport";
 // redux
 
 const CreateReport = () => {

@@ -5,6 +5,36 @@ export const MapWrapper = styled.div`
   height: 100%;
   z-index: 0;
 `;
+
+// 검색창
+export const SearchBarWrapper = styled.div`
+  position: absolute;
+  top: 7%;
+  left: 5%;
+  z-index: 2;
+  width: 80%;
+  input {
+    width: 100%;
+    height: 2.5rem;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+    padding: 0 0 0 2rem;
+  }
+  input::placeholder {
+    font-size: 1rem;
+  }
+  .readingGlasses {
+    position: absolute;
+    top: 0.8rem;
+    left: 10px;
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
+// 검색 폼
+export const SearchForm = styled.form``;
+
 export const SearchResultsWrapper = styled.div`
   position: absolute;
   z-index: 3;
@@ -32,16 +62,29 @@ export const SearchResultsWrapper = styled.div`
     }
   }
 `;
-export const ClearRouteButton = styled.button`
-  float: right;
-  border: 0.1rem solid black;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  padding: 0.2rem 0.5rem;
-  background: transparent;
-  margin-right: 0.5rem;
-`;
 
+// 출발 도착
+export const SetDirectionWrapper = styled.div`
+  width: 100%;
+  height: 6rem;
+  // text-align: center;
+  input {
+    width: 85%;
+    height: 2rem;
+    margin: 0.1rem;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid black;
+  }
+  button {
+    float: right;
+    width: 5rem;
+    height: 2rem;
+    margin: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid black;
+  }
+`;
 export const SearchListWrapper = styled.div`
   margin-top: 3rem;
   #places-list {
@@ -86,6 +129,27 @@ export const SearchListWrapper = styled.div`
   }
 `;
 
+// 내 위치를 출발지로
+export const MyLocationButton = styled.button`
+  float: right;
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  background: transparent;
+`;
+// 내 위치로 이동
+export const MoveMyLocation = styled.button`
+  position: absolute;
+  top: 7.8%;
+  right: 9%;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.3rem;
+  z-index: 3;
+`;
+
+// 목적지
 export const DestinationWrapper = styled.div`
   h4 {
     width: 90%;
@@ -95,28 +159,9 @@ export const DestinationWrapper = styled.div`
     margin: 0.5rem;
   }
 `;
-// 내 위치
-export const MyLocationButton = styled.button`
-  float: right;
-  border: 0.1rem solid black;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  padding: 0.2rem 0.5rem;
-  background: transparent;
-`;
-// 최소경로
-export const ShortDirectionButton = styled.button`
-  float: right;
-  border: 0.1rem solid black;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  padding: 0.2rem 0.5rem;
-  background: transparent;
-  margin-right: 0.5rem;
-`;
 
-// 안전경로
-export const SafeDirectionButton = styled.button`
+// 경로 다 지우는 버튼
+export const ClearRouteButton = styled.button`
   float: right;
   border: 0.1rem solid black;
   border-radius: 0.5rem;

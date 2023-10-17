@@ -10,7 +10,7 @@ import {
   CalamityMessageWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
-} from "../../../styles/SSafeHomePage";
+} from "../../../styles/SCalamity";
 // redux
 import {
   setMessageMarkerList,

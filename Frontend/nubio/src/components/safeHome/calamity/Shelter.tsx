@@ -4,21 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 // 컴포넌트
 // 스타일
-import { ShelterButton } from "../../../styles/SSafeHomePage";
+import { ShelterButton } from "../../../styles/SCalamity";
 // redux
 import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
 
 const Shelter = () => {
   const dispatch = useDispatch();
   const showShelters = useSelector(
-    (state: { map: { showShelters: false } }) => state.map.showShelters,
+    (state: { safe: { showShelters: false } }) => state.safe.showShelters,
   );
+  console.log(showShelters);
   const markerList = useSelector(
-    (state: { map: { markerList: Array<any> } }) => state.map.markerList,
+    (state: { safe: { markerList: Array<any> } }) => state.safe.markerList,
   );
   const messageMarkerList = useSelector(
-    (state: { map: { messageMarkerList: Array<any> } }) =>
-      state.map.messageMarkerList,
+    (state: { safe: { messageMarkerList: Array<any> } }) =>
+      state.safe.messageMarkerList,
   );
   // 가까운 대피소 찾기
   const GetNearbyShelter = () => {

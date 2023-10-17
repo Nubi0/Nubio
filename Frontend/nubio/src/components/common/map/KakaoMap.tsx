@@ -16,10 +16,11 @@ import {
   DestinationWrapper,
   MapWrapper,
   SearchListWrapper,
-  SearchResultsWrapper,
   ClearRouteButton,
-} from "../../../styles/SKakaoMap";
-import { MyLocation } from "../../../styles/SSafeHomePage";
+  MoveMyLocation,
+  SearchResultsWrapper,
+} from "../../../styles/SMap";
+
 // redux
 import { setPosition, setTime } from "../../../redux/slice/EnjoySlice";
 import {
@@ -64,8 +65,8 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     (state: { map: { keyWord: string } }) => state.map.keyWord,
   );
   const safeMarkerList = useSelector(
-    (state: { map: { safeMarkerList: Array<any> } }) =>
-      state.map.safeMarkerList,
+    (state: { safe: { safeMarkerList: Array<any> } }) =>
+      state.safe.safeMarkerList,
   );
   // state
   const [listIsOpen, setListIsOpen] = useState(false);
@@ -77,12 +78,14 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
 
   // 라인, 마커 삭제
   const clearRoute = () => {
+    // if (safeMarkerList.length > 0) {
     for (let j = 0; j < safeMarkerList.length; j++) {
       safeMarkerList[j].setMap(null);
     }
     window.polyline?.setMap(null);
     window.safeCustomOverlay?.setMap(null);
     removeMarker();
+    // }
   };
   // 맵에 표시된 경로 관련 삭제
   const clearAllRoute = () => {
@@ -165,14 +168,14 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
 
   // 키워드 검색을 요청하는 함수
   function searchPlaces(keyword: string) {
-    if (!keyword.replace(/^\s+|\s+$/g, "")) {
-      Swal.fire({
-        title: `키워드를 입력해주세요.`,
-        text: "NUBIO",
-      });
-      // console.log("키워드를 입력해주세요!");
-      return false;
-    }
+    // if (!keyword.replace(/^\s+|\s+$/g, "")) {
+    //   Swal.fire({
+    //     title: `키워드를 입력해주세요.`,
+    //     text: "NUBIO",
+    //   });
+    //   // console.log("키워드를 입력해주세요!");
+    //   return false;
+    // }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청
     window.ps.keywordSearch(keyword, placesSearchCB);
   }
@@ -391,7 +394,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     markers = [];
   };
   const safePlaces = useSelector(
-    (state: { map: { safePlace: any } }) => state.map.safePlace,
+    (state: { safe: { safePlace: any } }) => state.safe.safePlace,
   );
   const removeSafeMarker = () => {
     for (let i = 0; i < safePlaces.length; i++) {
@@ -575,7 +578,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     <>
       <MapWrapper id="map" className="map" />
       <CalamityMessage />
-      <MyLocation onClick={moveMyLocation}>내 위치로</MyLocation>
+      <MoveMyLocation onClick={moveMyLocation}>내 위치로</MoveMyLocation>
       <SearchBar
         searchPlaces={searchPlaces}
         setListIsOpen={setListIsOpen}

@@ -11,7 +11,7 @@ import {
   ReportInfoWrapper,
   ReportPhotoWrapper,
   ReportInfoButtonWrapper,
-} from "../../../styles/SSafeHomePage";
+} from "../../../styles/SReport";
 // redux
 declare global {
   interface Window {

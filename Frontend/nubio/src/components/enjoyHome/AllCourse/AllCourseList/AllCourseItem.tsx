@@ -22,7 +22,10 @@ const AllCourseItem = ({ value }: { value: CourseItem }) => {
   const navigate = useNavigate();
   const handleFav = () => {
     axios
-      .post(`https://nubi0.com/enjoy/v1/enjoy/course/favorite/${value.course_id}`)
+      .post(
+        process.env.REACT_APP_SERVER_URL +
+          `/enjoy/v1/enjoy/course/favorite/${value.course_id}`
+      )
       .then((res) => {
         console.log(res.data);
       })

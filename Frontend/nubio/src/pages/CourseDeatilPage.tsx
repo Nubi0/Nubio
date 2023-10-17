@@ -22,7 +22,7 @@ const CourseDetailPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://nubi0.com/enjoy/v1/enjoy/course/${courseId}`
+          process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/${courseId}`
         );
         setPlaceList(response.data.data.place_list);
         setCourseInfo(response.data.data.course_info);

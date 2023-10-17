@@ -15,7 +15,7 @@ const CustomCourseList = () => {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
-                axios.post('https://nubi0.com/enjoy/v1/enjoy', currentPosition)
+                axios.post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy', currentPosition)
                     .then((res) => {
                         dispatch(setCourseList(res.data.data.course_list));
                     })

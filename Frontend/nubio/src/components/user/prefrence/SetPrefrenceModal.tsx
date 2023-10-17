@@ -35,7 +35,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
   };
 
   const handleSave = () => {
-    axios.post('https://nubi0.com/enjoy/v1/enjoy/profile/taste', {taste})
+    axios.post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/taste', {taste})
           .then((res) => {
             closeModal();
           })
@@ -45,7 +45,7 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
   }
 
   useEffect(() => {
-    axios.get('https://nubi0.com/enjoy/v1/enjoy/profile/taste')
+    axios.get(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/taste')
           .then((res) => {
             console.log(res.data);
             const taste = res.data.data.taste;

@@ -12,7 +12,7 @@ const AllCourseList = ({active}: {active: activeProps}) => {
     useEffect(() => {
         if (active.all === true) {
           axios
-            .get(`https://nubi0.com/enjoy/v1/enjoy/course?region=${region}`)
+            .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course?region=${region}`)
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })
@@ -21,7 +21,7 @@ const AllCourseList = ({active}: {active: activeProps}) => {
             });
         } else {
           axios
-            .get(`https://nubi0.com/enjoy/v1/enjoy/course?region=${region}&sort=likeCount`)
+            .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course?region=${region}&sort=likeCount`)
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })

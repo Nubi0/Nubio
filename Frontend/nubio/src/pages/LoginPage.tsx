@@ -14,7 +14,7 @@ axios.interceptors.response.use(
       const refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {
         try {
-          const response = await axios.post('https://nubi0.com/start/v1/member/access-token/issue', {}, {
+          const response = await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/access-token/issue', {}, {
             headers: {
               Authorization: `Bearer ${refreshToken}`
             }

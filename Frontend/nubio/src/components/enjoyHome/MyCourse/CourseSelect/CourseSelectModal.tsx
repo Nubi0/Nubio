@@ -42,7 +42,7 @@ const CourseSelectModal = ({setModal}: {setModal: () => void}) => {
             region: location,
             place_list: positionData,
         }
-        await axios.post('https://nubi0.com/enjoy/v1/enjoy/course', config)
+        await axios.post(process.env.REACT_APP_URL + '/enjoy/v1/enjoy/course', config)
                 .then((res) => {
                     setModal();
                     Swal.fire({

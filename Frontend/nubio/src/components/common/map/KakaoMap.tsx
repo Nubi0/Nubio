@@ -56,7 +56,7 @@ declare global {
   }
 }
 
-const KakaoMap = (props: propsType) => {
+const KakaoMap = ({position}: {position: placeItem[]}) => {
   const mapRef = useRef(null);
 
   const startName = useSelector(
@@ -304,7 +304,7 @@ const KakaoMap = (props: propsType) => {
       window.endCustomOverlay = customOverlay;
       window.endCustomOverlay.setMap(window.map);
     };
-    const ClickPlace = (place: any) => {
+    const ClickPlace = (place: placeType) => {
       dispatch(setPosition(place));
     };
     if (places.length !== 0) {
@@ -530,16 +530,16 @@ const KakaoMap = (props: propsType) => {
       window.kakaoManager = managerInstance;
 
       // 커스텀 마커 표시
-      for (var i = 0; i < props.position.length; i++) {
+      for (var i = 0; i < position.length; i++) {
         const customOverlay = new window.kakao.maps.CustomOverlay({
           content: `
           <div>
-            <img class="custom-marker" src="${props.position[i].img_url}" alt="Custom Marker" />
+            <img class="custom-marker" src="${position[i].img_url}" alt="Custom Marker" />
           </div>
         `,
           position: new window.kakao.maps.LatLng(
-            props.position[i].lat,
-            props.position[i].lng,
+            position[i].x,
+            position[i].y,
           ),
         });
         customOverlay.setMap(map);

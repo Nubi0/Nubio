@@ -1,35 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
 import {
   CalamityMessageWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
 } from "../../../styles/SSafeHomePage";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Swiper, SwiperSlide } from "swiper/react";
 import {
   setMessageMarkerList,
   setShowShelters,
-} from "../../../redux/slice/MapSlice";
+} from "../../../redux/slice/SafeSlice";
 
-type EmergencyMessage = {
-  city: string;
-  county: string;
-  message: string;
-  md_id: number;
-  emer_type: string;
-  occurred_time: string;
-};
 const CalamityMessage = () => {
   const dispatch = useDispatch();
-
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
-  // 재난문자 수신
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
+  // 재난문자 모달 닫기
   const closeWrapper = () => {
     setIsReceiveMessage(false);
   };
-
+  // 재난문자 불러오기
   const getCalamity = () => {
     axios
       .post(`${process.env.PUREACT_APP_SERVER_URL}/safe/v1/safe/check`, {
@@ -44,10 +35,9 @@ const CalamityMessage = () => {
           setIsReceiveMessage(false);
         }
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch(() => {});
   };
+  // 가까운 대피소 찾기
   const getNearbyShelter = () => {
     axios
       .get(
@@ -74,9 +64,7 @@ const CalamityMessage = () => {
         }
         dispatch(setShowShelters(true));
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch(() => {});
   };
   useEffect(() => {
     getCalamity();

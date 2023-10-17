@@ -1,18 +1,19 @@
 import { ShelterButton } from "../../../styles/SSafeHomePage";
 import { useDispatch, useSelector } from "react-redux";
-import { setMarkerList, setShowShelters } from "../../../redux/slice/MapSlice";
+import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
 import axios from "axios";
 
 const Shelter = () => {
   const dispatch = useDispatch();
   const showShelters = useSelector(
-    (state: { map: { showShelters: any } }) => state.map.showShelters,
+    (state: { map: { showShelters: false } }) => state.map.showShelters,
   );
   const markerList = useSelector(
-    (state: { map: { markerList: any } }) => state.map.markerList,
+    (state: { map: { markerList: Array<any> } }) => state.map.markerList,
   );
   const messageMarkerList = useSelector(
-    (state: { map: { messageMarkerList: any } }) => state.map.messageMarkerList,
+    (state: { map: { messageMarkerList: Array<any> } }) =>
+      state.map.messageMarkerList,
   );
   const GetNearbyShelter = () => {
     axios

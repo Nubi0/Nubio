@@ -2,22 +2,9 @@ import axios from "axios";
 import { ShortDirectionButton } from "../../../../styles/SKakaoMap";
 import { useSelector } from "react-redux";
 import proj4 from "proj4";
-import { setShortTime } from "../../../../redux/slice/MapSlice";
+import { setShortTime } from "../../../../redux/slice/SafeSlice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-
-interface ShortDirectionProps {
-  clearRoute: () => void;
-  setFindRouteOpen: (findRouteOpen: boolean) => void;
-}
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
 
 const ShortDirection = ({
   clearRoute,
@@ -40,9 +27,7 @@ const ShortDirection = ({
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
-  const safePlaces = useSelector(
-    (state: { map: { safePlace: any } }) => state.map.safePlace,
-  );
+
   // 최단거리 길찾기
   const getShortDirection = () => {
     clearRoute();

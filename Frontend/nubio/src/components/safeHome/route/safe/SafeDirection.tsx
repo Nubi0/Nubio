@@ -5,27 +5,15 @@ import {
   setSafeTime,
   setSafePlace,
   setSafeMarkerList,
-} from "../../../../redux/slice/MapSlice";
+} from "../../../../redux/slice/SafeSlice";
 import { SafeDirectionButton } from "../../../../styles/SKakaoMap";
 import Swal from "sweetalert2";
 
-interface SafeDirectionProps {
-  clearRoute: () => void;
-  setFindRouteOpen: (findRouteOpen: boolean) => void;
-}
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
 const SafeDirection = ({
   clearRoute,
   setFindRouteOpen,
 }: SafeDirectionProps) => {
-  const deg2rad = (deg: any) => {
+  const deg2rad = (deg: number) => {
     return deg * (Math.PI / 180);
   };
   const dispatch = useDispatch();

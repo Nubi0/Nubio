@@ -17,27 +17,16 @@ import {
   setEnd,
   setStartName,
   setEndName,
-  setShortTime,
-  setSafeTime,
-  setkeyWord,
 } from "../../../redux/slice/MapSlice";
+
 import { useSelector } from "react-redux";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { MyLocation } from "../../../styles/SSafeHomePage";
 import SelectMyLocation from "./SelectMyLocation";
 import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
-import RootState from "../../../types/RootState";
-interface placeType {
-  place_name: string;
-  road_address_name: string;
-  address_name: string;
-  phone: string;
-  place_url: string;
-  length: number;
-  x: string;
-  y: string;
-}
+import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
+
 const { kakao } = window as any;
 
 declare global {
@@ -57,6 +46,7 @@ declare global {
 }
 
 const KakaoMap = ({ position }: { position: placeItem[] }) => {
+  const dispatch = useDispatch();
   const mapRef = useRef(null);
 
   const startName = useSelector(
@@ -65,11 +55,13 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
-  const searchKeyword = useSelector((state: RootState) => state.map.keyWord);
-  const safeMarkerList = useSelector(
-    (state: { map: { safeMarkerList: any } }) => state.map.safeMarkerList,
+  const searchKeyword = useSelector(
+    (state: { map: { keyWord: string } }) => state.map.keyWord,
   );
-  const dispatch = useDispatch();
+  const safeMarkerList = useSelector(
+    (state: { map: { safeMarkerList: Array<any> } }) =>
+      state.map.safeMarkerList,
+  );
 
   const [listIsOpen, setListIsOpen] = useState(false);
   const [findRouteOpen, setFindRouteOpen] = useState(false);
@@ -188,7 +180,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
   }
 
   // 장소검색이 완료됐을 때 호출되는 콜백함수
-  function placesSearchCB(data: any, status: any, pagination: any) {
+  function placesSearchCB(data: string, status: any, pagination: any) {
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출

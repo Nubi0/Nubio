@@ -27,6 +27,7 @@ export const ShelterButton = styled.span`
   border-radius: 1rem;
   background: #f25260;
   z-index: 1;
+  cursor: pointer;
 `;
 // 내 위치
 export const MyLocation = styled.button`
@@ -98,7 +99,9 @@ export const ReportButtonWrapper = styled.div`
   border-radius: 1rem;
   background: #f25260;
 `;
-export const ReportButton = styled.span``;
+export const ReportButton = styled.span`
+  cursor: pointer;
+`;
 
 export const ReportWrapper = styled.div`
   position: absolute;
@@ -142,6 +145,7 @@ export const ReportWrapper = styled.div`
     border-radius: 1rem;
     background-color: #f25260;
     margin-top: 1rem;
+    cursor: pointer;
   }
   #close {
     position: relative;
@@ -153,6 +157,7 @@ export const ReportWrapper = styled.div`
     border: none;
     border-radius: 1rem;
     background-color: #ffc542;
+    cursor: pointer;
   }
 `;
 export const TypeWrapper = styled.div`

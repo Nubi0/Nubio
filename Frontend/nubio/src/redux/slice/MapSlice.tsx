@@ -6,18 +6,11 @@ const MapSlice = createSlice({
     keyWord: null,
     latitude: null,
     longitude: null,
-    shortTime: null,
-    safeTime: null,
+
     start: {},
     end: {},
     startName: null,
     endName: null,
-    safePlace: [],
-    showShelters: false,
-    markerList: [],
-    messageMarkerList: [] as any,
-    safeMarkerList: [] as any,
-    reportPlaces: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -29,12 +22,7 @@ const MapSlice = createSlice({
     setLongitude: (state, action) => {
       state.longitude = action.payload;
     },
-    setShortTime: (state, action) => {
-      state.shortTime = action.payload;
-    },
-    setSafeTime: (state, action) => {
-      state.safeTime = action.payload;
-    },
+
     setStart: (state, action) => {
       state.start = action.payload;
     },
@@ -47,30 +35,6 @@ const MapSlice = createSlice({
     setEndName: (state, action) => {
       state.endName = action.payload;
     },
-    setSafePlace: (state, action) => {
-      state.safePlace = action.payload;
-    },
-    setShowShelters: (state, action) => {
-      state.showShelters = action.payload;
-    },
-    setMarkerList: (state, action) => {
-      state.markerList = action.payload;
-    },
-    setMessageMarkerList: (state, action) => {
-      const payloads = Array.isArray(action.payload)
-        ? action.payload
-        : [action.payload];
-      state.messageMarkerList.push(...payloads);
-    },
-    setSafeMarkerList: (state, action) => {
-      const payloads = Array.isArray(action.payload)
-        ? action.payload
-        : [action.payload];
-      state.safeMarkerList.push(...payloads);
-    },
-    setReportPlaces: (state, action) => {
-      state.reportPlaces = action.payload;
-    },
   },
 });
 
@@ -78,17 +42,9 @@ export const {
   setkeyWord,
   setLatitude,
   setLongitude,
-  setShortTime,
-  setSafeTime,
   setStartName,
   setEndName,
   setStart,
   setEnd,
-  setSafePlace,
-  setShowShelters,
-  setMarkerList,
-  setMessageMarkerList,
-  setSafeMarkerList,
-  setReportPlaces,
 } = MapSlice.actions;
 export default MapSlice.reducer;

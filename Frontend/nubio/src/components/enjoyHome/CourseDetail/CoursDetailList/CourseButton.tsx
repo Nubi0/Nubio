@@ -23,7 +23,7 @@ const CourseButton = ({
       )
       .then((res) => {
         axios
-          .get(`https://nubi0.com/enjoy/v1/enjoy/course/${courseId}`)
+          .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/${courseId}`)
           .then((res) => {
             setPlaceList(res.data.data.place_list);
             setCourseInfo(res.data.data.course_info);

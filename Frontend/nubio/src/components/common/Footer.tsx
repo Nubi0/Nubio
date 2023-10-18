@@ -1,28 +1,42 @@
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { FooterWrapper } from "../../styles/SFooter";
+import { FooterWrapper, MenuToggle } from "../../styles/SFooter";
 
 const Footer = () => {
-  const safeImg = process.env.PUBLIC_URL + "/assets/safe.svg";
-  const homeImg = process.env.PUBLIC_URL + "/assets/home.svg";
-  const profileImg = process.env.PUBLIC_URL + "/assets/profile.svg";
+  const [active, setActive] = useState(false);
+  const safeImg = process.env.PUBLIC_URL + "/assets/menu/menuSafe.svg";
+  const menu = process.env.PUBLIC_URL + "/assets/menu/menu.svg";
+  const profileImg = process.env.PUBLIC_URL + "/assets/menu/menuProfile.svg";
+  const enjoyImg = process.env.PUBLIC_URL + "/assets/menu/menuEnjoy.svg"
+  const chat = process.env.PUBLIC_URL + "/assets/menu/chat.svg";
   const navigate = useNavigate();
+  const toggleMenu = () => {
+    setActive(!active);
+  }
+
   return (
     <FooterWrapper>
-      <img src={safeImg} alt="" onClick={() => navigate('/safe')} />
-      <img
-        src={homeImg}
-        alt=""
-        onClick={() => {
-          navigate("/");
-        }}
-      />
-      <img
-        src={profileImg}
-        alt=""
-        onClick={() => {
-          navigate("/profile");
-        }}
-      />
+      <MenuToggle className={`tab ${active ? "active" : ""}`} style={{ position: 'relative'}}>
+        <img src={menu} alt="menu" onClick={toggleMenu} />
+        <div className="cbg1"></div>
+        <div className="cbg2"></div>
+        <div>
+          <ul>
+            <li>
+              <img src={chat} alt="" />
+            </li>
+            <li>
+              <img src={safeImg} alt="" />
+            </li>
+            <li>
+              <img src={enjoyImg} alt="" />
+            </li>
+            <li>
+              <img src={profileImg} alt="" />
+            </li>
+          </ul>
+        </div>
+      </MenuToggle>
     </FooterWrapper>
   );
 };

@@ -11,17 +11,24 @@ axios.interceptors.response.use(
   },
   async (error) => {
     if (error.response?.status === 401) {
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
         try {
-          const response = await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/access-token/issue', {}, {
-            headers: {
-              Authorization: `Bearer ${refreshToken}`
-            }
-          });
+          const response = await axios.post(
+            process.env.REACT_APP_SERVER_URL +
+              "/start/v1/member/access-token/issue",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            },
+          );
           const newAccessToken = response.data.data.accessToken;
-          axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-          error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newAccessToken}`;
+          error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axios.request(error.config); // 다시 원래 요청을 실행
         } catch (refreshError) {
           // 갱신 실패 처리
@@ -30,7 +37,7 @@ axios.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 const LoginPage = () => {
@@ -48,18 +55,21 @@ const LoginPage = () => {
     await axios
       .post("https://nubi0.com/start/v1/member/login", config)
       .then((res) => {
-        const { accessToken, refreshToken, refreshTokenExpireTime } = res.data.data;
-        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('refreshTokenExpireTime', refreshTokenExpireTime);
-        navigate('/');
+        const { accessToken, refreshToken, refreshTokenExpireTime } =
+          res.data.data;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("refreshTokenExpireTime", refreshTokenExpireTime);
+        navigate("/safe");
       })
       .catch((err) => {
         Swal.fire({
-          title: '이메일 또는 비밀번호가 일치하지 않습니다.',
-          icon: 'error',
-          text: 'NUBIO'
-        })
+          title: "이메일 또는 비밀번호가 일치하지 않습니다.",
+          icon: "error",
+          text: "NUBIO",
+        });
       });
   };
   const redirect_uri = window.location.origin + "/oauth/kakao";

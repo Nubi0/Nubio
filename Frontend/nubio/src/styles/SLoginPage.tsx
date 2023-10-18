@@ -9,7 +9,7 @@ export const LoginPageWrapper = styled.div`
   align-items: center;
   color: rgba(0, 0, 0, 0.46);
   img {
-    margin-top: 20%;
+    margin: 4rem 2rem 0 2rem;
   }
 `;
 

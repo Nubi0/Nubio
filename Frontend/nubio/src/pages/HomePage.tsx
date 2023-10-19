@@ -15,7 +15,7 @@ import AppContent from "../components/first/AppContent";
 import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
-  const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
+  const logoUrl = process.env.PUBLIC_URL + "/assets/nubio.png";
   const isLogin = localStorage.getItem("refreshToken");
   if (isLogin) {
     return <Navigate to="/safe" />;
@@ -42,7 +42,7 @@ const HomePage = () => {
   // }, [modal]);
   return (
     <HomePageWrapper>
-      <Logo src={logo} />
+      <Logo src={logoUrl} />
       {/* <ButtonWrapper>
         <SafeButton isLogin={isLogin} />
         <EnjoyButton isTaste={isTaste} isLogin={isLogin} />

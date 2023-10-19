@@ -8,13 +8,9 @@ export const SignUpWrapper = styled.div`
 `;
 export const SignUpLogo = styled.img`
   width: 20rem;
-  height: 8rem;
-  margin: 3rem 0 1rem 0;
+  margin: 3rem 3rem 2rem 4rem;
 `;
-export const LoginLogo = styled.img`
-  width: 20rem;
-  margin: 1rem 0 1rem 0;
-`;
+
 export const Form = styled.form`
   span {
     margin-bottom: 1rem;

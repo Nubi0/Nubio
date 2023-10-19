@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { LoginPageWrapper, LoginForm, KakaoLogin } from "../styles/SLoginPage";
-import { LoginLogo } from "../styles/SSignUpPage";
+import {
+  LoginPageWrapper,
+  LoginForm,
+  KakaoLogin,
+  LoginLogo,
+} from "../styles/SLoginPage";
+
 import useInput from "../hooks/useInput";
 import axios from "axios";
 import Swal from "sweetalert2";

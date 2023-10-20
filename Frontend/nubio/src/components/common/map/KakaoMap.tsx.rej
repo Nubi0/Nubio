@@ -1,0 +1,10 @@
+diff a/Frontend/nubio/src/components/common/map/KakaoMap.tsx b/Frontend/nubio/src/components/common/map/KakaoMap.tsx	(rejected hunks)
+@@ -367,7 +367,7 @@
+       markerImage = new window.kakao.maps.MarkerImage(
+         imageSrc,
+         imageSize,
+-        imgOptions,
++        imgOptions
+       ),
+       marker = new window.kakao.maps.Marker({
+         position: position, // 마커의 위치

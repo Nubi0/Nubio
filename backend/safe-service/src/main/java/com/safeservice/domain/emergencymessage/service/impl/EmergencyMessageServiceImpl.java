@@ -1,6 +1,7 @@
 package com.safeservice.domain.emergencymessage.service.impl;
 
 import com.safeservice.domain.emergencymessage.entity.EmergencyMessage;
+import com.safeservice.domain.emergencymessage.entity.type.MdId;
 import com.safeservice.domain.emergencymessage.repository.EmergencyMessageRepository;
 import com.safeservice.domain.emergencymessage.service.EmergencyMessageService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,10 @@ public class EmergencyMessageServiceImpl implements EmergencyMessageService {
 
     @Override
     public EmergencyMessage save(EmergencyMessage emergencyMessage) {
-        return emergencyMessageRepository.save(emergencyMessage);
+        if (!emergencyMessageRepository.existsByMdId(MdId.from(emergencyMessage.getMdId().getValue()))) {
+            return emergencyMessageRepository.save(emergencyMessage);
+        }
+        return emergencyMessage;
     }
 
     @Override

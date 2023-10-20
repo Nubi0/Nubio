@@ -23,4 +23,8 @@ public class ApiResponseEntity<T> {
     public static <T> ApiResponseEntity<T> ok(T data) {
         return of(HttpStatus.OK, data);
     }
+
+    public static <T> ApiResponseEntity<T> create(T data) {
+        return of(HttpStatus.CREATED, data);
+    }
 }

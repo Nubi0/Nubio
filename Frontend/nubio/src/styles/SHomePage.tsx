@@ -12,7 +12,8 @@ export const HomePageWrapper = styled.div`
 `;
 
 export const Logo = styled.img`
-  margin: 4rem 2rem 0 2rem;
+  width: 20rem;
+  margin: 3rem 3rem 2rem 4rem;
 `;
 
 export const ButtonWrapper = styled.div`

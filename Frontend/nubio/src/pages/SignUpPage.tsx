@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import SignUpForm from "../components/user/signUp/SignUpForm";
 import {
   SignUpWrapper,
@@ -6,8 +6,8 @@ import {
   CheckUserWrapper,
 } from "../styles/SSignUpPage";
 import { useNavigate } from "react-router-dom";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -22,9 +22,11 @@ const SignUpPage = () => {
       <CheckUserWrapper>
         <a onClick={() => navigate("/login")}>이미 회원이신가요?</a>
       </CheckUserWrapper>
-      {isLoading && <Box position='absolute' top='50%' right='50%'>
-        <CircularProgress />
-      </Box>}
+      {isLoading && (
+        <Box position="absolute" top="50%" right="50%">
+          <CircularProgress />
+        </Box>
+      )}
     </SignUpWrapper>
   );
 };

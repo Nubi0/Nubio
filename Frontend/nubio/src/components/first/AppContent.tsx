@@ -19,6 +19,7 @@ const AppContent = () => {
         <img src={safeIcon} alt="" />
         <p>목적지까지 안전한 길 추천</p>
       </div>
+
       <div className="right">
         <p>위험구역 제보 및 공유</p>
         <img src={reportIcon} alt="" />

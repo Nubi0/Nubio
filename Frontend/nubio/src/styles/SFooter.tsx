@@ -11,73 +11,83 @@ export const FooterWrapper = styled.div`
   background-color: white;
 `;
 
+export const MenuImgBox = styled.div`
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 13!important;
+  width: 60px;
+  height: 60px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  transform: scale(1);
+`;
+
+export const MenuBox = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: scale(0);
+  width: 15em;
+  height: 15rem;
+  background: #f00;
+  border-radius: 15rem 0 0 0;
+  transform-origin: bottom right;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+`
 
 export const MenuToggle = styled.div`
   img{
     z-index: 11;
-    position: relative;
-  }
-  div{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 100px;
-    background: #f00;
-    border-bottom-left-radius: 100px;
-    border-bottom-right-radius: 100px;
-    transform-origin: top center;
-    transition: 1s ease-in-out;
-  }
-  ul {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    inset: 0;
-  }
-  li {
-    list-style: none;
-    display: flex;
-    position: absolute;
-    cursor: pointer;
-    img {
-      transform: rotate(180deg);
-    }
-  }
-  li:nth-child(1) {
-    transform: translate(50px, -25px);
-  }
-  li:nth-child(2) {
-    transform: translate(10px, 15px);
-  }
-  li:nth-child(3) {
-    transform: translate(-50px, 15px);
-  }
-  li:nth-child(4) {
-    transform: translate(-85px, -25px);
-  }
-  .cbg1 {
-    background: #8bc34a!important;
-    transition: 0.6s ease-in-out;
-    transition-delay: 0.4s;
-  }
-  .cbg2 {
-    background: #ffeb3b!important;
-    transition: 0.8s ease-in-out;
-    transition-delay: 0.2s;
   }
   &.tab.active {
-      div{
-        transform: translateX(-50%) rotate(180deg);
-        z-index: 10;
+      .menuBox {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
       }
-      .cb1{
-        transition-delay: 0s;
-      }
-      .cb2{
-        transition-delay: 0s;
+      .icon {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
       }
   }
 `;
 
+export const MenuImg = styled.img`
+`;
+
+export const MenuItemWrapper = styled.div`
+  border: 1px solid black;
+  width: 80%;
+  font-size: 1.5rem;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+`;
+
+export const CloseButtonWrapper = styled.div`
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+`;
+
+export const SafeModalWrapper = styled.div``;
+
+export const ModalTitle = styled.div``;
+
+export const MenuList = styled.div``;

@@ -14,7 +14,7 @@ import {
 } from '../../../../styles/SAllCoursePage';
 import { useNavigate } from 'react-router';
 
-const AllCourseItem = ({ value }: { value: any }) => {
+const AllCourseItem = ({ value }: { value: CourseItem }) => {
   const { title, favorite_flag, course_tags, place_list } = value;
   const starFill = process.env.PUBLIC_URL + '/assets/smallStarFill.svg';
   const star = process.env.PUBLIC_URL + '/assets/smallStar.svg';
@@ -22,7 +22,10 @@ const AllCourseItem = ({ value }: { value: any }) => {
   const navigate = useNavigate();
   const handleFav = () => {
     axios
-      .post(`https://nubi0.com/enjoy/v1/enjoy/course/favorite/${value.course_id}`)
+      .post(
+        process.env.REACT_APP_SERVER_URL +
+          `/enjoy/v1/enjoy/course/favorite/${value.course_id}`
+      )
       .then((res) => {
         console.log(res.data);
       })

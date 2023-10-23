@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 
-const SignUpForm = ({setIsLoading}: any) => {
+const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetStateAction<boolean>>}) => {
   const [email, onChangeEmail] = useInput('');
   const [pwd, onChangePwd] = useInput('');
   const [pwdc, onChangePwdc] = useInput('');
@@ -45,7 +45,7 @@ const SignUpForm = ({setIsLoading}: any) => {
   const signUp = async (e: any) => {
     e.preventDefault();
     await axios
-      .post('https://nubi0.com/start/v1/member/signup', data)
+      .post(process.env.REACT_SERVER_URL + '/start/v1/member/signup', data)
       .then((res) => {
         // Todo : 회원가입 성공 Swal
         Swal.fire({

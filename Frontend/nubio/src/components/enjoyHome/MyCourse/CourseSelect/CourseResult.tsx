@@ -8,7 +8,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setCoursePoint } from '../../../../redux/slice/EnjoySlice';
 
-const CourseResult = ({ data, setModal }: { data: t_d_DataProps; setModal: any }) => {
+const CourseResult = ({ data, setModal }: { data: t_d_DataProps, setModal: () => void }) => {
   const { time, type, dis } = data;
   const hours = new Date().getHours();
   const min = new Date().getMinutes();

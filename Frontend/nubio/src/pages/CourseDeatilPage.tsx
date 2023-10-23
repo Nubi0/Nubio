@@ -9,14 +9,20 @@ import Map from '../components/common/map/Map';
 import CourseButton from '../components/enjoyHome/CourseDetail/CoursDetailList/CourseButton';
 
 const CourseDetailPage = () => {
-  const [place_list, setPlaceList] = useState<any[]>([]);
-  const [course_info, setCourseInfo] = useState<any>({});
+  const [place_list, setPlaceList] = useState<placeProps[]>([]);
+  const [course_info, setCourseInfo] = useState<courseInfo>({
+    course_id: "",
+    course_tags: [],
+    favorite_flag: false,
+    like_count: 0,
+    like_flag: false,
+  });
   const { courseId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://nubi0.com/enjoy/v1/enjoy/course/${courseId}`
+          process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/${courseId}`
         );
         setPlaceList(response.data.data.place_list);
         setCourseInfo(response.data.data.course_info);
@@ -39,7 +45,7 @@ const CourseDetailPage = () => {
     <CourseDetailPageWrapper>
       <EnjoyHeader pageName="코스 이름" />
       <Map />
-      <CourseDetailList place_list={place_list} course_info={course_info} />
+      <CourseDetailList place_list={place_list} />
       <CourseButton course_info={course_info} setCourseInfo={setCourseInfo} setPlaceList={setPlaceList} />
       <Footer />
     </CourseDetailPageWrapper>

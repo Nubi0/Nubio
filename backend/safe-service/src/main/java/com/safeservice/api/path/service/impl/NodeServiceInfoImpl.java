@@ -3,13 +3,12 @@ package com.safeservice.api.path.service.impl;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.safeservice.api.emergencymessage.client.OsrmApiClient;
 import com.safeservice.api.facility.dto.request.SafetyFacilityDto;
 import com.safeservice.api.path.dto.request.NearNode;
 import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
 import com.safeservice.api.path.dto.request.NodeDto;
-import com.safeservice.api.path.dto.response.NearNodeListResponse;
-import com.safeservice.api.path.dto.response.NearNodePageResponse;
-import com.safeservice.api.path.dto.response.RecommendNodeResponse;
+import com.safeservice.api.path.dto.response.*;
 import com.safeservice.api.path.service.NodeServiceInfo;
 import com.safeservice.domain.facility.entity.SafetyFacility;
 import com.safeservice.domain.facility.service.SafetyFacilityService;
@@ -23,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +40,7 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
 
     private final NodeService nodeService;
     private final SafetyFacilityService safetyFacilityService;
+    private final OsrmApiClient osrmApiClient;
 
     private static double EARTH_RADIUS = 6371;  // 지구의 반지름 (킬로미터)
 
@@ -111,6 +112,51 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
             recommendNodeResponse.add(node, facilityNear);
         }
         return recommendNodeResponse;
+    }
+
+    @Override
+    public List<OsrmListResponseDto> getNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(nodeBetweenStartAndEnd.getStart_location().getLongitude() + ",");
+        sb.append(nodeBetweenStartAndEnd.getStart_location().getLatitude() + ";");
+        sb.append(nodeBetweenStartAndEnd.getEnd_location().getLongitude() + ",");
+        sb.append(nodeBetweenStartAndEnd.getEnd_location().getLatitude());
+        ResponseEntity<OsrmDto> route = osrmApiClient.getRoute(sb.toString());
+
+
+        List<OsrmListResponseDto> osrmListResponseDtoList = new ArrayList<>();
+
+
+        for (OsrmDto.Routes routes : route.getBody().getRoutes()) {
+            List<Point> points = new ArrayList<>();
+            for (OsrmDto.Legs legs : routes.getLegs()) {
+                for (OsrmDto.Steps steps : legs.getSteps()) {
+                    for (OsrmDto.Intersections intersection : steps.getIntersections()) {
+                        double x = intersection.getLocation().get(0);
+                        double y = intersection.getLocation().get(1);
+                        points.add(new Point(x, y));
+                    }
+                }
+            }
+
+            Distance safetyDistance = new Distance(0.3, Metrics.KILOMETERS);
+            List<NearSafetyResponseDto> nearSafetyResponseDtoArrayList = new ArrayList<>();
+            for (Point point : points) {
+                List<SafetyFacility> facilityNear = safetyFacilityService.findFacilityNear(point, safetyDistance);
+                for (SafetyFacility safetyFacility : facilityNear) {
+                    nearSafetyResponseDtoArrayList.add(NearSafetyResponseDto.of(safetyFacility));
+                }
+            }
+            List<NearSafetyResponseDto> nearSafetyResponseDtoList = nearSafetyResponseDtoArrayList.stream().distinct().collect(Collectors.toList());
+
+            int duration = routes.duration;
+            double distance = routes.distance;
+            OsrmListResponseDto osrmListResponseDto = OsrmListResponseDto.of(nearSafetyResponseDtoList, points, duration, distance);
+            osrmListResponseDtoList.add(osrmListResponseDto);
+        }
+
+        return osrmListResponseDtoList;
     }
 
     @Override

@@ -1,14 +1,12 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const DeleteReport = (props: {
-  reportId: number;
-  closeModal: () => void;
-  getReport: () => void;
-}) => {
+const DeleteReport = (props: { reportId: number; closeModal: () => void }) => {
   const deleteReport = () => {
     axios
-      .delete(`https://nubi0.com/safe/v1/safe/report/${props.reportId}`)
+      .delete(
+        `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report/${props.reportId}`,
+      )
       .then(() => {
         props.closeModal();
         Swal.fire({

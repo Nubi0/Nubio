@@ -1,14 +1,19 @@
+// Hook
 import { useState, ChangeEvent } from "react";
+import useInput from "../../../hooks/useInput";
+// 라이브러리
+import axios from "axios";
+import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
 import {
   ReportButton,
   ReportWrapper,
   TypeWrapper,
   ImageWrapper,
   ReportButtonWrapper,
-} from "../../../styles/SSafeHomePage";
-import useInput from "../../../hooks/useInput";
-import axios from "axios";
-import Swal from "sweetalert2";
+} from "../../../styles/SReport";
+// redux
 
 const CreateReport = () => {
   // 모달
@@ -62,7 +67,7 @@ const CreateReport = () => {
     });
     formData.append(
       "report",
-      new Blob([JSON.stringify(report)], { type: "application/json" })
+      new Blob([JSON.stringify(report)], { type: "application/json" }),
     );
     if (
       title == "" ||
@@ -77,11 +82,15 @@ const CreateReport = () => {
       });
     } else {
       axios
-        .post("https://nubi0.com/safe/v1/safe/report", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        .post(
+          `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
-        })
+        )
         .then(() => {
           closeModal();
           Swal.fire({
@@ -91,9 +100,8 @@ const CreateReport = () => {
             window.location.reload();
           });
         })
-
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
   };

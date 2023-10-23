@@ -8,11 +8,11 @@ export const LoginPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   color: rgba(0, 0, 0, 0.46);
-  img {
-    margin-top: 20%;
-  }
 `;
-
+export const LoginLogo = styled.img`
+  width: 20rem;
+  margin: 3rem 2.9rem 2rem 4rem;
+`;
 export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;

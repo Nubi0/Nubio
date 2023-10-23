@@ -1,22 +1,16 @@
-import axios from "axios";
-import { ShortDirectionButton } from "../../../../styles/SKakaoMap";
+// Hook
 import { useSelector } from "react-redux";
-import proj4 from "proj4";
-import { setShortTime } from "../../../../redux/slice/MapSlice";
 import { useDispatch } from "react-redux";
+// 라이브러리
+import axios from "axios";
+import proj4 from "proj4";
+import Swal from "sweetalert2";
+// 컴포넌트
+// 스타일
+import { ShortDirectionButton } from "../../../../styles/SRoute";
 
-interface ShortDirectionProps {
-  clearRoute: () => void;
-  setFindRouteOpen: (findRouteOpen: boolean) => void;
-}
-interface StartCoordinates {
-  x: number;
-  y: number;
-}
-interface EndCoordinates {
-  x: number;
-  y: number;
-}
+// redux
+import { setShortTime } from "../../../../redux/slice/SafeSlice";
 
 const ShortDirection = ({
   clearRoute,
@@ -28,20 +22,18 @@ const ShortDirection = ({
   };
   const dispatch = useDispatch();
   const start = useSelector(
-    (state: { map: { start: StartCoordinates } }) => state.map.start
+    (state: { map: { start: StartCoordinates } }) => state.map.start,
   );
   const end = useSelector(
-    (state: { map: { end: EndCoordinates } }) => state.map.end
+    (state: { map: { end: EndCoordinates } }) => state.map.end,
   );
   const startName = useSelector(
-    (state: { map: { startName: string } }) => state.map.startName
+    (state: { map: { startName: string } }) => state.map.startName,
   );
   const endName = useSelector(
-    (state: { map: { endName: string } }) => state.map.endName
+    (state: { map: { endName: string } }) => state.map.endName,
   );
-  const safePlaces = useSelector(
-    (state: { map: { safePlace: any } }) => state.map.safePlace
-  );
+
   // 최단거리 길찾기
   const getShortDirection = () => {
     clearRoute();
@@ -61,7 +53,7 @@ const ShortDirection = ({
       .post(
         "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
         data,
-        { headers: headers }
+        { headers: headers },
       )
       .then((res) => {
         function flattenArray(arr: any) {
@@ -75,7 +67,7 @@ const ShortDirection = ({
           }, []);
         }
         const coordinates = res.data.features.flatMap((feature: any) =>
-          flattenArray(feature.geometry.coordinates)
+          flattenArray(feature.geometry.coordinates),
         );
         const coordinatesList = [];
         for (let i = 0; i < coordinates.length; i += 2) {
@@ -136,7 +128,7 @@ const ShortDirection = ({
                 time: walkTime,
                 type: "분",
                 dis: Math.floor(distances),
-              })
+              }),
             );
           }
         };
@@ -154,7 +146,11 @@ const ShortDirection = ({
         setFindRouteOpen(true);
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          title: "조회할 수 없는 장소입니다.",
+          text: "NUBIO",
+        });
+        // console.log(err);
       });
   };
   return (

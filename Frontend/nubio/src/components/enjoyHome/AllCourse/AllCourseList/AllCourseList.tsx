@@ -5,14 +5,14 @@ import { setCourseList } from "../../../../redux/slice/EnjoySlice";
 import { AllCourseListWrapper } from "../../../../styles/SAllCoursePage";
 import AllCourseItem from "./AllCourseItem";
 
-const AllCourseList = ({active}: {active: any}) => {
+const AllCourseList = ({active}: {active: activeProps}) => {
     const dispatch = useDispatch();
-    const courseList = useSelector((state: any) => state.enjoy.courseList);
-    const region = useSelector((state: any) => state.enjoy.region);
+    const courseList = useSelector((state: {enjoy: {courseList: CourseItem[]}}) => state.enjoy.courseList);
+    const region = useSelector((state: {enjoy: {region: string}}) => state.enjoy.region);
     useEffect(() => {
         if (active.all === true) {
           axios
-            .get(`https://nubi0.com/enjoy/v1/enjoy/course?region=${region}`)
+            .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course?region=${region}`)
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })
@@ -21,7 +21,7 @@ const AllCourseList = ({active}: {active: any}) => {
             });
         } else {
           axios
-            .get(`https://nubi0.com/enjoy/v1/enjoy/course?region=${region}&sort=likeCount`)
+            .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course?region=${region}&sort=likeCount`)
             .then((res) => {
               dispatch(setCourseList(res.data.data.course_list));
             })

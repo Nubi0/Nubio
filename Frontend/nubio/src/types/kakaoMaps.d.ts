@@ -1,8 +1,8 @@
-export interface propsType {
+type propsType = {
   searchKeyword: string;
-}
+};
 
-export interface placeType {
+type placeType = {
   place_name: string;
   road_address_name: string;
   address_name: string;
@@ -11,7 +11,8 @@ export interface placeType {
   x: number;
   y: number;
   length: number;
-}
-export interface SetDirectionProps {
+};
+
+type SetDirectionProps = {
   map: any;
-}
+};

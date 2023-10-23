@@ -10,7 +10,7 @@ import {
 const AllCourseHeader = ({ handleModal }: AllCourseProps) => {
   const targetImg = process.env.PUBLIC_URL + '/assets/target.svg';
   const filterImg = process.env.PUBLIC_URL + '/assets/filter.svg';
-  const region = useSelector((state: any) => state.enjoy.region);
+  const region = useSelector((state: {enjoy: {region: string}}) => state.enjoy.region);
   return (
     <AllCourseHeaderWrapper>
       <LeftSide>

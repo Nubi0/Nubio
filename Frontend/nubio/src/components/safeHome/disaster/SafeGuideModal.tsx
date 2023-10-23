@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  SafeGuideModalBox,
-  SafeGuideIcon,
-} from "../../../styles/SSafeHomePage";
+import { SafeGuideModalBox, SafeGuideIcon } from "../../../styles/SDisaster";
 import EvacuationRouteModal from "./EvacuationRouteModal";
 import Disaster from "./Disaster";
 

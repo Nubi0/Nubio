@@ -86,7 +86,7 @@ class ReportFileServiceImplTest {
         Long fileSize = 123L;
 
         // when
-        ReportFile reportFile = reportFileService.saveAccuseFile(fileName, fileUrl, fileSize, beforeReport);
+        ReportFile reportFile = reportFileService.saveAccuseFile(fileName,"origin", fileUrl, fileSize, beforeReport);
 
         // then
         assertThat(reportFile.getFileName().getValue()).isEqualTo(fileName);
@@ -102,7 +102,7 @@ class ReportFileServiceImplTest {
         String fileName = "delete";
         String fileUrl = "delete url";
         Long fileSize = 123L;
-        ReportFile reportFile = reportFileService.saveAccuseFile(fileName, fileUrl, fileSize, beforeReport);
+        ReportFile reportFile = reportFileService.saveAccuseFile(fileName,"origin", fileUrl, fileSize, beforeReport);
 
         // when
         reportFileService.delete(reportFile.getId());
@@ -121,7 +121,7 @@ class ReportFileServiceImplTest {
         Long failFileSize = size;
 
         // when then
-        assertThatThrownBy(() -> reportFileService.saveAccuseFile(fileName, fileUrl, failFileSize, beforeReport))
+        assertThatThrownBy(() -> reportFileService.saveAccuseFile(fileName, "origin",fileUrl, failFileSize, beforeReport))
                 .isInstanceOf(InvalidFileSizeException.class);
     }
 
@@ -135,7 +135,7 @@ class ReportFileServiceImplTest {
         Long successFileSize = size;
 
         // when then
-        assertThatCode(() -> reportFileService.saveAccuseFile(fileName, fileUrl, successFileSize, beforeReport))
+        assertThatCode(() -> reportFileService.saveAccuseFile(fileName, "origin", fileUrl, successFileSize, beforeReport))
                 .doesNotThrowAnyException();
     }
 

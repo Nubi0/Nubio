@@ -37,19 +37,22 @@ public class ReportInfoService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Value("${cloud.aws.s3.bucket2}")
+    private String resizeBucketName;
+
     @Transactional
     public void createReport(ReportRequestDto reportRequestDto, List<MultipartFile> files, String identification) {
 
         Report report = ReportRequestDto.toEntity(reportRequestDto, identification);
         Report savedReport = reportService.save(report);
-        uploadIPFiles("report", files, savedReport);
+        uploadIPFiles("safe", files, savedReport);
     }
 
     @Transactional
     public void updateReport(ReportUpdateRequestDto reportUpdateRequestDto, List<MultipartFile> files, String identification) {
         Report report = ReportUpdateRequestDto.toEntity(reportUpdateRequestDto);
         Report savedReport = reportService.update(report,reportUpdateRequestDto.getReportId(),identification);
-        uploadIPFiles("report", files, savedReport);
+        uploadIPFiles("safe", files, savedReport);
     }
 
     public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
@@ -101,10 +104,12 @@ public class ReportInfoService {
                             .withCannedAcl(CannedAccessControlList.PublicRead));
 
                     String url = amazonS3Client.getUrl(bucketName, fileName).toString();
+                    String resizeUrl = amazonS3Client.getUrl(resizeBucketName, fileName).toString();
                     ReportFileDto fileUploadResponseDto = new ReportFileDto(url);
                     responseDtos.add(fileUploadResponseDto);
 
-                    reportFileService.saveAccuseFile(file.getOriginalFilename(), url, objectMetadata.getContentLength(), report);
+                    reportFileService.saveAccuseFile(file.getOriginalFilename(), "origin", url, objectMetadata.getContentLength(), report);
+                    reportFileService.saveAccuseFile(file.getOriginalFilename(), "resize", resizeUrl, objectMetadata.getContentLength(), report);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);

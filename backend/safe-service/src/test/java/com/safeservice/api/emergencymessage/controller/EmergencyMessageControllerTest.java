@@ -41,8 +41,8 @@ class EmergencyMessageControllerTest extends ControllerTestSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value("200"))
-                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.code").value("201"))
+                .andExpect(jsonPath("$.status").value("CREATED"))
                 .andExpect(jsonPath("$.data").value("생성 완료"));
     }
 

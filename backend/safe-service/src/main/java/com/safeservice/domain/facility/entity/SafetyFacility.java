@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Document("safety_facility")
@@ -28,6 +30,22 @@ public class SafetyFacility {
     @Field(name = "facility_type")
     private FacilityType facilityType;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        SafetyFacility that = (SafetyFacility) obj;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
     @Builder
     public SafetyFacility(String id, String address, Point location, FacilityType facilityType){
         this.id = id;

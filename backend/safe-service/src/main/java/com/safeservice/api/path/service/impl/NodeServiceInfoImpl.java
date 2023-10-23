@@ -115,36 +115,48 @@ public class NodeServiceInfoImpl implements NodeServiceInfo {
     }
 
     @Override
-    public List<NearSafetyResponseDto> getNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
+    public List<OsrmListResponseDto> getNearNode(NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nodeBetweenStartAndEnd.getStart_location().getLongitude()+",");
-        sb.append(nodeBetweenStartAndEnd.getStart_location().getLatitude()+";");
-        sb.append(nodeBetweenStartAndEnd.getStart_location().getLongitude()+",");
+
+        sb.append(nodeBetweenStartAndEnd.getStart_location().getLongitude() + ",");
+        sb.append(nodeBetweenStartAndEnd.getStart_location().getLatitude() + ";");
+        sb.append(nodeBetweenStartAndEnd.getEnd_location().getLongitude() + ",");
         sb.append(nodeBetweenStartAndEnd.getEnd_location().getLatitude());
         ResponseEntity<OsrmDto> route = osrmApiClient.getRoute(sb.toString());
 
-        List<Point> points = route.getBody().getRoutes().stream()
-                .flatMap(routes -> routes.getLegs().stream())
-                .flatMap(legs -> legs.getSteps().stream())
-                .flatMap(steps -> steps.getIntersections().stream())
-                .map(intersection -> {
-                    double x = intersection.getLocation().get(0);
-                    double y = intersection.getLocation().get(1);
-                    return new Point(x, y);
-                })
-                .collect(Collectors.toList());
 
-        Distance distance = new Distance(0.3, Metrics.KILOMETERS);
-        List<NearSafetyResponseDto> nearSafetyResponseDtoArrayList = new ArrayList<>();
-        for (Point point : points) {
-            List<SafetyFacility> facilityNear = safetyFacilityService.findFacilityNear(point, distance);
-            for (SafetyFacility safetyFacility : facilityNear) {
-                nearSafetyResponseDtoArrayList.add(NearSafetyResponseDto.of(safetyFacility));
+        List<OsrmListResponseDto> osrmListResponseDtoList = new ArrayList<>();
+
+
+        for (OsrmDto.Routes routes : route.getBody().getRoutes()) {
+            List<Point> points = new ArrayList<>();
+            for (OsrmDto.Legs legs : routes.getLegs()) {
+                for (OsrmDto.Steps steps : legs.getSteps()) {
+                    for (OsrmDto.Intersections intersection : steps.getIntersections()) {
+                        double x = intersection.getLocation().get(0);
+                        double y = intersection.getLocation().get(1);
+                        points.add(new Point(x, y));
+                    }
+                }
             }
+
+            Distance safetyDistance = new Distance(0.3, Metrics.KILOMETERS);
+            List<NearSafetyResponseDto> nearSafetyResponseDtoArrayList = new ArrayList<>();
+            for (Point point : points) {
+                List<SafetyFacility> facilityNear = safetyFacilityService.findFacilityNear(point, safetyDistance);
+                for (SafetyFacility safetyFacility : facilityNear) {
+                    nearSafetyResponseDtoArrayList.add(NearSafetyResponseDto.of(safetyFacility));
+                }
+            }
+            List<NearSafetyResponseDto> nearSafetyResponseDtoList = nearSafetyResponseDtoArrayList.stream().distinct().collect(Collectors.toList());
+
+            int duration = routes.duration;
+            double distance = routes.distance;
+            OsrmListResponseDto osrmListResponseDto = OsrmListResponseDto.of(nearSafetyResponseDtoList, points, duration, distance);
+            osrmListResponseDtoList.add(osrmListResponseDto);
         }
 
-        List<NearSafetyResponseDto> nearSafetyResponseDtoList = nearSafetyResponseDtoArrayList.stream().distinct().collect(Collectors.toList());
-        return nearSafetyResponseDtoList;
+        return osrmListResponseDtoList;
     }
 
     @Override

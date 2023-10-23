@@ -3,10 +3,7 @@ package com.safeservice.api.path.controller;
 import com.safeservice.api.ApiResponseEntity;
 import com.safeservice.api.path.dto.request.NearNode;
 import com.safeservice.api.path.dto.request.NodeBetweenStartAndEnd;
-import com.safeservice.api.path.dto.response.NearNodeListResponse;
-import com.safeservice.api.path.dto.response.NearNodePageResponse;
-import com.safeservice.api.path.dto.response.NearSafetyResponseDto;
-import com.safeservice.api.path.dto.response.RecommendNodeResponse;
+import com.safeservice.api.path.dto.response.*;
 import com.safeservice.api.path.service.NodeServiceInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,14 +49,14 @@ public class NodeController {
         return ApiResponseEntity.ok(nodeList);
     }
 
-    @Operation(summary = "출발지와 도착지 사이 안전한 노드 조회", description = "safe/v1/safe/recommend/node\n\n")
+    @Operation(summary = "출발지와 도착지 사이 안전한 노드 조회", description = "safe/v1/safe/route/node\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/route/node")
-    public ApiResponseEntity<List<NearSafetyResponseDto> > getNearNode(@Valid @RequestBody NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
-        List<NearSafetyResponseDto> nearNode = nodeServiceInfo.getNearNode(nodeBetweenStartAndEnd);
-        return ApiResponseEntity.ok(nearNode);
+    public ApiResponseEntity<List<OsrmListResponseDto> > getNearNode(@Valid @RequestBody NodeBetweenStartAndEnd nodeBetweenStartAndEnd) {
+        List<OsrmListResponseDto> osrmListResponseDto = nodeServiceInfo.getNearNode(nodeBetweenStartAndEnd);
+        return ApiResponseEntity.ok(osrmListResponseDto);
     }
 
     @PostMapping("/nearwith-page/node")

@@ -24,6 +24,7 @@ public class NearSafetyResponseDto {
     @JsonProperty("facility_type")
     private FacilityType facilityType;
 
+
     public static NearSafetyResponseDto of(SafetyFacility safetyFacility) {
         return NearSafetyResponseDto.builder()
                 .address(safetyFacility.getAddress())

@@ -1,8 +1,8 @@
 import { CloseButtonWrapper } from "../../../styles/SFooter"
 
-const CloseButton = () => {
+const CloseButton = ({setModal}: {setModal: () => void}) => {
     return(
-        <CloseButtonWrapper>
+        <CloseButtonWrapper onClick={setModal}>
             <div>닫기</div>
         </CloseButtonWrapper>
     )

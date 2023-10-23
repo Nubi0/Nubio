@@ -8,7 +8,6 @@ export const FooterWrapper = styled.div`
   justify-content: center;
   align-items: center;
   place-items: center;
-  background-color: white;
 `;
 
 export const MenuImgBox = styled.div`
@@ -18,7 +17,7 @@ export const MenuImgBox = styled.div`
   z-index: 13!important;
   width: 60px;
   height: 60px;
-  background-color: red;
+  background-color: #FFC542;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +32,7 @@ export const MenuBox = styled.div`
   transform: scale(0);
   width: 15em;
   height: 15rem;
-  background: #f00;
+  background: #FFC542;
   border-radius: 15rem 0 0 0;
   transform-origin: bottom right;
   -webkit-transform: scale(0);
@@ -86,8 +85,80 @@ export const CloseButtonWrapper = styled.div`
   margin-top: 1.5rem;
 `;
 
-export const SafeModalWrapper = styled.div``;
+export const SafeModalWrapper = styled.div`
+  position: absolute;
+  top: -40rem;
+  background-color: white;
+  width: 70%;
+  padding: 1rem;
+  z-index: 11;
+  box-shadow: 2px 3px 5px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  height: 20rem;
+`;
 
-export const ModalTitle = styled.div``;
+export const ModalTitle = styled.div`
+  display: flex;
+  font-size: 1.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
 
-export const MenuList = styled.div``;
+export const MenuList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const EnjoyModalWrapper = styled.div`
+  position: absolute;
+  top: -40rem;
+  background-color: white;
+  width: 70%;
+  padding: 1rem;
+  z-index: 11;
+  box-shadow: 2px 3px 5px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  height: 20rem;  
+`;
+
+export const ChatModalWrapper = styled.div`
+  position: absolute;
+  top: -40rem;
+  background-color: white;
+  width: 70%;
+  padding: 1rem;
+  z-index: 11;
+  box-shadow: 2px 3px 5px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  height: 20rem;  
+`;
+
+export const ProfileMoalWrapper = styled.div`
+  position: absolute;
+  top: -40rem;
+  background-color: white;
+  width: 70%;
+  padding: 1rem;
+  z-index: 11;
+  box-shadow: 2px 3px 5px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  height: 20rem; 
+`;

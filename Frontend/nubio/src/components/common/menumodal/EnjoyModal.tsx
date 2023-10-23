@@ -1,14 +1,14 @@
-import { SafeModalWrapper, ModalTitle, MenuList } from "../../../styles/SFooter";
+import { ModalTitle, MenuList, EnjoyModalWrapper } from "../../../styles/SFooter"
+import MenuItem from "./MenuItem"
+import CloseButton from "./CloseButton"
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import MenuItem from "./MenuItem";
-import CloseButton from './CloseButton'
 
-const SafeModal = ({setActive}: {setActive: (value: boolean) => void}) => {
-    const Menus = ['재난 문자 조회', '제보 기능', '길 찾기'];
-    return (
-        <SafeModalWrapper>
+const EnjoyModal = ({setActive}: {setActive: (value: boolean) => void}) => {
+    const Menus = ['코스 조회', '코스 생성'];
+    return(
+        <EnjoyModalWrapper>
             <ModalTitle>
-                <h2>안전</h2>
+                <h2>흥미</h2>
                 <VerifiedUserIcon style={{ width: '3.5rem', height: '3.5rem'}} />
             </ModalTitle>
             <MenuList>
@@ -19,8 +19,8 @@ const SafeModal = ({setActive}: {setActive: (value: boolean) => void}) => {
                 })}
             </MenuList>
             <CloseButton setModal={() => setActive(false)} />
-        </SafeModalWrapper>
+        </EnjoyModalWrapper>
     )
 }
 
-export default SafeModal;
+export default EnjoyModal;

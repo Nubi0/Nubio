@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const newNickName = useSelector((state: any) => state.profile.newNickName);
   const gender = useSelector((state: any) => state.profile.gender);
   const birth = useSelector((state: any) => state.profile.birth);
-  const [file, setFile] = useState<any>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [nickCheck, setNickCheck] = useState(true);
   const dispatch = useDispatch();
 

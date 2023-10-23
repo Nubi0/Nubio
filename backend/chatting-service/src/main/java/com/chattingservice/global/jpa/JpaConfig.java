@@ -19,10 +19,10 @@ public class JpaConfig {
     private final EntityManagerFactory entityManagerFactory;
 
     @Bean
-    public PlatformTransactionManager transactionManager(){
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager();
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
+        return transactionManager;
     }
 
     @Bean

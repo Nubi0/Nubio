@@ -2,10 +2,7 @@ package com.safeservice.domain.report.entity;
 
 import com.safeservice.domain.common.BaseTimeEntity;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
-import com.safeservice.domain.report.entity.type.report.Active;
-import com.safeservice.domain.report.entity.type.report.Content;
-import com.safeservice.domain.report.entity.type.report.Position;
-import com.safeservice.domain.report.entity.type.report.Title;
+import com.safeservice.domain.report.entity.type.report.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,21 +45,31 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Active active = Active.from(true);
 
+    @Embedded
+    private Allow allow = Allow.from(false);
+
     @Column(name = "identification_id")
     private String identification;
 
+
     @Builder
-    public Report(ReportType reportType, Title title, Content content, Active active, Position position, String identification) {
+    public Report(ReportType reportType, Title title, Content content, Active active,
+                  Allow allow, Position position, String identification) {
         this.reportType = reportType;
         this.title = title;
         this.content = content;
         this.active = active;
+        this.allow = allow;
         this.position = position;
         this.identification = identification;
     }
 
     public void updateActive() {
         this.active = Active.from(false);
+    }
+
+    public void allowReport() {
+        this.allow = Allow.from(true);
     }
 
     public void addReportFile(ReportFile reportFile) {

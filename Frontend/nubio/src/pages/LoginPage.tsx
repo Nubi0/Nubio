@@ -20,8 +20,7 @@ axios.interceptors.response.use(
       if (refreshToken) {
         try {
           const response = await axios.post(
-            process.env.REACT_APP_SERVER_URL +
-              "/start/v1/member/access-token/issue",
+            process.env.REACT_APP_SERVER_URL + '/start/v1/member/access-token/issue',
             {},
             {
               headers: {

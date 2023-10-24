@@ -1,8 +1,7 @@
 package com.safeservice.domain.report.entity;
 
 import com.safeservice.domain.common.BaseTimeEntity;
-import com.safeservice.domain.report.entity.type.report.Content;
-import com.safeservice.domain.report.entity.type.report.Title;
+import com.safeservice.domain.report.entity.constant.reportfile.ReportFileType;
 import com.safeservice.domain.report.entity.type.reportfile.Active;
 import com.safeservice.domain.report.entity.type.reportfile.FileName;
 import com.safeservice.domain.report.entity.type.reportfile.FileSize;
@@ -31,6 +30,8 @@ public class ReportFile extends BaseTimeEntity {
     @JoinColumn(name = "report_id")
     private Report report;
 
+    @Enumerated(EnumType.STRING)
+    private ReportFileType reportFileType;
     @Embedded
     private FileName fileName;
 
@@ -44,8 +45,9 @@ public class ReportFile extends BaseTimeEntity {
     private Active active = Active.from(true);
 
     @Builder
-    public ReportFile(Report report, FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
+    public ReportFile(Report report, ReportFileType reportFileType, FileName fileName, FileUrl fileUrl, FileSize fileSize,Active active) {
         this.report = report;
+        this.reportFileType = reportFileType;
         this.fileName = fileName;
         this.fileUrl = fileUrl;
         this.fileSize = fileSize;

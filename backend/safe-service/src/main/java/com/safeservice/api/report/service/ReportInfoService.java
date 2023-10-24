@@ -49,6 +49,11 @@ public class ReportInfoService {
     }
 
     @Transactional
+    public void allowReport(Long reportId) {
+        reportService.allowReport(reportId);
+    }
+
+    @Transactional
     public void updateReport(ReportUpdateRequestDto reportUpdateRequestDto, List<MultipartFile> files, String identification) {
         Report report = ReportUpdateRequestDto.toEntity(reportUpdateRequestDto);
         Report savedReport = reportService.update(report,reportUpdateRequestDto.getReportId(),identification);

@@ -69,4 +69,12 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.searchAll();
     }
 
+    @Override
+    @Transactional
+    public void allowReport(Long id) {
+        Report report = reportRepository.findById(id).get();
+        report.allowReport();
+    }
+
+
 }

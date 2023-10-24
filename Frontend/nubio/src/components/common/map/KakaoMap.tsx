@@ -577,7 +577,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      <CalamityMessage />
+      {/* <CalamityMessage /> */}
       <MoveMyLocation onClick={moveMyLocation}>내 위치로</MoveMyLocation>
       <SearchBar
         searchPlaces={searchPlaces}

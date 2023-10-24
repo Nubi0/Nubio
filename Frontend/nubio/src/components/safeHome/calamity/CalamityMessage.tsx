@@ -10,6 +10,7 @@ import {
   CalamityMessageWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
+  CalamityMessageButton,
 } from "../../../styles/SCalamity";
 // redux
 import {
@@ -21,14 +22,17 @@ const CalamityMessage = () => {
   const dispatch = useDispatch();
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
+  const openMessage = () => {
+    setIsReceiveMessage(true);
+  };
   // 재난문자 모달 닫기
-  const closeWrapper = () => {
+  const closeMessage = () => {
     setIsReceiveMessage(false);
   };
   // 재난문자 불러오기
   const getCalamity = () => {
     axios
-      .post(`${process.env.PUREACT_APP_SERVER_URL}/safe/v1/safe/check`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/check`, {
         longitude: window.myLongitude,
         latitude: window.myLatitude,
       })
@@ -76,10 +80,15 @@ const CalamityMessage = () => {
 
   return (
     <>
+      <CalamityMessageButton onClick={openMessage}>
+        재난 문자 조회
+      </CalamityMessageButton>
       {isReceiveMessage ? (
         <CalamityWrapper>
           <CalamityMessageWrapper>
-            <p id="title">재난문자{messageList.length}개가 수신되었습니다.</p>
+            <p id="title">
+              재난문자{messageList.length}개가 <br /> 수신되었습니다.
+            </p>
             <Swiper>
               {messageList.map((message, index) => (
                 <SwiperSlide key={index}>
@@ -96,7 +105,7 @@ const CalamityMessage = () => {
             <button id="safeRoute" onClick={getNearbyShelter}>
               대피소 찾기
             </button>
-            <button id="close" onClick={closeWrapper}>
+            <button id="close" onClick={closeMessage}>
               닫기
             </button>
           </CalamityMessageWrapper>

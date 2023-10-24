@@ -34,6 +34,9 @@ public class Report extends BaseTimeEntity {
     private ReportType reportType;
 
     @Embedded
+    private Region region;
+
+    @Embedded
     private Title title;
 
     @Embedded
@@ -54,8 +57,9 @@ public class Report extends BaseTimeEntity {
 
     @Builder
     public Report(ReportType reportType, Title title, Content content, Active active,
-                  Allow allow, Position position, String identification) {
+                  Region region, Allow allow, Position position, String identification) {
         this.reportType = reportType;
+        this.region = region;
         this.title = title;
         this.content = content;
         this.active = active;

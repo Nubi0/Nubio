@@ -49,9 +49,10 @@ public class ReportRequestDto {
                 .longitude(longitude).build();
     }
 
-    public static Report toEntity(ReportRequestDto reportRequestDto, String identification) {
+    public static Report toEntity(ReportRequestDto reportRequestDto, String identification, String region) {
         return Report.builder()
                 .title(Title.from(reportRequestDto.getTitle()))
+                .region(Region.from(region))
                 .content(Content.from(reportRequestDto.getContent()))
                 .reportType(ReportType.from(reportRequestDto.getReportType()))
                 .position(Position.of(reportRequestDto.getLongitude(), reportRequestDto.getLatitude()))

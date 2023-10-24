@@ -14,10 +14,10 @@ export const MenuImgBox = styled.div`
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  z-index: 13!important;
+  z-index: 13 !important;
   width: 60px;
   height: 60px;
-  background-color: #FFC542;
+  background-color: #ffc542;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@ export const MenuBox = styled.div`
   transform: scale(0);
   width: 15em;
   height: 15rem;
-  background: #FFC542;
+  background: #ffc542;
   border-radius: 15rem 0 0 0;
   transform-origin: bottom right;
   -webkit-transform: scale(0);
@@ -40,28 +40,27 @@ export const MenuBox = styled.div`
   -webkit-transition: all 0.4s ease-out;
   -moz-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
-`
+`;
 
 export const MenuToggle = styled.div`
-  img{
+  img {
     z-index: 11;
   }
   &.tab.active {
-      .menuBox {
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        transform: scale(1);
-      }
-      .icon {
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        transform: scale(1);
-      }
+    .menuBox {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      transform: scale(1);
+    }
+    .icon {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      transform: scale(1);
+    }
   }
 `;
 
-export const MenuImg = styled.img`
-`;
+export const MenuImg = styled.img``;
 
 export const MenuItemWrapper = styled.div`
   border: 1px solid black;
@@ -83,6 +82,7 @@ export const CloseButtonWrapper = styled.div`
   font-size: 1.5rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  cursor: pointer;
 `;
 
 export const SafeModalWrapper = styled.div`
@@ -128,7 +128,7 @@ export const EnjoyModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  height: 20rem;  
+  height: 20rem;
 `;
 
 export const ChatModalWrapper = styled.div`
@@ -144,7 +144,7 @@ export const ChatModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  height: 20rem;  
+  height: 20rem;
 `;
 
 export const ProfileMoalWrapper = styled.div`
@@ -160,5 +160,5 @@ export const ProfileMoalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  height: 20rem; 
+  height: 20rem;
 `;

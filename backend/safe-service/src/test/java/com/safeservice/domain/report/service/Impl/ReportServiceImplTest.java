@@ -62,7 +62,7 @@ class ReportServiceImplTest {
 
         beforeReport = reportRepository.save(firstReport);
 
-        reportFileService.saveAccuseFile("first", "first url", 123L, beforeReport);
+        reportFileService.saveAccuseFile("first", "origin","first url", 123L, beforeReport);
     }
 
     @AfterEach
@@ -211,7 +211,7 @@ class ReportServiceImplTest {
                     .active(Active.from(true)).build();
             Report savedReport = reportService.save(report);
 
-            reportFileService.saveAccuseFile("file name","file url", 123L, savedReport);
+            reportFileService.saveAccuseFile("file name","origin","file url", 123L, savedReport);
         }
 
         // when

@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.safeservice.api.emergencymessage.client.KakaoMapClient;
+import com.safeservice.api.emergencymessage.dto.client.ClientDto;
 import com.safeservice.api.report.dto.*;
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.service.ReportFileService;
@@ -32,6 +34,7 @@ public class ReportInfoService {
     private final ReportService reportService;
     private final ReportFileService reportFileService;
     private final AmazonS3Client amazonS3Client;
+    private final KakaoMapClient kakaoMapClient;
 
     private static final int FILE_AMOUNT_LIMIT = 5;
     @Value("${cloud.aws.s3.bucket}")
@@ -40,12 +43,23 @@ public class ReportInfoService {
     @Value("${cloud.aws.s3.bucket2}")
     private String resizeBucketName;
 
+    @Value("${cloud.openfeign.client.config.feignName.appKey}")
+    private String appKey;
+
     @Transactional
     public void createReport(ReportRequestDto reportRequestDto, List<MultipartFile> files, String identification) {
-
-        Report report = ReportRequestDto.toEntity(reportRequestDto, identification);
+        ClientDto clientDto = kakaoMapClient.requestKakaoToken(appKey,
+                reportRequestDto.getLongitude(), reportRequestDto.getLatitude());
+        String region = clientDto.getDocuments().get(0).getRegion_1depth_name() + " " +
+                clientDto.getDocuments().get(0).getRegion_2depth_name();
+        Report report = ReportRequestDto.toEntity(reportRequestDto, identification, region);
         Report savedReport = reportService.save(report);
         uploadIPFiles("safe", files, savedReport);
+    }
+
+    @Transactional
+    public void allowReport(Long reportId) {
+        reportService.allowReport(reportId);
     }
 
     @Transactional
@@ -55,14 +69,14 @@ public class ReportInfoService {
         uploadIPFiles("safe", files, savedReport);
     }
 
-    public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
-        List<Report> reports = reportService.searchReport(longitude, latitude);
-        List<ReportListDto> reportList = new ArrayList<>();
-        for (Report report : reports) {
-            reportList.add(ReportListDto.of(report, identification));
-        }
-        return ReportResponseDto.from(reportList);
-    }
+//    public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
+//        List<Report> reports = reportService.searchReport(longitude, latitude);
+//        List<ReportListDto> reportList = new ArrayList<>();
+//        for (Report report : reports) {
+//            reportList.add(ReportListDto.of(report, identification));
+//        }
+//        return ReportResponseDto.from(reportList);
+//    }
 
     public ReportResponseDto searchAll(String identification) {
         List<Report> reports = reportService.searchAllReport();

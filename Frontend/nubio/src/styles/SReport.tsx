@@ -1,22 +1,30 @@
 import styled from "styled-components";
 
 // 제보하기
-export const ReportButtonWrapper = styled.div`
-  z-index: 2;
-  color: white;
-  padding: 0.4rem;
-  border-radius: 1rem;
-  background: #f25260;
-`;
+// export const ReportButtonWrapper = styled.div`
+// z-index: 2;
+// color: white;
+// padding: 0.4rem;
+// border-radius: 1rem;
+// background: #f25260;
+// `;
 export const ReportButton = styled.span`
   cursor: pointer;
+  border: 1px solid black;
+  width: 80%;
+  font-size: 1.5rem;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
 `;
 // 제보 생성
 export const ReportWrapper = styled.div`
   position: absolute;
-  top: -45rem;
+  top: -10rem;
   background: white;
-  width: 80%;
+  width: 90%;
   padding: 1.5rem;
   border-radius: 1rem;
   border: 0.15rem black solid;
@@ -45,7 +53,7 @@ export const ReportWrapper = styled.div`
   }
 
   #submit {
-    width: 20rem;
+    width: 90%;
     height: 2.5rem;
     font-size: 1.2rem;
     font-weight: 600;
@@ -59,7 +67,7 @@ export const ReportWrapper = styled.div`
   #close {
     position: relative;
     top: 1rem;
-    width: 20rem;
+    width: 90%;
     height: 2.5rem;
     font-size: 1.2rem;
     font-weight: 600;

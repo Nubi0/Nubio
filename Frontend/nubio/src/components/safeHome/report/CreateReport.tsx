@@ -11,7 +11,7 @@ import {
   ReportWrapper,
   TypeWrapper,
   ImageWrapper,
-  ReportButtonWrapper,
+  // ReportButtonWrapper,
 } from "../../../styles/SReport";
 // redux
 
@@ -107,9 +107,9 @@ const CreateReport = () => {
   };
   return (
     <>
-      <ReportButtonWrapper>
-        <ReportButton onClick={openModal}>제보하기</ReportButton>
-      </ReportButtonWrapper>
+      {/* <ReportButtonWrapper> */}
+      <ReportButton onClick={openModal}>제보하기</ReportButton>
+      {/* </ReportButtonWrapper> */}
       {isOpen ? (
         <ReportWrapper>
           <h2>제보하기</h2>

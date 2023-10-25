@@ -99,6 +99,7 @@ export const CloseButtonWrapper = styled.div`
   font-size: 1.5rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  cursor: pointer;
 `;
 
 export const SafeModalWrapper = styled.div`
@@ -160,7 +161,7 @@ export const ChatModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  height: 23rem;
+  height: 20rem;
 `;
 
 export const ProfileMoalWrapper = styled.div`

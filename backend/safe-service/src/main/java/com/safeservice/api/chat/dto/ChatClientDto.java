@@ -12,6 +12,7 @@ import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.ReportFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -23,16 +24,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class ChatClientDto {
 
-    private RegionDto regionDto;
+    private RegionDto region;
 
-    private EmergencyMessageDto emergencyMessageDto;
+    private EmergencyMessageDto emergency_message;
 
-    private ReportDto reportDto;
+    private ReportDto report;
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Getter
     public static class RegionDto {
 
         @JsonProperty("address_name")
@@ -59,6 +63,7 @@ public class ChatClientDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Getter
     public static class EmergencyMessageDto {
         @JsonProperty("md_id")
         private Integer mdId;
@@ -98,6 +103,7 @@ public class ChatClientDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Getter
     public static class ReportDto {
         @JsonProperty("report_id")
         private Long reportId;
@@ -124,6 +130,7 @@ public class ChatClientDto {
         @AllArgsConstructor
         @NoArgsConstructor
         @Builder
+        @Getter
         public static class ReportFileDto {
             @JsonProperty("img_url")
             private List<String> imgUrl;
@@ -149,6 +156,14 @@ public class ChatClientDto {
                     .createTime(report.getCreateTime().plus(9, ChronoUnit.HOURS))
                     .reportFiles(ReportFileDto.from(report.getReportFiles())).build();
         }
+    }
+
+    public static ChatClientDto of(ClientDto clientDto, EmergencyMessage emergencyMessage, Report report) {
+        return ChatClientDto.builder()
+                .region(RegionDto.from(clientDto))
+                .emergency_message(emergencyMessage == null ? null :
+                        EmergencyMessageDto.from(emergencyMessage))
+                .report(report == null ? null : ReportDto.of(report)).build();
     }
 }
 

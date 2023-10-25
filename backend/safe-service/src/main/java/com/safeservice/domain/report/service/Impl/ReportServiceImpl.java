@@ -60,8 +60,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> searchReport(double longitude, double latitude) {
-        return reportRepository.searchAllReport(longitude, latitude);
+    public Report searchReport(double longitude, double latitude, String region) {
+        return reportRepository.searchAllReport(longitude, latitude, region);
     }
 
     @Override

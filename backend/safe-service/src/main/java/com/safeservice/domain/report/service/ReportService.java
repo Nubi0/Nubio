@@ -10,7 +10,7 @@ public interface ReportService {
     Report update(Report report, Long reportId, String identification);
 
     void delete(String identification, Long id);
-    List<Report> searchReport(double longitude, double latitude);
+    Report searchReport(double longitude, double latitude, String region);
     List<Report> searchAllReport();
     void allowReport(Long id);
 }

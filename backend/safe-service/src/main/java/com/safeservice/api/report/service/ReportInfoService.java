@@ -50,7 +50,7 @@ public class ReportInfoService {
     public void createReport(ReportRequestDto reportRequestDto, List<MultipartFile> files, String identification) {
         ClientDto clientDto = kakaoMapClient.requestKakaoToken(appKey,
                 reportRequestDto.getLongitude(), reportRequestDto.getLatitude());
-        String region = clientDto.getDocuments().get(0).getRegion_1depth_name() +
+        String region = clientDto.getDocuments().get(0).getRegion_1depth_name() + " " +
                 clientDto.getDocuments().get(0).getRegion_2depth_name();
         Report report = ReportRequestDto.toEntity(reportRequestDto, identification, region);
         Report savedReport = reportService.save(report);
@@ -69,14 +69,14 @@ public class ReportInfoService {
         uploadIPFiles("safe", files, savedReport);
     }
 
-    public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
-        List<Report> reports = reportService.searchReport(longitude, latitude);
-        List<ReportListDto> reportList = new ArrayList<>();
-        for (Report report : reports) {
-            reportList.add(ReportListDto.of(report, identification));
-        }
-        return ReportResponseDto.from(reportList);
-    }
+//    public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
+//        List<Report> reports = reportService.searchReport(longitude, latitude);
+//        List<ReportListDto> reportList = new ArrayList<>();
+//        for (Report report : reports) {
+//            reportList.add(ReportListDto.of(report, identification));
+//        }
+//        return ReportResponseDto.from(reportList);
+//    }
 
     public ReportResponseDto searchAll(String identification) {
         List<Report> reports = reportService.searchAllReport();

@@ -21,6 +21,8 @@ public class ReportListDto {
 
     private boolean identificationFlag;
 
+    private String region;
+
     private String title;
 
     private String content;
@@ -41,6 +43,7 @@ public class ReportListDto {
         return ReportListDto.builder()
                 .reportId(report.getId())
                 .identificationFlag(isMatchIdentification(report, identification))
+                .region(report.getRegion().getValue())
                 .title(report.getTitle().getValue())
                 .content(report.getContent().getValue())
                 .reportType(report.getReportType().getDescription())

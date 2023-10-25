@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Allow {
-    @Column(name = "active")
+    @Column(name = "allow")
     private boolean value;
 
     private Allow(final boolean value) {

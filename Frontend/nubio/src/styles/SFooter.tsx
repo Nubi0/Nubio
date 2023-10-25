@@ -9,6 +9,23 @@ export const FooterWrapper = styled.div`
   align-items: center;
   place-items: center;
 `;
+export const NicknameInput = styled.input`
+  margin-top: 10px;
+  padding: 10px;
+  width: 216px;
+  font-size: 14px;
+  border-radius: 1rem;
+`;
+
+export const EnterButton = styled.button`
+  padding: 10px;
+  width: 240px;
+  background-color: #41d992;
+  border-radius: 1rem;
+
+  margin-top: 20px;
+  font-size: 14px;
+`;
 
 export const MenuImgBox = styled.div`
   position: absolute;

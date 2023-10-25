@@ -5,7 +5,7 @@
 ## ✈ 배포 주소
 
  개발 버전 : Version 1.0.0 </br>  
- 프론트 서버: https://j9d205.p.ssafy.io/ </br>  
+ 프론트 서버: www.nubi0.com </br>  
  백엔드 서버: </br>  
 - kong-server : http://ec2-43-201-30-17.ap-northeast-2.compute.amazonaws.com:8000 </br>
 - Authentication-service : http://ec2-13-124-94-38.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html </br> 

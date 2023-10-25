@@ -10,16 +10,19 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { ReactComponent as Nubilogo } from "../../../../public/assets/chat/nubio_logo.svg";
 import MenuItem from "./MenuItem";
 import { useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const Menus = ["채팅 시작"];
   const [nickname, setNickname] = useState("");
+  const Navigate = useNavigate();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
 
   const handleNicknameSubmit = () => {
+    Navigate("/safe/chatroom");
     console.log("Nickname:", nickname);
   };
   return (

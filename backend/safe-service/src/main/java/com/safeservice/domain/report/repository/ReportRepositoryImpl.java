@@ -29,4 +29,12 @@ public class ReportRepositoryImpl implements ReportRepositoryCustom{
                 .fetchOne();
     }
 
+    @Override
+    public List<Report> searchAll() {
+        return jpaQueryFactory.selectFrom(report)
+                .leftJoin(report.reportFiles, reportFile).fetchJoin()
+                .where(reportFile.reportFileType.eq(ReportFileType.RESIZE))
+                .fetch();
+    }
+
 }

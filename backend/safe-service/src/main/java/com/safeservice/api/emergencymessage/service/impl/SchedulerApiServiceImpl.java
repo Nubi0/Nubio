@@ -15,7 +15,7 @@ public class SchedulerApiServiceImpl implements SchedulerApiService {
     private final SchedulerApiClient schedulerApiClient;
 
     @Override
-//    @Scheduled(cron = "0 15 * * * ?")
+    @Scheduled(cron = "0 15 * * * ?")
     public void callDataApi() {
         schedulerApiClient.requestDataApiScheduler();
     }

@@ -85,4 +85,16 @@ public class ReportController {
         reportInfoService.deleteReport(identificationDto.getIdentification(),reportId);
         return ApiResponseEntity.ok("삭제 완료");
     }
+
+    @Operation(summary = "제보 활성화", description = "safe/v1/safe/report/allow/{reportId}\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+
+    @GetMapping("/report/allow/{reportId}")
+    public ApiResponseEntity<String> allowReport(@Identification IdentificationDto identificationDto,
+                                                  @PathVariable("reportId") Long reportId) {
+        reportInfoService.allowReport(reportId);
+        return ApiResponseEntity.ok("활성화 완료");
+    }
 }

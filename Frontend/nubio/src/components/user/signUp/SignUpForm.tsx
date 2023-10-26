@@ -45,7 +45,7 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
   const signUp = async (e: any) => {
     e.preventDefault();
     await axios
-      .post(process.env.REACT_SERVER_URL + '/start/v1/member/signup', data)
+      .post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/signup', data)
       .then((res) => {
         // Todo : 회원가입 성공 Swal
         Swal.fire({

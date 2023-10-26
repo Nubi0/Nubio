@@ -1,21 +1,32 @@
 import styled from "styled-components";
 // 재난문자
 export const CalamityWrapper = styled.div`
-  width: 100%;
   position: absolute;
+  width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
-  padding: 2rem 0;
 `;
 
-export const CalamityMessageWrapper = styled.div`
+export const CalamityMessageButton = styled.span`
+  cursor: pointer;
+  border: 1px solid black;
   width: 80%;
-  margin: auto;
+  font-size: 1.5rem;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+`;
+export const CalamityMessageWrapper = styled.div`
+  width: 100%;
+  // margin: auto;
   border: 0.5rem double red;
   background: white;
   text-align: center;
+  padding: 10% 0;
   p {
     margin: 0.5rem 0;
     margin: 0;
@@ -34,6 +45,7 @@ export const CalamityMessageWrapper = styled.div`
     border-radius: 1rem;
     margin-left: 1rem;
     margin-bottom: 1rem;
+    cursor: pointer;
     padding: 0.2rem 1rem;
   }
   #close {
@@ -63,10 +75,13 @@ export const EvacuationGuideWrapper = styled.div`
 
 // 대피소
 export const ShelterButton = styled.span`
-  color: white;
-  padding: 0.4rem;
-  border-radius: 1rem;
-  background: #f25260;
-  z-index: 1;
+  border: 1px solid black;
+  width: 80%;
+  font-size: 1.5rem;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 `;

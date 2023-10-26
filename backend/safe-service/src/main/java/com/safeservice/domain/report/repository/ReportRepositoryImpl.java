@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.safeservice.domain.report.entity.QReport;
 import com.safeservice.domain.report.entity.QReportFile;
 import com.safeservice.domain.report.entity.Report;
+import com.safeservice.domain.report.entity.constant.reportfile.ReportFileType;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -17,21 +18,23 @@ public class ReportRepositoryImpl implements ReportRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Report> searchAllReport(double longitude, double latitude) {
+    public Report searchAllReport(double longitude, double latitude, String region) {
         return jpaQueryFactory.selectFrom(report)
                 .leftJoin(report.reportFiles, reportFile).fetchJoin()
-                .where(
-                        report.position.latitude.between(subtractValue(latitude), plusValue(latitude)).and(
-                        report.position.longitude.between(subtractValue(longitude),plusValue(longitude)))
-                )
+                .where(report.allow.value.eq(true)
+                        .and(report.region.value.eq(region))
+                        .and(reportFile.reportFileType.eq(ReportFileType.RESIZE)))
+                .orderBy(report.createTime.desc())
+                .limit(1)
+                .fetchOne();
+    }
+
+    @Override
+    public List<Report> searchAll() {
+        return jpaQueryFactory.selectFrom(report)
+                .leftJoin(report.reportFiles, reportFile).fetchJoin()
+                .where(reportFile.reportFileType.eq(ReportFileType.RESIZE))
                 .fetch();
     }
 
-    private double subtractValue(double value) {
-        return value - 0.01;
-    }
-
-    private double plusValue(double value) {
-        return value + 0.01;
-    }
 }

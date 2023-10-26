@@ -21,7 +21,7 @@ public class CourseReviewInfosRes {
     @AllArgsConstructor
     @Builder
     public static class CourseReviewInfo {
-        @JsonProperty("course_reivew_id")
+        @JsonProperty("course_review_id")
         private long courseReviewId;
         @JsonProperty("member_id")
         private String memberId;

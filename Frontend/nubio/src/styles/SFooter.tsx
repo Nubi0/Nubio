@@ -139,6 +139,13 @@ export const EnjoyItem = styled.div`
   justify-content: center;
 `;
 
+export const ProfileItem = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const EnjoyModalWrapper = styled.div`
   position: absolute;
   top: -40rem;

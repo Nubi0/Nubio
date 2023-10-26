@@ -15,13 +15,13 @@ const EnjoyModal = ({setActive}: {setActive: (value: boolean) => void}) => {
             func: () => navigate('/mycourse'),
         }
     ];
-    const modalImg = process.env.PUBLIC_URL + '/assets/menu/puzzle.svg';
+    const enjoyImg = process.env.PUBLIC_URL + '/assets/menu/menuEnjoy.png';
 
     return(
         <EnjoyModalWrapper>
             <ModalTitle>
                 <h2 style={{margin: '0'}}>흥미</h2>
-                <img src={modalImg} />
+                <img src={enjoyImg} style={{ width: "3.5rem", height: "3.5rem" }} />
             </ModalTitle>
             <MenuList>
                 {Menus.map((value, index) => {

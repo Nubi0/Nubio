@@ -1,16 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import {
   AllCourseHeaderWrapper,
   FirstLine,
   SecondLine,
   LeftSide,
   RightSide,
-} from '../../../styles/SAllCoursePage';
+} from "../../../styles/SAllCoursePage";
 
 const AllCourseHeader = ({ handleModal }: AllCourseProps) => {
-  const targetImg = process.env.PUBLIC_URL + '/assets/target.svg';
-  const filterImg = process.env.PUBLIC_URL + '/assets/filter.svg';
-  const region = useSelector((state: {enjoy: {region: string}}) => state.enjoy.region);
+  const targetImg =
+    process.env.PUBLIC_URL + "/assets/course/AllCourse/target.svg";
+  const filterImg =
+    process.env.PUBLIC_URL + "/assets/course/AllCourse/filter.svg";
+  const region = useSelector(
+    (state: { enjoy: { region: string } }) => state.enjoy.region,
+  );
   return (
     <AllCourseHeaderWrapper>
       <LeftSide>

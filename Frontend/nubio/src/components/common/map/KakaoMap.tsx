@@ -10,7 +10,7 @@ import RouteInfo from "../../safeHome/route/RouteInfo";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import SelectMyLocation from "./SelectMyLocation";
-import CalamityMessage from "./../../safeHome/calamity/CalamityMessage";
+import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
 // 스타일
 import {
   DestinationWrapper,
@@ -577,7 +577,7 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
   return (
     <>
       <MapWrapper id="map" className="map" />
-      {/* <CalamityMessage /> */}
+      <CalamityMessageHome />
       <MoveMyLocation onClick={moveMyLocation}>내 위치로</MoveMyLocation>
       <SearchBar
         searchPlaces={searchPlaces}

@@ -1,9 +1,9 @@
 // Hook
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 // 라이브러리
 import Swal from "sweetalert2";
 // 컴포넌트
+import MyLocation from "../map/MyLocation";
 // 스타일
 import { SearchBarWrapper, SearchForm } from "../../../styles/SMap";
 // redux
@@ -60,6 +60,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
 readingGlasses"
         />
       </SearchForm>
+      <MyLocation />
     </SearchBarWrapper>
   );
 };

@@ -73,6 +73,10 @@ public class CourseCreateReq {
         @JsonProperty("category_group_name")
         private String categoryGroupName;
 
+        @NotBlank(message = "카테고리 Detail은 필수값입니다.")
+        @JsonProperty("category_name")
+        private String categoryName;
+
         @NotBlank(message = "전화번호는 필수값입니다.")
         private String phone;
 

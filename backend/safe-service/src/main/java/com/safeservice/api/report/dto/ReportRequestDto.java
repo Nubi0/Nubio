@@ -2,10 +2,7 @@ package com.safeservice.api.report.dto;
 
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
-import com.safeservice.domain.report.entity.type.report.Active;
-import com.safeservice.domain.report.entity.type.report.Content;
-import com.safeservice.domain.report.entity.type.report.Position;
-import com.safeservice.domain.report.entity.type.report.Title;
+import com.safeservice.domain.report.entity.type.report.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -52,13 +49,15 @@ public class ReportRequestDto {
                 .longitude(longitude).build();
     }
 
-    public static Report toEntity(ReportRequestDto reportRequestDto, String identification) {
+    public static Report toEntity(ReportRequestDto reportRequestDto, String identification, String region) {
         return Report.builder()
                 .title(Title.from(reportRequestDto.getTitle()))
+                .region(Region.from(region))
                 .content(Content.from(reportRequestDto.getContent()))
                 .reportType(ReportType.from(reportRequestDto.getReportType()))
                 .position(Position.of(reportRequestDto.getLongitude(), reportRequestDto.getLatitude()))
                 .active(Active.from(true))
+                .allow(Allow.from(false))
                 .identification(identification != null ? identification : "anonymous").build();
     }
 }

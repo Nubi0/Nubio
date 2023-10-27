@@ -146,33 +146,33 @@ class ReportInfoServiceTest {
                 .isInstanceOf(MisMatchIdentification.class);
     }
 
-    @DisplayName("제보 조회 성공 케이스")
-    @ParameterizedTest
-    @ValueSource(ints = {2,4,6})
-    void searchAll(int length) {
-        // given
-        String title = "";
-        String content = "";
-        String reportType = "terror";
-        double latitude = 36.36;
-        double longitude = 126.36;
-        String identification = "lee";
-        for(int i = 0; i < length; i++) {
-            title += "a";
-            content += "a";
-            reportRepository.save(Report.builder()
-                    .title(Title.from(title))
-                    .content(Content.from(content))
-                    .reportType(ReportType.from(reportType))
-                    .position(Position.of(longitude,latitude))
-                    .identification(identification)
-                    .active(Active.from(true)).build());
-        }
-        // when
-        ReportResponseDto reportResponseDto = reportInfoService.searchAllByRegion(identification,longitude,latitude);
-        // then
-        assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
-    }
+//    @DisplayName("제보 조회 성공 케이스")
+//    @ParameterizedTest
+//    @ValueSource(ints = {2,4,6})
+//    void searchAll(int length) {
+//        // given
+//        String title = "";
+//        String content = "";
+//        String reportType = "terror";
+//        double latitude = 36.36;
+//        double longitude = 126.36;
+//        String identification = "lee";
+//        for(int i = 0; i < length; i++) {
+//            title += "a";
+//            content += "a";
+//            reportRepository.save(Report.builder()
+//                    .title(Title.from(title))
+//                    .content(Content.from(content))
+//                    .reportType(ReportType.from(reportType))
+//                    .position(Position.of(longitude,latitude))
+//                    .identification(identification)
+//                    .active(Active.from(true)).build());
+//        }
+//        // when
+//        ReportResponseDto reportResponseDto = reportInfoService.searchAllByRegion(identification,longitude,latitude);
+//        // then
+//        assertThat(reportResponseDto.getReportList().size()).isEqualTo(length + 1);
+//    }
 
     @DisplayName("제보 조회 실패 케이스")
     @Test

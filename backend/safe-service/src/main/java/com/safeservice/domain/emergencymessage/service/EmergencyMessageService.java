@@ -11,4 +11,6 @@ public interface EmergencyMessageService {
     EmergencyMessage save(EmergencyMessage emergencyMessage);
 
     List<EmergencyMessage> searchLatestEM(LocalDateTime fifteenMinutesAgo, String city);
+    List<EmergencyMessage> searchEM(String city);
+
 }

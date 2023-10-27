@@ -20,7 +20,8 @@ axios.interceptors.response.use(
       if (refreshToken) {
         try {
           const response = await axios.post(
-            process.env.REACT_APP_SERVER_URL + '/start/v1/member/access-token/issue',
+            process.env.REACT_APP_SERVER_URL +
+              "/start/v1/member/access-token/issue",
             {},
             {
               headers: {
@@ -105,7 +106,7 @@ const LoginPage = () => {
           회원이 아니신가요?
         </button>
         <KakaoLogin
-          src={process.env.PUBLIC_URL + "/assets/kakaologin.png"}
+          src={process.env.PUBLIC_URL + "/assets/loginPage/kakaologin.png"}
           onClick={kakaoLogin}
         />
       </LoginForm>

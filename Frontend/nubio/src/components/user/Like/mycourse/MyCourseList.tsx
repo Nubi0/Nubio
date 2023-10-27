@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { CourseListWrapper } from '../../../../styles/SLikePage';
-import AllCourseItem from '../../../enjoyHome/AllCourse/AllCourseList/AllCourseItem';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { CourseListWrapper } from "../../../../styles/SLikePage";
+import AllCourseItem from "../../../enjoyHome/allCourse/allCourseList/AllCourseItem";
 
 const MyCourseList = () => {
   const [course, setCourse] = useState<CourseItem[]>([]);
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/course')
+      .get(process.env.REACT_APP_SERVER_URL + "/enjoy/v1/enjoy/profile/course")
       .then((res) => {
         setCourse(res.data.data.course_list);
       })

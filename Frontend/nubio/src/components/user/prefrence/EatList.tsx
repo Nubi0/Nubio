@@ -7,10 +7,10 @@ type EatListProps = {
 };
 
 const eatImages: EatImages = {
-  한식: process.env.PUBLIC_URL + "/assets/eat/kFood.png",
-  양식: process.env.PUBLIC_URL + "/assets/eat/wFood.png",
-  일식: process.env.PUBLIC_URL + "/assets/eat/jFood.png",
-  중식: process.env.PUBLIC_URL + "/assets/eat/cFood.png",
+  한식: process.env.PUBLIC_URL + "/assets/user/eat/kFood.png",
+  양식: process.env.PUBLIC_URL + "/assets/user/eat/wFood.png",
+  일식: process.env.PUBLIC_URL + "/assets/user/eat/jFood.png",
+  중식: process.env.PUBLIC_URL + "/assets/user/eat/cFood.png",
 };
 
 const EatList: React.FC<EatListProps> = ({

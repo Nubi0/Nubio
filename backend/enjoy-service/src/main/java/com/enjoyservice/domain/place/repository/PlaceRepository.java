@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
@@ -38,5 +39,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
             nativeQuery = true)
     Page<Place> searchNearPlaceByTypeAndName(@Param("lng") double lng, @Param("lat") double lat, @Param("dist") int dist, @Param("category") String category, @Param("name") String name, Pageable pageable);
 
+    Optional<Place> findByKakaoId(KakaoId kakaoId);
 
 }

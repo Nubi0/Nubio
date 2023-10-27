@@ -104,6 +104,7 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
               text: 'NUBIO',
             });
             setEmailConfirm(true);
+            setIsConfirm(true);
         });
       })
       .catch((err) => {

@@ -55,6 +55,41 @@ export const CalamityMessageWrapper = styled.div`
     background-color: red;
   }
 `;
+export const CalamityMessageHomeWrapper = styled.div`
+  width: 90%;
+  margin: auto;
+  border: 0.5rem double red;
+  background: white;
+  text-align: center;
+  padding: 10% 0;
+  p {
+    margin: 0.5rem 0;
+    margin: 0;
+    font-size: 1rem;
+  }
+  #title {
+    font-size: 1.5rem;
+    margin: 1rem;
+    color: red;
+  }
+  button {
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    color: white;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    padding: 0.2rem 1rem;
+  }
+  #close {
+    background-color: black;
+  }
+  #safeRoute {
+    background-color: red;
+  }
+`;
 
 export const EvacuationGuideWrapper = styled.div`
   width: 80%;

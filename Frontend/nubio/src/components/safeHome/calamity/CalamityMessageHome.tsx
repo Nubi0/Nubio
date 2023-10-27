@@ -7,18 +7,19 @@ import axios from "axios";
 // 컴포넌트
 // 스타일
 import {
-  CalamityMessageWrapper,
+  CalamityMessageHomeWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
   CalamityMessageButton,
 } from "../../../styles/SCalamity";
 // redux
 import {
+  setMarkerList,
   setMessageMarkerList,
   setShowShelters,
 } from "../../../redux/slice/SafeSlice";
 
-const CalamityMessage = () => {
+const CalamityMessageHome = () => {
   const dispatch = useDispatch();
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
@@ -53,7 +54,9 @@ const CalamityMessage = () => {
         `${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/nearwith/safe-shelter/all?longitude=${window.myLongitude}&latitude=${window.myLatitude}&distance=1`,
       )
       .then((res) => {
+        dispatch(setShowShelters(true));
         const shelter = res.data.data.content;
+        const newmarkerList: any = [];
         for (let i = 0; i < shelter.length; i++) {
           let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
               ${shelter[i].name}</span><span class="right"></span></div>`;
@@ -61,16 +64,15 @@ const CalamityMessage = () => {
             shelter[i].location.latitude,
             shelter[i].location.longitude,
           );
-
           let customOverlay = new kakao.maps.CustomOverlay({
             position: markerPosition,
             content: content,
           });
           window.shelterCustomOverlay = customOverlay;
-          window.shelterCustomOverlay.setMap(window.map);
-          dispatch(setMessageMarkerList(customOverlay));
+          customOverlay.setMap(window.map);
+          newmarkerList.push(customOverlay);
         }
-        dispatch(setShowShelters(true));
+        dispatch(setMarkerList(newmarkerList));
       })
       .catch(() => {});
   };
@@ -80,12 +82,9 @@ const CalamityMessage = () => {
 
   return (
     <>
-      <CalamityMessageButton onClick={openMessage}>
-        재난 문자 조회
-      </CalamityMessageButton>
       {isReceiveMessage ? (
         <CalamityWrapper>
-          <CalamityMessageWrapper>
+          <CalamityMessageHomeWrapper>
             <p id="title">
               재난문자{messageList.length}개가 <br /> 수신되었습니다.
             </p>
@@ -108,10 +107,10 @@ const CalamityMessage = () => {
             <button id="close" onClick={closeMessage}>
               닫기
             </button>
-          </CalamityMessageWrapper>
+          </CalamityMessageHomeWrapper>
         </CalamityWrapper>
       ) : null}
     </>
   );
 };
-export default CalamityMessage;
+export default CalamityMessageHome;

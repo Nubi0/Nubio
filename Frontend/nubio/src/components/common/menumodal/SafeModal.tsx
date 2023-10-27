@@ -6,7 +6,7 @@ import {
 import CloseButton from "./CloseButton";
 import Shelter from "../../safeHome/calamity/Shelter";
 import CreateReport from "../../safeHome/report/CreateReport";
-import CalamityMessage from "../../safeHome/calamity/CalamityMessage";
+import CalamityMessage from "../../safeHome/calamity/CalamityMessageMenu";
 
 const SafeModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const safeImg = process.env.PUBLIC_URL + "/assets/menu/menuSafe.png";

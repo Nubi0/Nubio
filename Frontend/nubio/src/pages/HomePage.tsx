@@ -7,8 +7,8 @@ import {
 } from "../styles/SHomePage";
 // import SafeButton from "../components/first/SafeButton";
 // import EnjoyButton from "../components/first/EnjoyButton";
-import StartButton from "../components/first/StartButton";
-import AppContent from "../components/first/AppContent";
+import StartButton from "../components/startPage/StartButton";
+import AppContent from "../components/startPage/AppContent";
 // import PreferenceButton from "../components/first/PreferenceButton";
 // import SetPrefrenceModal from "../components/user/prefrence/SetPrefrenceModal";
 // import axios from "axios";

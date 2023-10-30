@@ -9,6 +9,8 @@ import com.enjoyservice.domain.course.entity.constant.Region;
 import com.enjoyservice.domain.course.entity.type.Content;
 import com.enjoyservice.domain.course.entity.type.PublicFlag;
 import com.enjoyservice.domain.course.entity.type.Title;
+import com.enjoyservice.domain.node.entity.Node;
+import com.enjoyservice.domain.node.entity.type.Point;
 import com.enjoyservice.domain.place.entity.Place;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.global.error.ErrorCode;
@@ -116,7 +118,7 @@ public class CourseMapper {
 
     public static CourseDetailRes toCourseDetailRes(Course course, List<Tag> tags,
                                                     boolean favoriteFlag, int likeCount, boolean likeFlag,
-                                                    List<PlaceInCourseInfoDto> placeInfoDtos) {
+                                                    List<PlaceInCourseInfoDto> placeInfoDtos, Node node) {
         return CourseDetailRes.builder()
                 .courseInfo(
                         CourseDetailRes.CourseInfo.builder()
@@ -127,6 +129,9 @@ public class CourseMapper {
                                 .favoriteFlag(favoriteFlag)
                                 .likeFlag(likeFlag)
                                 .likeCount(likeCount)
+                                .time(node.getTime())
+                                .type(node.getType())
+                                .distance(node.getDistance())
                                 .build()
                 )
                 .placeInfos(
@@ -146,6 +151,14 @@ public class CourseMapper {
                                         .sequence(p.getSequence())
                                         .build())
                                 .sorted(Comparator.comparingInt(CourseDetailRes.PlaceInfo::getSequence))
+                                .toList()
+                )
+                .pathInfos(
+                        node.getNodeList().stream()
+                                .map(p -> CourseDetailRes.PathInfo.builder()
+                                        .longitude(p.getLongitude())
+                                        .latitude(p.getLatitude())
+                                        .build())
                                 .toList()
                 )
                 .build();

@@ -13,6 +13,8 @@ public class CourseDetailRes {
     private CourseInfo courseInfo;
     @JsonProperty("place_list")
     private List<PlaceInfo> placeInfos;
+    @JsonProperty("path_list")
+    private List<PathInfo> pathInfos;
 
     @Setter
     @NoArgsConstructor
@@ -31,6 +33,12 @@ public class CourseDetailRes {
         private boolean likeFlag;
         @JsonProperty("like_count")
         private long likeCount;
+        @JsonProperty("time")
+        private Integer time;
+        @JsonProperty("type")
+        private String type;
+        @JsonProperty("distance")
+        private Integer distance;
     }
 
     @Getter
@@ -59,5 +67,18 @@ public class CourseDetailRes {
         @JsonProperty("y")
         private String latitude;
         private int sequence;
+    }
+
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class PathInfo {
+        @JsonProperty("longitude")
+        private double longitude;
+
+        @JsonProperty("latitude")
+        private double latitude;
+
     }
 }

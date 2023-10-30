@@ -1,6 +1,7 @@
 package com.chattingservice.global.kafka.dto.request;
 
-import com.chattingservice.global.kafka.dto.MessageType;
+import com.chattingservice.domain.chatting.entity.MessageCollection;
+import com.chattingservice.domain.chatting.entity.constant.MessageType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -43,5 +44,17 @@ public class ChatMessageDto {
         this.sender_id = sender_id;
         this.content = content;
         this.created_at = created_at;
+    }
+
+
+    public static ChatMessageDto from(MessageCollection messageCollection) {
+        return ChatMessageDto.builder()
+                .room_id(messageCollection.getRoomId())
+                .message_type(messageCollection.getType())
+                .sender_id(messageCollection.getSenderId())
+                .content(messageCollection.getContent())
+                .created_at(messageCollection.getCreatedAt())
+                .message_id(messageCollection.get_id())
+                .build();
     }
 }

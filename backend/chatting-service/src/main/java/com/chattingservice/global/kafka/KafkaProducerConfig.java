@@ -1,7 +1,7 @@
 package com.chattingservice.global.kafka;
 
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
-import com.chattingservice.global.kafka.dto.RoomMessageDto;
+import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

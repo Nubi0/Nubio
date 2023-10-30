@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     // 채팅
     CHAT_NOT_FOUND(HttpStatus.NOT_FOUND, "C-001", "해당 방에는 채팅이 존재하지 않습니다."),
+    INVALID_MESSAGE_TYPE(HttpStatus.NOT_FOUND, "C-002", "메시지 타입이 잘못됐습니다."),
 
     // 메시지
     INVALID_MESSAGE_TYPE_CODE(HttpStatus.BAD_REQUEST, "M-001", "해당 메시지 타입은 존재하지 않습니다."),

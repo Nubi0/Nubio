@@ -1,7 +1,6 @@
 package com.chattingservice.global.kafka.dto.request;
 
 import com.chattingservice.domain.room.entity.Member;
-import com.chattingservice.global.kafka.dto.RoomType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

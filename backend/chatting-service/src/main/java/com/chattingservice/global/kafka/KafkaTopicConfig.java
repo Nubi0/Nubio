@@ -25,8 +25,10 @@ public class KafkaTopicConfig {
     public KafkaAdmin kafkaAdmin(){
         Map<String,Object> configurations = new HashMap<>();
         configurations.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapAddress);
-        configurations.put(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, 60000); // 60 seconds
-        configurations.put(AdminClientConfig.RETRY_BACKOFF_MS_CONFIG, 120000); // 120 seconds
+        configurations.put(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, 120000); // 120 seconds
+        configurations.put(AdminClientConfig.RETRY_BACKOFF_MS_CONFIG, 240000); // 240 seconds
+        configurations.put("socket.connection.setup.timeout.ms", 30000); // 30 seconds
+        configurations.put("reconnect.backoff.max.ms", 10000); // 10 seconds
         return new KafkaAdmin(configurations);
     }
 

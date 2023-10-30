@@ -24,7 +24,7 @@ public enum RoomType {
         return RoomType.valueOf(role.toUpperCase());
     }
 
-    public static boolean isRole(String role) {
+    public static boolean isRoom (String role) {
         List<RoomType> roles = Arrays.stream(RoomType.values())
                 .filter(r -> r.name().equals(role))
                 .collect(Collectors.toList());
@@ -33,7 +33,7 @@ public enum RoomType {
     }
 
     private static void validate(String role) {
-        if(!RoomType.isRole(role.toUpperCase())) {
+        if(!RoomType.isRoom(role.toUpperCase())) {
             throw new InvalidRoomTypeException(ErrorCode.INVALID_ROOM_TYPE);
         }
     }

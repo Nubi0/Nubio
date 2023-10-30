@@ -1,10 +1,16 @@
 package com.chattingservice.global.kafka;
 
+import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
+import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
+import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
+import com.chattingservice.domain.chattingroom.repository.ChattingRoomRepository;
+import com.chattingservice.domain.chattingroom.service.ChattingRoomService;
 import com.chattingservice.domain.room.service.ChatRoomService;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
-import com.chattingservice.global.kafka.dto.MessageType;
-import com.chattingservice.global.kafka.dto.RoomMessageDto;
+import com.chattingservice.domain.chatting.entity.constant.MessageType;
+import com.chattingservice.global.kafka.dto.request.RoomEnterMessageDto;
+import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
 import com.chattingservice.global.kafka.dto.request.RespRoomDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,14 +38,16 @@ public class KafkaProducer {
     @Value("${kafka.topic.room-name}")
     private String topicRoomName;
     private ChatMessageService chatMessageService;
-    private final ChatRoomService chatRoomService;
+    private final ChattingRoomService chattingRoomService;
+    private final ChattingRoomInfoService chattingRoomInfoService;
 
 
     public void sendMessage(ChatMessageDto chatMessageDto){
-        if(chatMessageDto.getMessage_type()== MessageType.FIRST){
+        if(chatMessageDto.getMessage_type()== MessageType.ENTER){
             // 채팅방이 생성될 때 채팅방 정보를 전달할 때 호출
-            RespRoomDto respRoomDto = chatRoomService.getChatRoomInfo(chatMessageDto.getRoom_id()); // 채팅방 무조건 있다고 신뢰
-            List<String> receivers = respRoomDto.getMembers().stream().map(m -> m.getUserId()).collect(Collectors.toList());
+
+            ChattingRoomResp respRoomDto = chattingRoomInfoService.findById(chatMessageDto.getRoom_id());// 채팅방 무조건 있다고 신뢰
+            List<String> receivers = respRoomDto.getMembers().stream().map(m -> m.getMemberId()).collect(Collectors.toList());
             receivers.remove(chatMessageDto.getSender_id());
             sendRoomMessage(RoomMessageDto.builder()
                     .receivers(receivers)
@@ -62,7 +70,6 @@ public class KafkaProducer {
             });
         }
         log.info("url:{}","/chatting/topic/room/"+chatMessageDto.getRoom_id());
-
     }
 
     // 채팅방이 생성될 때 채팅방 정보를 전달할 때 호출하는 메소드입니다.
@@ -72,13 +79,12 @@ public class KafkaProducer {
         completableFuture.thenAccept(result -> {
             if (result != null) {
                 // 성공적으로 메시지가 보내진 경우
-                log.info("Sent message=[" + roomMessageDto.getRespRoomDto().getRoom_id() + "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                log.info("Sent message=[" + roomMessageDto.getRespRoomDto().getRoomId() + "] with offset=[" + result.getRecordMetadata().offset() + "]");
             } else {
                 // 메시지 보내기 실패한 경우
-                log.info("메시지 보내기 실패::" + roomMessageDto.getRespRoomDto().getRoom_id() );
+                log.info("메시지 보내기 실패::" + roomMessageDto.getRespRoomDto().getRoomId() );
 
             }
         });
-
     }
 }

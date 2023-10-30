@@ -1,7 +1,7 @@
 package com.chattingservice.global.kafka;
 
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
-import com.chattingservice.global.kafka.dto.RoomMessageDto;
+import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
 import com.chattingservice.global.kafka.dto.request.RespRoomDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

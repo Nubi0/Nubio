@@ -27,7 +27,7 @@ public class Participant extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id",unique = true, nullable = false)
+    @Column(name = "member_id", unique = true, nullable = false)
     private String memberId;
 
     @Embedded
@@ -67,11 +67,16 @@ public class Participant extends BaseTimeEntity {
         this.chattingRoom = chattingRoom;
     }
 
-    public void setProfile(Profile profile){
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
-    public void setChattingRoom(ChattingRoom chattingRoom){
+
+    public void setChattingRoom(ChattingRoom chattingRoom) {
         this.chattingRoom = chattingRoom;
+    }
+
+    public void setLastReadMsgId(String lastReadMsgId) {
+        this.lastReadMsgId = lastReadMsgId;
     }
 
     public void withdraw() {

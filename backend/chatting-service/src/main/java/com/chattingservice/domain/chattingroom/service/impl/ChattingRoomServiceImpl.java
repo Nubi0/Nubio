@@ -143,6 +143,12 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
             throw new BusinessException(ErrorCode.ROOM_NOT_GROUP_ERROR);
         }
 
+        Optional<Participant> optional = participantRepository.findByMemberIdAndActiveAndChattingRoom(memberId
+                , com.chattingservice.domain.participant.enity.type.Active.from(true), chattingRoom);
+        if (!optional.isPresent()) {
+            participantService.enterChattingRoom(memberId, chattingRoom);
+        }
+
         return chattingRoom;
     }
 

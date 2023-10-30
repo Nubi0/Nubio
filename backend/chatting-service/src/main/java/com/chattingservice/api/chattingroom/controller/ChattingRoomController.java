@@ -5,6 +5,8 @@ import com.chattingservice.api.chattingroom.dto.request.ChattingRoomEnterReq;
 import com.chattingservice.api.chattingroom.dto.request.ChattingRoomOutReq;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
+import com.chattingservice.global.resolver.memberInfo.MemberInfo;
+import com.chattingservice.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,7 +27,9 @@ public class ChattingRoomController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/enter")
-    public ApiResponseEntity<ChattingRoomResp> enterGroupRoom(@RequestBody ChattingRoomEnterReq chattingRoomEnterReq) {
+    public ApiResponseEntity<ChattingRoomResp> enterGroupRoom(@MemberInfo MemberInfoDto memberInfoDto,
+            @RequestBody ChattingRoomEnterReq chattingRoomEnterReq) {
+        chattingRoomEnterReq.setMemberId(memberInfoDto.getMemberId());
         ChattingRoomResp chattingRoomResp = chattingRoomInfoService.enterGroupRoom(chattingRoomEnterReq);
         return ApiResponseEntity.ok(chattingRoomResp);
     }
@@ -35,7 +39,9 @@ public class ChattingRoomController {
             @ApiResponse(responseCode = "200", description = "OK")
     })
     @PostMapping("/out")
-    public ApiResponseEntity<ChattingRoomResp> outOfGroupRoom(@RequestBody ChattingRoomOutReq chattingRoomOutReq) {
+    public ApiResponseEntity<ChattingRoomResp> outOfGroupRoom(@MemberInfo MemberInfoDto memberInfoDto,
+                                                              @RequestBody ChattingRoomOutReq chattingRoomOutReq) {
+        chattingRoomOutReq.setMemberId(memberInfoDto.getMemberId());
         ChattingRoomResp chattingRoomResp = chattingRoomInfoService.outOfGroupRoom(chattingRoomOutReq);
         return ApiResponseEntity.ok(chattingRoomResp);
     }

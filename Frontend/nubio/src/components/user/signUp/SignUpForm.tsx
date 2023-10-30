@@ -4,21 +4,25 @@ import {
   WomanIcon,
   GenderWrapper,
   SubmitButton,
-} from '../../../styles/SSignUpPage';
-import { useRef, MouseEvent, useState } from 'react';
-import useInput from '../../../hooks/useInput';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { useEffect } from 'react';
+} from "../../../styles/SSignUpPage";
+import { useRef, MouseEvent, useState } from "react";
+import useInput from "../../../hooks/useInput";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
 
-const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetStateAction<boolean>>}) => {
-  const [email, onChangeEmail] = useInput('');
-  const [pwd, onChangePwd] = useInput('');
-  const [pwdc, onChangePwdc] = useInput('');
-  const [nickName, onChangeNickName] = useInput('');
-  const [birth, onChangeBirth] = useInput('');
-  const [gender, setGender] = useState<string>('MALE');
+const SignUpForm = ({
+  setIsLoading,
+}: {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [email, onChangeEmail] = useInput("");
+  const [pwd, onChangePwd] = useInput("");
+  const [pwdc, onChangePwdc] = useInput("");
+  const [nickName, onChangeNickName] = useInput("");
+  const [birth, onChangeBirth] = useInput("");
+  const [gender, setGender] = useState<string>("MALE");
   const [emailConfirm, setEmailConfirm] = useState(false);
   const [nickNameCofirm, setNickNameConfirm] = useState(false);
   const [pwdSame, setPwdSame] = useState(false);
@@ -45,16 +49,16 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
   const signUp = async (e: any) => {
     e.preventDefault();
     await axios
-      .post(process.env.REACT_SERVER_URL + '/start/v1/member/signup', data)
+      .post(process.env.REACT_APP_SERVER_URL + "/start/v1/member/signup", data)
       .then((res) => {
         // Todo : 회원가입 성공 Swal
         Swal.fire({
-          title: '회원가입 성공',
-          text: 'Nubio',
-          icon: 'success',
+          title: "회원가입 성공",
+          text: "Nubio",
+          icon: "success",
         }).then((res) => {
           if (res.isConfirmed) {
-            navigate('/login');
+            navigate("/login");
           }
         });
       })
@@ -68,34 +72,37 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
     e.preventDefault();
     setIsLoading(true);
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/start/v1/email', { email })
+      .post(process.env.REACT_APP_SERVER_URL + "/start/v1/email", { email })
       .then((res) => {
-      setIsLoading(false);
+        setIsLoading(false);
         Swal.fire({
-          title: '이메일 인증',
-          input: 'text',
+          title: "이메일 인증",
+          input: "text",
           inputAttributes: {
-            autocapitalize: 'off',
+            autocapitalize: "off",
           },
           showCancelButton: true,
-          confirmButtonText: '확인',
+          confirmButtonText: "확인",
           showLoaderOnConfirm: true,
           preConfirm: async (code) => {
             return await axios
-              .post(process.env.REACT_APP_SERVER_URL + '/start/v1/email/confirms', {
-                email,
-                code,
-              })
+              .post(
+                process.env.REACT_APP_SERVER_URL + "/start/v1/email/confirms",
+                {
+                  email,
+                  code,
+                },
+              )
               .then((res) => {
                 console.log(res.data);
                 setIsConfirm(true);
               })
               .catch((err) => {
-                if (err.response.data.errorCode === 'A-003') {
+                if (err.response.data.errorCode === "A-003") {
                   Swal.fire({
-                    title: '인증 실패',
-                    icon: 'error',
-                    text: 'NUBIO',
+                    title: "인증 실패",
+                    icon: "error",
+                    text: "NUBIO",
                   });
                 }
               });
@@ -103,20 +110,20 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
         }).then((res) => {
           if (res.isConfirmed) {
             Swal.fire({
-              title: '인증 성공',
-              icon: 'success',
-              text: 'NUBIO',
+              title: "인증 성공",
+              icon: "success",
+              text: "NUBIO",
             });
             setEmailConfirm(true);
           }
         });
       })
       .catch((err) => {
-        if (err.response.data.errorCode === 'M-009') {
+        if (err.response.data.errorCode === "M-009") {
           Swal.fire({
-            title: '이미 존재하는 이메일입니다.',
-            icon: 'error',
-            text: 'NUBIO',
+            title: "이미 존재하는 이메일입니다.",
+            icon: "error",
+            text: "NUBIO",
           });
         }
       });
@@ -125,22 +132,22 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
   const checkNickname = (e: any) => {
     e.preventDefault();
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/start/v1/member/nickname', {
+      .post(process.env.REACT_APP_SERVER_URL + "/start/v1/member/nickname", {
         nickname: nickName,
       })
       .then((res) => {
         if (res.data.data) {
           Swal.fire({
-            title: '사용가능한 닉네임입니다.',
-            icon: 'success',
-            text: 'NUBIO',
+            title: "사용가능한 닉네임입니다.",
+            icon: "success",
+            text: "NUBIO",
           });
           setNickNameConfirm(true);
         } else {
           Swal.fire({
-            title: '이미 사용 중인 닉네임입니다.',
-            icon: 'error',
-            text: 'NUBIO',
+            title: "이미 사용 중인 닉네임입니다.",
+            icon: "error",
+            text: "NUBIO",
           });
         }
       })
@@ -150,30 +157,30 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
   };
 
   // 남자 아이콘
-  const manUrl = process.env.PUBLIC_URL + '/assets/man.png';
+  const manUrl = process.env.PUBLIC_URL + "/assets/user/man.png";
   const [manCheck, setManCheck] = useState<boolean>(true);
   const manInputRef = useRef<HTMLInputElement | null>(null);
-  const manId = manCheck ? 'manCheck' : 'manUncheck';
+  const manId = manCheck ? "manCheck" : "manUncheck";
   const handleManIconClick = (event: MouseEvent<HTMLImageElement>) => {
     if (manInputRef.current) {
       manInputRef.current.click();
       setManCheck(true);
       setWomanCheck(false);
-      setGender('MALE');
+      setGender("MALE");
     }
   };
 
   // 여자 아이콘
-  const womanUrl = process.env.PUBLIC_URL + '/assets/woman.png';
+  const womanUrl = process.env.PUBLIC_URL + "/assets/user/woman.png";
   const [womanCheck, setWomanCheck] = useState<boolean>(false);
   const womanInputRef = useRef<HTMLInputElement | null>(null);
-  const womanId = womanCheck ? 'womanCheck' : 'womanUncheck';
+  const womanId = womanCheck ? "womanCheck" : "womanUncheck";
   const handleWomanIconClick = (event: MouseEvent<HTMLImageElement>) => {
     if (womanInputRef.current) {
       womanInputRef.current.click();
       setWomanCheck(true);
       setManCheck(false);
-      setGender('FEMALE');
+      setGender("FEMALE");
     }
   };
   return (
@@ -190,7 +197,7 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
           onClick={EmailCertification}
           disabled={isConfirm ? true : false}
         >
-          {isConfirm ? '인증완료' : '이메일 인증'}
+          {isConfirm ? "인증완료" : "이메일 인증"}
         </button>
       </span>
       <span id="nickname">
@@ -224,9 +231,9 @@ const SignUpForm = ({setIsLoading}: {setIsLoading: React.Dispatch<React.SetState
         />
       </span>
       {!pwdc ? null : pwdSame ? (
-        <p style={{ color: 'green' }}>비밀번호가 일치합니다.</p>
+        <p style={{ color: "green" }}>비밀번호가 일치합니다.</p>
       ) : (
-        <p style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</p>
+        <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
       )}
       <span>
         <input

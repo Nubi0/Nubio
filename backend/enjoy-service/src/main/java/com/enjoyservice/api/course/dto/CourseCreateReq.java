@@ -61,6 +61,45 @@ public class CourseCreateReq {
         @JsonProperty("kakao_id")
         private long kakaoId;
 
+        @NotBlank(message = "주소는 필수값입니다.")
+        @JsonProperty("address_name")
+        private String addressName;
+
+        @NotBlank(message = "카테고리 코드는 필수값입니다.")
+        @JsonProperty("category_group_code")
+        private String categoryGroupCode;
+
+        @NotBlank(message = "카테고리 이름은 필수값입니다.")
+        @JsonProperty("category_group_name")
+        private String categoryGroupName;
+
+        @NotBlank(message = "카테고리 Detail은 필수값입니다.")
+        @JsonProperty("category_name")
+        private String categoryName;
+
+        @NotBlank(message = "전화번호는 필수값입니다.")
+        private String phone;
+
+        @NotBlank(message = "장소 이름은 필수값입니다.")
+        @JsonProperty("place_name")
+        private String placeName;
+
+        @NotBlank(message = "장소 URL은 필수값입니다.")
+        @JsonProperty("place_url")
+        private String placeUrl;
+
+        @NotBlank(message = "도로명 주소는 필수값입니다.")
+        @JsonProperty("road_address_name")
+        private String roadAddressName;
+
+        @NotBlank(message = "경도값은 필수값입니다.")
+        @JsonProperty("x")
+        private String longitude;
+
+        @NotBlank(message = "위도값은 필수값입니다.")
+        @JsonProperty("y")
+        private String latitude;
+
         @NotNull(message = "장소 순서는 필수값입니다.")
         @Min(value = 1, message = "장소 순서의 최소값은 1입니다.")
         @Max(value = 5, message = "장소 순서의 최대값은 5입니다.")

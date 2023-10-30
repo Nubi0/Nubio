@@ -1,10 +1,7 @@
 package com.safeservice.domain.report.service.Impl;
 import com.safeservice.domain.report.entity.Report;
 import com.safeservice.domain.report.entity.constant.report.ReportType;
-import com.safeservice.domain.report.entity.type.report.Active;
-import com.safeservice.domain.report.entity.type.report.Content;
-import com.safeservice.domain.report.entity.type.report.Position;
-import com.safeservice.domain.report.entity.type.report.Title;
+import com.safeservice.domain.report.entity.type.report.*;
 import com.safeservice.domain.report.exception.InvalidTitleLengthException;
 import com.safeservice.domain.report.exception.MisMatchIdentification;
 import com.safeservice.domain.report.repository.ReportFileRepository;
@@ -204,6 +201,7 @@ class ReportServiceImplTest {
         for (int i = 0; i < length; i ++) {
             Report report = Report.builder()
                     .reportType(ReportType.ACCIDENT)
+                    .region(Region.from("대구"))
                     .title(Title.from("search"))
                     .content(Content.from("search test"))
                     .position(Position.of(123.12, 26.26))
@@ -215,13 +213,11 @@ class ReportServiceImplTest {
         }
 
         // when
-        List<Report> reports = reportService.searchReport(123.12,26.26);
+        Report reports = reportService.searchReport(123.12,26.26,"대구");
 
         // then
-        assertThat(reports.size()).isEqualTo(length + 1);
-        for(int i = 0; i < length + 1; i ++ ) {
-            assertThat(reports.get(i).getReportFiles().get(0)).
-                    isEqualTo(reportFileRepository.findById(reports.get(i).getReportFiles().get(0).getId()).get());
-        }
+
+        assertThat(reports.getReportFiles().get(0)).
+                    isEqualTo(reportFileRepository.findById(reports.getReportFiles().get(0).getId()).get());
     }
 }

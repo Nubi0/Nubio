@@ -16,5 +16,9 @@ public interface EmergencyMessageRepository extends JpaRepository<EmergencyMessa
     List<EmergencyMessage> findLatestEmergencyMessage(@Param("fifteenMinutesAgo") LocalDateTime fifteenMinutesAgo,
                                                       @Param("city") String city);
 
+    @Query("SELECT em FROM EmergencyMessage em WHERE " +
+            "em.address.city like :city ORDER BY em.mdId.value DESC")
+    List<EmergencyMessage> findEmergencyMessage(@Param("city") String city);
+
     boolean existsByMdId(MdId mdId);
 }

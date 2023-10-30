@@ -1,10 +1,13 @@
 import { AppContentWrapper, Discuss } from "../../styles/SHomePage";
 
 const AppContent = () => {
-  const safeIcon = process.env.PUBLIC_URL + "/assets/pc/safeIcon.png";
-  const customIcon = process.env.PUBLIC_URL + "/assets/pc/customIcon.png";
-  const recommendIcon = process.env.PUBLIC_URL + "/assets/pc/recommendIcon.png";
-  const reportIcon = process.env.PUBLIC_URL + "/assets/pc/reportIcon.png";
+  const safeIcon = process.env.PUBLIC_URL + "/assets/startPage/safeIcon.png";
+  const customIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/customIcon.png";
+  const recommendIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/recommendIcon.png";
+  const reportIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/reportIcon.png";
   return (
     <AppContentWrapper>
       <div className="left">

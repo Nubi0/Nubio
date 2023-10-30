@@ -52,18 +52,18 @@ public class ReportController {
         return ApiResponseEntity.ok("수정 완료");
     }
 
-    @Operation(summary = "현재 위치 기반 제보 조회", description = "safe/v1/safe/report/region\n\n")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
-    @GetMapping("/report/region")
-    public ApiResponseEntity<ReportResponseDto> searchAllByRegion(@Identification IdentificationDto identificationDto,
-                                                          @RequestParam("longitude") double longitude,
-                                                          @RequestParam("latitude") double latitude) {
-        ReportResponseDto responseReport = reportInfoService.searchAllByRegion(
-                identificationDto.getIdentification(),longitude,latitude);
-        return ApiResponseEntity.ok(responseReport);
-    }
+//    @Operation(summary = "현재 위치 기반 제보 조회", description = "safe/v1/safe/report/region\n\n")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK")
+//    })
+//    @GetMapping("/report/region")
+//    public ApiResponseEntity<ReportResponseDto> searchAllByRegion(@Identification IdentificationDto identificationDto,
+//                                                          @RequestParam("longitude") double longitude,
+//                                                          @RequestParam("latitude") double latitude) {
+//        ReportResponseDto responseReport = reportInfoService.searchAllByRegion(
+//                identificationDto.getIdentification(),longitude,latitude);
+//        return ApiResponseEntity.ok(responseReport);
+//    }
 
     @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
     @ApiResponses(value = {
@@ -84,5 +84,17 @@ public class ReportController {
                                                   @PathVariable("reportId") Long reportId) {
         reportInfoService.deleteReport(identificationDto.getIdentification(),reportId);
         return ApiResponseEntity.ok("삭제 완료");
+    }
+
+    @Operation(summary = "제보 활성화", description = "safe/v1/safe/report/allow/{reportId}\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+
+    @GetMapping("/report/allow/{reportId}")
+    public ApiResponseEntity<String> allowReport(@Identification IdentificationDto identificationDto,
+                                                  @PathVariable("reportId") Long reportId) {
+        reportInfoService.allowReport(reportId);
+        return ApiResponseEntity.ok("활성화 완료");
     }
 }

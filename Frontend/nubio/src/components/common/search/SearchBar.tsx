@@ -11,7 +11,7 @@ import { setkeyWord } from "../../../redux/slice/MapSlice";
 import useInput from "../../../hooks/useInput";
 
 const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
-  const searchIcon = process.env.PUBLIC_URL + "/assets/searchIcon.svg";
+  const searchIcon = process.env.PUBLIC_URL + "/assets/search/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
 

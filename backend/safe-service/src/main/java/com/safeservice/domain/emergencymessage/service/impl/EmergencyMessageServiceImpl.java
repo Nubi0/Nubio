@@ -32,4 +32,9 @@ public class EmergencyMessageServiceImpl implements EmergencyMessageService {
         return emergencyMessageRepository.findLatestEmergencyMessage(fifteenMinutesAgo, city);
     }
 
+    @Override
+    public List<EmergencyMessage> searchEM(String city) {
+        return emergencyMessageRepository.findEmergencyMessage(city);
+    }
+
 }

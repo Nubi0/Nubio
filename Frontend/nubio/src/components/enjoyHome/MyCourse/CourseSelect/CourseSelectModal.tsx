@@ -48,18 +48,13 @@ const CourseSelectModal = ({ setModal }: { setModal: () => void }) => {
     const post_purpose = selectedPurposes.map((value) => {
       return { value };
     });
-    const positionData = positions.map((value: any) => {
-      console.log(value);
-      return { kakao_id: value.id, sequence: value.index };
-    });
-    console.log(positionData);
     const config = {
       title,
       content: title,
       course_tags: post_purpose,
       pubilc_flag: true,
       region: location,
-      place_list: positionData,
+      place_list: positions,
     };
     await axios
       .post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/course', config)

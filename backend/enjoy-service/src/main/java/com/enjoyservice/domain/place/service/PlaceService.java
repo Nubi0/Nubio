@@ -34,4 +34,6 @@ public interface PlaceService {
     Long savePlace(Place place);
 
     Place findByKakaoId(KakaoId kakaoId);
+
+    boolean existsByKakaoId(KakaoId kakaoId);
 }

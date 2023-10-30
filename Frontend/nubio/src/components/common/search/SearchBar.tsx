@@ -16,16 +16,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   const dispatch = useDispatch();
 
   // 입력 폼 변화 감지하여 입력 값 관리
-  // const [Value, setValue] = useState("");
   const [Value, onChangeValue] = useInput("");
-  // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
-  // const keywordChange = (e: {
-  //   preventDefault: () => void;
-  //   target: { value: string };
-  // }) => {
-  //   e.preventDefault();
-  //   setValue(e.target.value);
-  // };
 
   // 제출한 검색어 state에 담아주는 함수
   const submitKeyword = (e: { preventDefault: () => void }) => {

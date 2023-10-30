@@ -13,6 +13,8 @@ public class ParticipantRes {
 
     @JsonProperty("member_id")
     private String memberId;
+    @JsonProperty("room_id")
+    private Long roomId;
     @JsonProperty("nickname")
     private String nickname;
     @JsonProperty("profile_url")
@@ -22,9 +24,10 @@ public class ParticipantRes {
     @JsonProperty("last_read_msg_id")
     private String lastReadMsgId;
 
-    public ParticipantRes of(Participant participant) {
+    public static ParticipantRes of(Participant participant) {
         return ParticipantRes.builder()
                 .memberId(participant.getMemberId())
+                .roomId(participant.getChattingRoom().getId())
                 .nickname(participant.getNickname().getValue())
                 .profileUrl(participant.getProfile().getFileUrl().getValue())
                 .role(participant.getRole().name())

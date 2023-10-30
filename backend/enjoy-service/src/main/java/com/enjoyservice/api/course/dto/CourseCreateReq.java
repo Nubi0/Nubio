@@ -105,4 +105,29 @@ public class CourseCreateReq {
         @Max(value = 5, message = "장소 순서의 최대값은 5입니다.")
         private int sequence;
     }
+
+    @JsonProperty("path")
+    private List<Path> path;
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static public class Path {
+
+        @JsonProperty("lat")
+        private double lat;
+
+        @JsonProperty("log")
+        private double log;
+
+    }
+
+    @JsonProperty("time")
+    private Integer time;
+
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("distance")
+    private Integer distance;
 }

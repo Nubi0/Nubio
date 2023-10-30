@@ -101,4 +101,16 @@ public class ChattingRoomInfoServiceImpl implements ChattingRoomInfoService {
         return chattingRooms.stream().map(chattingRoom -> ChattingRoomResp.form(chattingRoom)).collect(Collectors.toList());
     }
 
+    @Override
+    public ChattingRoomResp findById(String roomId) {
+        ChattingRoom room = chattingRoomService.findById(Long.parseLong(roomId));
+        return ChattingRoomResp.form(room);
+    }
+
+    @Override
+    public List<ChattingRoomResp> findMyRoomsByMemberId(String memberId) {
+        List<ChattingRoom> myRoomsByMemberId = chattingRoomService.findMyRoomsByMemberId(memberId);
+        return myRoomsByMemberId.stream().map(chattingRoom -> ChattingRoomResp.form(chattingRoom)).collect(Collectors.toList());
+    }
+
 }

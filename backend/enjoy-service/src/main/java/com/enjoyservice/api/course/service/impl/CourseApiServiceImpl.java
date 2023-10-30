@@ -202,7 +202,8 @@ public class CourseApiServiceImpl implements CourseApiService {
         List<PlaceInCourseInfoDto> placeInfos = courseService.findPlacesInfoInCourseByCourse(course);
         log.info("Course에 속한 Place 정보들 조회 완료(CourseApiServiceImpl)");
 
-        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos);
+        Node node = nodeService.findByCoursePk(courseId);
+        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos, node);
     }
 
     @Override

@@ -52,6 +52,8 @@ public class ChattingRoomResp {
         private String lastReadMsgId;
         @JsonProperty("active")
         private boolean active;
+        @JsonProperty("role")
+        private String role;
 
         public static Member from(Participant participant) {
             return Member.builder()
@@ -60,8 +62,10 @@ public class ChattingRoomResp {
                     .profileUrl(participant.getProfile().getFileUrl().getValue())
                     .lastReadMsgId(participant.getLastReadMsgId())
                     .active(participant.getActive().getValue())
+                    .role(participant.getRole().name())
                     .build();
         }
+
     }
 
     public static ChattingRoomResp form(ChattingRoom chattingRoom) {

@@ -202,5 +202,12 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
         return  chattingRoom;
     }
 
+    @Override
+    public ChattingRoom findById(Long roomId) {
+        return chattingRoomRepository.findById(roomId).orElseThrow(
+                ()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
+
+    }
+
 
 }

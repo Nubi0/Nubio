@@ -30,4 +30,6 @@ public interface ChattingRoomService {
     List<ChattingRoom> findAll();
 
     ChattingRoom outOfGroupRoom(Long roomId, String memberId);
+
+    ChattingRoom findById(Long roomId);
 }

@@ -1,38 +1,48 @@
-import React, { FC, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Client } from "@stomp/stompjs";
 
-interface Message {
-  user: string;
-  content: string;
-}
+const ChatRoom = () => {
+  const [messages, setMessages] = useState([]);
 
-const ChatRoom: FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState<string>("");
+  useEffect(() => {
+    const client = new Client({
+      brokerURL: "ws://localhost:8080/ws",
+      connectHeaders: {
+        login: "guest",
+        passcode: "guest",
+      },
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      setMessages([...messages, { user: "You", content: newMessage.trim() }]);
-      setNewMessage("");
-    }
-  };
+    client.onConnect = function (frame) {
+      client.subscribe("/topic/messages", function (message) {
+        setMessages((prevMessages) => [...prevMessages, message.body]);
+        console.log(message.body);
+      });
+    };
+
+    client.onStompError = function (frame) {
+      console.log("Broker reported error: " + frame.headers["message"]);
+      console.log("Additional details: " + frame.body);
+    };
+
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
+  }, []);
 
   return (
-    <div className="chat-room">
-      <div className="messages">
-        {messages.map((message, index) => (
-          <div key={index} className={message.user}>
-            <div className="message-content">{message.content}</div>
-          </div>
-        ))}
-      </div>
-      <div className="new-message">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+    <div>
+      {messages.map((msg, index) => (
+        <div key={index}>{msg}</div>
+      ))}
     </div>
   );
 };

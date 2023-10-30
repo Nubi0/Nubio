@@ -1,2 +1,18 @@
-package com.chattingservice.api.participant.dto.request;public class findByMemberReq {
+package com.chattingservice.api.participant.dto.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class FindByMemberReq {
+    @JsonProperty("room_id")
+    private Long roomId;
+    @JsonProperty("member_id")
+    private String memberId;
 }

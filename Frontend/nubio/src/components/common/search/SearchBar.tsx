@@ -7,10 +7,10 @@ import MyLocation from "../map/MyLocation";
 // 스타일
 import { SearchBarWrapper, SearchForm } from "../../../styles/SMap";
 // redux
-import { setkeyWord } from "../../../redux/slice/MapSlice";
+import { setListIsOpen, setkeyWord } from "../../../redux/slice/MapSlice";
 import useInput from "../../../hooks/useInput";
 
-const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
+const SearchBar = ({ searchPlaces, setFindRouteOpen }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/search/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
   };
   // 검색리스트 보기
   const inputClick = () => {
-    setListIsOpen(true);
+    dispatch(setListIsOpen(true));
     searchPlaces(Value);
   };
   return (

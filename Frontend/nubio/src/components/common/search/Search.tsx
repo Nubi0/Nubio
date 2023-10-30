@@ -1,4 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
+
+import RouteInfo from "../../safeHome/route/RouteInfo";
+import {
+  setEnd,
+  setEndName,
+  setListIsOpen,
+  setStart,
+  setStartName,
+} from "../../../redux/slice/MapSlice";
+import { useState } from "react";
+import { setPosition } from "../../../redux/slice/EnjoySlice";
+import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import {
   ClearRouteButton,
@@ -6,31 +19,25 @@ import {
   SearchListWrapper,
   SearchResultsWrapper,
 } from "../../../styles/SMap";
+import SelectMyLocation from "../map/SelectMyLocation";
 import ShortDirection from "../../safeHome/route/short/ShortDirection";
 import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import SelectMyLocation from "../map/SelectMyLocation";
-import RouteInfo from "../../safeHome/route/RouteInfo";
-import {
-  setEnd,
-  setEndName,
-  setStart,
-  setStartName,
-} from "../../../redux/slice/MapSlice";
 import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
-import { useState } from "react";
-import { setPosition } from "../../../redux/slice/EnjoySlice";
-import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
 
 const Search = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   // 마커를 담는 배열
   let markers: any[] = [];
-  const safeMarkerList = useSelector(
-    (state: { safe: { safeMarkerList: Array<any> } }) =>
-      state.safe.safeMarkerList,
+  const searchKeyword = useSelector(
+    (state: { map: { keyWord: string } }) => state.map.keyWord,
   );
+  // state
+  const listIsOpen = useSelector(
+    (state: { map: { listIsOpen: any } }) => state.map.listIsOpen,
+  );
+  console.log(listIsOpen);
+  const [findRouteOpen, setFindRouteOpen] = useState(false);
   // 검색 reudx
   const startName = useSelector(
     (state: { map: { startName: string } }) => state.map.startName,
@@ -38,15 +45,43 @@ const Search = () => {
   const endName = useSelector(
     (state: { map: { endName: string } }) => state.map.endName,
   );
-  const searchKeyword = useSelector(
-    (state: { map: { keyWord: string } }) => state.map.keyWord,
+  const safePlaces = useSelector(
+    (state: { safe: { safePlace: any } }) => state.safe.safePlace,
   );
-  // state
-  const [listIsOpen, setListIsOpen] = useState(false);
-  const [findRouteOpen, setFindRouteOpen] = useState(false);
+  const safeMarkerList = useSelector(
+    (state: { safe: { safeMarkerList: Array<any> } }) =>
+      state.safe.safeMarkerList,
+  );
+
+  // 라인, 마커 삭제
+  const clearRoute = () => {
+    for (let j = 0; j < safeMarkerList.length; j++) {
+      safeMarkerList[j].setMap(null);
+    }
+    window.polyline?.setMap(null);
+    window.safeCustomOverlay?.setMap(null);
+  };
+  const removeSafeMarker = () => {
+    for (let i = 0; i < safePlaces.length; i++) {
+      window.safeCustomOverlay.setMap(null);
+    }
+  };
+  // 맵에 표시된 경로 관련 삭제
+  const clearAllRoute = () => {
+    removeMarker();
+    clearRoute();
+    window.endCustomOverlay?.setMap(null);
+    window.startCustomOverlay?.setMap(null);
+    dispatch(setStartName(""));
+    dispatch(setEndName(""));
+    dispatch(setShortTime(null));
+    dispatch(setSafeTime(null));
+    setFindRouteOpen(false);
+    removeSafeMarker();
+  };
   // 키워드 검색을 요청하는 함수
   function searchPlaces(keyword: string) {
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청
+    dispatch(setListIsOpen(true));
     window.ps.keywordSearch(keyword, placesSearchCB);
   }
   // 장소검색이 완료됐을 때 호출되는 콜백함수
@@ -69,22 +104,20 @@ const Search = () => {
       return;
     }
   }
+
   // 검색 결과 목록과 마커를 표출하는 함수
   function displayPlaces(places: string | any[]) {
     const listEl = document.getElementById("places-list"),
       resultEl = document.getElementById("search-result"),
       fragment = document.createDocumentFragment(),
       bounds = new window.kakao.maps.LatLngBounds();
-    removeMarker();
-
     listEl && removeAllChildNods(listEl);
-
     for (var i = 0; i < places.length; i++) {
       let placePosition = new window.kakao.maps.LatLng(
           places[i].y,
           places[i].x,
         ),
-        marker = addMarker(placePosition, i, places[i].place_name),
+        marker = addMarker(placePosition, i),
         itemEl = getListItem(i, places[i]);
       bounds.extend(placePosition);
 
@@ -101,7 +134,6 @@ const Search = () => {
       fragment.appendChild(itemEl);
     }
 
-    // 검색결과 항목들을 검색결과 목록 Element에 추가
     listEl && listEl.appendChild(fragment);
     if (resultEl) {
       resultEl.scrollTop = 0;
@@ -110,6 +142,7 @@ const Search = () => {
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정
     window.map.setBounds(bounds);
   }
+
   // 검색결과 항목을 Element로 반환하는 함수
   function getListItem(index: number, places: placeType) {
     const el = document.createElement("li");
@@ -195,7 +228,7 @@ const Search = () => {
     return el;
   }
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수
-  function addMarker(position: any, idx: number, title: string) {
+  function addMarker(position: any, idx: number) {
     var imageSrc =
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png",
       imageSize = new window.kakao.maps.Size(36, 37),
@@ -227,14 +260,7 @@ const Search = () => {
     }
     markers = [];
   };
-  const safePlaces = useSelector(
-    (state: { safe: { safePlace: any } }) => state.safe.safePlace,
-  );
-  const removeSafeMarker = () => {
-    for (let i = 0; i < safePlaces.length; i++) {
-      window.safeCustomOverlay.setMap(null);
-    }
-  };
+
   // 검색결과 목록 하단에 페이지번호를 표시는 함수
   function displayPagination(pagination: {
     last: number;
@@ -244,7 +270,6 @@ const Search = () => {
     const paginationEl = document.getElementById("pagination") as HTMLElement;
     let fragment = document.createDocumentFragment();
     let i;
-
     while (paginationEl.hasChildNodes()) {
       paginationEl.lastChild &&
         paginationEl.removeChild(paginationEl.lastChild);
@@ -271,13 +296,11 @@ const Search = () => {
   }
 
   // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
-  // 인포윈도우에 장소명을 표시
   function displayInfowindow(marker: any, title: string) {
     const content =
       '<div style="padding:5px;z-index:1;" class="marker-title">' +
       title +
       "</div>";
-
     window.infowindow.setContent(content);
     window.infowindow.open(window.map, marker);
   }
@@ -295,32 +318,11 @@ const Search = () => {
       searchResult.style.display = "none";
     }
   }
-  // 라인, 마커 삭제
-  const clearRoute = () => {
-    for (let j = 0; j < safeMarkerList.length; j++) {
-      safeMarkerList[j].setMap(null);
-    }
-    window.polyline?.setMap(null);
-    window.safeCustomOverlay?.setMap(null);
-  };
-  // 맵에 표시된 경로 관련 삭제
-  const clearAllRoute = () => {
-    removeMarker();
-    clearRoute();
-    window.endCustomOverlay?.setMap(null);
-    window.startCustomOverlay?.setMap(null);
-    dispatch(setStartName(""));
-    dispatch(setEndName(""));
-    dispatch(setShortTime(null));
-    dispatch(setSafeTime(null));
-    setFindRouteOpen(false);
-    removeSafeMarker();
-  };
+
   return (
     <>
       <SearchBar
         searchPlaces={searchPlaces}
-        setListIsOpen={setListIsOpen}
         setFindRouteOpen={setFindRouteOpen}
       />
       {findRouteOpen && listIsOpen ? <RouteInfo /> : null}

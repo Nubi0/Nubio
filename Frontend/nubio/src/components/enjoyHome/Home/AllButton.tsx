@@ -13,7 +13,7 @@ const AllButton = () => {
                 <Content>당신의 취향에 <br /> 맞는 코스에요.</Content>
             </ContentWrapper>
             <button onClick={() => navigate('/enjoy/all/location')}>
-                <AllButtonImg src={AllButtonUrl} />
+                <AllButtonImg src={AllButtonUrl} alt="all" />
             </button>
         </AllButtonWrapper>
     );

@@ -1,13 +1,13 @@
 import { MyCourseWrapper, MyCourseHeader } from "../../../styles/SMyCoursePage";
-import LocationList from "./locationList/LocationList";
+import AllCourseLocationList from "./allCourseLocation/AllCourseLocationList";
 
-const MyCourse = () => {
+const AllCourseLocation = () => {
   return (
     <MyCourseWrapper>
       <MyCourseHeader>지역을 선택해주세요</MyCourseHeader>
-      <LocationList />
+      <AllCourseLocationList />
     </MyCourseWrapper>
   );
 };
 
-export default MyCourse;
+export default AllCourseLocation;

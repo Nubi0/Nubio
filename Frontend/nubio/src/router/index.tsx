@@ -7,7 +7,6 @@ import ProfilePage from "../pages/ProfilePage";
 import CourseDetailPage from "../pages/CourseDeatilPage";
 import LikePage from "../pages/LikePage";
 import MyCoursePage from "../pages/MyCoursePage";
-
 import SafeHomePage from "../pages/SafeHomePage";
 import CourseSelectPage from "../pages/CourseSelectPage";
 import KaKaoLogin from "../pages/KaKaoLogin";
@@ -51,7 +50,6 @@ const routes = [
     path: "/mycourse",
     Component: MyCoursePage,
   },
-
   {
     path: "/safe",
     Component: SafeHomePage,

@@ -85,37 +85,30 @@ const SignUpForm = ({
           confirmButtonText: "확인",
           showLoaderOnConfirm: true,
           preConfirm: async (code) => {
-            return await axios
-              .post(
-                process.env.REACT_APP_SERVER_URL + "/start/v1/email/confirms",
-                {
-                  email,
-                  code,
-                },
-              )
-              .then((res) => {
-                console.log(res.data);
-                setIsConfirm(true);
-              })
-              .catch((err) => {
-                if (err.response.data.errorCode === "A-003") {
-                  Swal.fire({
-                    title: "인증 실패",
-                    icon: "error",
-                    text: "NUBIO",
-                  });
-                }
+            try {
+              await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email/confirms', {
+                email,
+                code,
               });
+            } catch (err: any) {
+              if (err.response.data.errorCode === 'A-003') {
+                Swal.fire({
+                  title: '인증 실패',
+                  icon: 'error',
+                  text: 'NUBIO',
+                });
+                return;
+              }
+            }
           },
-        }).then((res) => {
-          if (res.isConfirmed) {
+        }).then(() => {
             Swal.fire({
               title: "인증 성공",
               icon: "success",
               text: "NUBIO",
             });
             setEmailConfirm(true);
-          }
+            setIsConfirm(true);
         });
       })
       .catch((err) => {

@@ -19,6 +19,12 @@ function App() {
   const reportIcon = process.env.PUBLIC_URL + "/assets/pc/reportIcon.png";
   const [isMobile, setIsMobile] = useState(false);
 
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      console.log('ServiceWorker registration successful with scope: ', registration.active);
+    })
+  }
+
   useEffect(() => {
     const checkDeviceType = () => {
       const isMobileDevice = window.innerWidth <= 500;

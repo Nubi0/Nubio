@@ -13,7 +13,6 @@ const Shelter = () => {
   const showShelters = useSelector(
     (state: { safe: { showShelters: false } }) => state.safe.showShelters,
   );
-  console.log(showShelters);
   const markerList = useSelector(
     (state: { safe: { markerList: Array<any> } }) => state.safe.markerList,
   );
@@ -43,7 +42,7 @@ const Shelter = () => {
             content: content,
           });
           window.shelterCustomOverlay = customOverlay;
-          customOverlay.setMap(window.map);
+          window.shelterCustomOverlay.setMap(window.map);
           newmarkerList.push(customOverlay);
         }
         dispatch(setMarkerList(newmarkerList));

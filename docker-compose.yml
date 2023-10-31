@@ -68,7 +68,7 @@ services:
     depends_on:
       - zookeeper
       - kafka
-      - kafka-ui
+
 
   redis:
     image: "redis:latest"

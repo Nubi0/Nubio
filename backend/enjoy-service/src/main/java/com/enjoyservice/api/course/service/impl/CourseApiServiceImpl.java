@@ -12,8 +12,14 @@ import com.enjoyservice.domain.courseplacesequence.entity.CoursePlaceSequence;
 import com.enjoyservice.domain.courseplacesequence.service.CoursePlaceSequenceService;
 import com.enjoyservice.domain.coursetag.entity.CourseTag;
 import com.enjoyservice.domain.coursetag.service.CourseTagService;
+import com.enjoyservice.domain.node.entity.Node;
+import com.enjoyservice.domain.node.entity.type.Point;
+import com.enjoyservice.domain.node.service.NodeService;
 import com.enjoyservice.domain.place.entity.Place;
-import com.enjoyservice.domain.place.entity.type.KakaoId;
+import com.enjoyservice.domain.place.entity.constant.GroupCode;
+import com.enjoyservice.domain.place.entity.constant.GroupName;
+import com.enjoyservice.domain.place.entity.type.*;
+import com.enjoyservice.domain.place.exception.PlaceNotFoundException;
 import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.entity.type.Name;
@@ -41,6 +47,7 @@ public class CourseApiServiceImpl implements CourseApiService {
     private final TagService tagService;
     private final CourseTagService courseTagService;
     private final CourseFavoriteService courseFavoriteService;
+    private final NodeService nodeService;
 
     @Transactional
     @Override
@@ -56,7 +63,77 @@ public class CourseApiServiceImpl implements CourseApiService {
         List<KakaoId> kakaoIds = placeKakaoIds.stream()
                 .map(id -> KakaoId.from(id.intValue()))
                 .toList();
-        log.info("kakaoIds : {}", kakaoIds.stream().map(id -> id.getValue()).toList());
+        log.info("kakaoIds : {}", kakaoIds.stream().map(KakaoId::getValue).toList());
+
+//        // 없는 장소 확인, 저장
+//        for(CourseCreateReq.PlaceInfo placeInfo : request.getPlaceInfos()) {
+//            long kakaoId = placeInfo.getKakaoId();
+//            try {
+//                Place place = placeService.findByKakaoId(KakaoId.from(kakaoId));
+//            } catch (PlaceNotFoundException e) {
+//                Place beforePlace = Place.builder()
+//                        .kakaoId(KakaoId.from(kakaoId))
+//                        .name(com.enjoyservice.domain.place.entity.type.Name.from(placeInfo.getPlaceName()))
+//                        .category(Category.from(
+//                                GroupCode.from(placeInfo.getCategoryGroupCode()),
+//                                GroupName.from(placeInfo.getCategoryGroupName()),
+//                                Detail.from(placeInfo.getCategoryName())
+//                        ))
+//                        .phone(Phone.from(placeInfo.getPhone()))
+//                        .url(Url.from(placeInfo.getPlaceUrl()))
+//                        .address(Address.builder()
+//                                .name(placeInfo.getAddressName())
+//                                .roadName(RoadName.from(placeInfo.getRoadAddressName()))
+//                                .build())
+//                        .position(Position.builder()
+//                                .longitude(Longitude.from(Double.valueOf(placeInfo.getLongitude())))
+//                                .latitude(Latitude.from(Double.valueOf(placeInfo.getLatitude())))
+//                                .build())
+//                        .active(Active.from(true))
+//                        .build();
+//
+//                placeService.savePlace(beforePlace);
+//            }
+//
+//        }
+        // 없는 장소 확인, 저장
+        for(CourseCreateReq.PlaceInfo placeInfo : request.getPlaceInfos()) {
+            long kakaoId = placeInfo.getKakaoId();
+            boolean existsByKakaoId = placeService.existsByKakaoId(KakaoId.from(kakaoId));
+            if (!existsByKakaoId) {
+                Place beforePlace = Place.builder()
+                        .kakaoId(KakaoId.from(kakaoId))
+                        .name(com.enjoyservice.domain.place.entity.type.Name.from(placeInfo.getPlaceName()))
+                        .category(Category.from(
+                                GroupCode.from(placeInfo.getCategoryGroupCode()),
+                                GroupName.from(placeInfo.getCategoryGroupName()),
+                                Detail.from(placeInfo.getCategoryName())
+                        ))
+                        .phone(Phone.from(placeInfo.getPhone()))
+                        .url(Url.from(placeInfo.getPlaceUrl()))
+                        .address(Address.builder()
+                                .name(placeInfo.getAddressName())
+                                .roadName(RoadName.from(placeInfo.getRoadAddressName()))
+                                .build())
+                        .position(Position.builder()
+                                .longitude(Longitude.from(Double.valueOf(placeInfo.getLongitude())))
+                                .latitude(Latitude.from(Double.valueOf(placeInfo.getLatitude())))
+                                .build())
+                        .active(Active.from(true))
+                        .build();
+
+                placeService.savePlace(beforePlace);
+            }
+
+        }
+
+        List<Point> points = new ArrayList<>();
+        for (CourseCreateReq.Path path : request.getPath()) {
+            points.add(Point.of(path.getLog(), path.getLat()));
+        }
+        nodeService.saveNode(Node.of(savedCourse.getId()
+                , points, request.getTime(), request.getType(), request.getDistance()));
+
         List<Place> places = placeService.findAllByKakaoId(kakaoIds);
         log.info("place 목록 조회 완료(CourseApiServiceImpl), places : {}", places);
 
@@ -125,7 +202,8 @@ public class CourseApiServiceImpl implements CourseApiService {
         List<PlaceInCourseInfoDto> placeInfos = courseService.findPlacesInfoInCourseByCourse(course);
         log.info("Course에 속한 Place 정보들 조회 완료(CourseApiServiceImpl)");
 
-        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos);
+        Node node = nodeService.findByCoursePk(courseId);
+        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos, node);
     }
 
     @Override

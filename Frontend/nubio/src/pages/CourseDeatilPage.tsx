@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import Footer from '../components/common/Footer';
-import EnjoyHeader from '../components/enjoyHome/common/EnjoyHeader';
-import { CourseDetailPageWrapper } from '../styles/SCourseDeatilPage';
-import CourseDetailList from '../components/enjoyHome/CourseDetail/CoursDetailList/CourseDetailList';
-import { useParams } from 'react-router';
-import axios from 'axios';
-import Map from '../components/common/map/Map';
-import CourseButton from '../components/enjoyHome/CourseDetail/CoursDetailList/CourseButton';
+import { useEffect, useState } from "react";
+import Footer from "../components/common/Footer";
+import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
+import { CourseDetailPageWrapper } from "../styles/SCourseDeatilPage";
+import CourseDetailList from "../components/enjoyHome/courseDetail/courseDetailList/CourseDetailList";
+import { useParams } from "react-router";
+import axios from "axios";
+import Map from "../components/common/map/Map";
+import CourseButton from "../components/enjoyHome/courseDetail/courseDetailList/CourseButton";
 
 const CourseDetailPage = () => {
   const [place_list, setPlaceList] = useState<placeProps[]>([]);
@@ -22,7 +22,8 @@ const CourseDetailPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/${courseId}`
+          process.env.REACT_APP_SERVER_URL +
+            `/enjoy/v1/enjoy/course/${courseId}`,
         );
         setPlaceList(response.data.data.place_list);
         setCourseInfo(response.data.data.course_info);
@@ -46,7 +47,11 @@ const CourseDetailPage = () => {
       <EnjoyHeader pageName="코스 이름" />
       <Map />
       <CourseDetailList place_list={place_list} />
-      <CourseButton course_info={course_info} setCourseInfo={setCourseInfo} setPlaceList={setPlaceList} />
+      <CourseButton
+        course_info={course_info}
+        setCourseInfo={setCourseInfo}
+        setPlaceList={setPlaceList}
+      />
       <Footer />
     </CourseDetailPageWrapper>
   );

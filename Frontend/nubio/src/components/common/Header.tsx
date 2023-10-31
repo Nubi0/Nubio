@@ -6,7 +6,7 @@ const Header = () => {
     const navigate = useNavigate();
     return(
         <HeaderWrapper>
-            <img src={logoUrl} onClick={() => navigate('/')} />
+            <img src={logoUrl} onClick={() => navigate('/')} alt="logo" />
         </HeaderWrapper>
     );
 };

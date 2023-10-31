@@ -45,4 +45,7 @@ public class PlaceCsvInfoRes {
     @CsvBindByName(column = "y")
     private double latitude;
 
+    @CsvBindByName(column = "img_url")
+    private String imgUrl;
+
 }

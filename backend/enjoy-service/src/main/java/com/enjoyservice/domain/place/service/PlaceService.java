@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaceService {
 
@@ -29,4 +30,10 @@ public interface PlaceService {
     Page<Place> searchNearPlace(double lng, double lat, int dist, String name, Pageable pageable);
 
     Page<Place> searchNearPlaceByTypeAndName(double lng, double lat, int dist, String category, String name, Pageable pageable);
+
+    Long savePlace(Place place);
+
+    Place findByKakaoId(KakaoId kakaoId);
+
+    boolean existsByKakaoId(KakaoId kakaoId);
 }

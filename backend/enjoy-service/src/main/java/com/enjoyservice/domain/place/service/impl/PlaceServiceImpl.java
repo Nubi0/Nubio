@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -77,5 +78,23 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public Page<Place> searchNearPlaceByTypeAndName(double lng, double lat, int dist, String category, String name, Pageable pageable) {
         return placeRepository.searchNearPlaceByTypeAndName(lng, lat, dist, category, name, pageable);
+    }
+
+    @Transactional
+    @Override
+    public Long savePlace(Place place) {
+        Place savedPlace = placeRepository.save(place);
+        return savedPlace.getId();
+    }
+
+    @Override
+    public Place findByKakaoId(KakaoId kakaoId) {
+        return placeRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new PlaceNotFoundException(ErrorCode.PLACE_NOT_FOUND));
+    }
+
+    @Override
+    public boolean existsByKakaoId(KakaoId kakaoId) {
+        return placeRepository.existsByKakaoId(kakaoId);
     }
 }

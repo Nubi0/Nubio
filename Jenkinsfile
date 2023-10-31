@@ -42,6 +42,10 @@ pipeline {
                     file(credentialsId: 'safe-service-application-s3.yml', variable: 'SAFES3FILE'),
                     file(credentialsId: 'safe-service-application-map.yml', variable: 'SAFEMAPFILE'),
                     file(credentialsId: 'safe-service-application-prod.yml', variable: 'SAFEFILE'),
+                    file(credentialsId: 'chatting-service-application-db.yml', variable: 'CHATDBFILE'),
+                    file(credentialsId: 'chatting-service-application-s3.yml', variable: 'CHATS3FILE'),
+                    file(credentialsId: 'chatting-service-application-map.yml', variable: 'CHATMAPFILE'),
+                    file(credentialsId: 'chatting-service-application-prod.yml', variable: 'CHATFILE'),
                 ]) {
                     script {
                         sh "cp \$AUTHFILE backend/authentication-service/src/main/resources/application-auth.yml"
@@ -54,6 +58,10 @@ pipeline {
                         sh "cp \$SAFES3FILE backend/safe-service/src/main/resources/application-s3.yml"
                         sh "cp \$SAFEMAPFILE backend/safe-service/src/main/resources/application-map.yml"
                         sh "cp \$SAFEFILE backend/safe-service/src/main/resources/application-prod.yml"
+                        sh "cp \$CHATDBFILE backend/chatting-service/src/main/resources/application-db.yml"
+                        sh "cp \$CHATS3FILE backend/chatting-service/src/main/resources/application-s3.yml"
+                        sh "cp \$CHATMAPFILE backend/chatting-service/src/main/resources/application-map.yml"
+                        sh "cp \$CHATFILE backend/chatting-service/src/main/resources/application-prod.yml"
                     }
                 }
                 // sh 'chmod +x backend/authentication-service/gradlew'
@@ -108,6 +116,21 @@ pipeline {
                         sh 'docker build -t safe-service:latest .'
                         sh 'docker tag safe-service:latest kathyleesh/safe-service:latest'
                         sh 'docker push kathyleesh/safe-service:latest'
+                    }
+                }
+            }
+        }
+
+        stage('Docker build and push chatting') {
+            steps {
+                withCredentials([
+                    usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS')
+                ]) {
+                    dir('backend/chatting-service') {
+                        sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS'
+                        sh 'docker build -t chatting-service:latest .'
+                        sh 'docker tag chatting-service:latest kathyleesh/chatting-service:latest'
+                        sh 'docker push kathyleesh/chatting-service:latest'
                     }
                 }
             }

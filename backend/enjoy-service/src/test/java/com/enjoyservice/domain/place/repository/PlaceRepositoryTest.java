@@ -139,4 +139,18 @@ class PlaceRepositoryTest {
         assertThat(result).hasSize(3);
 
     }
+
+    @DisplayName("KakaoId로 Place 조회")
+    @Test
+    void findByKakaoId() {
+        // given
+        Place place = generatePlace(0, GroupCode.CE7, GroupName.카페);
+        Place savedPlace = placeRepository.saveAndFlush(place);
+        em.clear();
+        KakaoId kakaoId = place.getKakaoId();
+        // when
+        Optional<Place> opPlace = placeRepository.findByKakaoId(kakaoId);
+        // then
+        assertThat(opPlace.get().getId()).isEqualTo(savedPlace.getId());
+    }
 }

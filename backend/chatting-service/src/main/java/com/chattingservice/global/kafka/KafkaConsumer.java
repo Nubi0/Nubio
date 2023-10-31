@@ -1,5 +1,6 @@
 package com.chattingservice.global.kafka;
 
+import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
 import com.chattingservice.global.kafka.dto.request.RespRoomDto;
@@ -20,14 +21,17 @@ public class KafkaConsumer {
 
     @KafkaListener(groupId = "${spring.kafka.chat-consumer.group-id}" ,topics="${kafka.topic.chat-name}")
     public void listenChat(ChatMessageDto chatMessageDto){
-        template.convertAndSend("/chatting/topic/room/"+chatMessageDto.getRoom_id(), chatMessageDto);
+//        template.convertAndSend("/chatting/topic/room/"+chatMessageDto.getRoom_id(), chatMessageDto);
+        template.convertAndSend("/chatting/topic/"+chatMessageDto.getRoom_id(), chatMessageDto);
     }
 
     @KafkaListener(groupId = "${spring.kafka.room-consumer.group-id}",topics = "${kafka.topic.room-name}", containerFactory = "kafkaListenerContainerFactory")
     public void listenGroupCreation(RoomMessageDto roomMessageDto){
-        RespRoomDto respRoomDto = roomMessageDto.getRespRoomDto();
-        for(String userId : roomMessageDto.getReceivers()){
-            template.convertAndSend("/chatting/topic/new-room/"+userId,respRoomDto);
-        }
+        ChattingRoomResp respRoomDto = roomMessageDto.getRespRoomDto();
+
+        template.convertAndSend("/chatting/topic/"+respRoomDto.getRoomId(),respRoomDto);
+//        for(String userId : roomMessageDto.getReceivers()){
+//            template.convertAndSend("/chatting/topic/new-room/"+userId,respRoomDto);
+//        }
     }
 }

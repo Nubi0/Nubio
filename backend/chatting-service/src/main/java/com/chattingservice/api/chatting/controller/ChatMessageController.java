@@ -1,6 +1,7 @@
 package com.chattingservice.api.chatting.controller;
 
 import com.chattingservice.api.ApiResponseEntity;
+import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
 import com.chattingservice.domain.room.service.ChatRoomService;
 import com.chattingservice.global.error.ErrorCode;
@@ -29,15 +30,13 @@ import java.util.List;
 public class ChatMessageController {
     private final KafkaProducer producers;
     private final ChatMessageService chatMessageService;
-    private final ChatRoomService chatRoomService;
+    private final ChattingRoomInfoService chattingRoomInfoService;
 
 
     @Operation(summary = "메시지 전송")
     @PostMapping(value = "/message", consumes = "application/json", produces = "application/json")
     public ApiResponseEntity<String> sendMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
-        if (!chatRoomService.existsRoom(chatMessageDto.getRoom_id())) {
-            throw new BusinessException(ErrorCode.ROOM_NOT_FOUND_ERROR);
-        }
+
         ChatMessageDto savedMessage = chatMessageService.saveChatMessage(chatMessageDto);
         producers.sendMessage(savedMessage);
         return ApiResponseEntity.ok("success");

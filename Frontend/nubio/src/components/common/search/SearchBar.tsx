@@ -10,7 +10,7 @@ import { SearchBarWrapper, SearchForm } from "../../../styles/SMap";
 import { setListIsOpen, setkeyWord } from "../../../redux/slice/MapSlice";
 import useInput from "../../../hooks/useInput";
 
-const SearchBar = ({ searchPlaces, setFindRouteOpen }: any) => {
+const SearchBar = ({ searchPlaces, setFindRouteOpen, removeMarker }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/search/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
@@ -29,11 +29,13 @@ const SearchBar = ({ searchPlaces, setFindRouteOpen }: any) => {
     }
     searchPlaces(Value);
     setFindRouteOpen(false);
+    removeMarker();
   };
   // 검색리스트 보기
   const inputClick = () => {
     dispatch(setListIsOpen(true));
-    searchPlaces(Value);
+    // searchPlaces(Value);
+    // removeMarker();
   };
   return (
     <SearchBarWrapper>

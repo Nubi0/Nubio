@@ -5,6 +5,7 @@ import {
   setEnd,
   setEndName,
   setListIsOpen,
+  setSearchMarker,
   setStart,
   setStartName,
 } from "../../../redux/slice/MapSlice";
@@ -25,10 +26,9 @@ import SafeDirection from "../../safeHome/route/safe/SafeDirection";
 import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
 
 const Search = () => {
+  var markerList: any = [];
   const location = useLocation();
   const dispatch = useDispatch();
-  // 마커를 담는 배열
-  let markers: any[] = [];
   const searchKeyword = useSelector(
     (state: { map: { keyWord: string } }) => state.map.keyWord,
   );
@@ -107,6 +107,8 @@ const Search = () => {
 
   // 검색 결과 목록과 마커를 표출하는 함수
   function displayPlaces(places: string | any[]) {
+    removeMarker();
+    console.log(markerList);
     const listEl = document.getElementById("places-list"),
       resultEl = document.getElementById("search-result"),
       fragment = document.createDocumentFragment(),
@@ -133,12 +135,11 @@ const Search = () => {
 
       fragment.appendChild(itemEl);
     }
-
+    console.log(markerList);
     listEl && listEl.appendChild(fragment);
     if (resultEl) {
       resultEl.scrollTop = 0;
     }
-
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정
     window.map.setBounds(bounds);
   }
@@ -247,18 +248,22 @@ const Search = () => {
       image: markerImage,
     });
 
-    marker.setMap(window.map);
-    markers.push(marker);
-
+    window.searchMarkers = marker;
+    window.searchMarkers.setMap(window.map);
+    markerList.push(marker);
     return marker;
   }
 
   // 지도 위에 표시되고 있는 마커를 모두 제거합니다
   const removeMarker = () => {
-    for (var i = 0; i < markers.length; i++) {
-      markers[i].setMap(null);
+    console.log(markerList);
+    for (let i = 0; i < markerList.length; i++) {
+      window.searchMarkers = markerList[i];
+      window.searchMarkers.setMap(null);
+      markerList[i].setMap(null);
+      console.log(window.searchMarkers);
     }
-    markers = [];
+    markerList = [];
   };
 
   // 검색결과 목록 하단에 페이지번호를 표시는 함수
@@ -324,6 +329,7 @@ const Search = () => {
       <SearchBar
         searchPlaces={searchPlaces}
         setFindRouteOpen={setFindRouteOpen}
+        removeMarker={removeMarker}
       />
       {findRouteOpen && listIsOpen ? <RouteInfo /> : null}
       {searchKeyword !== "" && listIsOpen ? (
@@ -353,7 +359,34 @@ const Search = () => {
           </SearchListWrapper>
           <div id="pagination"></div>
         </SearchResultsWrapper>
-      ) : null}
+      ) : (
+        <SearchResultsWrapper id="search-result" style={{ display: "none" }}>
+          <p className="result-text">
+            {searchKeyword}
+            검색 결과
+            <SelectMyLocation removeMarker={removeMarker} />
+          </p>
+          <DestinationWrapper>
+            <h4>출발지 : {startName}</h4>
+            <h4>도착지 : {endName}</h4>
+          </DestinationWrapper>
+          <ClearRouteButton onClick={clearAllRoute}>
+            경로 지우기
+          </ClearRouteButton>
+          <ShortDirection
+            clearRoute={clearRoute}
+            setFindRouteOpen={setFindRouteOpen}
+          />
+          <SafeDirection
+            clearRoute={clearRoute}
+            setFindRouteOpen={setFindRouteOpen}
+          />
+          <SearchListWrapper className="scroll-wrapper">
+            <ul id="places-list"></ul>
+          </SearchListWrapper>
+          <div id="pagination"></div>
+        </SearchResultsWrapper>
+      )}
     </>
   );
 };

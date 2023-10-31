@@ -11,6 +11,7 @@ const MapSlice = createSlice({
     startName: null,
     endName: null,
     listIsOpen: false,
+    searchMarker: [],
   },
   reducers: {
     setkeyWord: (state, action) => {
@@ -38,6 +39,9 @@ const MapSlice = createSlice({
     setListIsOpen: (state, action) => {
       state.listIsOpen = action.payload;
     },
+    setSearchMarker: (state, action) => {
+      state.searchMarker = action.payload;
+    },
   },
 });
 
@@ -50,5 +54,6 @@ export const {
   setStart,
   setEnd,
   setListIsOpen,
+  setSearchMarker,
 } = MapSlice.actions;
 export default MapSlice.reducer;

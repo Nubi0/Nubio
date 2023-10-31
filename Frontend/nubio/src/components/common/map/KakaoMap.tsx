@@ -26,6 +26,7 @@ declare global {
     myLatitude: any;
     myLongitude: any;
     shelterCustomOverlay: any;
+    searchMarkers: any;
   }
 }
 

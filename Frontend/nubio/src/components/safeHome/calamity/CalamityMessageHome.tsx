@@ -23,9 +23,7 @@ const CalamityMessageHome = () => {
   const dispatch = useDispatch();
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
-  const openMessage = () => {
-    setIsReceiveMessage(true);
-  };
+
   // 재난문자 모달 닫기
   const closeMessage = () => {
     setIsReceiveMessage(false);
@@ -78,7 +76,7 @@ const CalamityMessageHome = () => {
   };
   useEffect(() => {
     getCalamity();
-  }, [window.myLongitude, window.myLatitude]);
+  }, []);
 
   return (
     <>

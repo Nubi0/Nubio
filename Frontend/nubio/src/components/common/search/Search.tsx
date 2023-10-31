@@ -150,7 +150,6 @@ const Search = () => {
     const onClickStart = () => {
       dispatch(setStart({ x: places.x, y: places.y }));
       dispatch(setStartName(places.place_name));
-      removeMarker();
       window.polyline?.setMap(null);
       window.startCustomOverlay?.setMap(null);
       let content = `<div class ="label"  style="background:#ffc542; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">

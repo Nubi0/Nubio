@@ -43,7 +43,6 @@ const GetReport = () => {
         const places = res.data.data.reportList;
         places.forEach((place: any) => {
           let imageSrc = "";
-
           if (place.reportType === "accident") {
             imageSrc = accidentIcon;
           } else if (place.reportType === "construction") {

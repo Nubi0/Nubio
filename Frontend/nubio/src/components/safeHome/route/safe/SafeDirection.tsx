@@ -13,6 +13,7 @@ import {
   setSafePlace,
   setSafeMarkerList,
 } from "../../../../redux/slice/SafeSlice";
+import { useState } from "react";
 
 const SafeDirection = ({
   clearRoute,
@@ -26,6 +27,7 @@ const SafeDirection = ({
   const end = useSelector(
     (state: { map: { end: EndCoordinates } }) => state.map.end,
   );
+  const [safeLocationCompleted, setSafeLocationCompleted] = useState(false);
 
   const getSafeDirections = () => {
     clearRoute();
@@ -132,6 +134,7 @@ const SafeDirection = ({
           }
         }
         getSafeDirections();
+        setSafeLocationCompleted(true);
       })
       .catch(() => {});
   };
@@ -139,7 +142,7 @@ const SafeDirection = ({
   return (
     <SafeDirectionButton onClick={getSafeLocation}>
       안전한 길 찾기
-      <NearbySafetyFacilities></NearbySafetyFacilities>
+      {safeLocationCompleted && <NearbySafetyFacilities />}
     </SafeDirectionButton>
   );
 };

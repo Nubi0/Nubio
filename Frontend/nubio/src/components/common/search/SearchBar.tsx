@@ -29,13 +29,10 @@ const SearchBar = ({ searchPlaces, setFindRouteOpen, removeMarker }: any) => {
     }
     searchPlaces(Value);
     setFindRouteOpen(false);
-    removeMarker();
   };
   // 검색리스트 보기
   const inputClick = () => {
     dispatch(setListIsOpen(true));
-    // searchPlaces(Value);
-    // removeMarker();
   };
   return (
     <SearchBarWrapper>

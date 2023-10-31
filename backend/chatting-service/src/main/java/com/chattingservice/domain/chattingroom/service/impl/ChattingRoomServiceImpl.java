@@ -169,13 +169,13 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
         if (sidoName == null) {
             return findAll();
         } else if (sggName == null) {
-            return chattingRoomRepository.findBySidoName(sidoName);
+            return chattingRoomRepository.findBySidoName(SidoName.from(sidoName));
         } else if (umdName == null) {
-            return chattingRoomRepository.findBySidoNameAndSggName(sidoName, sggName);
+            return chattingRoomRepository.findBySidoNameAndSggName(SidoName.from(sidoName), SggName.from(sggName));
         } else if (riName == null) {
-            return chattingRoomRepository.findBySidoNameAndSggNameAndUmdName(sidoName, sggName, umdName);
+            return chattingRoomRepository.findBySidoNameAndSggNameAndUmdName(SidoName.from(sidoName), SggName.from(sggName), UmdName.from(umdName));
         } else {
-            return chattingRoomRepository.findBySidoNameAndSggNameAndUmdNameAndRiName(sidoName, sggName, umdName, riName);
+            return chattingRoomRepository.findBySidoNameAndSggNameAndUmdNameAndRiName(SidoName.from(sidoName), SggName.from(sggName),  UmdName.from(umdName), RiName.from(riName));
         }
     }
 

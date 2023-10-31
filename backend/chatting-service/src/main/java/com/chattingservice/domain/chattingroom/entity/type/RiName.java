@@ -19,5 +19,8 @@ public class RiName {
     public RiName(String name) {
         this.name = name;
     }
+    public static RiName from(final String value) {
+        return new RiName(value);
+    }
 
 }

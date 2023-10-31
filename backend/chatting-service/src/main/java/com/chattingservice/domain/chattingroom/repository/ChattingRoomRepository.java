@@ -2,6 +2,10 @@ package com.chattingservice.domain.chattingroom.repository;
 
 import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
 import com.chattingservice.domain.chattingroom.entity.constant.RoomType;
+import com.chattingservice.domain.chattingroom.entity.type.RiName;
+import com.chattingservice.domain.chattingroom.entity.type.SggName;
+import com.chattingservice.domain.chattingroom.entity.type.SidoName;
+import com.chattingservice.domain.chattingroom.entity.type.UmdName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,13 +17,13 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Long
 
     boolean existsById(Long id);
 
-    List<ChattingRoom> findBySidoName(String sidoName);
+    List<ChattingRoom> findBySidoName(SidoName sidoName);
 
-    List<ChattingRoom> findBySidoNameAndSggName(String sidoName, String sggName);
+    List<ChattingRoom> findBySidoNameAndSggName(SidoName sidoName, SggName sggName);
 
-    List<ChattingRoom> findBySidoNameAndSggNameAndUmdName(String sidoName, String sggName, String umdName);
+    List<ChattingRoom> findBySidoNameAndSggNameAndUmdName(SidoName sidoName, SggName sggName, UmdName umdName);
 
-    List<ChattingRoom> findBySidoNameAndSggNameAndUmdNameAndRiName(String sidoName, String sggName, String umdName, String riName);
+    List<ChattingRoom> findBySidoNameAndSggNameAndUmdNameAndRiName(SidoName sidoName, SggName sggName, UmdName umdName, RiName riName);
 
     @Query("select cr " +
             "from ChattingRoom cr " +

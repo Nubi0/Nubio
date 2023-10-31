@@ -20,4 +20,8 @@ public class SggName {
         this.name = name;
     }
 
+    public static SggName from(final String value) {
+        return new SggName(value);
+    }
+
 }

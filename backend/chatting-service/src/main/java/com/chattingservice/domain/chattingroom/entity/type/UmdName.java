@@ -20,4 +20,8 @@ public class UmdName {
         this.name = name;
     }
 
+    public static UmdName from(final String value) {
+        return new UmdName(value);
+    }
+
 }

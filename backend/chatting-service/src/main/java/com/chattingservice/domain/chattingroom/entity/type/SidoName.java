@@ -15,6 +15,10 @@ public class SidoName {
     @Column(name = "sido_name")
     private String name;
 
+    public static SidoName from(final String value) {
+        return new SidoName(value);
+    }
+
     @Builder
     public SidoName(String name) {
         this.name = name;

@@ -41,4 +41,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Optional<Place> findByKakaoId(KakaoId kakaoId);
 
+    boolean existsByKakaoId(KakaoId kakaoId);
+
 }

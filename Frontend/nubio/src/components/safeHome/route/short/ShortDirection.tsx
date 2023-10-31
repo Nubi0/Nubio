@@ -88,7 +88,7 @@ const ShortDirection = ({
         for (let i = 0; i < coordinate?.length; i += 2) {
           const latitude = parseFloat(coordinate[i + 1]);
           const longitude = parseFloat(coordinate[i]);
-          const latLng = new kakao.maps.LatLng(latitude, longitude);
+          const latLng = new window.kakao.maps.LatLng(latitude, longitude);
           linePath.push(latLng);
         }
 
@@ -134,7 +134,7 @@ const ShortDirection = ({
         };
         calculateAndDisplayLineDistances();
 
-        var polyline = new kakao.maps.Polyline({
+        var polyline = new window.kakao.maps.Polyline({
           path: linePath,
           strokeWeight: 5,
           strokeColor: "red",

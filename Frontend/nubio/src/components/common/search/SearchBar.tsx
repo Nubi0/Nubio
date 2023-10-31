@@ -1,31 +1,22 @@
 // Hook
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 // 라이브러리
 import Swal from "sweetalert2";
 // 컴포넌트
+import MyLocation from "../map/MyLocation";
 // 스타일
 import { SearchBarWrapper, SearchForm } from "../../../styles/SMap";
 // redux
-import { setkeyWord } from "../../../redux/slice/MapSlice";
+import { setListIsOpen, setkeyWord } from "../../../redux/slice/MapSlice";
 import useInput from "../../../hooks/useInput";
 
-const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
+const SearchBar = ({ searchPlaces, setFindRouteOpen, removeMarker }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/search/searchIcon.svg";
   // 검색
   const dispatch = useDispatch();
 
   // 입력 폼 변화 감지하여 입력 값 관리
-  // const [Value, setValue] = useState("");
   const [Value, onChangeValue] = useInput("");
-  // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
-  // const keywordChange = (e: {
-  //   preventDefault: () => void;
-  //   target: { value: string };
-  // }) => {
-  //   e.preventDefault();
-  //   setValue(e.target.value);
-  // };
 
   // 제출한 검색어 state에 담아주는 함수
   const submitKeyword = (e: { preventDefault: () => void }) => {
@@ -38,11 +29,13 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
     }
     searchPlaces(Value);
     setFindRouteOpen(false);
+    removeMarker();
   };
   // 검색리스트 보기
   const inputClick = () => {
-    setListIsOpen(true);
-    searchPlaces(Value);
+    dispatch(setListIsOpen(true));
+    // searchPlaces(Value);
+    // removeMarker();
   };
   return (
     <SearchBarWrapper>
@@ -60,6 +53,7 @@ const SearchBar = ({ searchPlaces, setListIsOpen, setFindRouteOpen }: any) => {
 readingGlasses"
         />
       </SearchForm>
+      <MyLocation />
     </SearchBarWrapper>
   );
 };

@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   authentication-service:
     image: kathyleesh/authentication-service:latest
     ports:
@@ -39,6 +40,14 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       MONGO_URL: ${MONGO_URL}
 
+  chatting-service:
+    image: kathyleesh/chatting-service:latest
+    ports:
+      - "8083:8083"
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      JAVA_OPTS: "-Xms256m -Xmx512m -XX:+UseG1GC"
 
   redis:
     image: "redis:latest"

@@ -12,11 +12,15 @@ import {
 import { useEffect, useState } from "react";
 function App() {
   const logo = process.env.PUBLIC_URL + "/assets/nubio.png";
-  const background = process.env.PUBLIC_URL + "/assets/pc/background.jpg";
-  const safeIcon = process.env.PUBLIC_URL + "/assets/pc/safeIcon.png";
-  const customIcon = process.env.PUBLIC_URL + "/assets/pc/customIcon.png";
-  const recommendIcon = process.env.PUBLIC_URL + "/assets/pc/recommendIcon.png";
-  const reportIcon = process.env.PUBLIC_URL + "/assets/pc/reportIcon.png";
+  const background =
+    process.env.PUBLIC_URL + "/assets/startPage/background.jpg";
+  const safeIcon = process.env.PUBLIC_URL + "/assets/startPage/safeIcon.png";
+  const customIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/customIcon.png";
+  const recommendIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/recommendIcon.png";
+  const reportIcon =
+    process.env.PUBLIC_URL + "/assets/startPage/reportIcon.png";
   const [isMobile, setIsMobile] = useState(false);
 
   if('serviceWorker' in navigator){

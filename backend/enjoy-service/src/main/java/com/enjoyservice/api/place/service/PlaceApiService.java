@@ -10,6 +10,8 @@ import com.enjoyservice.domain.place.entity.constant.GroupName;
 import com.enjoyservice.domain.place.entity.type.*;
 import com.enjoyservice.domain.place.service.PlaceService;
 import com.enjoyservice.domain.placefavorite.service.service.PlaceFavoriteService;
+import com.enjoyservice.domain.placeimage.entity.PlaceImage;
+import com.enjoyservice.domain.placeimage.service.PlaceImageService;
 import com.enjoyservice.domain.placelike.entity.PlaceLike;
 import com.enjoyservice.domain.placelike.service.PlaceLikeService;
 import com.enjoyservice.global.error.ErrorCode;
@@ -44,6 +46,7 @@ public class PlaceApiService {
     private final PlaceService placeService;
     private final PlaceLikeService placeLikeService;
     private final PlaceFavoriteService placeFavoriteService;
+    private final PlaceImageService placeImageService;
 
     private final int BATCH_SIZE = 100000; // 자를 크기를 설정
 
@@ -82,27 +85,42 @@ public class PlaceApiService {
                     .build();
 
             List<PlaceCsvInfoRes> parse = csvToBean.parse();
+            List<PlaceImage> placeImages = new ArrayList<>();
             List<Place> placeList = parse.stream()
-                    .map(placeDto ->
-                            generatePlace(placeDto)
+                    .map(placeDto -> {
+                        Place place = generatePlace(placeDto);
+                        PlaceImage placeImage = generatePlaceImage(place, placeDto.getImgUrl());
+                        placeImages.add(placeImage);
+                        return place;
+                            }
+
                     )
                     .collect(Collectors.toList());
+
 
             int batchSize = BATCH_SIZE; // 자를 크기를 설정
             int listSize = placeList.size();
 
             List<List<Place>> resultList = new ArrayList<>();
+            List<List<PlaceImage>> resultImgList = new ArrayList<>();
 
             for (int i = 0; i < listSize; i += batchSize) {
                 int fromIndex = i;
                 int toIndex = Math.min(i + batchSize, listSize);
 
                 List<Place> sublist = placeList.subList(fromIndex, toIndex);
+                List<PlaceImage> sublistImg = placeImages.subList(fromIndex, toIndex);
+
                 resultList.add(sublist);
+                resultImgList.add(sublistImg);
             }
 
             for (List<Place> places : resultList) {
                 placeService.saveAll(places);
+            }
+
+            for (List<PlaceImage> placeImgs : resultImgList) {
+                placeImageService.saveAll(placeImgs);
             }
 
         } catch (IOException e) {
@@ -133,6 +151,15 @@ public class PlaceApiService {
                 .active(Active.from(true))
                 .build();
     }
+
+    private static PlaceImage generatePlaceImage(Place place, String url) {
+        return PlaceImage.builder()
+                .name(com.enjoyservice.domain.placeimage.entity.type.Name.from(place.getName().getValue()))
+                .url(com.enjoyservice.domain.placeimage.entity.type.Url.from(url))
+                .place(place)
+                .build();
+    }
+
 
     // TODO: QueryDsl로 수정예정
     public NearPlaceInfoPageRes searchNearPlace(NearPlaceReq nearPlaceReq, Pageable pageable, String category, String name) {

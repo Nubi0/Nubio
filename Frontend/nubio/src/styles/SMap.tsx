@@ -9,8 +9,8 @@ export const MapWrapper = styled.div`
 // 검색창
 export const SearchBarWrapper = styled.div`
   position: absolute;
-  top: 7%;
-  left: 5%;
+  top: 3%;
+  left: 6%;
   z-index: 2;
   width: 80%;
   input {
@@ -134,19 +134,19 @@ export const MyLocationButton = styled.button`
   float: right;
   border: 0.1rem solid black;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: rem;
   padding: 0.2rem 0.5rem;
   background: transparent;
 `;
 // 내 위치로 이동
-export const MoveMyLocation = styled.button`
+export const MoveMyLocation = styled.img`
   position: absolute;
-  top: 7.8%;
-  right: 9%;
-  border: none;
-  border-radius: 1rem;
+  top: 15%;
+  right: -6%;
   padding: 0.3rem;
+  background: transparent;
   z-index: 3;
+  width: 1.3rem;
 `;
 
 // 목적지

@@ -92,4 +92,9 @@ public class PlaceServiceImpl implements PlaceService {
         return placeRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new PlaceNotFoundException(ErrorCode.PLACE_NOT_FOUND));
     }
+
+    @Override
+    public boolean existsByKakaoId(KakaoId kakaoId) {
+        return placeRepository.existsByKakaoId(kakaoId);
+    }
 }

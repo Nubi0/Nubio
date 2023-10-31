@@ -1,6 +1,7 @@
 package com.chattingservice.api.chatting.controller;
 
 import com.chattingservice.api.ApiResponseEntity;
+import com.chattingservice.api.chatting.dto.request.ChatMessagePageDto;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
 import com.chattingservice.domain.room.service.ChatRoomService;
@@ -18,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,14 +64,16 @@ public class ChatMessageController {
         return ApiResponseEntity.ok(chatMessageDtos);
     }
 
-    @Operation(summary = "채팅 Pagination", description = "내림차순으로 해당 채팅방 Pagination, 사이즈 N = 50 고정")
+    @Operation(summary = "채팅 Pagination", description = "내림차순으로 해당 채팅방 Pagination")
     @GetMapping("/history")
-    public ApiResponseEntity<Page<ChatMessageDto> > chatMessagePagination(
+    public ApiResponseEntity<ChatMessagePageDto> chatMessagePagination(
             @Parameter(description = "채팅방 id") @RequestParam(name = "roomid") String roomId,
-            @Parameter(description = "첫 페이지는 0부터 시작") @RequestParam(name = "page") int page) {
+            @PageableDefault(size = 50,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<ChatMessageDto> chatMessageDtos = chatMessageService.chatMessagePagination(roomId, page);
-        return ApiResponseEntity.ok(chatMessageDtos);
+        ChatMessagePageDto chatMessagePageDto = chatMessageService.chatMessagePagination(roomId, pageable);
+        return ApiResponseEntity.ok(chatMessagePageDto);
     }
 }
 

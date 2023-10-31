@@ -57,4 +57,5 @@ public class ChatMessageDto {
                 .message_id(messageCollection.get_id())
                 .build();
     }
+
 }

@@ -81,10 +81,7 @@ public class ChatMessageRepositoryImpl implements ChatMongoTemplateRepository{
      내림차순으로 해당 채팅방 Pagination, 사이즈 N = 50 고정
      */
     @Override
-    public Page<MessageCollection> findByRoomIdWithPagingAndFiltering(String roomId, int page, int size) {
-        // Pageable 객체를 생성합니다.
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-
+    public Page<MessageCollection> findByRoomIdWithPagingAndFiltering(String roomId, Pageable pageable) {
         Query query = new Query()
                 .with(pageable) //Pageable 객체를 설정
                 .skip(pageable.getPageSize() * pageable.getPageNumber()) // 건너뛰기

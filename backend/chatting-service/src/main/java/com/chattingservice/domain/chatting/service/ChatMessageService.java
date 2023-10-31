@@ -1,11 +1,13 @@
 package com.chattingservice.domain.chatting.service;
 
+import com.chattingservice.api.chatting.dto.request.ChatMessagePageDto;
 import com.chattingservice.domain.chatting.entity.MessageCollection;
 import com.chattingservice.domain.chatting.mongo.ChatMessageRepository;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,11 +45,10 @@ public class ChatMessageService {
         return chatMessageRepository.getAllMessagesAtRoom(roomId).stream().map(mc -> ChatMessageDto.from(mc)).collect(Collectors.toList());
     }
 
-    public Page<ChatMessageDto> chatMessagePagination(String roomId, int page){
-        Page<MessageCollection> messageCollectionPage = chatMessageRepository.findByRoomIdWithPagingAndFiltering(roomId, page, SIZE);
-        Page<ChatMessageDto> chatMessageDtoPage = messageCollectionPage.map(messageCollection -> ChatMessageDto.from(messageCollection));
-
-        return chatMessageDtoPage;
+    public ChatMessagePageDto chatMessagePagination(String roomId, Pageable page){
+        Page<MessageCollection> messageCollectionPage = chatMessageRepository.findByRoomIdWithPagingAndFiltering(roomId, page);
+        ChatMessagePageDto.from(messageCollectionPage);
+        return ChatMessagePageDto.from(messageCollectionPage);
     }
 
 

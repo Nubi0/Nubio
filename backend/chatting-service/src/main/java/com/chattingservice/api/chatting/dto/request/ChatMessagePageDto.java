@@ -2,6 +2,7 @@ package com.chattingservice.api.chatting.dto.request;
 
 import com.chattingservice.domain.chatting.entity.MessageCollection;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class ChatMessagePageDto {
 
     @JsonProperty("content")
-    List<ChatMessageDto> content;
+    List<ChatMessageResp> content;
 
     @JsonProperty("meta")
     private PageMetaDto meta;
@@ -28,7 +29,7 @@ public class ChatMessagePageDto {
         return ChatMessagePageDto.builder()
                 .meta(PageMetaDto.from(chatMessageDtos))
                 .content(chatMessageDtos.getContent().stream()
-                        .map(messageCollection -> ChatMessageDto.from(messageCollection))
+                        .map(messageCollection -> ChatMessageResp.from(messageCollection))
                         .collect(Collectors.toList())
                 ).build();
     }

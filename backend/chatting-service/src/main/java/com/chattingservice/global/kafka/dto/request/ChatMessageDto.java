@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Schema(description = "채팅메시지")
 @Getter
@@ -27,7 +29,6 @@ public class ChatMessageDto {
     @Schema(description = "보낸 유저 id")
     @JsonProperty("sender_id")
     private String sender_id;
-    @NotBlank
     @Schema(description = "내용")
     @JsonProperty("content")
     private String content;
@@ -35,15 +36,19 @@ public class ChatMessageDto {
     private String message_id;
     @JsonProperty("created_at")
     private LocalDateTime created_at;
-
+    @JsonProperty("file")
+    private List<MultipartFile> files;
     @Builder
-    public ChatMessageDto(String message_id, MessageType message_type, String room_id, String sender_id, String content,LocalDateTime created_at) {
+    public ChatMessageDto(String message_id, MessageType message_type
+            , String room_id, String sender_id, String content
+            ,LocalDateTime created_at,List<MultipartFile> files) {
         this.message_id = message_id;
         this.message_type = message_type;
         this.room_id = room_id;
         this.sender_id = sender_id;
         this.content = content;
         this.created_at = created_at;
+        this.files = files;
     }
 
 

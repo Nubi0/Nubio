@@ -4,6 +4,7 @@ import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
 import com.chattingservice.global.kafka.dto.request.RespRoomDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,7 +21,7 @@ public class KafkaConsumer {
     private final SimpMessagingTemplate template;
 
     @KafkaListener(groupId = "${spring.kafka.chat-consumer.group-id}" ,topics="${kafka.topic.chat-name}")
-    public void listenChat(ChatMessageDto chatMessageDto){
+    public void listenChat(ChatMessageResp chatMessageDto){
 //        template.convertAndSend("/chatting/topic/room/"+chatMessageDto.getRoom_id(), chatMessageDto);
         template.convertAndSend("/chatting/topic/"+chatMessageDto.getRoom_id(), chatMessageDto);
     }

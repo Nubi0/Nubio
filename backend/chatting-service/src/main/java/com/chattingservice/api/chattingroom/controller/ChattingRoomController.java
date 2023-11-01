@@ -1,9 +1,11 @@
 package com.chattingservice.api.chattingroom.controller;
 
 import com.chattingservice.api.ApiResponseEntity;
+import com.chattingservice.api.chatting.client.dto.request.ChatRequestDto;
 import com.chattingservice.api.chattingroom.dto.request.ChattingRoomEnterReq;
 import com.chattingservice.api.chattingroom.dto.request.ChattingRoomOutReq;
 import com.chattingservice.api.chattingroom.dto.request.ChattingRoomSearchReq;
+import com.chattingservice.api.chattingroom.dto.request.FindLocationReq;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.global.kafka.KafkaProducer;
@@ -89,4 +91,16 @@ public class ChattingRoomController {
         return ApiResponseEntity.ok(myRoomsByMemberId);
     }
 
+
+    @Operation(summary = "현재위치 기반으로 채팅방 조회", description = "chatting/v1/chatting/room/location\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @PostMapping("/location")
+    public ApiResponseEntity<FindLocationReq > findLocation(@MemberInfo MemberInfoDto memberInfoDto
+            , @RequestBody ChatRequestDto chatRequestDto
+    ) {
+        FindLocationReq location = chattingRoomInfoService.findLocation(chatRequestDto);
+        return ApiResponseEntity.ok(location);
+    }
 }

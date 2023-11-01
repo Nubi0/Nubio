@@ -8,4 +8,5 @@ public interface ReportRepositoryCustom {
 
     Report searchAllReport(double longitude, double latitude, String region);
     List<Report> searchAll();
+    List<Report> findAllByAllow();
 }

@@ -65,15 +65,15 @@ public class ReportController {
 //        return ApiResponseEntity.ok(responseReport);
 //    }
 
-//    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "OK")
-//    })
-//    @GetMapping("/report")
-//    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
-//        ReportResponseDto responseReport = reportInfoService.searchAll(identificationDto.getIdentification());
-//        return ApiResponseEntity.ok(responseReport);
-//    }
+    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @GetMapping("/report")
+    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
+        ReportResponseDto responseReport = reportInfoService.searchAllByAllow(identificationDto.getIdentification());
+        return ApiResponseEntity.ok(responseReport);
+    }
 
     @Operation(summary = "제보 삭제", description = "safe/v1/safe/report/{reportId}\n\n")
     @ApiResponses(value = {

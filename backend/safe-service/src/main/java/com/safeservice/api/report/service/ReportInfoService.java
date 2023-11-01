@@ -69,14 +69,14 @@ public class ReportInfoService {
         uploadIPFiles("safe", files, savedReport);
     }
 
-//    public ReportResponseDto searchAllByRegion(String identification, double longitude, double latitude) {
-//        List<Report> reports = reportService.searchReport(longitude, latitude);
-//        List<ReportListDto> reportList = new ArrayList<>();
-//        for (Report report : reports) {
-//            reportList.add(ReportListDto.of(report, identification));
-//        }
-//        return ReportResponseDto.from(reportList);
-//    }
+    public ReportResponseDto searchAllByAllow(String identification) {
+        List<Report> reports = reportService.searchAllReportByAllow();
+        List<ReportListDto> reportList = new ArrayList<>();
+        for (Report report : reports) {
+            reportList.add(ReportListDto.of(report, identification));
+        }
+        return ReportResponseDto.from(reportList);
+    }
 
     public ReportResponseDto searchAll(String identification) {
         List<Report> reports = reportService.searchAllReport();

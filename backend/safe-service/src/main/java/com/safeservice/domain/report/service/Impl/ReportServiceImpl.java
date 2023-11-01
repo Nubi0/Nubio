@@ -70,6 +70,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public List<Report> searchAllReportByAllow() {
+        return reportRepository.findAllByAllow();
+    }
+
+    @Override
     @Transactional
     public void allowReport(Long id) {
         Report report = reportRepository.findById(id).get();

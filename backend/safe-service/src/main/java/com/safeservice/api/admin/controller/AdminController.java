@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "ADMIN API", description = "관리자 api")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/admin/safe")
+@RequestMapping("/v1/safe/admin")
 public class AdminController {
 
     private final ReportInfoService reportInfoService;
 
-    @Operation(summary = "전체 제보 조회", description = "safe/v1/admin/safe/report\n\n")
+    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/admin/report\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
@@ -33,7 +33,7 @@ public class AdminController {
         return ApiResponseEntity.ok(responseReport);
     }
 
-    @Operation(summary = "제보 활성화", description = "safe/v1/admin/safe/report/allow/{reportId}\n\n")
+    @Operation(summary = "제보 활성화", description = "safe/v1/safe/admin/report/allow/{reportId}\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })

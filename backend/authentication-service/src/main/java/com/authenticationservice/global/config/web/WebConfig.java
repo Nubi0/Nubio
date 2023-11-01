@@ -48,11 +48,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1) // 가장 먼저 인증 인터셉터가 실행
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
-                        "/api/start/**"
+                        "/start/**"
                 );
 
         registry.addInterceptor(adminAuthorizationInterceptor)
                 .order(2)
-                .addPathPatterns("/api/safe/v1/admin/**");
+                .addPathPatterns("/safe/v1/safe/admin/**");
     }
 }

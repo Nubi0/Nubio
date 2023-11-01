@@ -9,13 +9,38 @@ import CloseButton from "./CloseButton";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { ReactComponent as Nubilogo } from "../../../../public/assets/chat/nubio_logo.svg";
 import MenuItem from "./MenuItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-
+import axios from "axios";
+interface RegionInfoType {
+  region_1depth_name: string;
+  region_2depth_name: string;
+  // 여기에 다른 필요한 필드들을 추가할 수 있습니다.
+}
 const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const Menus = ["채팅 시작"];
   const [nickname, setNickname] = useState("");
   const Navigate = useNavigate();
+  const [regionInfo, setRegionInfo] = useState<RegionInfoType | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          process.env.REACT_APP_SERVER_URL +
+            "/chatting/v1/chatting/room/location",
+          {
+            latitude: window.myLatitude,
+            longitude: window.myLongitude,
+          }
+        );
+        setRegionInfo(response.data.data.chat_client.region);
+      } catch (error) {
+        console.error("Error during the request:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -39,7 +64,11 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
           alt="Nubio Logo"
         />
 
-        <h2 style={{ fontSize: "20px" }}>여기는 대구시 채팅방입니다</h2>
+        <h2 style={{ fontSize: "20px" }}>
+          {regionInfo
+            ? `${regionInfo.region_1depth_name} ${regionInfo.region_2depth_name} 채팅방입니다`
+            : "위치 정보를 가져오는 중입니다..."}
+        </h2>
 
         <NicknameInput
           type="text"

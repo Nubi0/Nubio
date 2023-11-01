@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Client } from "@stomp/stompjs";
 
 const ChatRoom = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
     const client = new Client({

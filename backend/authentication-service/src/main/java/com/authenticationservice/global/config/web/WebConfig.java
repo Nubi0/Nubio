@@ -53,6 +53,6 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(adminAuthorizationInterceptor)
                 .order(2)
-                .addPathPatterns("/api/safe/v1/safe/admin/**");
+                .addPathPatterns("/api/safe/v1/admin/**");
     }
 }

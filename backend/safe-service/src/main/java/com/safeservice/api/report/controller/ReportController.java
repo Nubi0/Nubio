@@ -65,15 +65,15 @@ public class ReportController {
 //        return ApiResponseEntity.ok(responseReport);
 //    }
 
-    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
-    @GetMapping("/report")
-    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
-        ReportResponseDto responseReport = reportInfoService.searchAll(identificationDto.getIdentification());
-        return ApiResponseEntity.ok(responseReport);
-    }
+//    @Operation(summary = "전체 제보 조회", description = "safe/v1/safe/report\n\n")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK")
+//    })
+//    @GetMapping("/report")
+//    public ApiResponseEntity<ReportResponseDto> searchAll(@Identification IdentificationDto identificationDto) {
+//        ReportResponseDto responseReport = reportInfoService.searchAll(identificationDto.getIdentification());
+//        return ApiResponseEntity.ok(responseReport);
+//    }
 
     @Operation(summary = "제보 삭제", description = "safe/v1/safe/report/{reportId}\n\n")
     @ApiResponses(value = {
@@ -86,15 +86,15 @@ public class ReportController {
         return ApiResponseEntity.ok("삭제 완료");
     }
 
-    @Operation(summary = "제보 활성화", description = "safe/v1/safe/report/allow/{reportId}\n\n")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
-
-    @GetMapping("/report/allow/{reportId}")
-    public ApiResponseEntity<String> allowReport(@Identification IdentificationDto identificationDto,
-                                                  @PathVariable("reportId") Long reportId) {
-        reportInfoService.allowReport(reportId);
-        return ApiResponseEntity.ok("활성화 완료");
-    }
+//    @Operation(summary = "제보 활성화", description = "safe/v1/safe/report/allow/{reportId}\n\n")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "OK")
+//    })
+//
+//    @GetMapping("/report/allow/{reportId}")
+//    public ApiResponseEntity<String> allowReport(@Identification IdentificationDto identificationDto,
+//                                                  @PathVariable("reportId") Long reportId) {
+//        reportInfoService.allowReport(reportId);
+//        return ApiResponseEntity.ok("활성화 완료");
+//    }
 }

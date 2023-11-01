@@ -1,5 +1,7 @@
-package com.authenticationservice.global.config;
+package com.authenticationservice.global.config.web;
 
+import com.authenticationservice.global.interceptor.AdminAuthorizationInterceptor;
+import com.authenticationservice.global.interceptor.AuthenticationInterceptor;
 import com.authenticationservice.global.resolver.memberInfo.MemberInfoArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +10,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
@@ -18,6 +21,8 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
+    private final AuthenticationInterceptor authenticationInterceptor;
+    private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
 
     //CORS 설정
     @Bean
@@ -35,5 +40,19 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(memberInfoArgumentResolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authenticationInterceptor)
+                .order(1) // 가장 먼저 인증 인터셉터가 실행
+                .addPathPatterns("/api/**")
+                .excludePathPatterns(
+                        "/api/start/**"
+                );
+
+        registry.addInterceptor(adminAuthorizationInterceptor)
+                .order(2)
+                .addPathPatterns("/api/safe/v1/admin/**");
     }
 }

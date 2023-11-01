@@ -25,6 +25,8 @@ public enum ErrorCode {
     NOT_VALID_BEARER_GRANT_TYPE(HttpStatus.UNAUTHORIZED, "A-005", "인증 타입이 Bearer 타입이 아닙니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A-006", "해당 refresh token은 존재하지 않습니다."),
     REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A-007", "해당 refresh token은 만료됐습니다."),
+    NOT_ACCESS_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "A-008", "access-token이 아닙니다."),
+    FORBIDDEN_ADMIN(HttpStatus.UNAUTHORIZED, "A-009", "ADMIN이 아닙니다."),
 
     // 프로필
     PROFILE_SIZE_LIMIT(HttpStatus.BAD_REQUEST, "P-003", "제출할 수 있는 파일 사이즈를 초과했습니다."),

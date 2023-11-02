@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public enum MessageType {
     ENTER("ENTER"),
     TEXT("TEXT"),
+    IMG("IMG"),
     ;
 
     private String description;

@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +148,26 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
                 , com.chattingservice.domain.participant.enity.type.Active.from(true), chattingRoom);
         if (!optional.isPresent()) {
             participantService.enterChattingRoom(memberId, chattingRoom);
+        }
+
+        return chattingRoom;
+    }
+
+    @Transactional
+    @Override
+    public ChattingRoom enterGroupRoomWithProfile(String memberId, Long roomId, String nickName) {
+        ChattingRoom chattingRoom = chattingRoomRepository.findById(roomId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ROOM_NOT_EXIST));
+
+
+        if (chattingRoom.getRoomType().name() != RoomType.GROUP.name()) {
+            throw new BusinessException(ErrorCode.ROOM_NOT_GROUP_ERROR);
+        }
+
+        Optional<Participant> optional = participantRepository.findByMemberIdAndActiveAndChattingRoom(memberId
+                , com.chattingservice.domain.participant.enity.type.Active.from(true), chattingRoom);
+        if (!optional.isPresent()) {
+            Participant participant = participantService.enterGroupRoomWithProfile(memberId,  nickName , chattingRoom);
         }
 
         return chattingRoom;

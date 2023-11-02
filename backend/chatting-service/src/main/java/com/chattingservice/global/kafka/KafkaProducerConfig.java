@@ -2,6 +2,7 @@ package com.chattingservice.global.kafka;
 
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +25,7 @@ public class KafkaProducerConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, ChatMessageDto> producerFactory(){
+    public ProducerFactory<String, ChatMessageResp> producerFactory(){
         return new DefaultKafkaProducerFactory<>(producerConfigurations());
     }
 
@@ -38,7 +39,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, ChatMessageDto> kafkaTemplate(){
+    public KafkaTemplate<String, ChatMessageResp> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 

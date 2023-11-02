@@ -33,14 +33,14 @@ public class AdminController {
         return ApiResponseEntity.ok(responseReport);
     }
 
-    @Operation(summary = "제보 활성화", description = "safe/v1/safe/admin/report/allow/{reportId}\n\n")
+    @Operation(summary = "관리자 제보 삭제", description = "safe/v1/safe/admin/report/{reportId}\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK")
     })
-    @GetMapping("/report/allow/{reportId}")
-    public ApiResponseEntity<String> allowReport(@Identification IdentificationDto identificationDto,
-                                                 @PathVariable("reportId") Long reportId) {
-        reportInfoService.allowReport(reportId);
-        return ApiResponseEntity.ok("활성화 완료");
+    @GetMapping("/delete/{reportId}")
+    public ApiResponseEntity<String> deleteReport(@Identification IdentificationDto identificationDto,
+                                                          @PathVariable("reportId") Long reportId) {
+        reportInfoService.adminDeleteReport(reportId);
+        return ApiResponseEntity.ok("삭제 완료");
     }
 }

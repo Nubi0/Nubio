@@ -2,6 +2,7 @@ package com.chattingservice.domain.chattingroom.service;
 
 
 import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Calendar;
 import java.util.List;
@@ -20,6 +21,7 @@ public interface ChattingRoomService {
     ChattingRoom inviteMembers(Long roomId, List<String> memberIds);
 
     ChattingRoom enterGroupRoom(Long roomId, String memberId);
+    ChattingRoom enterGroupRoomWithProfile(String memberId, Long roomId, String nickName);
 
     List<ChattingRoom> findMyRoomsByMemberId(String memberId);
 

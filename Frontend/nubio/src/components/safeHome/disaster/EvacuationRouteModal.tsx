@@ -1,4 +1,4 @@
-import { EvacuationRouteModalBox } from "../../../styles/SDisaster";
+import { EvacuationRouteModalBox } from "@styles/SDisaster";
 interface EvacuationRouteModalProps {
   closeModal: () => void;
   Evacuation: DisasterIconInfo;

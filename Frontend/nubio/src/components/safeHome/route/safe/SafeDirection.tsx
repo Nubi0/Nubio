@@ -6,13 +6,13 @@ import Swal from "sweetalert2";
 // 컴포넌트
 import NearbySafetyFacilities from "./NearbySafetyFacilities";
 // 스타일
-import { SafeDirectionButton } from "../../../../styles/SRoute";
+import { SafeDirectionButton } from "@styles/SRoute";
 // redux
 import {
   setSafeTime,
   setSafePlace,
   setSafeMarkerList,
-} from "../../../../redux/slice/SafeSlice";
+} from "@redux/slice/SafeSlice";
 import { useState } from "react";
 
 const SafeDirection = ({

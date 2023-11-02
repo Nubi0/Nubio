@@ -7,10 +7,10 @@ import proj4 from "proj4";
 import Swal from "sweetalert2";
 // 컴포넌트
 // 스타일
-import { ShortDirectionButton } from "../../../../styles/SRoute";
+import { ShortDirectionButton } from "@styles/SRoute";
 
 // redux
-import { setShortTime } from "../../../../redux/slice/SafeSlice";
+import { setShortTime } from "@redux/slice/SafeSlice";
 
 const ShortDirection = ({
   clearRoute,

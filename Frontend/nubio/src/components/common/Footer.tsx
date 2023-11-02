@@ -5,7 +5,7 @@ import {
   MenuImg,
   MenuImgBox,
   MenuBox,
-} from "../../styles/SFooter";
+} from "@styles/SFooter";
 
 import SafeModal from "./menuModal/SafeModal";
 import EnjoyModal from "./menuModal/EnjoyModal";

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { ShortDistanceWrapper } from "../../../../styles/SRoute";
+import { ShortDistanceWrapper } from "@styles/SRoute";
 
 const ShortDistance = () => {
   const timeData = useSelector((state: any) => state.safe.shortTime);

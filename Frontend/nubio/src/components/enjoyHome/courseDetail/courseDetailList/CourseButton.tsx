@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CourseButtonWrapper } from "../../../../styles/SCourseDeatilPage";
+import { CourseButtonWrapper } from "@styles/SCourseDeatilPage";
 import { useParams } from "react-router-dom";
 
 const CourseButton = ({

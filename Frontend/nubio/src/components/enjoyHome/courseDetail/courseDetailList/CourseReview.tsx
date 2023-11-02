@@ -1,39 +1,45 @@
-import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Rating from '@mui/material/Rating';
+import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Rating from "@mui/material/Rating";
 import {
   CourseReviewWrapper,
   ReviewHeader,
   ReviewForm,
-} from '../../../../styles/SCourseDeatilPage';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import CourseReviewList from './CourseReviewList';
+} from "@styles/SCourseDeatilPage";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import CourseReviewList from "./CourseReviewList";
 
 const CourseReview = () => {
   const [value, setValue] = useState<number | null>(0);
   const [reviewList, setReviewList] = useState<reviewProps[]>([]);
   const { courseId } = useParams();
-  const [review, setReview] = useState<string>('');
+  const [review, setReview] = useState<string>("");
 
   const handleReview = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReview(e.target.value)
-  }
+    setReview(e.target.value);
+  };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     await axios
       .post(
-        process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`,
-        { point: value, content: review }
+        process.env.REACT_APP_SERVER_URL +
+          `/enjoy/v1/enjoy/course/review/${courseId}`,
+        { point: value, content: review },
       )
       .then((res) => {
         axios
-        .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`)
-        .then((res) => {
+          .get(
+            process.env.REACT_APP_SERVER_URL +
+              `/enjoy/v1/enjoy/course/review/${courseId}`,
+          )
+          .then((res) => {
             setReviewList(res.data.data.review_list);
             setValue(0);
-            setReview('');
+            setReview("");
           })
           .catch((err) => {
             console.log(err);
@@ -46,7 +52,10 @@ const CourseReview = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_SERVER_URL + `/enjoy/v1/enjoy/course/review/${courseId}`)
+      .get(
+        process.env.REACT_APP_SERVER_URL +
+          `/enjoy/v1/enjoy/course/review/${courseId}`,
+      )
       .then((res) => {
         setReviewList(res.data.data.review_list);
       })

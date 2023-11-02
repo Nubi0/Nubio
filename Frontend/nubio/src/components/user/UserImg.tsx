@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
-import { ImgPlus, MyImg, ProfileImg } from "../../styles/SProfilePage";
+import { ImgPlus, MyImg, ProfileImg } from "@styles/SProfilePage";
 import { useDispatch, useSelector } from "react-redux";
-import { setProfileUrl, setIsChange } from "../../redux/slice/Profileslice";
+import { setProfileUrl, setIsChange } from "@redux/slice/Profileslice";
 
 const UserImg = ({
   setFile,

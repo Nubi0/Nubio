@@ -1,4 +1,4 @@
-import { EatWrapper, IconWrapper } from "../../../styles/SSignUpPage";
+import { EatWrapper, IconWrapper } from "@styles/SSignUpPage";
 
 type EatImages = { [key: string]: string };
 type EatListProps = {

@@ -1,4 +1,4 @@
-import { MyCourseWrapper, MyCourseHeader } from "../../../styles/SMyCoursePage";
+import { MyCourseWrapper, MyCourseHeader } from "@styles/SMyCoursePage";
 import LocationList from "./locationList/LocationList";
 
 const MyCourse = () => {

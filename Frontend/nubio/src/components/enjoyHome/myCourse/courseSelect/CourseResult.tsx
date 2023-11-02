@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   CourseResultWrapper,
   Title,
   Data,
   ModalOpen,
-} from '../../../../styles/SCourseSelectPage';
-import { useDispatch } from 'react-redux';
-import { setCoursePoint } from '../../../../redux/slice/EnjoySlice';
+} from "@styles/SCourseSelectPage";
+import { useDispatch } from "react-redux";
+import { setCoursePoint } from "@redux/slice/EnjoySlice";
 
-const CourseResult = ({ data, setModal }: { data: t_d_DataProps, setModal: () => void }) => {
+const CourseResult = ({
+  data,
+  setModal,
+}: {
+  data: t_d_DataProps;
+  setModal: () => void;
+}) => {
   const { time, type, dis } = data;
   const hours = new Date().getHours();
   const min = new Date().getMinutes();
@@ -19,7 +25,7 @@ const CourseResult = ({ data, setModal }: { data: t_d_DataProps, setModal: () =>
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (type === '시') {
+    if (type === "시") {
       const cal_h = hours + time;
       setCalTime({
         hour: cal_h,
@@ -45,8 +51,8 @@ const CourseResult = ({ data, setModal }: { data: t_d_DataProps, setModal: () =>
 
   const handleSave = () => {
     setModal();
-    dispatch(setCoursePoint(window.kakaoManager.getData().polyline[0].points))
-  }
+    dispatch(setCoursePoint(window.kakaoManager.getData().polyline[0].points));
+  };
 
   return (
     <CourseResultWrapper>

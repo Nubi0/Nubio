@@ -1,11 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTaste } from "../../../redux/slice/SignUpSlice";
-import {
-  PrefrenceModalBox,
-  PrefrenceModalOverlay,
-} from "../../../styles/SSignUpPage";
+import { setTaste } from "@redux/slice/SignUpSlice";
+import { PrefrenceModalBox, PrefrenceModalOverlay } from "@styles/SSignUpPage";
 import DrinkList from "./DrinkList";
 import EatList from "./EatList";
 import PlayList from "./PlayList";
@@ -23,48 +20,51 @@ const SetPrefrenceModal: React.FC<SetPrefrenceModalProps> = ({
 
   const handleImageClick = (name: string, type: string) => {
     const isSelected = selectedImages.includes(name);
-    const action = {name, type}
+    const action = { name, type };
     if (isSelected) {
       setSelectedImages(selectedImages.filter((image) => image !== name));
-      dispatch(setTaste(action))
-
+      dispatch(setTaste(action));
     } else {
       setSelectedImages([...selectedImages, name]);
-      dispatch(setTaste(action))
+      dispatch(setTaste(action));
     }
   };
 
   const handleSave = () => {
-    axios.post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/taste', {taste})
-          .then((res) => {
-            closeModal();
-          })
-          .catch((err) => {
-            console.error(err);
-          })
-  }
+    axios
+      .post(
+        process.env.REACT_APP_SERVER_URL + "/enjoy/v1/enjoy/profile/taste",
+        { taste },
+      )
+      .then((res) => {
+        closeModal();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/profile/taste')
-          .then((res) => {
-            console.log(res.data);
-            const taste = res.data.data.taste;
-            const tmp: any[] = []
-            taste.map((value: any) => {
-                const action = {name: value.type, type: value.detail_type};
-                dispatch(setTaste(action));
-                value.detail_type.map((value: any) => {
-                  tmp.push(value);
-                })
-              }
-            ) 
-            setSelectedImages(tmp);
-          })
-          .catch((err) => {
-            console.error(err);
-          })
-    console.log(selectedImages)
-  }, [])
+    axios
+      .get(process.env.REACT_APP_SERVER_URL + "/enjoy/v1/enjoy/profile/taste")
+      .then((res) => {
+        console.log(res.data);
+        const taste = res.data.data.taste;
+        const tmp: any[] = [];
+        taste.map((value: any) => {
+          const action = { name: value.type, type: value.detail_type };
+          dispatch(setTaste(action));
+          value.detail_type.map((value: any) => {
+            tmp.push(value);
+          });
+        });
+        setSelectedImages(tmp);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    console.log(selectedImages);
+  }, []);
 
   return (
     <PrefrenceModalOverlay>

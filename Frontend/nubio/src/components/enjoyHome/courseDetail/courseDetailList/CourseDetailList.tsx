@@ -2,15 +2,11 @@ import {
   CourseDetailListWrapper,
   ItemWrapper,
   DetailHr,
-} from '../../../../styles/SCourseDeatilPage';
-import CourseDetailItem from './CourseDetailItem';
-import CourseReview from './CourseReview';
+} from "@styles/SCourseDeatilPage";
+import CourseDetailItem from "./CourseDetailItem";
+import CourseReview from "./CourseReview";
 
-const CourseDetailList = ({
-  place_list,
-}: {
-  place_list: placeProps[];
-}) => {
+const CourseDetailList = ({ place_list }: { place_list: placeProps[] }) => {
   return (
     <CourseDetailListWrapper>
       <DetailHr />

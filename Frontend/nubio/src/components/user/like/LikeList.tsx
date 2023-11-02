@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { LikeListWrapper } from '../../../styles/SLikePage';
-import LikeHeader from './LikeHeader';
-import CourseList from './course/CourseList';
-import MyCourseList from './mycourse/MyCourseList';
+import { useState } from "react";
+import { LikeListWrapper } from "@styles/SLikePage";
+import LikeHeader from "./LikeHeader";
+import CourseList from "./course/CourseList";
+import MyCourseList from "./mycourse/MyCourseList";
 
 const LikeList = () => {
   const [active, setActive] = useState({
@@ -10,12 +10,12 @@ const LikeList = () => {
     course: false,
   });
   const handleButton = (category: string) => {
-    if (category === 'place') {
+    if (category === "place") {
       setActive({
         place: true,
         course: false,
       });
-    } else if (category === 'course') {
+    } else if (category === "course") {
       setActive({
         place: false,
         course: true,

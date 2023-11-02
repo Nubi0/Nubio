@@ -4,9 +4,9 @@ import {
   WomanIcon,
   GenderWrapper,
   SubmitButton,
-} from "../../../styles/SSignUpPage";
+} from "@styles/SSignUpPage";
 import { useRef, MouseEvent, useState } from "react";
-import useInput from "../../../hooks/useInput";
+import useInput from "@/hooks/useInput";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -86,29 +86,32 @@ const SignUpForm = ({
           showLoaderOnConfirm: true,
           preConfirm: async (code) => {
             try {
-              await axios.post(process.env.REACT_APP_SERVER_URL + '/start/v1/email/confirms', {
-                email,
-                code,
-              });
+              await axios.post(
+                process.env.REACT_APP_SERVER_URL + "/start/v1/email/confirms",
+                {
+                  email,
+                  code,
+                },
+              );
             } catch (err: any) {
-              if (err.response.data.errorCode === 'A-003') {
+              if (err.response.data.errorCode === "A-003") {
                 Swal.fire({
-                  title: '인증 실패',
-                  icon: 'error',
-                  text: 'NUBIO',
+                  title: "인증 실패",
+                  icon: "error",
+                  text: "NUBIO",
                 });
                 return;
               }
             }
           },
         }).then(() => {
-            Swal.fire({
-              title: "인증 성공",
-              icon: "success",
-              text: "NUBIO",
-            });
-            setEmailConfirm(true);
-            setIsConfirm(true);
+          Swal.fire({
+            title: "인증 성공",
+            icon: "success",
+            text: "NUBIO",
+          });
+          setEmailConfirm(true);
+          setIsConfirm(true);
         });
       })
       .catch((err) => {

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCourseList } from "../../../../redux/slice/EnjoySlice";
-import { AllCourseListWrapper } from "../../../../styles/SAllCoursePage";
+import { setCourseList } from "@redux/slice/EnjoySlice";
+import { AllCourseListWrapper } from "@styles/SAllCoursePage";
 import AllCourseItem from "./AllCourseItem";
 
 const AllCourseList = ({ active }: { active: activeProps }) => {

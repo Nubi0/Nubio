@@ -2,11 +2,11 @@ import {
   SafeModalWrapper,
   ModalTitle,
   MenuList,
-} from "../../../styles/SFooter";
+} from "@styles/SFooter";
 import CloseButton from "./CloseButton";
-import Shelter from "../../safeHome/calamity/Shelter";
-import CreateReport from "../../safeHome/report/CreateReport";
-import CalamityMessage from "../../safeHome/calamity/CalamityMessageMenu";
+import Shelter from "@safe/calamity/Shelter";
+import CreateReport from "@safe/report/CreateReport";
+import CalamityMessage from "@safe/calamity/CalamityMessageMenu";
 
 const SafeModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const safeImg = process.env.PUBLIC_URL + "/assets/menuModal/menuSafe.png";

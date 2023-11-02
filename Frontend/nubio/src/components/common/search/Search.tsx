@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import RouteInfo from "../../safeHome/route/RouteInfo";
+import RouteInfo from "@safe/route/RouteInfo";
 import {
   setEnd,
   setEndName,
@@ -8,9 +8,9 @@ import {
   setSearchMarker,
   setStart,
   setStartName,
-} from "../../../redux/slice/MapSlice";
+} from "@redux/slice/MapSlice";
 import { useState } from "react";
-import { setPosition } from "../../../redux/slice/EnjoySlice";
+import { setPosition } from "@redux/slice/EnjoySlice";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 import SearchBar from "./SearchBar";
@@ -19,11 +19,11 @@ import {
   DestinationWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
-} from "../../../styles/SMap";
+} from "@styles/SMap";
 import SelectMyLocation from "../map/SelectMyLocation";
-import ShortDirection from "../../safeHome/route/short/ShortDirection";
-import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
+import ShortDirection from "@safe/route/short/ShortDirection";
+import SafeDirection from "@safe/route/safe/SafeDirection";
+import { setSafeTime, setShortTime } from "@redux/slice/SafeSlice";
 
 const Search = () => {
   var markerList: any = [];

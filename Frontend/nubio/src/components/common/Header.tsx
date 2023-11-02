@@ -1,4 +1,4 @@
-import { HeaderWrapper } from "../../styles/SHeader";
+import { HeaderWrapper } from "@styles/SHeader";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {

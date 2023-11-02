@@ -15,8 +15,18 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    // "types": ["sweetalert2"]
-    "types": ["kakao.maps.d.ts"]
+    "types": ["kakao.maps.d.ts"],
+    "baseUrl": "./src",
+    "paths": {
+      "@redux/*": ["redux/*"],
+      "@hooks/*": ["hooks/*"],
+      "@safe/*": ["components/safeHome/*"],
+      "@enjoy/*": ["components/enjoyHome/*"],
+      "@start/*": ["components/startPage/*"],
+      "@user/*": ["components/user/*"],
+      "@common/*": ["components/common/*"],
+      "@styles/*": ["styles/*"],
+    }
   },
   "include": ["src"]
 }

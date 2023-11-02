@@ -5,10 +5,10 @@ import Swal from "sweetalert2";
 // 컴포넌트
 import MyLocation from "../map/MyLocation";
 // 스타일
-import { SearchBarWrapper, SearchForm } from "../../../styles/SMap";
+import { SearchBarWrapper, SearchForm } from "@styles/SMap";
 // redux
-import { setListIsOpen, setkeyWord } from "../../../redux/slice/MapSlice";
-import useInput from "../../../hooks/useInput";
+import { setListIsOpen, setkeyWord } from "@redux/slice/MapSlice";
+import useInput from "@hooks/useInput";
 
 const SearchBar = ({ searchPlaces, setFindRouteOpen, removeMarker }: any) => {
   const searchIcon = process.env.PUBLIC_URL + "/assets/search/searchIcon.svg";

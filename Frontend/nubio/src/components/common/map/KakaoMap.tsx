@@ -5,10 +5,10 @@ import { useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 // 컴포넌트
 import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
-// 스타일
-import { MapWrapper } from "../../../styles/SMap";
 import Search from "../search/Search";
-import { setListIsOpen } from "../../../redux/slice/MapSlice";
+// 스타일
+import { MapWrapper } from "@styles/SMap";
+import { setListIsOpen } from "@redux/slice/MapSlice";
 import { useDispatch } from "react-redux";
 
 // 카카오맵 관련

@@ -1,16 +1,11 @@
 import {
   ModalTitle,
-  MenuList,
   ChatModalWrapper,
   NicknameInput,
   EnterButton,
-} from "../../../styles/SFooter";
-import CloseButton from "./CloseButton";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import { ReactComponent as Nubilogo } from "../../../../public/assets/chat/nubio_logo.svg";
-import MenuItem from "./MenuItem";
+} from "@styles/SFooter";
 import { useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const Menus = ["채팅 시작"];

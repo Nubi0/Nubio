@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
-import { setListIsOpen } from "../../../redux/slice/MapSlice";
-import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
-import { MapWrapper } from "../../../styles/SCourseSelectPage";
+
+import GetReport from "@components/safeHome/report/GetReport";
+import { MapWrapper } from "@styles/SMap";
+import CalamityMessageHome from "@components/safeHome/calamity/CalamityMessageHome";
+import { setListIsOpen } from "@redux/slice/MapSlice";
 import Search from "../search/Search";
-import GetReport from "@/components/safeHome/report/GetReport";
-// import GetReport from "@components/safeHome/report/GetReport";
 
 // 카카오맵 관련
 const { kakao } = window as any;

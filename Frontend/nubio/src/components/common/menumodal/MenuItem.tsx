@@ -1,4 +1,4 @@
-import { MenuItemWrapper } from "../../../styles/SFooter";
+import { MenuItemWrapper } from "@styles/SFooter";
 
 const MenuItem = ({ name }: { name: string }) => {
   return (

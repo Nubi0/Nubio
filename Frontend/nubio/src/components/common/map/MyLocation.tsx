@@ -1,6 +1,4 @@
-import { MoveMyLocation } from "../../../styles/SMap";
-
-// import { MoveMyLocation } from "@styles/SMap";
+import { MoveMyLocation } from "@styles/SMap";
 
 const MyLocation = () => {
   const myLocationIcon =

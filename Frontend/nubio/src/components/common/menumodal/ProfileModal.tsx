@@ -3,7 +3,7 @@ import {
   MenuList,
   ProfileMoalWrapper,
   ProfileItem,
-} from "../../../styles/SFooter";
+} from "@styles/SFooter";
 import CloseButton from "./CloseButton";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MenuItem from "./MenuItem";

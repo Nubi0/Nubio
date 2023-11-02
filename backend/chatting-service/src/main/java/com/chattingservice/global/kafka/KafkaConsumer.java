@@ -30,7 +30,7 @@ public class KafkaConsumer {
     public void listenGroupCreation(RoomMessageDto roomMessageDto){
         ChattingRoomResp respRoomDto = roomMessageDto.getRespRoomDto();
 
-        template.convertAndSend("/chatting/topic/"+respRoomDto.getRoomId(),respRoomDto);
+        template.convertAndSend("/chatting/topic/room/"+respRoomDto.getRoomId(),respRoomDto);
 //        for(String userId : roomMessageDto.getReceivers()){
 //            template.convertAndSend("/chatting/topic/new-room/"+userId,respRoomDto);
 //        }

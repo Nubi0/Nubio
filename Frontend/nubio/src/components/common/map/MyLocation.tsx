@@ -1,5 +1,7 @@
 import { MoveMyLocation } from "../../../styles/SMap";
 
+// import { MoveMyLocation } from "@styles/SMap";
+
 const MyLocation = () => {
   const myLocationIcon =
     process.env.PUBLIC_URL + "./assets/search/myLocation.png";

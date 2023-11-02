@@ -1,16 +1,12 @@
-// Hook
-import { useEffect, useRef, useState } from "react";
-
-// 라이브러리
-import Swal from "sweetalert2";
-// 컴포넌트
-import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
-// 스타일
-import { MapWrapper } from "../../../styles/SMap";
-import Search from "../search/Search";
-import { setListIsOpen } from "../../../redux/slice/MapSlice";
 import { useDispatch } from "react-redux";
-import GetReport from "../../safeHome/report/GetReport";
+import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { setListIsOpen } from "../../../redux/slice/MapSlice";
+import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
+import { MapWrapper } from "../../../styles/SCourseSelectPage";
+import Search from "../search/Search";
+import GetReport from "@/components/safeHome/report/GetReport";
+// import GetReport from "@components/safeHome/report/GetReport";
 
 // 카카오맵 관련
 const { kakao } = window as any;

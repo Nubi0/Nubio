@@ -21,8 +21,7 @@ public class ReportRepositoryImpl implements ReportRepositoryCustom{
     public Report searchAllReport(double longitude, double latitude, String region) {
         return jpaQueryFactory.selectFrom(report)
                 .leftJoin(report.reportFiles, reportFile).fetchJoin()
-                .where(report.allow.value.eq(true)
-                        .and(report.region.value.eq(region)))
+                .where(report.region.value.eq(region))
                 .orderBy(report.createTime.desc())
                 .limit(1)
                 .fetchOne();
@@ -32,14 +31,6 @@ public class ReportRepositoryImpl implements ReportRepositoryCustom{
     public List<Report> searchAll() {
         return jpaQueryFactory.selectFrom(report)
                 .leftJoin(report.reportFiles, reportFile).fetchJoin()
-                .fetch();
-    }
-
-    @Override
-    public List<Report> findAllByAllow() {
-        return jpaQueryFactory.selectFrom(report)
-                .leftJoin(report.reportFiles, reportFile).fetchJoin()
-                .where(report.allow.value.eq(true))
                 .fetch();
     }
 

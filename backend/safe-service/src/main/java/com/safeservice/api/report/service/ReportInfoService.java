@@ -57,10 +57,6 @@ public class ReportInfoService {
         uploadIPFiles("safe", files, savedReport);
     }
 
-    @Transactional
-    public void allowReport(Long reportId) {
-        reportService.allowReport(reportId);
-    }
 
     @Transactional
     public void updateReport(ReportUpdateRequestDto reportUpdateRequestDto, List<MultipartFile> files, String identification) {
@@ -69,14 +65,6 @@ public class ReportInfoService {
         uploadIPFiles("safe", files, savedReport);
     }
 
-    public ReportResponseDto searchAllByAllow(String identification) {
-        List<Report> reports = reportService.searchAllReportByAllow();
-        List<ReportListDto> reportList = new ArrayList<>();
-        for (Report report : reports) {
-            reportList.add(ReportListDto.of(report, identification));
-        }
-        return ReportResponseDto.from(reportList);
-    }
 
     public ReportResponseDto searchAll(String identification) {
         List<Report> reports = reportService.searchAllReport();
@@ -90,6 +78,11 @@ public class ReportInfoService {
     @Transactional
     public void deleteReport(String identification, Long reportId) {
         reportService.delete(identification, reportId);
+    }
+
+    @Transactional
+    public void adminDeleteReport(Long reportId) {
+        reportService.adminDelete(reportId);
     }
 
     @Transactional

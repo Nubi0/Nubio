@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Schema(description = "방 정보")
@@ -36,6 +37,8 @@ public class ChattingRoomResp {
     private String umdName;
     @JsonProperty("ri_name")
     private String riName;
+    @JsonProperty("exist_member_num")
+    private Long existMemberNum;
     @Getter
     @Setter
     @Builder
@@ -54,6 +57,8 @@ public class ChattingRoomResp {
         private boolean active;
         @JsonProperty("role")
         private String role;
+        @JsonProperty("nickname")
+        private String nickname;
 
         public static Member from(Participant participant) {
             return Member.builder()
@@ -63,12 +68,14 @@ public class ChattingRoomResp {
                     .lastReadMsgId(participant.getLastReadMsgId())
                     .active(participant.getActive().getValue())
                     .role(participant.getRole().name())
+                    .nickname(participant.getNickname().getValue())
                     .build();
         }
 
     }
 
     public static ChattingRoomResp form(ChattingRoom chattingRoom) {
+        AtomicLong existMemberNum = new AtomicLong(0);
         return ChattingRoomResp.builder()
                 .roomId(chattingRoom.getId())
                 .title(chattingRoom.getTitle().getValue())
@@ -79,9 +86,15 @@ public class ChattingRoomResp {
                 .umdName(chattingRoom.getUmdName().getName())
                 .riName(chattingRoom.getRiName().getName())
                 .members(chattingRoom.getParticipants().stream()
-                        .map(participant -> Member.from(participant))
+                        .map(participant -> {
+                            if (participant.getActive().getValue()==true) {
+                                existMemberNum.incrementAndGet();
+                            }
+                            return Member.from(participant);
+                        })
                         .collect(Collectors.toList())
                 )
+                .existMemberNum(existMemberNum.get())
                 .build();
 
     }

@@ -85,6 +85,13 @@ public class ChattingRoomInfoServiceImpl implements ChattingRoomInfoService {
 
     @Transactional
     @Override
+    public ChattingRoomResp enterGroupRoomWithProfile(String memberId, Long roomId,  String nickName) {
+        ChattingRoom chattingRoom = chattingRoomService.enterGroupRoomWithProfile(memberId, roomId,  nickName);
+        return ChattingRoomResp.form(chattingRoom);
+    }
+
+    @Transactional
+    @Override
     public ChattingRoomResp enterGroupRoom(ChattingRoomEnterReq chattingRoomEnterReq) {
         ChattingRoom chattingRoom = chattingRoomService.enterGroupRoom(chattingRoomEnterReq.getRoomId(), chattingRoomEnterReq.getMemberId());
         return ChattingRoomResp.form(chattingRoom);

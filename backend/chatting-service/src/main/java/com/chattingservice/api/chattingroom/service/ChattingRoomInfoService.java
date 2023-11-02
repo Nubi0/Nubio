@@ -16,6 +16,10 @@ public interface ChattingRoomInfoService {
 
     void roomCsvToDb(MultipartFile file);
 
+    // 회원가입 및 그룹방 입장
+    ChattingRoomResp enterGroupRoomWithProfile(String memberId, Long roomId,String nickName);
+
+
     // 그룹 방 입장
     ChattingRoomResp enterGroupRoom(ChattingRoomEnterReq chattingRoomEnterReq);
 

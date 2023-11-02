@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Url {
 
-    @Column(name = "url")
+    @Column(name = "url", length = 1500)
     private String value;
 
     private Url(final String value) {

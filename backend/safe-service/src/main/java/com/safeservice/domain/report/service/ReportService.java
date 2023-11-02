@@ -12,6 +12,4 @@ public interface ReportService {
     void delete(String identification, Long id);
     Report searchReport(double longitude, double latitude, String region);
     List<Report> searchAllReport();
-    List<Report> searchAllReportByAllow();
-    void allowReport(Long id);
 }

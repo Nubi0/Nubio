@@ -81,6 +81,11 @@ public class ReportInfoService {
     }
 
     @Transactional
+    public void adminDeleteReport(Long reportId) {
+        reportService.adminDelete(reportId);
+    }
+
+    @Transactional
     public void uploadIPFiles(String category,
                                              List<MultipartFile> files,
                                              Report report) {

@@ -47,6 +47,13 @@ public class ReportServiceImpl implements ReportService {
         report.updateActive();
     }
 
+    @Override
+    @Transactional
+    public void adminDelete(Long id) {
+        Report report = reportRepository.findById(id).get();
+        report.updateActive();
+    }
+
     private void validateUpdateIdentification(String identification, Report report) {
         if (!report.getIdentification().equals(identification)) {
             throw new MisMatchIdentification(ErrorCode.MISMATCH_UPDATE_IDENTIFICATION);

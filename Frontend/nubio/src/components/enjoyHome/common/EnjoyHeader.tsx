@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { EnjoyHeaderWrapper } from "../../../styles/SAllCoursePage";
+import { EnjoyHeaderWrapper } from "@styles/SAllCoursePage";
 
 const EnjoyHeader = ({ pageName }: PageName) => {
   const navigate = useNavigate();

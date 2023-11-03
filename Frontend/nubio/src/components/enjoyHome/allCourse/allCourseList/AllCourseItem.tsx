@@ -11,7 +11,7 @@ import {
   PlaceListWrapper,
   PlaceName,
   Title,
-} from "../../../../styles/SAllCoursePage";
+} from "@styles/SAllCoursePage";
 import { useNavigate } from "react-router";
 
 const AllCourseItem = ({ value }: { value: CourseItem }) => {

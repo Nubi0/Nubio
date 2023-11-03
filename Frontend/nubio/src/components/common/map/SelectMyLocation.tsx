@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { setStart, setStartName } from "../../../redux/slice/MapSlice";
-import { MyLocationButton } from "../../../styles/SMap";
+import { setStart, setStartName } from "@redux/slice/MapSlice";
+import { MyLocationButton } from "@styles/SMap";
 
 const SelectMyLocation = ({ removeMarker }: { removeMarker: () => void }) => {
   const dispatch = useDispatch();

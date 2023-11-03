@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { SafeDistanceWrapper } from "../../../../styles/SRoute";
+import { SafeDistanceWrapper } from "@styles/SRoute";
 
 const SafeDistance = () => {
   const timeData = useSelector((state: any) => state.safe.safeTime);

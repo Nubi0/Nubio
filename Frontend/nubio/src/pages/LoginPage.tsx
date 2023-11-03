@@ -4,9 +4,9 @@ import {
   LoginForm,
   KakaoLogin,
   LoginLogo,
-} from "../styles/SLoginPage";
+} from "@styles/SLoginPage";
 
-import useInput from "../hooks/useInput";
+import useInput from "@/hooks/useInput";
 import axios from "axios";
 import Swal from "sweetalert2";
 

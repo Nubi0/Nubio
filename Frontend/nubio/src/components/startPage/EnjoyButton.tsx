@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { EnjoyButtonWrapper } from "../../styles/SHomePage";
+import { EnjoyButtonWrapper } from "@styles/SHomePage";
 import Swal from "sweetalert2";
 
 const EnjoyButton = ({

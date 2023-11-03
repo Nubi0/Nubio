@@ -5,13 +5,16 @@ import {
   MenuImg,
   MenuImgBox,
   MenuBox,
-} from "../../styles/SFooter";
-import SafeModal from "./menumodal/SafeModal";
-import EnjoyModal from "./menumodal/EnjoyModal";
-import ChatModal from "./menumodal/ChatModal";
-import ProfileModal from "./menumodal/ProfileModal";
+} from "@styles/SFooter";
+
+import SafeModal from "./menuModal/SafeModal";
+import EnjoyModal from "./menuModal/EnjoyModal";
+import ChatModal from "./menuModal/ChatModal";
+import ProfileModal from "./menuModal/ProfileModal";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [safe, setSafe] = useState(false);
   const [enjoy, setEnjoy] = useState(false);
@@ -100,7 +103,8 @@ const Footer = () => {
                 active ? "translate(1rem, 12rem) scale(1)" : "scale(0)"
               }`,
             }}
-            onClick={(e) => handleClick(e, "profile")}
+            onClick={() => navigate("/profile")}
+            // onClick={(e) => handleClick(e, "profile")}
           >
             <img src={profileImg} alt="" />
           </div>

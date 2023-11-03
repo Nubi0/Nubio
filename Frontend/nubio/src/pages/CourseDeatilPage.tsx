@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Footer from "../components/common/Footer";
-import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
-import { CourseDetailPageWrapper } from "../styles/SCourseDeatilPage";
-import CourseDetailList from "../components/enjoyHome/courseDetail/courseDetailList/CourseDetailList";
+import Footer from "@components/common/Footer";
+import EnjoyHeader from "@components/enjoyHome/common/EnjoyHeader";
+import { CourseDetailPageWrapper } from "@styles/SCourseDeatilPage";
+import CourseDetailList from "@components/enjoyHome/courseDetail/courseDetailList/CourseDetailList";
 import { useParams } from "react-router";
 import axios from "axios";
-import Map from "../components/common/map/Map";
-import CourseButton from "../components/enjoyHome/courseDetail/courseDetailList/CourseButton";
+import Map from "@components/common/map/Map";
+import CourseButton from "@components/enjoyHome/courseDetail/courseDetailList/CourseButton";
 
 const CourseDetailPage = () => {
   const [place_list, setPlaceList] = useState<placeProps[]>([]);

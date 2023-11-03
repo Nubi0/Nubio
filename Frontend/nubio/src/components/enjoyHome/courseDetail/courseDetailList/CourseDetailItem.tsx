@@ -8,7 +8,7 @@ import {
   Address,
   CategoryName,
   DetailButton,
-} from "../../../../styles/SCourseDeatilPage";
+} from "@styles/SCourseDeatilPage";
 
 const CourseDetailItem = ({ place }: { place: placeProps }) => {
   const {

@@ -1,15 +1,12 @@
-// Hook
-import { useEffect, useRef } from "react";
-
-// 라이브러리
-import Swal from "sweetalert2";
-// 컴포넌트
-import CalamityMessageHome from "../../safeHome/calamity/CalamityMessageHome";
-// 스타일
-import { MapWrapper } from "../../../styles/SMap";
-import Search from "../search/Search";
-import { setListIsOpen } from "../../../redux/slice/MapSlice";
 import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
+
+import GetReport from "@components/safeHome/report/GetReport";
+import { MapWrapper } from "@styles/SMap";
+import CalamityMessageHome from "@components/safeHome/calamity/CalamityMessageHome";
+import { setListIsOpen } from "@redux/slice/MapSlice";
+import Search from "../search/Search";
 
 // 카카오맵 관련
 const { kakao } = window as any;
@@ -33,6 +30,8 @@ declare global {
 const KakaoMap = ({ position }: { position: placeItem[] }) => {
   const mapRef = useRef(null);
   const dispatch = useDispatch();
+  const [calamityMessageVisible, setCalamityMessageVisible] = useState(false);
+  const [reportIsOpen, setReportIsOpen] = useState(false);
   // 현재위치
   const startCurPosition = () => {
     if (navigator.geolocation) {
@@ -84,12 +83,16 @@ const KakaoMap = ({ position }: { position: placeItem[] }) => {
     window.map.addListener("click", () => {
       dispatch(setListIsOpen(false));
     });
+    setCalamityMessageVisible(true);
+    setReportIsOpen(true);
   }, [window.myLatitude, window.myLongitude]);
   return (
     <>
       <MapWrapper id="map" className="map" />
       <Search />
-      {/* <CalamityMessageHome /> */}
+      {/* {reportIsOpen && <GetReport />} */}
+      <GetReport />
+      {calamityMessageVisible && <CalamityMessageHome />}
     </>
   );
 };

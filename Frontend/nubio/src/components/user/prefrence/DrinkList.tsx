@@ -1,4 +1,4 @@
-import { DrinkWrapper, IconWrapper } from "../../../styles/SSignUpPage";
+import { DrinkWrapper, IconWrapper } from "@styles/SSignUpPage";
 
 type DrinkImages = { [key: string]: string };
 type DrinkListProps = {

@@ -10,22 +10,15 @@ import {
   CalamityMessageHomeWrapper,
   CalamityWrapper,
   EvacuationGuideWrapper,
-  CalamityMessageButton,
-} from "../../../styles/SCalamity";
+} from "@styles/SCalamity";
 // redux
-import {
-  setMarkerList,
-  setMessageMarkerList,
-  setShowShelters,
-} from "../../../redux/slice/SafeSlice";
+import { setMarkerList, setShowShelters } from "@redux/slice/SafeSlice";
 
 const CalamityMessageHome = () => {
   const dispatch = useDispatch();
   const [messageList, setMessageList] = useState<EmergencyMessage[]>([]);
   const [isReceiveMessage, setIsReceiveMessage] = useState(false);
-  const openMessage = () => {
-    setIsReceiveMessage(true);
-  };
+
   // 재난문자 모달 닫기
   const closeMessage = () => {
     setIsReceiveMessage(false);
@@ -78,7 +71,7 @@ const CalamityMessageHome = () => {
   };
   useEffect(() => {
     getCalamity();
-  }, [window.myLongitude, window.myLatitude]);
+  }, []);
 
   return (
     <>

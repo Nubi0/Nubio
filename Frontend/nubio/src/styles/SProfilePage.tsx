@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const ProfilePageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,7 +16,7 @@ export const SaveButton = styled.button`
 `;
 
 export const ProfileWrapper = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   height: 100vh;
 `;
@@ -27,26 +26,26 @@ export const MyInfoWrapper = styled.div`
   align-items: center;
   padding: 1rem;
   background-color: white;
-  div{
+  div {
     display: flex;
     width: 80%;
   }
-  button{
+  button {
     border: none;
     background-color: transparent;
   }
-  input{
+  input {
     border: none;
     font-size: 1.17rem;
     color: gray;
     width: 70%;
     margin-left: 0.1rem;
-    :focus{
+    :focus {
       border: none;
       color: black;
     }
   }
-  label{
+  label {
     display: flex;
   }
 `;
@@ -61,7 +60,6 @@ export const Content = styled.h3`
 
 export const NickName = styled.div`
   display: flex;
-
 `;
 
 export const ProfileImg = styled.div`
@@ -90,6 +88,7 @@ export const SettingWrapper = styled.div`
     // margin: 1rem 0;
     width: 100%;
     background-color: white;
+    cursor: pointer;
   }
   hr {
     margin: 0;
@@ -107,11 +106,11 @@ export const GenderWrapper = styled.div`
     display: none;
   }
   #manCheck {
-    border-radius:1rem;
-    background-color: #2E9AFE;
+    border-radius: 1rem;
+    background-color: #2e9afe;
   }
   #womanCheck {
-    border-radius:1rem;
+    border-radius: 1rem;
     background-color: pink;
   }
 `;

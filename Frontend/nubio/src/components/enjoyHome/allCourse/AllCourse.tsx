@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { AllCourseWrapper } from "../../../styles/SAllCoursePage";
+import { AllCourseWrapper } from "@styles/SAllCoursePage";
 import AllCourseHeader from "./AllCourseHeader";
 import AllCourseList from "./allCourseList/AllCourseList";
 import Category from "./Category";
-import { resetCourseTag } from "../../../redux/slice/EnjoySlice";
+import { resetCourseTag } from "@redux/slice/EnjoySlice";
 import { useDispatch } from "react-redux";
 
 const AllCourse = ({ handleModal }: AllCourseProps) => {

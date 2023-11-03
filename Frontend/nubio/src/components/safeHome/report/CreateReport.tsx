@@ -1,6 +1,6 @@
 // Hook
 import { useState, ChangeEvent } from "react";
-import useInput from "../../../hooks/useInput";
+
 // 라이브러리
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -12,7 +12,8 @@ import {
   TypeWrapper,
   ImageWrapper,
   // ReportButtonWrapper,
-} from "../../../styles/SReport";
+} from "@styles/SReport";
+import useInput from "@/hooks/useInput";
 // redux
 
 const CreateReport = () => {

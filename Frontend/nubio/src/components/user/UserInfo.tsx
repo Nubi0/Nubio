@@ -6,7 +6,7 @@ import {
   GenderWrapper,
   ManIcon,
   WomanIcon,
-} from "../../styles/SProfilePage";
+} from "@styles/SProfilePage";
 import UserImg from "./UserImg";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,7 +15,7 @@ import {
   setIsChange,
   setBirth,
   setGender,
-} from "../../redux/slice/Profileslice";
+} from "@redux/slice/Profileslice";
 import axios from "axios";
 import Swal from "sweetalert2";
 

@@ -167,7 +167,8 @@ public class ChattingRoomServiceImpl implements ChattingRoomService {
         Optional<Participant> optional = participantRepository.findByMemberIdAndActiveAndChattingRoom(memberId
                 , com.chattingservice.domain.participant.enity.type.Active.from(true), chattingRoom);
         if (!optional.isPresent()) {
-            Participant participant = participantService.enterGroupRoomWithProfile(memberId,  nickName , chattingRoom);
+            Participant participant = participantService.enterGroupRoomWithProfile(memberId, nickName, chattingRoom);
+            participant.getNickname().setValue(nickName);
         }
 
         return chattingRoom;

@@ -2,6 +2,8 @@ package com.authenticationservice.external.auth.controller;
 
 import com.authenticationservice.global.config.WebClientConfig;
 import com.authenticationservice.global.jwt.service.JwtManager;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfo;
+import com.authenticationservice.global.resolver.memberInfo.MemberInfoDto;
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,6 +72,16 @@ public class AuthenticationController {
         return map;
     }
 
+    @GetMapping("/authorization")
+    public Map<String, String> getClaim(@MemberInfo MemberInfoDto memberInfo) {
+
+
+        Map map = new HashMap<>();
+        map.put("identification", memberInfo.getIdentification());
+        map.put("role", memberInfo.getRole());
+
+        return map;
+    }
     private void setPreHeader(HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {

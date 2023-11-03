@@ -7,7 +7,6 @@ import com.chattingservice.api.chattingroom.dto.request.*;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomEnterWithProfileResp;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
-import com.chattingservice.api.participant.dto.response.ParticipantRes;
 import com.chattingservice.api.participant.service.ParticipantInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
 import com.chattingservice.global.kafka.KafkaProducer;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +49,7 @@ public class ChattingRoomController {
         ChattingRoomResp chattingRoomResp = chattingRoomInfoService.enterGroupRoom(chattingRoomEnterReq);
 
         producers.sendRoomMessage(RoomMessageDto.builder()
-                .receivers(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
+                .members(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
                 .respRoomDto(chattingRoomResp)
                 .build());
 
@@ -75,7 +73,7 @@ public class ChattingRoomController {
                 , chattingRoomEnterWithProfileReq.getNickName());
 
         producers.sendRoomMessage(RoomMessageDto.builder()
-                .receivers(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
+                .members(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
                 .respRoomDto(chattingRoomResp)
                 .build());
 
@@ -95,7 +93,7 @@ public class ChattingRoomController {
         ChattingRoomResp chattingRoomResp = chattingRoomInfoService.outOfGroupRoom(chattingRoomOutReq);
 
         producers.sendRoomMessage(RoomMessageDto.builder()
-                .receivers(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
+                .members(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
                 .respRoomDto(chattingRoomResp)
                 .build());
 
@@ -136,5 +134,21 @@ public class ChattingRoomController {
     ) {
         FindLocationReq location = chattingRoomInfoService.findLocation(chatRequestDto);
         return ApiResponseEntity.ok(location);
+    }
+
+    @Operation(summary = "채팅방 정보", description = "chatting/v1/chatting/room/info\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+    })
+    @PostMapping("/info")
+    public ApiResponseEntity<RoomMessageDto> roomInfo(@MemberInfo MemberInfoDto memberInfoDto,
+                                                      @RequestBody ChattingRoomEnterReq chattingRoomEnterReq) {
+        chattingRoomEnterReq.setMemberId(memberInfoDto.getMemberId());
+        ChattingRoomResp chattingRoomResp = chattingRoomInfoService.findById(String.valueOf(chattingRoomEnterReq.getRoomId()));
+
+        return ApiResponseEntity.ok(RoomMessageDto.builder()
+                .members(chattingRoomResp.getMembers().stream().map(member -> member.getMemberId()).collect(Collectors.toList()))
+                .respRoomDto(chattingRoomResp)
+                .build());
     }
 }

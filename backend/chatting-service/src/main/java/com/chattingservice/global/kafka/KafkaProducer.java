@@ -3,15 +3,9 @@ package com.chattingservice.global.kafka;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
-import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
-import com.chattingservice.domain.chattingroom.repository.ChattingRoomRepository;
 import com.chattingservice.domain.chattingroom.service.ChattingRoomService;
-import com.chattingservice.domain.room.service.ChatRoomService;
-import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import com.chattingservice.domain.chatting.entity.constant.MessageType;
-import com.chattingservice.global.kafka.dto.request.RoomEnterMessageDto;
 import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
-import com.chattingservice.global.kafka.dto.request.RespRoomDto;
 import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +44,7 @@ public class KafkaProducer {
             List<String> receivers = respRoomDto.getMembers().stream().map(m -> m.getMemberId()).collect(Collectors.toList());
             receivers.remove(chatMessageDto.getSender_id());
             sendRoomMessage(RoomMessageDto.builder()
-                    .receivers(receivers)
+                    .members(receivers)
                     .respRoomDto(respRoomDto)
                     .build());
         }else {

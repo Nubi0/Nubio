@@ -1,4 +1,4 @@
-import { AppContentWrapper, Discuss } from "../../styles/SHomePage";
+import { AppContentWrapper } from "@styles/SHomePage";
 
 const AppContent = () => {
   const safeIcon = process.env.PUBLIC_URL + "/assets/startPage/safeIcon.png";

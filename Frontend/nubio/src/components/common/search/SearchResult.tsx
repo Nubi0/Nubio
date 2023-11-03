@@ -4,12 +4,13 @@ import {
   DestinationWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
-} from "../../../styles/SMap";
-import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import ShortDirection from "../../safeHome/route/short/ShortDirection";
+} from "@styles/SMap";
+import SafeDirection from "@components/safeHome/route/safe/SafeDirection";
+import ShortDirection from "@components/safeHome/route/short/ShortDirection";
+
+import { setEndName, setStartName } from "@redux/slice/MapSlice";
+import { setSafeTime, setShortTime } from "@redux/slice/SafeSlice";
 import SelectMyLocation from "../map/SelectMyLocation";
-import { setEndName, setStartName } from "../../../redux/slice/MapSlice";
-import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
 
 const SearchResult = ({
   searchKeyword,

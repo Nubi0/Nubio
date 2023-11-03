@@ -3,7 +3,7 @@ import {
   MenuList,
   EnjoyModalWrapper,
   EnjoyItem,
-} from "../../../styles/SFooter";
+} from "@styles/SFooter";
 import MenuItem from "./MenuItem";
 import CloseButton from "./CloseButton";
 import { useNavigate } from "react-router-dom";

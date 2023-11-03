@@ -1,4 +1,4 @@
-import { LikeHeaderWrapper, Place, Course } from '../../../styles/SLikePage';
+import { LikeHeaderWrapper, Place, Course } from "@styles/SLikePage";
 
 type likeProps = {
   active: {
@@ -12,14 +12,14 @@ const LikeHeader = ({ active, handleButton }: likeProps) => {
   return (
     <LikeHeaderWrapper>
       <Place
-        onClick={() => handleButton('place')}
-        className={active.place ? 'active' : ''}
+        onClick={() => handleButton("place")}
+        className={active.place ? "active" : ""}
       >
         내가 만든 코스
       </Place>
       <Course
-        onClick={() => handleButton('course')}
-        className={active.course ? 'active' : ''}
+        onClick={() => handleButton("course")}
+        className={active.course ? "active" : ""}
       >
         내가 찜한 코스
       </Course>

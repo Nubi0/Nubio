@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   CourseSelectModalWrapper,
   Modal,
@@ -6,32 +6,34 @@ import {
   ModalBody,
   ItemWrapper,
   ModalFooter,
-} from '../../../../styles/SCourseSelectPage';
-import PurposeItem from '../../common/PurposeItem';
-import axios from 'axios';
-import useInput from '../../../../hooks/useInput';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
+} from "@styles/SCourseSelectPage";
+import PurposeItem from "../../common/PurposeItem";
+import useInput from "@/hooks/useInput";
+
+import axios from "axios";
+
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const CourseSelectModal = ({ setModal }: { setModal: () => void }) => {
   const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
   const purposes = [
-    '드라이빙',
-    '인생샷 찍기',
-    '산책',
-    '데이트',
-    '맛집탐방',
-    '음주가무',
-    '여행',
+    "드라이빙",
+    "인생샷 찍기",
+    "산책",
+    "데이트",
+    "맛집탐방",
+    "음주가무",
+    "여행",
   ];
-  const [title, setTitle] = useInput('');
+  const [title, setTitle] = useInput("");
   const positions = useSelector(
-    (state: { enjoy: { positions: placeItem[] } }) => state.enjoy.positions
+    (state: { enjoy: { positions: placeItem[] } }) => state.enjoy.positions,
   );
   const navigate = useNavigate();
   const location = useSelector(
-    (state: { enjoy: { location: string } }) => state.enjoy.location
+    (state: { enjoy: { location: string } }) => state.enjoy.location,
   );
 
   const handlePurposeClick = (purpose: string) => {
@@ -40,7 +42,9 @@ const CourseSelectModal = ({ setModal }: { setModal: () => void }) => {
       setSelectedPurposes([...selectedPurposes, purpose]);
     } else {
       // 이미 선택된 목적이면 제거
-      const updatedPurposes = selectedPurposes.filter((item) => item !== purpose);
+      const updatedPurposes = selectedPurposes.filter(
+        (item) => item !== purpose,
+      );
       setSelectedPurposes(updatedPurposes);
     }
   };
@@ -57,14 +61,14 @@ const CourseSelectModal = ({ setModal }: { setModal: () => void }) => {
       place_list: positions,
     };
     await axios
-      .post(process.env.REACT_APP_SERVER_URL + '/enjoy/v1/enjoy/course', config)
+      .post(process.env.REACT_APP_SERVER_URL + "/enjoy/v1/enjoy/course", config)
       .then((res) => {
         setModal();
         Swal.fire({
-          title: '코스 저장 완료',
-          icon: 'success',
-          text: '저장한 코스는 프로필-내 코스 에서 확인하실 수 있습니다.',
-        }).then(() => navigate('/enjoy'));
+          title: "코스 저장 완료",
+          icon: "success",
+          text: "저장한 코스는 프로필-내 코스 에서 확인하실 수 있습니다.",
+        }).then(() => navigate("/enjoy"));
       })
       .catch((err) => {
         console.error(err);
@@ -75,7 +79,11 @@ const CourseSelectModal = ({ setModal }: { setModal: () => void }) => {
       <Modal>
         <ModalTitle>
           <div>코스 제목을 입력해주세요</div>
-          <input type="text" placeholder="ex) 바람개비 나들이" onChange={setTitle} />
+          <input
+            type="text"
+            placeholder="ex) 바람개비 나들이"
+            onChange={setTitle}
+          />
         </ModalTitle>
         <ModalBody>
           <div>목적</div>

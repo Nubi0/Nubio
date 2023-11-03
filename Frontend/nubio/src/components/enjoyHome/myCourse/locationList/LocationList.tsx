@@ -1,4 +1,4 @@
-import { LocationListWrapper } from "../../../../styles/SMyCoursePage";
+import { LocationListWrapper } from "@styles/SMyCoursePage";
 import LocationItem from "./LocationItem";
 
 const LocationList = () => {

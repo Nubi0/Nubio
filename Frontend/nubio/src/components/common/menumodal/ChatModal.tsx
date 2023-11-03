@@ -4,7 +4,7 @@ import {
   ChatModalWrapper,
   NicknameInput,
   EnterButton,
-} from "../../../styles/SFooter";
+} from "@styles/SFooter";
 import CloseButton from "./CloseButton";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { ReactComponent as Nubilogo } from "../../../../public/assets/chat/nubio_logo.svg";

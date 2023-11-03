@@ -5,7 +5,7 @@ import {
   SecondLine,
   LeftSide,
   RightSide,
-} from "../../../styles/SAllCoursePage";
+} from "@styles/SAllCoursePage";
 
 const AllCourseHeader = ({ handleModal }: AllCourseProps) => {
   const targetImg =

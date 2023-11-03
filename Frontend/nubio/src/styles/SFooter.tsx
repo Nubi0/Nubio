@@ -22,7 +22,6 @@ export const EnterButton = styled.button`
   width: 240px;
   background-color: #41d992;
   border-radius: 1rem;
-
   margin-top: 20px;
   font-size: 14px;
 `;
@@ -34,7 +33,7 @@ export const MenuImgBox = styled.div`
   z-index: 13 !important;
   width: 60px;
   height: 60px;
-  background-color: #ffc542;
+  // background-color: #ffc542;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,11 +72,14 @@ export const MenuToggle = styled.div`
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
       transform: scale(1);
+      cursor: pointer;
     }
   }
 `;
 
-export const MenuImg = styled.img``;
+export const MenuImg = styled.img`
+  cursor: pointer;
+`;
 
 export const MenuItemWrapper = styled.div`
   border: 1px solid black;
@@ -88,6 +90,7 @@ export const MenuItemWrapper = styled.div`
   justify-content: center;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
+  cursor: pointer;
 `;
 
 export const CloseButtonWrapper = styled.div`

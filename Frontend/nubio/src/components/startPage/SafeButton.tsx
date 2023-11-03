@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { SafeButtonWrapper } from "../../styles/SHomePage";
+import { SafeButtonWrapper } from "@styles/SHomePage";
 import Swal from "sweetalert2";
 
 const SafeButton = ({ isLogin }: { isLogin: string | null }) => {

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import RouteInfo from "../../safeHome/route/RouteInfo";
 import {
   setEnd,
   setEndName,
@@ -8,9 +7,9 @@ import {
   setSearchMarker,
   setStart,
   setStartName,
-} from "../../../redux/slice/MapSlice";
+} from "@redux/slice/MapSlice";
 import { useState } from "react";
-import { setPosition } from "../../../redux/slice/EnjoySlice";
+
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 import SearchBar from "./SearchBar";
@@ -19,11 +18,16 @@ import {
   DestinationWrapper,
   SearchListWrapper,
   SearchResultsWrapper,
-} from "../../../styles/SMap";
+} from "@styles/SMap";
+
+import ShortDirection from "@components/safeHome/route/short/ShortDirection";
+import SafeDirection from "@components/safeHome/route/safe/SafeDirection";
+import { setSafeTime, setShortTime } from "@redux/slice/SafeSlice";
+
+import RouteInfo from "@components/safeHome/route/RouteInfo";
+
 import SelectMyLocation from "../map/SelectMyLocation";
-import ShortDirection from "../../safeHome/route/short/ShortDirection";
-import SafeDirection from "../../safeHome/route/safe/SafeDirection";
-import { setSafeTime, setShortTime } from "../../../redux/slice/SafeSlice";
+import { setPosition } from "@redux/slice/EnjoySlice";
 
 const Search = () => {
   var markerList: any = [];
@@ -150,7 +154,6 @@ const Search = () => {
     const onClickStart = () => {
       dispatch(setStart({ x: places.x, y: places.y }));
       dispatch(setStartName(places.place_name));
-      removeMarker();
       window.polyline?.setMap(null);
       window.startCustomOverlay?.setMap(null);
       let content = `<div class ="label"  style="background:#ffc542; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">

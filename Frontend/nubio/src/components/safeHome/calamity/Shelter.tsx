@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 // 컴포넌트
 // 스타일
-import { ShelterButton } from "../../../styles/SCalamity";
+import { ShelterButton } from "@styles/SCalamity";
 // redux
-import { setMarkerList, setShowShelters } from "../../../redux/slice/SafeSlice";
+import { setMarkerList, setShowShelters } from "@redux/slice/SafeSlice";
 
 const Shelter = () => {
   const dispatch = useDispatch();

@@ -10,7 +10,7 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { ReactComponent as Nubilogo } from "../../../../public/assets/chat/nubio_logo.svg";
 import MenuItem from "./MenuItem";
 import { useEffect, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 interface RegionInfoType {
   region_1depth_name: string;
@@ -22,6 +22,7 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const [nickname, setNickname] = useState("");
   const Navigate = useNavigate();
   const [regionInfo, setRegionInfo] = useState<RegionInfoType | null>(null);
+  const [roomId, setRoomId] = useState<number | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,6 +35,7 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
           }
         );
         setRegionInfo(response.data.data.chat_client.region);
+        setRoomId(response.data.data.chatting_room.room_id);
       } catch (error) {
         console.error("Error during the request:", error);
       }
@@ -46,10 +48,35 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
     setNickname(e.target.value);
   };
 
-  const handleNicknameSubmit = () => {
-    Navigate("/safe/chatroom");
-    console.log("Nickname:", nickname);
+  const handleNicknameSubmit = async () => {
+    try {
+      console.log("Submitting nickname and trying to enter the room...");
+
+      const response = await axios.post(
+        process.env.REACT_APP_SERVER_URL +
+          "/chatting/v1/chatting/room/enter/profile",
+        {
+          room_id: roomId,
+          nickname,
+        }
+      );
+      console.log("Response received:", response);
+
+      if (
+        response.data &&
+        response.data.data.chattingRoomResp.room_id != null
+      ) {
+        const roomId = response.data.data.chattingRoomResp.room_id;
+        console.log("Room ID received:", roomId);
+        Navigate(`/safe/chatroom/${roomId}`);
+      } else {
+        console.error("Invalid room id received from the backend.");
+      }
+    } catch (error) {
+      console.error("Error during the request:", error);
+    }
   };
+
   return (
     <ChatModalWrapper>
       <ModalTitle

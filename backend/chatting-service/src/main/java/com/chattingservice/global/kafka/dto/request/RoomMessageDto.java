@@ -15,6 +15,6 @@ public class RoomMessageDto {
     @JsonProperty("members")
     private List<String> members;
 
-    @JsonProperty("resp_room_dto")
+    @JsonProperty("room")
     private ChattingRoomResp respRoomDto;
 }

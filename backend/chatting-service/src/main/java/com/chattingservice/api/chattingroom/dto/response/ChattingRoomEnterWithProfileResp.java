@@ -1,6 +1,7 @@
 package com.chattingservice.api.chattingroom.dto.response;
 
 import com.chattingservice.api.chatting.dto.request.ChatMessagePageDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -11,8 +12,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChattingRoomEnterWithProfileResp {
-
+    @JsonProperty("chatting_room")
     private ChattingRoomResp chattingRoomResp;
+    @JsonProperty("chat_message_page")
     private ChatMessagePageDto chatMessagePageDto;
 
     public static ChattingRoomEnterWithProfileResp of(ChattingRoomResp chattingRoomResp, ChatMessagePageDto chatMessagePageDto) {

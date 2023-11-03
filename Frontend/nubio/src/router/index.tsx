@@ -13,6 +13,7 @@ import KaKaoLogin from "../pages/KaKaoLogin";
 import CourseLocationSelectPage from "../pages/CourseLocationSelectPage";
 import AllCourseLocationSelectPage from "../pages/AllCourseLocationSelectPage";
 import ChatRoom from "../pages/ChatroomPage";
+import AdminPage from "../pages/AdminPage";
 const routes = [
   {
     path: "/",
@@ -73,6 +74,10 @@ const routes = [
   {
     path: "/safe/chatroom",
     Component: ChatRoom,
+  },
+  {
+    path: "/admin",
+    Component: AdminPage,
   },
 ];
 

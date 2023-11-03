@@ -13,6 +13,7 @@ import AppContent from "../components/startPage/AppContent";
 // import SetPrefrenceModal from "../components/user/prefrence/SetPrefrenceModal";
 // import axios from "axios";
 import { Navigate } from "react-router-dom";
+import AdminPage from "./AdminPage";
 
 const HomePage = () => {
   const logoUrl = process.env.PUBLIC_URL + "/assets/nubio.png";
@@ -59,6 +60,7 @@ const HomePage = () => {
           <p>BIO!</p>
         </span>
       </OnTheStartWrapper>
+      <AdminPage/>
       <StartButton />
       {/* {modal && <SetPrefrenceModal closeModal={closeModal} />} */}
       {/* {!isLogin ? ( */}

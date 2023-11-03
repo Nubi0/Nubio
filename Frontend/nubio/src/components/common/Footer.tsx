@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FooterWrapper,
   MenuToggle,
@@ -17,6 +18,7 @@ const Footer = () => {
   const [enjoy, setEnjoy] = useState(false);
   const [chatactive, setChat] = useState(false);
   const [profile, setProfile] = useState(false);
+  const navigate = useNavigate();
   const menu = process.env.PUBLIC_URL + "/assets/menuModal/menu.png";
   const safeImg = process.env.PUBLIC_URL + "/assets/menuModal/menuSafe.png";
   const enjoyImg = process.env.PUBLIC_URL + "/assets/menuModal/menuEnjoy.png";
@@ -103,6 +105,9 @@ const Footer = () => {
             onClick={(e) => handleClick(e, "profile")}
           >
             <img src={profileImg} alt="" />
+          </div>
+          <div onClick={() => navigate('/admin')}>
+            관리자 페이지로
           </div>
         </MenuBox>
       </MenuToggle>

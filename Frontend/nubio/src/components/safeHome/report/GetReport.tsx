@@ -12,6 +12,8 @@ import {
   ReportPhotoWrapper,
   ReportInfoButtonWrapper,
 } from "../../../styles/SReport";
+import { useDispatch } from "react-redux";
+import { setReportList } from "../../../redux/slice/SafeSlice";
 // redux
 declare global {
   interface Window {
@@ -19,6 +21,7 @@ declare global {
   }
 }
 const GetReport = () => {
+  const dispatch = useDispatch();
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [identificationFlag, setIdentificationFlag] = useState(false);
@@ -41,6 +44,7 @@ const GetReport = () => {
       .get(`${process.env.REACT_APP_SERVER_URL}/safe/v1/safe/report`)
       .then((res) => {
         const places = res.data.data.reportList;
+        dispatch(setReportList(places))
         places.forEach((place: any) => {
           let imageSrc = "";
 

@@ -11,6 +11,7 @@ const SafeSlice = createSlice({
     messageMarkerList: [] as any,
     safeMarkerList: [] as any,
     reportPlaces: [],
+    reportList:[],
   },
   reducers: {
     setShortTime: (state, action) => {
@@ -27,6 +28,9 @@ const SafeSlice = createSlice({
     },
     setMarkerList: (state, action) => {
       state.markerList = action.payload;
+    },
+    setReportList: (state, action) => {
+      state.reportList = action.payload;
     },
     setMessageMarkerList: (state, action) => {
       const payloads = Array.isArray(action.payload)
@@ -54,5 +58,6 @@ export const {
   setMessageMarkerList,
   setSafeMarkerList,
   setReportPlaces,
+  setReportList
 } = SafeSlice.actions;
 export default SafeSlice.reducer;

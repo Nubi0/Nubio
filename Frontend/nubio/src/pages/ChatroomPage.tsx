@@ -1,13 +1,41 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useReducer } from "react";
 import { Client } from "@stomp/stompjs";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+const actionTypes = {
+  ADD_MESSAGE: "ADD_MESSAGE",
+  RESET_MESSAGES: "RESET_MESSAGES",
+};
+interface Message {
+  nickname: string;
+  content: string;
+}
+const initialMessageState: Message[] = [];
+
+interface MessageAction {
+  type: string;
+  payload?: Message;
+}
+
+function messageReducer(state: Message[], action: MessageAction): Message[] {
+  switch (action.type) {
+    case actionTypes.ADD_MESSAGE:
+      return action.payload ? [...state, action.payload] : state;
+    case actionTypes.RESET_MESSAGES:
+      return initialMessageState;
+    default:
+      return state;
+  }
+}
 
 const ChatRoom = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const [client, setClient] = useState<Client | null>(null);
-  const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [state, dispatch] = useReducer(messageReducer, initialMessageState);
+  const location = useLocation();
+  const { nickname } = location.state || {};
+  console.log("Nickname from state:", nickname);
 
   useEffect(() => {
     const stompClient = new Client({
@@ -26,13 +54,21 @@ const ChatRoom = () => {
         // JSON 문자열을 객체로 파싱합니다.
         const parsedMessage = JSON.parse(message.body);
 
-        setMessages((prevMessages) => [...prevMessages, parsedMessage.content]);
+        dispatch({
+          type: actionTypes.ADD_MESSAGE,
+          payload: {
+            nickname: parsedMessage.nickname,
+            content: parsedMessage.content,
+          },
+        });
       });
 
       stompClient.subscribe(`/chatting/topic/room/${roomId}`, (message) => {
         const parsedMessage = JSON.parse(message.body);
-
-        setMessages((prevMessages) => [...prevMessages, parsedMessage.content]);
+        dispatch({
+          type: actionTypes.ADD_MESSAGE,
+          payload: parsedMessage,
+        });
       });
     };
     stompClient.onStompError = function (frame) {
@@ -50,6 +86,11 @@ const ChatRoom = () => {
 
   const sendMessage = useCallback(async () => {
     if (client && client.connected && newMessage.trim() !== "") {
+      const messageToSend = JSON.stringify({
+        nickname,
+        content: newMessage,
+      });
+      console.log(nickname);
       client.publish({
         destination: `/chatting/topic/${roomId}`,
         body: newMessage,
@@ -97,16 +138,18 @@ const ChatRoom = () => {
     } else {
       alert("연결이 끊어졌거나 메시지를 보낼 수 없습니다.");
     }
-  }, [client, newMessage, roomId]);
+  }, [client, newMessage, roomId, nickname]);
 
   return (
     <div>
       <div>
-        {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
+        {state.map((msg: Message, index: number) => (
+          <div key={index}>
+            <strong>{msg.nickname}: </strong>
+            {msg.content}
+          </div>
         ))}
       </div>
-
       <input
         type="text"
         value={newMessage}

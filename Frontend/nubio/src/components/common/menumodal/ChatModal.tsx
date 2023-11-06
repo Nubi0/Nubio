@@ -15,7 +15,6 @@ import axios from "axios";
 interface RegionInfoType {
   region_1depth_name: string;
   region_2depth_name: string;
-  // 여기에 다른 필요한 필드들을 추가할 수 있습니다.
 }
 const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
   const Menus = ["채팅 시작"];
@@ -36,6 +35,7 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
         );
         setRegionInfo(response.data.data.chat_client.region);
         setRoomId(response.data.data.chatting_room.room_id);
+        // console.log(response.data.data.chatting_room.room_id);
       } catch (error) {
         console.error("Error during the request:", error);
       }
@@ -61,14 +61,15 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
         }
       );
       console.log("Response received:", response);
+      Navigate(`/safe/chatroom/${roomId}`);
 
       if (
         response.data &&
-        response.data.data.chattingRoomResp.room_id != null
+        response.data.data.chattingRoomEnterWithProfileReq.room_id != null
       ) {
-        const roomId = response.data.data.chattingRoomResp.room_id;
+        const roomId =
+          response.data.data.chattingRoomEnterWithProfileReq.room_id;
         console.log("Room ID received:", roomId);
-        Navigate(`/safe/chatroom/${roomId}`);
       } else {
         console.error("Invalid room id received from the backend.");
       }

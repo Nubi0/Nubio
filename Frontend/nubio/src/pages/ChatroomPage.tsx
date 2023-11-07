@@ -4,23 +4,40 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 const actionTypes = {
   ADD_MESSAGE: "ADD_MESSAGE",
+  SET_MESSAGES: "SET_MESSAGES",
   RESET_MESSAGES: "RESET_MESSAGES",
 };
+
 interface Message {
   nickname: string;
   content: string;
 }
+
 const initialMessageState: Message[] = [];
 
-interface MessageAction {
-  type: string;
-  payload?: Message;
+interface AddMessageAction {
+  type: typeof actionTypes.ADD_MESSAGE;
+  payload: Message;
 }
+
+interface SetMessagesAction {
+  type: typeof actionTypes.SET_MESSAGES;
+  payload: Message[];
+}
+
+interface ResetMessagesAction {
+  type: typeof actionTypes.RESET_MESSAGES;
+}
+
+// MessageAction은 세 가지 액션 타입 중 하나입니다.
+type MessageAction = AddMessageAction | SetMessagesAction | ResetMessagesAction;
 
 function messageReducer(state: Message[], action: MessageAction): Message[] {
   switch (action.type) {
     case actionTypes.ADD_MESSAGE:
-      return action.payload ? [...state, action.payload] : state;
+      return [...state, (action as AddMessageAction).payload];
+    case actionTypes.SET_MESSAGES:
+      return (action as SetMessagesAction).payload;
     case actionTypes.RESET_MESSAGES:
       return initialMessageState;
     default:
@@ -35,6 +52,9 @@ const ChatRoom = () => {
   const [state, dispatch] = useReducer(messageReducer, initialMessageState);
   const location = useLocation();
   const { nickname } = location.state || {};
+  const [page, setPage] = useState(0);
+  const pageSize = 10;
+  const [totalPages, setTotalPages] = useState(0);
   console.log("Nickname from state:", nickname);
 
   useEffect(() => {
@@ -84,6 +104,37 @@ const ChatRoom = () => {
     };
   }, [roomId]);
 
+  const fetchChatHistory = async (pageNumber: number) => {
+    const params = {
+      page: pageNumber,
+      size: pageSize,
+      sort: ["created_at,desc"],
+    };
+    try {
+      const response = await axios.get(
+        `https://nubi0.com/api/chatting/v1/history`,
+        { params }
+      );
+      dispatch({
+        type: actionTypes.SET_MESSAGES,
+        payload: response.data.data.content.map((msg: any) => ({
+          nickname: msg.sender_id,
+          content: msg.content,
+        })),
+      });
+      setTotalPages(response.data.data.meta.total_pages);
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchChatHistory(page);
+  }, [page, roomId]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
   const sendMessage = useCallback(async () => {
     if (client && client.connected && newMessage.trim() !== "") {
       const messageToSend = JSON.stringify({
@@ -93,7 +144,7 @@ const ChatRoom = () => {
       console.log(nickname);
       client.publish({
         destination: `/chatting/topic/${roomId}`,
-        body: newMessage,
+        body: messageToSend,
       });
 
       if (roomId) {
@@ -148,6 +199,13 @@ const ChatRoom = () => {
             <strong>{msg.nickname}: </strong>
             {msg.content}
           </div>
+        ))}
+      </div>
+      <div>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button key={i} onClick={() => handlePageChange(i)}>
+            {i + 1}
+          </button>
         ))}
       </div>
       <input

@@ -61,7 +61,7 @@ const ChatModal = ({ setActive }: { setActive: (value: boolean) => void }) => {
         }
       );
       console.log("Response received:", response);
-      Navigate(`/safe/chatroom/${roomId}`);
+      Navigate(`/safe/chatroom/${roomId}`, { state: { nickname } });
 
       if (
         response.data &&

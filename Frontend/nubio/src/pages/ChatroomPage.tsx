@@ -106,15 +106,16 @@ const ChatRoom = () => {
 
   const fetchChatHistory = async (pageNumber: number) => {
     const params = {
+      roomid: roomId,
       page: pageNumber,
-      size: pageSize,
-      sort: ["created_at,desc"],
     };
     try {
       const response = await axios.get(
-        `https://nubi0.com/api/chatting/v1/history`,
+        process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/history",
         { params }
       );
+      console.log("백엔드로부터 받은 채팅 기록:", response.data);
+
       dispatch({
         type: actionTypes.SET_MESSAGES,
         payload: response.data.data.content.map((msg: any) => ({
@@ -122,6 +123,7 @@ const ChatRoom = () => {
           content: msg.content,
         })),
       });
+
       setTotalPages(response.data.data.meta.total_pages);
     } catch (error) {
       console.error("Error fetching chat history:", error);

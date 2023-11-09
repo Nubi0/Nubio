@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { CourseSelectWrapper, CourseMaker } from '../../../../styles/SCourseSelectPage';
-import CourseList from './CourseList';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTime } from '../../../../redux/slice/EnjoySlice';
-import Map from '../../../common/map/Map';
+import { useEffect, useState } from "react";
+import { CourseSelectWrapper, CourseMaker } from "@styles/SCourseSelectPage";
+import CourseList from "./CourseList";
+import { useDispatch, useSelector } from "react-redux";
+import { setTime } from "@redux/slice/EnjoySlice";
+import Map from "@/components/common/map/Map";
+
 declare global {
   interface Window {
     kakao: any;
@@ -14,7 +15,9 @@ const CourseSelect = () => {
   const dispatch = useDispatch();
   const [manager, setManger] = useState<any>(null);
 
-  var positions = useSelector((state: {enjoy: {positions: placeItem[]}}) => state.enjoy.positions);
+  var positions = useSelector(
+    (state: { enjoy: { positions: placeItem[] } }) => state.enjoy.positions,
+  );
 
   // 커스텀 마커 생성
 
@@ -26,13 +29,13 @@ const CourseSelect = () => {
       const marker = new kakao.maps.Marker({
         map: window.map,
         position: positions,
-      })
+      });
       console.log(marker.getPosition());
-    })
+    });
   }, []);
 
   const selectOverlay = () => {
-    console.log('selectOverlay called with type:', 'POLYLINE');
+    console.log("selectOverlay called with type:", "POLYLINE");
     dispatch(setTime(null));
 
     // 그리기 중이면 그리기를 취소합니다

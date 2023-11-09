@@ -1,9 +1,10 @@
 package com.chattingservice.api.chattingroom.service.Imple.ChattingRoomServiceImpl;
 
-import com.chattingservice.api.chattingroom.dto.request.ChattingRoomEnterReq;
-import com.chattingservice.api.chattingroom.dto.request.ChattingRoomOutReq;
-import com.chattingservice.api.chattingroom.dto.request.ChattingRoomSearchReq;
-import com.chattingservice.api.chattingroom.dto.request.GroupChattingRoomCsvReq;
+import com.chattingservice.api.ApiResponseEntity;
+import com.chattingservice.api.chatting.client.SafeApiClient;
+import com.chattingservice.api.chatting.client.dto.request.ChatRequestDto;
+import com.chattingservice.api.chatting.client.dto.response.ChatClientDto;
+import com.chattingservice.api.chattingroom.dto.request.*;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
@@ -31,6 +32,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChattingRoomInfoServiceImpl implements ChattingRoomInfoService {
+
+    private final SafeApiClient safeApiClient;
 
     private final ChattingRoomService chattingRoomService;
     private final int BATCH_SIZE = 100000; // 자를 크기를 설정
@@ -82,6 +85,13 @@ public class ChattingRoomInfoServiceImpl implements ChattingRoomInfoService {
 
     @Transactional
     @Override
+    public ChattingRoomResp enterGroupRoomWithProfile(String memberId, Long roomId,  String nickName) {
+        ChattingRoom chattingRoom = chattingRoomService.enterGroupRoomWithProfile(memberId, roomId,  nickName);
+        return ChattingRoomResp.form(chattingRoom);
+    }
+
+    @Transactional
+    @Override
     public ChattingRoomResp enterGroupRoom(ChattingRoomEnterReq chattingRoomEnterReq) {
         ChattingRoom chattingRoom = chattingRoomService.enterGroupRoom(chattingRoomEnterReq.getRoomId(), chattingRoomEnterReq.getMemberId());
         return ChattingRoomResp.form(chattingRoom);
@@ -111,6 +121,21 @@ public class ChattingRoomInfoServiceImpl implements ChattingRoomInfoService {
     public List<ChattingRoomResp> findMyRoomsByMemberId(String memberId) {
         List<ChattingRoom> myRoomsByMemberId = chattingRoomService.findMyRoomsByMemberId(memberId);
         return myRoomsByMemberId.stream().map(chattingRoom -> ChattingRoomResp.form(chattingRoom)).collect(Collectors.toList());
+    }
+
+    @Override
+    public FindLocationReq findLocation(ChatRequestDto chatRequestDto) {
+        ApiResponseEntity<ChatClientDto> chatClientDtoApiResponseEntity = safeApiClient.requestDataApi(chatRequestDto);
+        ChatClientDto data = chatClientDtoApiResponseEntity.getData();
+        String sidoName = data.getRegion().getRegion1depthName();
+        String sggName = data.getRegion().getRegion2depthName();
+        ChattingRoom chattingRooms = chattingRoomService.searchRegion(sidoName, sggName, null, null).get(0);
+        ChattingRoomResp chattingRoomResp = ChattingRoomResp.form(chattingRooms);
+
+        return FindLocationReq.builder()
+                .chatClientDto(data)
+                .chattingRoomResp(chattingRoomResp)
+                .build();
     }
 
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CourseListWrapper } from "../../../../styles/SLikePage";
-import AllCourseItem from "../../../enjoyHome/allCourse/allCourseList/AllCourseItem";
+import { CourseListWrapper } from "@styles/SLikePage";
+import AllCourseItem from "@/components/enjoyHome/allCourse/allCourseList/AllCourseItem";
 
 const MyCourseList = () => {
   const [course, setCourse] = useState<CourseItem[]>([]);

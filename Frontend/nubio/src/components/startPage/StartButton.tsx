@@ -1,4 +1,4 @@
-import { StartButtonWrapper } from "../../styles/SHomePage";
+import { StartButtonWrapper } from "@styles/SHomePage";
 import { useNavigate } from "react-router-dom";
 
 const StartButton = () => {

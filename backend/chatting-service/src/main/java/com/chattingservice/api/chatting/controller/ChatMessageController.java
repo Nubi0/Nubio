@@ -9,6 +9,9 @@ import com.chattingservice.global.error.ErrorCode;
 import com.chattingservice.global.error.exception.BusinessException;
 import com.chattingservice.global.kafka.KafkaProducer;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
+import com.chattingservice.global.resolver.memberInfo.MemberInfo;
+import com.chattingservice.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +25,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,10 +43,13 @@ public class ChatMessageController {
 
 
     @Operation(summary = "메시지 전송")
-    @PostMapping(value = "/message", consumes = "application/json", produces = "application/json")
-    public ApiResponseEntity<String> sendMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
-
-        ChatMessageDto savedMessage = chatMessageService.saveChatMessage(chatMessageDto);
+    @PostMapping(value = "/message", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiResponseEntity<String> sendMessage(@MemberInfo MemberInfoDto memberInfoDto,
+                                                 @Valid  @RequestPart("chatting") ChatMessageDto chatMessageDto
+    , @RequestPart(value = "file", required = false) List<MultipartFile> files) {
+        chatMessageDto.setSender_id(memberInfoDto.getMemberId());
+        chatMessageDto.setFiles(files);
+        ChatMessageResp savedMessage = chatMessageService.saveChatMessage(chatMessageDto);
         producers.sendMessage(savedMessage);
         return ApiResponseEntity.ok("success");
     }
@@ -50,17 +58,17 @@ public class ChatMessageController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "채팅방 새 메시지 조회 성공")})
     @GetMapping("/new-message/{roomid}/{readMsgId}")
-    public ApiResponseEntity<List<ChatMessageDto>> newMessagesAtRoom(@Parameter(description = "채팅방 id") @PathVariable(value = "roomid") String roomId,
+    public ApiResponseEntity<List<ChatMessageResp>> newMessagesAtRoom(@Parameter(description = "채팅방 id") @PathVariable(value = "roomid") String roomId,
                                                                      @Parameter(description = "메세지 id") @PathVariable String readMsgId) {
 
-        List<ChatMessageDto> chatMessageDtos = chatMessageService.getNewMessages(roomId, readMsgId);
+        List<ChatMessageResp> chatMessageDtos = chatMessageService.getNewMessages(roomId, readMsgId);
         return ApiResponseEntity.ok(chatMessageDtos);
     }
 
     @Operation(summary = "과거채팅보기(해당 채팅방내 전체 메시지 가져오기)", description = "내림차순으로 해당 채팅방의 전체 메세지를 조회합니다.")
     @GetMapping("/history-message/{roomid}")
-    public ApiResponseEntity<List<ChatMessageDto>> allMessagesAtRoom(@Parameter(description = "채팅방 id") @PathVariable(value = "roomid") String roomId) {
-        List<ChatMessageDto> chatMessageDtos = chatMessageService.getAllMessagesAtRoom(roomId);
+    public ApiResponseEntity<List<ChatMessageResp>> allMessagesAtRoom(@Parameter(description = "채팅방 id") @PathVariable(value = "roomid") String roomId) {
+        List<ChatMessageResp> chatMessageDtos = chatMessageService.getAllMessagesAtRoom(roomId);
         return ApiResponseEntity.ok(chatMessageDtos);
     }
 

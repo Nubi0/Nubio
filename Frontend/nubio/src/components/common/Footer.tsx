@@ -15,6 +15,7 @@ import axios from "axios";
 import RootState from "../../types/RootState";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [safe, setSafe] = useState(false);
   const [enjoy, setEnjoy] = useState(false);
@@ -119,7 +120,8 @@ const Footer = () => {
                 active ? "translate(1rem, 12rem) scale(1)" : "scale(0)"
               }`,
             }}
-            onClick={(e) => handleClick(e, "profile")}
+            onClick={() => navigate("/profile")}
+            // onClick={(e) => handleClick(e, "profile")}
           >
             <img src={profileImg} alt="" />
           </div>

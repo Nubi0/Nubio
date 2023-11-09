@@ -1,5 +1,5 @@
 import React from "react";
-import { BannerWrapper, BannerImg } from "../../../styles/SEnjoyHomePage";
+import { BannerWrapper, BannerImg } from "@styles/SEnjoyHomePage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 

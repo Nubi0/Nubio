@@ -28,7 +28,8 @@ public enum DetailType {
     WINE("와인"),
     COCKTAIL("칵테일"),
     COFFEE("커피"),
-    ICE_CREAM("아이스크림")
+    ICE_CREAM("아이스크림"),
+    MAKGEOLLI("막걸리")
     ;
 
     private String description;

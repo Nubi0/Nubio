@@ -11,13 +11,9 @@ import {
   CalamityWrapper,
   EvacuationGuideWrapper,
   CalamityMessageButton,
-} from "../../../styles/SCalamity";
+} from "@styles/SCalamity";
 // redux
-import {
-  setMarkerList,
-  setMessageMarkerList,
-  setShowShelters,
-} from "../../../redux/slice/SafeSlice";
+import { setMarkerList, setShowShelters } from "@redux/slice/SafeSlice";
 
 const CalamityMessageMenu = () => {
   const dispatch = useDispatch();

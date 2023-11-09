@@ -57,7 +57,6 @@ public class ReportRequestDto {
                 .reportType(ReportType.from(reportRequestDto.getReportType()))
                 .position(Position.of(reportRequestDto.getLongitude(), reportRequestDto.getLatitude()))
                 .active(Active.from(true))
-                .allow(Allow.from(false))
                 .identification(identification != null ? identification : "anonymous").build();
     }
 }

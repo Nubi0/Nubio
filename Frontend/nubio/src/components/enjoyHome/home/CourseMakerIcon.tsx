@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CourseMakerIconWrapper } from "../../../styles/SEnjoyHomePage";
+import { CourseMakerIconWrapper } from "@styles/SEnjoyHomePage";
 
 const CourseMakerIcon = () => {
   const navigate = useNavigate();

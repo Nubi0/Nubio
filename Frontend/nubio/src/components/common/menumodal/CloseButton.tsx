@@ -1,4 +1,4 @@
-import { CloseButtonWrapper } from "../../../styles/SFooter";
+import { CloseButtonWrapper } from "@styles/SFooter";
 
 const CloseButton = ({ setModal }: { setModal: () => void }) => {
   return (

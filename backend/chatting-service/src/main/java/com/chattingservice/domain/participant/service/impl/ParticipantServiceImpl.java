@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +71,34 @@ public class ParticipantServiceImpl implements ParticipantService {
             return optionalParticipant.get();
         }
     }
+    @Transactional
+    @Override
+    public Participant enterGroupRoomWithProfile(String memberId, String nickName, ChattingRoom chattingRoom) {
+        Optional<Participant> optionalParticipant = participantRepository.findByMemberIdAndActiveAndChattingRoom(memberId, Active.from(true), chattingRoom);
+
+        if (!optionalParticipant.isPresent()) {
+
+            Participant participant = Participant.builder()
+                    .memberId(memberId)
+                    .nickname(Nickname.from(nickName))
+                    .role(Role.ROLE_USER)
+                    .chattingRoom(chattingRoom)
+                    .build();
+            Participant saved = participantRepository.save(participant);
+            Profile profile = Profile.builder()
+                    .participant(participant)
+                    .fileName(FileName.from(saved.getNickname().getValue()))
+                    .fileUrl(FileUrl.from(URL))
+                    .fileSize(FileSize.from(1L))
+                    .build();
+            participant.setProfile(profile);
+
+            return saved;
+        }else {
+            return optionalParticipant.get();
+        }
+    }
+
 
     @Transactional
     @Override

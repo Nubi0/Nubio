@@ -1,4 +1,4 @@
-import { IconWrapper, PlayWrapper } from "../../../styles/SSignUpPage";
+import { IconWrapper, PlayWrapper } from "@styles/SSignUpPage";
 
 type PlayImages = { [key: string]: string };
 type PlayListProps = {

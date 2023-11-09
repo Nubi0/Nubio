@@ -1,4 +1,4 @@
-import { DisasterWrapper, DisasterIcon } from "../../../styles/SDisaster";
+import { DisasterWrapper, DisasterIcon } from "@styles/SDisaster";
 interface EvacuationModalProps {
   openEvacuationModal: (Evacuation: DisasterIconInfo) => void;
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import AllCourse from "../components/enjoyHome/allCourse/AllCourse";
-import Footer from "../components/common/Footer";
-import EnjoyHeader from "../components/enjoyHome/common/EnjoyHeader";
-import { AllCoursePageWrapper } from "../styles/SAllCoursePage";
-import AllCourseFilterModal from "../components/enjoyHome/allCourse/allCourseFilterModal/AllCourseFilterModal";
+import AllCourse from "@components/enjoyHome/allCourse/AllCourse";
+import Footer from "@components/common/Footer";
+import EnjoyHeader from "@components/enjoyHome/common/EnjoyHeader";
+import { AllCoursePageWrapper } from "@styles/SAllCoursePage";
+import AllCourseFilterModal from "@components/enjoyHome/allCourse/allCourseFilterModal/AllCourseFilterModal";
 
 const AllCoursePage = () => {
   const [modal, setModal] = useState(false);

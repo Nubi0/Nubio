@@ -3,7 +3,7 @@ import {
   RepresentativeImg,
   BookMarkImg,
   TitleWrapper,
-} from "../../../../styles/SEnjoyHomePage";
+} from "@styles/SEnjoyHomePage";
 import { useNavigate } from "react-router";
 
 const CustomCourseItem = ({ value }: CourseProps) => {

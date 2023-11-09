@@ -14,6 +14,8 @@ public enum ErrorCode {
     // 채팅
     CHAT_NOT_FOUND(HttpStatus.NOT_FOUND, "C-001", "해당 방에는 채팅이 존재하지 않습니다."),
     INVALID_MESSAGE_TYPE(HttpStatus.NOT_FOUND, "C-002", "메시지 타입이 잘못됐습니다."),
+    EMPTY_FILE(HttpStatus.BAD_REQUEST, "C-003", "빈 파일은 제출할 수 없습니다."),
+    FILE_AMOUNTS_LIMIT(HttpStatus.BAD_REQUEST, "C-004", "제출할 수 있는 파일 수를 초과했습니다."),
 
     // 메시지
     INVALID_MESSAGE_TYPE_CODE(HttpStatus.BAD_REQUEST, "M-001", "해당 메시지 타입은 존재하지 않습니다."),

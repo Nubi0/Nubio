@@ -1,4 +1,4 @@
-import { DrinkWrapper, IconWrapper } from "../../../styles/SSignUpPage";
+import { DrinkWrapper, IconWrapper } from "@styles/SSignUpPage";
 
 type DrinkImages = { [key: string]: string };
 type DrinkListProps = {
@@ -7,10 +7,10 @@ type DrinkListProps = {
 };
 const drinkImages: DrinkImages = {
   맥주: process.env.PUBLIC_URL + "/assets/user/drink/beer.png",
-  캌테일: process.env.PUBLIC_URL + "/assets/user/drink/cocktail.png",
+  칵테일: process.env.PUBLIC_URL + "/assets/user/drink/cocktail.png",
   커피: process.env.PUBLIC_URL + "/assets/user/drink/coffee.png",
   아이스크림: process.env.PUBLIC_URL + "/assets/user/drink/iceCream.png",
-  막거리: process.env.PUBLIC_URL + "/assets/user/drink/riceWine.png",
+  막걸리: process.env.PUBLIC_URL + "/assets/user/drink/riceWine.png",
   소주: process.env.PUBLIC_URL + "/assets/user/drink/soju.png",
   와인: process.env.PUBLIC_URL + "/assets/user/drink/wine.png",
 };

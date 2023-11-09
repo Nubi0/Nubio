@@ -1,6 +1,7 @@
 package com.chattingservice.global.kafka.dto.request;
 
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomMessageDto {
-    private List<String> receivers;
+    @JsonProperty("members")
+    private List<String> members;
+
+    @JsonProperty("room")
     private ChattingRoomResp respRoomDto;
 }

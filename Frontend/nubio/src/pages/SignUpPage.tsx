@@ -1,10 +1,10 @@
 import { useState } from "react";
-import SignUpForm from "../components/user/signUp/SignUpForm";
+import SignUpForm from "@components/user/signUp/SignUpForm";
 import {
   SignUpWrapper,
   SignUpLogo,
   CheckUserWrapper,
-} from "../styles/SSignUpPage";
+} from "@styles/SSignUpPage";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";

@@ -3,15 +3,10 @@ package com.chattingservice.global.kafka;
 import com.chattingservice.api.chattingroom.dto.response.ChattingRoomResp;
 import com.chattingservice.api.chattingroom.service.ChattingRoomInfoService;
 import com.chattingservice.domain.chatting.service.ChatMessageService;
-import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
-import com.chattingservice.domain.chattingroom.repository.ChattingRoomRepository;
 import com.chattingservice.domain.chattingroom.service.ChattingRoomService;
-import com.chattingservice.domain.room.service.ChatRoomService;
-import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
 import com.chattingservice.domain.chatting.entity.constant.MessageType;
-import com.chattingservice.global.kafka.dto.request.RoomEnterMessageDto;
 import com.chattingservice.global.kafka.dto.request.RoomMessageDto;
-import com.chattingservice.global.kafka.dto.request.RespRoomDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KafkaProducer {
     //KafkaProducerConfig 클래스에서 설정한 KafkaTemplate
-    private final KafkaTemplate<String, ChatMessageDto> kafkaTemplate;
+    private final KafkaTemplate<String, ChatMessageResp> kafkaTemplate;
     @Value("${kafka.topic.chat-name}")
     private String topicChatName;
 
@@ -41,8 +36,7 @@ public class KafkaProducer {
     private final ChattingRoomService chattingRoomService;
     private final ChattingRoomInfoService chattingRoomInfoService;
 
-
-    public void sendMessage(ChatMessageDto chatMessageDto){
+    public void sendMessage(ChatMessageResp chatMessageDto){
         if(chatMessageDto.getMessage_type()== MessageType.ENTER){
             // 채팅방이 생성될 때 채팅방 정보를 전달할 때 호출
 
@@ -50,12 +44,12 @@ public class KafkaProducer {
             List<String> receivers = respRoomDto.getMembers().stream().map(m -> m.getMemberId()).collect(Collectors.toList());
             receivers.remove(chatMessageDto.getSender_id());
             sendRoomMessage(RoomMessageDto.builder()
-                    .receivers(receivers)
+                    .members(receivers)
                     .respRoomDto(respRoomDto)
                     .build());
         }else {
             // 채팅메시지를 전달
-            CompletableFuture<SendResult<String, ChatMessageDto>> completableFuture = kafkaTemplate.send(topicChatName, chatMessageDto);
+            CompletableFuture<SendResult<String, ChatMessageResp>> completableFuture = kafkaTemplate.send(topicChatName, chatMessageDto);
 
             completableFuture.thenAccept(result -> {
                 if (result != null) {

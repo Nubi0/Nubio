@@ -48,32 +48,24 @@ public class Report extends BaseTimeEntity {
     @Embedded
     private Active active = Active.from(true);
 
-    @Embedded
-    private Allow allow = Allow.from(false);
-
     @Column(name = "identification_id")
     private String identification;
 
 
     @Builder
     public Report(ReportType reportType, Title title, Content content, Active active,
-                  Region region, Allow allow, Position position, String identification) {
+                  Region region, Position position, String identification) {
         this.reportType = reportType;
         this.region = region;
         this.title = title;
         this.content = content;
         this.active = active;
-        this.allow = allow;
         this.position = position;
         this.identification = identification;
     }
 
     public void updateActive() {
         this.active = Active.from(false);
-    }
-
-    public void allowReport() {
-        this.allow = Allow.from(true);
     }
 
     public void addReportFile(ReportFile reportFile) {

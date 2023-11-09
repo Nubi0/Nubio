@@ -27,7 +27,7 @@ public class Participant extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id", unique = true, nullable = false)
+    @Column(name = "member_id", nullable = false)
     private String memberId;
 
     @Embedded
@@ -81,8 +81,8 @@ public class Participant extends BaseTimeEntity {
 
     public void withdraw() {
         this.active = Active.from(false);
-        UUID uuid = UUID.randomUUID();
-        this.memberId = uuid.toString();
+//        UUID uuid = UUID.randomUUID();
+//        this.memberId = uuid.toString();
     }
 
     public void updateImage(Profile profile) {

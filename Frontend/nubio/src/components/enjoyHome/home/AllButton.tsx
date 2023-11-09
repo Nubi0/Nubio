@@ -4,7 +4,7 @@ import {
   ContentWrapper,
   FitText,
   Content,
-} from "../../../styles/SEnjoyHomePage";
+} from "@styles/SEnjoyHomePage";
 import { useNavigate } from "react-router-dom";
 
 const AllButton = () => {

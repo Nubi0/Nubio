@@ -9,6 +9,7 @@ import com.chattingservice.global.error.ErrorCode;
 import com.chattingservice.global.error.exception.BusinessException;
 import com.chattingservice.global.kafka.KafkaProducer;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
+import com.chattingservice.global.kafka.dto.response.ChatMessageResp;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class StompChatController {
     @MessageMapping("/room/enter/{room_id}")
 //    @SendTo("/chatting/topic/room/{room_id}")
     @Operation(summary = "채팅방 입장")
-    public ChatMessageDto sendEnterMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
+    public ChatMessageResp sendEnterMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
 
         if (!chatRoomService.existsRoom(chatMessageDto.getRoom_id())) {
             throw new BusinessException(ErrorCode.ROOM_NOT_FOUND_ERROR);
@@ -67,9 +68,9 @@ public class StompChatController {
 
 
         chatMessageDto.setContent(response.getBody().getData().getNickname()+"님이 채팅방에 참여하였습니다.");
-        ChatMessageDto savedMessage = chatMessageService.saveChatMessage(chatMessageDto);
-        producers.sendMessage(savedMessage);
-        return savedMessage;
+        ChatMessageResp chatMessageResp = chatMessageService.saveChatMessage(chatMessageDto);
+        producers.sendMessage(chatMessageResp);
+        return chatMessageResp;
     }
 
     @MessageMapping("/chatting/pub")
@@ -77,15 +78,15 @@ public class StompChatController {
 //    @MessageMapping("/room")
 //    @SendTo("/chatting/topic/room/{room_id}")
     @Operation(summary = "웹소켓메시지 전송")
-    public ChatMessageDto sendSocketMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
+    public ChatMessageResp sendSocketMessage(@Valid @RequestBody ChatMessageDto chatMessageDto) {
 
         if (!chatRoomService.existsRoom(chatMessageDto.getRoom_id())) {
             throw new BusinessException(ErrorCode.ROOM_NOT_FOUND_ERROR);
         }
 
-        ChatMessageDto savedMessage = chatMessageService.saveChatMessage(chatMessageDto);
-        producers.sendMessage(savedMessage);
-        return savedMessage;
+        ChatMessageResp chatMessageResp = chatMessageService.saveChatMessage(chatMessageDto);
+        producers.sendMessage(chatMessageResp);
+        return chatMessageResp;
     }
 
 }

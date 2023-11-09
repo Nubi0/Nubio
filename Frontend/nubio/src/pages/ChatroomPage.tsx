@@ -2,6 +2,14 @@ import React, { useEffect, useState, useCallback, useReducer } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import {
+  MessageList,
+  MessageItem,
+  InputField,
+  SendButton,
+  ChatInputArea,
+  ChatPageLayout,
+} from "../styles/SChatroomPage";
 const actionTypes = {
   ADD_MESSAGE: "ADD_MESSAGE",
   SET_MESSAGES: "SET_MESSAGES",
@@ -194,29 +202,25 @@ const ChatRoom = () => {
   }, [client, newMessage, roomId, nickname]);
 
   return (
-    <div>
-      <div>
+    <ChatPageLayout>
+      <MessageList>
         {state.map((msg: Message, index: number) => (
-          <div key={index}>
+          <MessageItem key={index}>
             <strong>{msg.nickname}: </strong>
             {msg.content}
-          </div>
+          </MessageItem>
         ))}
-      </div>
-      <div>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button key={i} onClick={() => handlePageChange(i)}>
-            {i + 1}
-          </button>
-        ))}
-      </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
-    </div>
+      </MessageList>
+      <ChatInputArea>
+        <InputField
+          type="text"
+          value={newMessage}
+          onChange={(e: any) => setNewMessage(e.target.value)}
+          placeholder="메시지를 입력하세요..."
+        />
+        <SendButton onClick={sendMessage}>Send</SendButton>
+      </ChatInputArea>
+    </ChatPageLayout>
   );
 };
 

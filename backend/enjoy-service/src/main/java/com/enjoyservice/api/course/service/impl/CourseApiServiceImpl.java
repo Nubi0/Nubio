@@ -317,7 +317,7 @@ public class CourseApiServiceImpl implements CourseApiService {
     private Map<Long, Integer> mappingSequence(List<CourseCreateReq.PlaceInfo> placeInfos) {
         return placeInfos.stream()
                 .collect(Collectors.toMap(CourseCreateReq.PlaceInfo::getKakaoId,
-                                            CourseCreateReq.PlaceInfo::getSequence,
+                                            CourseCreateReq.PlaceInfo::getIndex,
                                             (oldValue, newValue) -> newValue));
     }
 

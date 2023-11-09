@@ -35,7 +35,7 @@ RUN ./gradlew clean build --no-daemon -x test
 WORKDIR /app/build/libs
 
 # Expose the port the app runs in and the debug port
-EXPOSE 808
+EXPOSE 8083
 
 # Run the application
 CMD ["java", "-jar", "chatting-service-0.0.1-SNAPSHOT.jar"]

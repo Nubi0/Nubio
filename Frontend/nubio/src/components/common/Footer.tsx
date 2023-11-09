@@ -5,13 +5,14 @@ import {
   MenuImg,
   MenuImgBox,
   MenuBox,
-} from "@styles/SFooter";
-
-import SafeModal from "./menuModal/SafeModal";
-import EnjoyModal from "./menuModal/EnjoyModal";
-import ChatModal from "./menuModal/ChatModal";
-import ProfileModal from "./menuModal/ProfileModal";
-import { useNavigate } from "react-router-dom";
+} from "../../styles/SFooter";
+import SafeModal from "./menumodal/SafeModal";
+import EnjoyModal from "./menumodal/EnjoyModal";
+import ChatModal from "./menumodal/ChatModal";
+import ProfileModal from "./menumodal/ProfileModal";
+import React from "react";
+import axios from "axios";
+import RootState from "../../types/RootState";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -34,6 +35,21 @@ const Footer = () => {
     setEnjoy(false);
     setProfile(false);
   };
+  // const modalIn = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       process.env.REACT_APP_SERVER_URL +
+  //         "/chatting/v1/chatting/room/location",
+  //       {
+  //         latitude: window.myLatitude,
+  //         longitude: window.myLongitude,
+  //       }
+  //     );
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error("Error during the request:", error);
+  //   }
+  // };
   const handleClick = (e: any, operation: string) => {
     e.preventDefault();
     setSafe(false);
@@ -43,6 +59,7 @@ const Footer = () => {
     if (operation === "safe") {
       setSafe(!safe);
     } else if (operation === "chat") {
+      // modalIn();
       setChat(!chatactive);
     } else if (operation === "enjoy") {
       setEnjoy(!enjoy);

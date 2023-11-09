@@ -71,7 +71,7 @@ const routes = [
     Component: AllCourseLocationSelectPage,
   },
   {
-    path: "/safe/chatroom",
+    path: "/safe/chatroom/:roomId",
     Component: ChatRoom,
   },
 ];

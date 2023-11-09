@@ -15,6 +15,7 @@ import axios from "axios";
 import RootState from "../../types/RootState";
 import { useNavigate } from "react-router-dom";
 
+
 const Footer = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);

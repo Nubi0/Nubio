@@ -13,6 +13,7 @@ import ProfileModal from "./menumodal/ProfileModal";
 import React from "react";
 import axios from "axios";
 import RootState from "../../types/RootState";
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();

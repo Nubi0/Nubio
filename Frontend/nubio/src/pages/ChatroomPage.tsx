@@ -68,7 +68,7 @@ const ChatRoom = () => {
   useEffect(() => {
     const stompClient = new Client({
       brokerURL:
-        "ws://ec2-13-124-94-38.ap-northeast-2.compute.amazonaws.com:8083/ws-chat",
+        "wss://nubi0.com/api/ws/ws-chat",
       debug: function (str) {
         console.log(str);
       },

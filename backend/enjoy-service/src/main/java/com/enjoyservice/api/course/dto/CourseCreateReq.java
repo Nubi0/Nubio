@@ -103,7 +103,7 @@ public class CourseCreateReq {
         @NotNull(message = "장소 순서는 필수값입니다.")
         @Min(value = 1, message = "장소 순서의 최소값은 1입니다.")
         @Max(value = 5, message = "장소 순서의 최대값은 5입니다.")
-        private int sequence;
+        private int index;
     }
 
     @JsonProperty("path")

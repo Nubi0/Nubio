@@ -58,6 +58,12 @@ dependencies {
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 	// OpenCsv
 	implementation 'com.opencsv:opencsv:5.5'
+	// elasticSearch
+	implementation 'org.springframework.data:spring-data-elasticsearch:4.1.15'
+	implementation 'org.elasticsearch.client:transport:7.14.0'
+	implementation 'org.elasticsearch:elasticsearch:7.14.0'
+	// RestHighLevelClient
+	implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.14.0'
 }
 
 dependencyManagement {

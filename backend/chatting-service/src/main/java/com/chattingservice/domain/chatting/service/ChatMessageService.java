@@ -8,6 +8,10 @@ import com.chattingservice.api.chatting.dto.request.ChatMessagePageDto;
 import com.chattingservice.domain.chatting.dto.request.ChatFileDto;
 import com.chattingservice.domain.chatting.entity.MessageCollection;
 import com.chattingservice.domain.chatting.mongo.ChatMessageRepository;
+import com.chattingservice.domain.chattingroom.entity.ChattingRoom;
+import com.chattingservice.domain.participant.ParticipantService;
+import com.chattingservice.domain.participant.enity.Participant;
+import com.chattingservice.domain.participant.repository.ParticipantRepository;
 import com.chattingservice.global.error.ErrorCode;
 import com.chattingservice.global.error.exception.BusinessException;
 import com.chattingservice.global.kafka.dto.request.ChatMessageDto;
@@ -37,6 +41,7 @@ public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final AmazonS3Client amazonS3Client;
+    private final ParticipantService participantService;
     private static final int SIZE = 50;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -47,13 +52,16 @@ public class ChatMessageService {
 
     @Transactional
     public ChatMessageResp saveChatMessage(ChatMessageDto chatMessageDto) {
+        Participant participant = validateParticipate(chatMessageDto.getSender_id(), Long.parseLong(chatMessageDto.getRoom_id()));
         MessageCollection messageCollection = chatMessageRepository.save(MessageCollection.builder()
                 .type(chatMessageDto.getMessage_type())
                 .roomId(chatMessageDto.getRoom_id())
                 .senderId(chatMessageDto.getSender_id())
                 .content(chatMessageDto.getContent())
                 .createdAt(LocalDateTime.now())
+                .nickname(participant.getNickname().getValue())
                 .build());
+
 
         if (chatMessageDto.getMessage_type().name().equals("IMG")) {
             uploadFiles("chatting", chatMessageDto.getFiles(), messageCollection);
@@ -62,6 +70,14 @@ public class ChatMessageService {
         ChatMessageResp chatMessageResp = ChatMessageResp.from(messageCollection);
         return chatMessageResp;
 
+    }
+
+    private Participant validateParticipate(String memberId, Long roomId) {
+
+        Participant participant = participantService.findByMemberIdAndChattingRoomId(memberId, roomId).orElseThrow(
+                () -> new BusinessException(ErrorCode.PARTICIPANT_NOT_EXIST)
+        );
+        return participant;
     }
 
     private boolean validateFileExists(MultipartFile file) {
@@ -79,8 +95,8 @@ public class ChatMessageService {
 
     @Transactional
     public void uploadFiles(String category,
-                              List<MultipartFile> files,
-                              MessageCollection messageCollection) {
+                            List<MultipartFile> files,
+                            MessageCollection messageCollection) {
         List<String> originImgUrlList = new ArrayList<>();
         List<String> resizeImgUrlList = new ArrayList<>();
 

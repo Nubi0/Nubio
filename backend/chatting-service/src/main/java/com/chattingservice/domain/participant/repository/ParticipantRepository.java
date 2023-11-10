@@ -14,5 +14,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
     Optional<Participant> findByIdAndActive(Long id, Active active);
 
     Optional<Participant> findByMemberIdAndActiveAndChattingRoom(String memberId, Active active, ChattingRoom chattingRoom);
+
+    Optional<Participant> findByMemberIdAndActiveAndChattingRoomId(String memberId, Active active, Long chattingRoomId);
     Optional<Participant> findByMemberIdAndChattingRoom(String memberId, ChattingRoom chattingRoom);
 }

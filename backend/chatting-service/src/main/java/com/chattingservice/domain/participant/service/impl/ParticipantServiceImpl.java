@@ -42,6 +42,11 @@ public class ParticipantServiceImpl implements ParticipantService {
         return participantRepository.findByMemberIdAndActiveAndChattingRoom(memberId, Active.from(true), chattingRoom);
     }
 
+    @Override
+    public Optional<Participant> findByMemberIdAndChattingRoomId(String memberId, Long chattingRoomId) {
+        return participantRepository.findByMemberIdAndActiveAndChattingRoomId(memberId, Active.from(true), chattingRoomId);
+    }
+
 
     @Transactional
     @Override

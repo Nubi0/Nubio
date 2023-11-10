@@ -19,6 +19,7 @@ public class MessageCollection {
     private String _id;
     private String roomId;
     private MessageType type;
+    private String nickname;
     private String senderId;
     private String content;
     private LocalDateTime createdAt;
@@ -27,12 +28,13 @@ public class MessageCollection {
 
 
     @Builder
-    public MessageCollection(MessageType type, String roomId, String senderId, String content
+    public MessageCollection(MessageType type, String roomId, String senderId, String content, String nickname
             , LocalDateTime createdAt) {
         this.type = type;
         this.roomId = roomId;
         this.senderId = senderId;
         this.content = content;
+        this.nickname = nickname;
         this.createdAt = createdAt;
     }
 

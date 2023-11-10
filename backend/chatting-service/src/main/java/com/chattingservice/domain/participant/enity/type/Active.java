@@ -21,7 +21,7 @@ public class Active {
         return new Active(value);
     }
 
-    private void setValue(boolean value) {
+    public void setValue(boolean value) {
         this.value = value;
     }
 

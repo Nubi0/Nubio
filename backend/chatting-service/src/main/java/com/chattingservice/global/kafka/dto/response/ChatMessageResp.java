@@ -35,6 +35,8 @@ public class ChatMessageResp {
     @Schema(description = "내용")
     @JsonProperty("content")
     private String content;
+    @JsonProperty("nickname")
+    private String nickname;
     @JsonProperty("message_id")
     private String message_id;
     @JsonProperty("created_at")
@@ -46,7 +48,7 @@ public class ChatMessageResp {
     @Builder
     public ChatMessageResp(String message_id, MessageType message_type
             , String room_id, String sender_id, String content
-            ,LocalDateTime created_at,List<String> originUrl,List<String> resizeUrl) {
+            ,LocalDateTime created_at,List<String> originUrl,List<String> resizeUrl,String nickname) {
         this.message_id = message_id;
         this.message_type = message_type;
         this.room_id = room_id;
@@ -55,6 +57,7 @@ public class ChatMessageResp {
         this.created_at = created_at;
         this.originUrl = originUrl;
         this.resizeUrl = resizeUrl;
+        this.nickname = nickname;
     }
 
 
@@ -68,6 +71,7 @@ public class ChatMessageResp {
                 .message_id(messageCollection.get_id())
                 .originUrl(messageCollection.getOriginImgUrl())
                 .resizeUrl(messageCollection.getResizeImgUrl())
+                .nickname(messageCollection.getNickname())
                 .build();
     }
 

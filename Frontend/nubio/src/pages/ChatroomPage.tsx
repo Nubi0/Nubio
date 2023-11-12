@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback, useReducer } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import Announcement from "@/components/chatPage/Announcement";
+import ChatHeader from "@/components/chatPage/ChatHeader";
 import {
   MessageList,
   MessageItem,
@@ -15,6 +17,9 @@ const actionTypes = {
   SET_MESSAGES: "SET_MESSAGES",
   RESET_MESSAGES: "RESET_MESSAGES",
 };
+
+
+
 
 interface Message {
   nickname: string;
@@ -63,6 +68,7 @@ const ChatRoom = () => {
   const [page, setPage] = useState(0);
   const pageSize = 10;
   const [totalPages, setTotalPages] = useState(0);
+  const [chatRoomInfo, setChatRoomInfo] = useState(null);
   console.log("Nickname from state:", nickname);
 
   useEffect(() => {
@@ -127,7 +133,7 @@ const ChatRoom = () => {
       dispatch({
         type: actionTypes.SET_MESSAGES,
         payload: response.data.data.content.map((msg: any) => ({
-          nickname: msg.sender_id,
+          nickname: msg.nickname,
           content: msg.content,
         })),
       });
@@ -203,7 +209,10 @@ const ChatRoom = () => {
 
   return (
     <ChatPageLayout>
+        <ChatHeader/>
       <MessageList>
+       
+      <Announcement />
         {state.map((msg: Message, index: number) => (
           <MessageItem key={index}>
             <strong>{msg.nickname}: </strong>

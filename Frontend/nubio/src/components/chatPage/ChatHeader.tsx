@@ -1,16 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import React from "react";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 interface ChatHeaderProps {
-    title: string;
-    memberCount: number;
-  }
+  title: string;
+  memberCount: number;
+}
 
-  
 const HeaderWrapper = styled.div`
   background-color: #f3f3f3;
   padding: 10px;
@@ -40,30 +39,30 @@ const BackButton = styled.button`
 `;
 
 const ChatHeader = () => {
-    const locationState = useSelector((state:any) => state.location);
-    const navigate = useNavigate();
-    const { room_id } = locationState.chattingRoom;
-    const handleBack = async() => {
-        try{
-            const response = await axios.post (process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/room/out", 
-            {
-              "room_id": room_id  
-            }
-            );
+  const locationState = useSelector((state: any) => state.location);
+  const navigate = useNavigate();
+  const { room_id } = locationState.chattingRoom;
+  const handleBack = async () => {
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/room/out",
+        {
+          room_id: room_id,
+        }
+      );
 
-        navigate('/safe'); 
-    } catch(error) {
-        console.log('error!!', error);
+      navigate("/safe");
+    } catch (error) {
+      console.log("error!!", error);
     }
-      };
-  
+  };
+
   return (
     <HeaderWrapper>
-        <BackButton onClick={handleBack}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </BackButton>
+      <BackButton onClick={handleBack}>
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </BackButton>
       <Title>{locationState.chattingRoom.sgg_name}</Title>
-      <MemberCount>{locationState.chattingRoom.exist_member_num} 명 참여 중</MemberCount>
     </HeaderWrapper>
   );
 };

@@ -18,9 +18,6 @@ const actionTypes = {
   RESET_MESSAGES: "RESET_MESSAGES",
 };
 
-
-
-
 interface Message {
   nickname: string;
   content: string;
@@ -73,8 +70,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     const stompClient = new Client({
-      brokerURL:
-        "wss://nubi0.com/api/ws/ws-chat",
+      brokerURL: "wss://nubi0.com/api/ws/ws-chat",
       debug: function (str) {
         console.log(str);
       },
@@ -97,13 +93,13 @@ const ChatRoom = () => {
         });
       });
 
-      stompClient.subscribe(`/chatting/topic/room/${roomId}`, (message) => {
-        const parsedMessage = JSON.parse(message.body);
-        dispatch({
-          type: actionTypes.ADD_MESSAGE,
-          payload: parsedMessage,
-        });
-      });
+      // stompClient.subscribe(`/chatting/topic/room/${roomId}`, (message) => {
+      //   const parsedMessage = JSON.parse(message.body);
+      //   dispatch({
+      //     type: actionTypes.ADD_MESSAGE,
+      //     payload: parsedMessage,
+      //   });
+      // });
     };
     stompClient.onStompError = function (frame) {
       console.log("Broker reported error: " + frame.headers["message"]);
@@ -209,10 +205,9 @@ const ChatRoom = () => {
 
   return (
     <ChatPageLayout>
-        <ChatHeader/>
+      <ChatHeader />
       <MessageList>
-       
-      <Announcement />
+        <Announcement />
         {state.map((msg: Message, index: number) => (
           <MessageItem key={index}>
             <strong>{msg.nickname}: </strong>

@@ -124,11 +124,10 @@ const ChatRoom = () => {
         process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/history",
         { params }
       );
-      console.log("백엔드로부터 받은 채팅 기록:", response.data);
 
       dispatch({
         type: actionTypes.SET_MESSAGES,
-        payload: response.data.data.content.map((msg: any) => ({
+        payload: response.data.data.content.reverse().map((msg: any) => ({
           nickname: msg.nickname,
           content: msg.content,
         })),

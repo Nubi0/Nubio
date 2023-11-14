@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 }
 
 const HeaderWrapper = styled.div`
-  background-color: #f3f3f3;
+  background-color: #fff;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -59,10 +59,10 @@ const ChatHeader = () => {
 
   return (
     <HeaderWrapper>
+      <Title>{locationState.chattingRoom.sgg_name}</Title>
       <BackButton onClick={handleBack}>
         <FontAwesomeIcon icon={faArrowLeft} />
       </BackButton>
-      <Title>{locationState.chattingRoom.sgg_name}</Title>
     </HeaderWrapper>
   );
 };

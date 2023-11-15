@@ -153,10 +153,10 @@ const ChatRoom = () => {
         content: newMessage,
       });
       console.log(nickname);
-      client.publish({
-        destination: `/chatting/topic/${roomId}`,
-        body: messageToSend,
-      });
+      // client.publish({
+      //   destination: `/chatting/topic/${roomId}`,
+      //   body: messageToSend,
+      // });
 
       if (roomId) {
         const formData = new FormData();

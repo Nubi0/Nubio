@@ -44,12 +44,12 @@ const ChatHeader = () => {
   const { room_id } = locationState.chattingRoom;
   const handleBack = async () => {
     try {
-      const response = await axios.post(
-        process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/room/out",
-        {
-          room_id: room_id,
-        }
-      );
+      // const response = await axios.post(
+      //   process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/room/out",
+      //   {
+      //     room_id: room_id,
+      //   }
+      // );
 
       navigate("/safe");
     } catch (error) {

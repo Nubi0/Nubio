@@ -218,7 +218,12 @@ const ChatRoom = () => {
         <InputField
           type="text"
           value={newMessage}
-          onChange={(e: any) => setNewMessage(e.target.value)}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              sendMessage();
+            }
+          }}
           placeholder="메시지를 입력하세요..."
         />
         <SendButton onClick={sendMessage}>Send</SendButton>

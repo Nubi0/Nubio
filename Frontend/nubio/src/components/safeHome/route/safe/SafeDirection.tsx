@@ -27,6 +27,9 @@ const SafeDirection = ({
   const end = useSelector(
     (state: { map: { end: EndCoordinates } }) => state.map.end,
   );
+  const policeIcon = process.env.PUBLIC_URL + "/assets/markerIcon/police.png";
+  const convenienceIcon =
+    process.env.PUBLIC_URL + "/assets/markerIcon/convenience.png";
   const [safeLocationCompleted, setSafeLocationCompleted] = useState(false);
 
   const getSafeDirections = () => {
@@ -99,17 +102,22 @@ const SafeDirection = ({
         },
       })
       .then((res) => {
+        console.log(res);
         if (res.data.data.content.length > 0) {
           var safePlaces = res.data.data.content[0].safety_facilities;
           dispatch(setSafePlace(safePlaces));
           if (safePlaces.length > 1) {
+            console.log(safePlaces);
             for (let i = 0; i < safePlaces.length; i++) {
               let placeName;
+              let placeIcon;
               if (safePlaces[i].facility_type == "CONVENIENCE_STORE") {
                 placeName = "편의점";
+                placeIcon = convenienceIcon;
               }
               if (safePlaces[i].facility_type == "POLICE") {
                 placeName = "경찰서";
+                placeIcon = policeIcon;
               }
               if (safePlaces[i].facility_type == "LAMP") {
                 placeName = "가로등";
@@ -117,19 +125,29 @@ const SafeDirection = ({
               if (safePlaces[i].facility_type == "SAFETY_BELL") {
                 placeName = "안전벨";
               }
-              let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
-            ${placeName}</span><span class="right"></span></div>`;
+              //   let content = `<div class ="label"  style="background:#33ff57; font-size:0.8rem; border:0.5px solid white; padding:0.3rem; border-radius:1rem; color:white;"></span><span class="center">
+              // ${placeName}</span><span class="right"></span></div>`;
               let markerPosition = new window.kakao.maps.LatLng(
                 safePlaces[i].location.latitude,
                 safePlaces[i].location.longitude,
               );
-              let customOverlay = new window.kakao.maps.CustomOverlay({
+              const imageSize = new window.kakao.maps.Size(34, 39);
+              // const imageOption = {
+              //   offset: new window.kakao.maps.Point(27, 69),
+              // };
+              var markerImage = new window.kakao.maps.MarkerImage(
+                placeIcon,
+                imageSize,
+                // imageOption,
+              );
+              let maker = new window.kakao.maps.Marker({
                 position: markerPosition,
-                content: content,
+                image: markerImage,
+                // content: content,
               });
-              window.safeCustomOverlay = customOverlay;
+              window.safeCustomOverlay = maker;
               window.safeCustomOverlay.setMap(window.map);
-              dispatch(setSafeMarkerList(customOverlay));
+              dispatch(setSafeMarkerList(maker));
             }
           }
         }

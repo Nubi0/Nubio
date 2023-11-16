@@ -99,8 +99,12 @@ public class CourseApiServiceImpl implements CourseApiService {
                         .kakaoId(KakaoId.from(kakaoId))
                         .name(com.enjoyservice.domain.place.entity.type.Name.from(placeInfo.getPlaceName()))
                         .category(Category.from(
-                                GroupCode.from(placeInfo.getCategoryGroupCode()),
-                                GroupName.from(placeInfo.getCategoryGroupName()),
+                                GroupCode.from(placeInfo.getCategoryGroupCode() != ""
+                                        ? placeInfo.getCategoryGroupCode()
+                                        : "FD6"),
+                                GroupName.from(placeInfo.getCategoryGroupName() != ""
+                                        ? placeInfo.getCategoryGroupName()
+                                        : "음식점"),
                                 Detail.from(placeInfo.getCategoryName())
                         ))
                         .phone(Phone.from(placeInfo.getPhone()))

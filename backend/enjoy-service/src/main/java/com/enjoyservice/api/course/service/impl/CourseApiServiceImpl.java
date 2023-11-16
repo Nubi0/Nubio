@@ -95,6 +95,7 @@ public class CourseApiServiceImpl implements CourseApiService {
             long kakaoId = placeInfo.getKakaoId();
             boolean existsByKakaoId = placeService.existsByKakaoId(KakaoId.from(kakaoId));
             if (!existsByKakaoId) {
+                String[] splitCategoryName = placeInfo.getCategoryName().split(" > ");
                 Place beforePlace = Place.builder()
                         .kakaoId(KakaoId.from(kakaoId))
                         .name(com.enjoyservice.domain.place.entity.type.Name.from(placeInfo.getPlaceName()))
@@ -105,7 +106,7 @@ public class CourseApiServiceImpl implements CourseApiService {
                                 GroupName.from(placeInfo.getCategoryGroupName() != ""
                                         ? placeInfo.getCategoryGroupName()
                                         : "음식점"),
-                                Detail.from(placeInfo.getCategoryName())
+                                Detail.from(splitCategoryName.length > 1 ? splitCategoryName[1] : splitCategoryName[0])
                         ))
                         .phone(Phone.from(placeInfo.getPhone()))
                         .url(Url.from(placeInfo.getPlaceUrl()))

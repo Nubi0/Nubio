@@ -61,34 +61,34 @@ public class CourseCreateReq {
         @JsonProperty("id")
         private long kakaoId;
 
-        @NotBlank(message = "주소는 필수값입니다.")
+        @NotNull(message = "주소는 필수값입니다.")
         @JsonProperty("address_name")
         private String addressName;
 
-        @NotBlank(message = "카테고리 코드는 필수값입니다.")
+        @NotNull(message = "카테고리 코드는 필수값입니다.")
         @JsonProperty("category_group_code")
         private String categoryGroupCode;
 
-        @NotBlank(message = "카테고리 이름은 필수값입니다.")
+        @NotNull(message = "카테고리 이름은 필수값입니다.")
         @JsonProperty("category_group_name")
         private String categoryGroupName;
 
-        @NotBlank(message = "카테고리 Detail은 필수값입니다.")
+        @NotNull(message = "카테고리 Detail은 필수값입니다.")
         @JsonProperty("category_name")
         private String categoryName;
 
         @NotNull(message = "전화번호는 필수값입니다.")
         private String phone;
 
-        @NotBlank(message = "장소 이름은 필수값입니다.")
+        @NotNull(message = "장소 이름은 필수값입니다.")
         @JsonProperty("place_name")
         private String placeName;
 
-        @NotBlank(message = "장소 URL은 필수값입니다.")
+        @NotNull(message = "장소 URL은 필수값입니다.")
         @JsonProperty("place_url")
         private String placeUrl;
 
-        @NotBlank(message = "도로명 주소는 필수값입니다.")
+        @NotNull(message = "도로명 주소는 필수값입니다.")
         @JsonProperty("road_address_name")
         private String roadAddressName;
 

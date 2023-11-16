@@ -19,7 +19,12 @@ const CustomCourseItem = ({ value }: CourseProps) => {
   return (
     <CustomCourseItemWrapper>
       <RepresentativeImg
-        src={place_list[0].img_url === "not exist" ? noUrl : url}
+        src={
+          place_list[0].img_url === "not exist" ||
+          place_list[0].img_url === "none"
+            ? noUrl
+            : url
+        }
         alt=""
         onClick={() => {
           navigate(`/coursedetail/${course_id}`);

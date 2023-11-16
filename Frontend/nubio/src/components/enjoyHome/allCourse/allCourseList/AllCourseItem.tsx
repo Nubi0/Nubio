@@ -24,7 +24,7 @@ const AllCourseItem = ({ value }: { value: CourseItem }) => {
     axios
       .post(
         process.env.REACT_APP_SERVER_URL +
-          `/enjoy/v1/enjoy/course/favorite/${value.course_id}`,
+          `/enjoy/v1/enjoy/course/favorite/${value.course_id}`
       )
       .then((res) => {
         console.log(res.data);
@@ -37,13 +37,16 @@ const AllCourseItem = ({ value }: { value: CourseItem }) => {
     <AllCourseItemWrapper>
       <BigImg
         src={
-          place_list.length > 0 && place_list[0].img_url === "not exist"
+          place_list.length > 0 &&
+          (place_list[0].img_url === "not exist" ||
+            place_list[0].img_url === "none")
             ? noImage
             : place_list.length > 0
             ? place_list[0].img_url
             : noImage
         }
       />
+
       <DetailWrapper>
         <HeadContent>
           <Title onClick={() => navigate(`/coursedetail/${value.course_id}`)}>
@@ -59,7 +62,12 @@ const AllCourseItem = ({ value }: { value: CourseItem }) => {
             return (
               <PlaceItem key={index}>
                 <PlaceImg
-                  src={value.img_url === "not exist" ? noImage : value.img_url}
+                  src={
+                    value.img_url === "not exist" ||
+                    place_list[0].img_url === "none"
+                      ? noImage
+                      : value.img_url
+                  }
                 />
                 <PlaceName>{value.place_name}</PlaceName>
               </PlaceItem>

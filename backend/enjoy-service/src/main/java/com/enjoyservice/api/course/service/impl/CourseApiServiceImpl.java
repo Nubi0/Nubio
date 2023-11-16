@@ -25,6 +25,8 @@ import com.enjoyservice.domain.tag.entity.Tag;
 import com.enjoyservice.domain.tag.entity.type.Name;
 import com.enjoyservice.domain.tag.service.TagService;
 import com.enjoyservice.mapper.course.CourseMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -57,15 +59,7 @@ public class CourseApiServiceImpl implements CourseApiService {
         Course savedCourse = courseService.save(course);
         log.info("course 저장 완료(CourseApiServiceImpl) : courseId = {}, memberId = {}", savedCourse.getId(), savedCourse.getMemberId());
 
-        // 코스에 속한 장소 순서 저장
-        List<Long> placeKakaoIds = collectKakaoIds(request.getPlaceInfos());
-        log.info("placeKakaoIds : {}", placeKakaoIds);
-        List<KakaoId> kakaoIds = placeKakaoIds.stream()
-                .map(id -> KakaoId.from(id.intValue()))
-                .toList();
-        log.info("kakaoIds : {}", kakaoIds.stream().map(KakaoId::getValue).toList());
-
-//        // 없는 장소 확인, 저장
+        // 없는 장소 확인, 저장
 //        for(CourseCreateReq.PlaceInfo placeInfo : request.getPlaceInfos()) {
 //            long kakaoId = placeInfo.getKakaoId();
 //            try {
@@ -124,15 +118,25 @@ public class CourseApiServiceImpl implements CourseApiService {
 
                 placeService.savePlace(beforePlace);
             }
-
         }
+
+        // 코스에 속한 장소 순서 저장
+        List<Long> placeKakaoIds = collectKakaoIds(request.getPlaceInfos());
+        log.info("placeKakaoIds : {}", placeKakaoIds);
+        List<KakaoId> kakaoIds = placeKakaoIds.stream()
+                .map(id -> KakaoId.from(id.intValue()))
+                .toList();
+        log.info("kakaoIds : {}", kakaoIds.stream().map(KakaoId::getValue).toList());
+
 
         List<Point> points = new ArrayList<>();
-        for (CourseCreateReq.Path path : request.getPath()) {
-            points.add(Point.of(path.getLog(), path.getLat()));
+        if (request.getPath() != null) {
+            for (CourseCreateReq.Path path : request.getPath()) {
+                points.add(Point.of(path.getLog(), path.getLat()));
+            }
+            nodeService.saveNode(Node.of(savedCourse.getId()
+                    , points, request.getTime(), request.getType(), request.getDistance()));
         }
-        nodeService.saveNode(Node.of(savedCourse.getId()
-                , points, request.getTime(), request.getType(), request.getDistance()));
 
         List<Place> places = placeService.findAllByKakaoId(kakaoIds);
         log.info("place 목록 조회 완료(CourseApiServiceImpl), places : {}", places);
@@ -203,7 +207,8 @@ public class CourseApiServiceImpl implements CourseApiService {
         log.info("Course에 속한 Place 정보들 조회 완료(CourseApiServiceImpl)");
 
         Node node = nodeService.findByCoursePk(courseId);
-        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos, node);
+        return CourseMapper.toCourseDetailRes(course, tags, favoriteFlag, likeCount, likeFlag, placeInfos,
+                node != null ? node : Node.builder().nodeList(new ArrayList<>()).build());
     }
 
     @Override

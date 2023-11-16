@@ -58,7 +58,7 @@ public class CourseCreateReq {
     static public class PlaceInfo {
 
         @NotNull(message = "장소 id는 필수값입니다.")
-        @JsonProperty("kakao_id")
+        @JsonProperty("id")
         private long kakaoId;
 
         @NotBlank(message = "주소는 필수값입니다.")
@@ -77,7 +77,7 @@ public class CourseCreateReq {
         @JsonProperty("category_name")
         private String categoryName;
 
-        @NotBlank(message = "전화번호는 필수값입니다.")
+        @NotNull(message = "전화번호는 필수값입니다.")
         private String phone;
 
         @NotBlank(message = "장소 이름은 필수값입니다.")

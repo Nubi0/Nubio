@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback, useReducer } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
+import Announcement from "@/components/chatPage/Announcement";
+import ChatHeader from "@/components/chatPage/ChatHeader";
 import {
   MessageList,
   MessageItem,
@@ -63,12 +65,12 @@ const ChatRoom = () => {
   const [page, setPage] = useState(0);
   const pageSize = 10;
   const [totalPages, setTotalPages] = useState(0);
+  const [chatRoomInfo, setChatRoomInfo] = useState(null);
   console.log("Nickname from state:", nickname);
 
   useEffect(() => {
     const stompClient = new Client({
-      brokerURL:
-        "wss://nubi0.com/api/ws/ws-chat",
+      brokerURL: "wss://nubi0.com/api/ws/ws-chat",
       debug: function (str) {
         console.log(str);
       },
@@ -91,13 +93,13 @@ const ChatRoom = () => {
         });
       });
 
-      stompClient.subscribe(`/chatting/topic/room/${roomId}`, (message) => {
-        const parsedMessage = JSON.parse(message.body);
-        dispatch({
-          type: actionTypes.ADD_MESSAGE,
-          payload: parsedMessage,
-        });
-      });
+      // stompClient.subscribe(`/chatting/topic/room/${roomId}`, (message) => {
+      //   const parsedMessage = JSON.parse(message.body);
+      //   dispatch({
+      //     type: actionTypes.ADD_MESSAGE,
+      //     payload: parsedMessage,
+      //   });
+      // });
     };
     stompClient.onStompError = function (frame) {
       console.log("Broker reported error: " + frame.headers["message"]);
@@ -122,12 +124,11 @@ const ChatRoom = () => {
         process.env.REACT_APP_SERVER_URL + "/chatting/v1/chatting/history",
         { params }
       );
-      console.log("백엔드로부터 받은 채팅 기록:", response.data);
 
       dispatch({
         type: actionTypes.SET_MESSAGES,
-        payload: response.data.data.content.map((msg: any) => ({
-          nickname: msg.sender_id,
+        payload: response.data.data.content.reverse().map((msg: any) => ({
+          nickname: msg.nickname,
           content: msg.content,
         })),
       });
@@ -152,10 +153,10 @@ const ChatRoom = () => {
         content: newMessage,
       });
       console.log(nickname);
-      client.publish({
-        destination: `/chatting/topic/${roomId}`,
-        body: messageToSend,
-      });
+      // client.publish({
+      //   destination: `/chatting/topic/${roomId}`,
+      //   body: messageToSend,
+      // });
 
       if (roomId) {
         const formData = new FormData();
@@ -203,7 +204,9 @@ const ChatRoom = () => {
 
   return (
     <ChatPageLayout>
+      <ChatHeader />
       <MessageList>
+        <Announcement />
         {state.map((msg: Message, index: number) => (
           <MessageItem key={index}>
             <strong>{msg.nickname}: </strong>
@@ -215,7 +218,12 @@ const ChatRoom = () => {
         <InputField
           type="text"
           value={newMessage}
-          onChange={(e: any) => setNewMessage(e.target.value)}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              sendMessage();
+            }
+          }}
           placeholder="메시지를 입력하세요..."
         />
         <SendButton onClick={sendMessage}>Send</SendButton>

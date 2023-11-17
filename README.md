@@ -36,11 +36,11 @@
 | 역할 | BACK-END | BACK-END | BACK-END | BACK-END | 
 
 
-| 이름 | 윤태웅 | 진재환 | 
-| :------------: | :------------: | :-----------: | 
-|  | <img src="https://avatars.githubusercontent.com/u/91011682?v=4" width="150"/> | <img src="https://avatars.githubusercontent.com/u/110621233?v=4" width="150"/> | 
-| 깃허브 | [@twoong01](https://github.com/twoong01) | [@Jinga02](https://github.com/Jinga02) | 
-| 역할 | FRONT-END | FRONT-END | 
+| 이름 | 윤태웅 | 진재환 | 김상진 |
+| :------------: | :------------: | :-----------: | :-----------: | 
+|  | <img src="https://avatars.githubusercontent.com/u/91011682?v=4" width="150"/> | <img src="https://avatars.githubusercontent.com/u/110621233?v=4" width="150"/> |  <img src="https://avatars.githubusercontent.com/u/122581063?v=4" width="150"/> | 
+| 깃허브 | [@twoong01](https://github.com/twoong01) | [@Jinga02](https://github.com/Jinga02) | [@sangji04](https://github.com/sangjin04) |
+| 역할 | FRONT-END | FRONT-END | FRONT-END |
 
 
 ## 📌 프로젝트 소개

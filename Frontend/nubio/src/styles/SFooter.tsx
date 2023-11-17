@@ -29,7 +29,7 @@ export const EnterButton = styled.button`
 export const MenuImgBox = styled.div`
   position: absolute;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 0.2rem;
   z-index: 13 !important;
   width: 60px;
   height: 60px;
@@ -56,6 +56,7 @@ export const MenuBox = styled.div`
   -webkit-transition: all 0.4s ease-out;
   -moz-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
+  z-index: 3;
 `;
 
 export const MenuToggle = styled.div`

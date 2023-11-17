@@ -17,7 +17,7 @@ export const CourseDetailWrapper = styled.div`
 
 export const CourseDetailListWrapper = styled.div`
   position: absolute;
-  bottom: 7.4rem;
+  bottom: 3.4rem;
   width: 100%;
   border-radius: 30px 30px 0 0;
   background-color: rgba(255, 255, 255, 1);
@@ -96,7 +96,7 @@ export const CourseButtonWrapper = styled.div`
   justify-content: center;
   z-index: 1;
   position: absolute;
-  bottom: 3.46rem;
+  bottom: 0rem;
   width: 100%;
   div {
     display: flex;

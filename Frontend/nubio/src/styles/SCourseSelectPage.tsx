@@ -141,7 +141,7 @@ export const Data = styled.div`
 
 export const CourseLocationSelectWrapper = styled.div`
   width: 100%;
-  height: calc(100% - 6.4rem);
+  height: calc(100% - 3.3rem);
 `;
 
 export const CourseLocationSelectPageWrapper = styled.div`

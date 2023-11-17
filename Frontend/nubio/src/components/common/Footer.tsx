@@ -11,10 +11,10 @@ import React from "react";
 import axios from "axios";
 import RootState from "../../types/RootState";
 import { useNavigate } from "react-router-dom";
-import SafeModal from "./menuModal/SafeModal";
-import EnjoyModal from "./menuModal/EnjoyModal";
-import ChatModal from "./menuModal/ChatModal";
-import ProfileModal from "./menuModal/ProfileModal";
+import SafeModal from "./menumodal/SafeModal";
+import EnjoyModal from "./menumodal/EnjoyModal";
+import ChatModal from "./menumodal/ChatModal";
+import ProfileModal from "./menumodal/ProfileModal";
 
 const Footer = () => {
   const navigate = useNavigate();
